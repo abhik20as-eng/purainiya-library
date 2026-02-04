@@ -1655,12 +1655,44 @@ body {
 
 
 
+/* Video Container - Fill the slide completely */
 .video-container {
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
+/* Make iframe fill container */
+.media-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: auto;
+}
+
+/* Ensure minimum dimensions for proper aspect ratio */
+@media (min-aspect-ratio: 16/9) {
+    .media-video {
+        width: 100%;
+        height: 56.25vw; /* 16:9 ratio */
+        min-height: 100%;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .media-video {
+        width: 177.78vh; /* 16:9 ratio */
+        height: 100%;
+        min-width: 100%;
+    }
+}
+
+/* Mute button styling */
 .mute-toggle-btn {
     position: absolute;
     bottom: 20px;
@@ -1687,6 +1719,36 @@ body {
     width: 24px;
     height: 24px;
     color: white;
+}
+
+/* Mobile responsive - smaller mute button */
+@media (max-width: 768px) {
+    .mute-toggle-btn {
+        width: 40px;
+        height: 40px;
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .mute-toggle-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+    .mute-toggle-btn {
+        width: 36px;
+        height: 36px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .mute-toggle-btn svg {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 
