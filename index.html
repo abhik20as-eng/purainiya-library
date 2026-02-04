@@ -170,460 +170,139 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
                 </h1>
             </div>
         </section>
-
-        <!-- Gallery Section -->
-        <section id="gallery" class="gallery">  
-            <div class="container">  
-                <div class="section-header">  
-                    <h2 class="section-title">Our Gallery</h2>  
-                    <div class="section-divider"></div>  
-                    <p class="section-subtitle">Explore our world-class facilities</p>  
-                </div>  
-      
-                <!-- Media Carousel -->  
-<div class="media-carousel-container">  
-    <!-- Left Arrow -->  
-    <button class="media-carousel-btn media-btn-left" id="mediaPrev" aria-label="Previous">  
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
-            <polyline points="15 18 9 12 15 6"></polyline>  
-        </svg>  
-    </button>  
-
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            padding: 40px 0;
-        }
-
-        /* Carousel Container */
-        .media-carousel-container {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Carousel Wrapper */
-        .media-carousel-wrapper {
-            overflow: hidden;
-            border-radius: 16px;
-        }
-
-        .media-carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        /* Video Container */
-        .media-video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .media-video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 16px;
-        }
-
-        /* Unmute Button */
-        .unmute-btn {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 15;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .unmute-btn:hover {
-            background: rgba(0, 0, 0, 0.9);
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .unmute-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: white;
-        }
-
-        .unmute-btn.unmuted {
-            background: rgba(76, 175, 80, 0.9);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Arrow Buttons - Show on Hover */
-        .media-carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-            border: none;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .media-carousel-container:hover .media-carousel-btn {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .media-carousel-btn:hover {
-            background: linear-gradient(135deg, #fff, #f8f9fa);
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-        }
-
-        .media-carousel-btn:active {
-            transform: translateY(-50%) scale(0.95);
-        }
-
-        .media-btn-left {
-            left: -28px;
-        }
-
-        .media-btn-right {
-            right: -28px;
-        }
-
-        .media-carousel-btn svg {
-            width: 28px;
-            height: 28px;
-            stroke: #333;
-            transition: stroke 0.3s ease;
-        }
-
-        .media-carousel-btn:hover svg {
-            stroke: #000;
-        }
-
-        /* Slides */
-        .media-slide {
-            min-width: 100%;
-            transition: opacity 0.5s ease;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .media-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            transition: transform 0.4s ease;
-        }
-
-        .media-slide:hover .media-image {
-            transform: scale(1.02);
-        }
-
-        /* Text Overlay - Always Visible */
-        .media-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
-            padding: 30px;
-            border-radius: 0 0 16px 16px;
-        }
-
-        .media-slide:hover .media-overlay {
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
-        }
-
-        .media-caption h4 {
-            color: #fff;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .media-caption p {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 1rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .media-carousel-btn {
-                opacity: 0.7;
-                visibility: visible;
-                width: 44px;
-                height: 44px;
-            }
-            
-            .media-btn-left {
-                left: 10px;
-            }
-            
-            .media-btn-right {
-                right: 10px;
-            }
-            
-            .media-carousel-btn svg {
-                width: 22px;
-                height: 22px;
-            }
-            
-            .unmute-btn {
-                bottom: 10px;
-                right: 10px;
-                padding: 10px 16px;
-                font-size: 12px;
-            }
-            
-            .unmute-text {
-                display: none;
-            }
-            
-            .media-caption h4 {
-                font-size: 1.2rem;
-            }
-            
-            .media-caption p {
-                font-size: 0.9rem;
-            }
-            
-            .media-overlay {
-                padding: 20px;
-            }
-        }
-    </style>
-<
-    <!-- Media Carousel -->  
-    <div class="media-carousel-container">  
-        <!-- Left Arrow -->  
-        <button class="media-carousel-btn media-btn-left" id="mediaPrev" aria-label="Previous">  
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
-                <polyline points="15 18 9 12 15 6"></polyline>  
-            </svg>  
-        </button>  
-  
-        <!-- Carousel Wrapper -->  
-        <div class="media-carousel-wrapper">  
-            <div class="media-carousel-track" id="mediaTrack">  
-                  
-                <!-- Slide 1: YouTube Video -->  
-                <div class="media-slide active" data-type="video">  
-                    <div class="media-video-container">
-                        <iframe 
-                            id="youtubePlayer"
-                            class="media-video" 
-                            src="https://www.youtube.com/embed/_Roq1WPnSDQ?autoplay=1&mute=1&loop=1&playlist=_Roq1WPnSDQ&controls=0&modestbranding=1&rel=0&showinfo=0&fs=1&iv_load_policy=3&enablejsapi=1"
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen>
-                        </iframe>
-                        <!-- Custom Unmute Button -->
-                        <button class="unmute-btn" id="unmuteBtn">
-                            <svg class="mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                                <line x1="23" y1="9" x2="17" y2="15"></line>
-                                <line x1="17" y1="9" x2="23" y2="15"></line>
-                            </svg>
-                            <svg class="unmute-icon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                            </svg>
-                            <span class="unmute-text">Tap to Unmute</span>
-                        </button>
-                    </div>
-                </div>  
-  
-                <!-- Slide 2: Image 1 -->  
-                <div class="media-slide" data-type="image">  
-                    <img src="images/one.jpg"   
-                         alt="Library study area"   
-                         loading="lazy"  
-                         class="media-image">  
-                    <div class="media-overlay">  
-                        <div class="media-caption">  
-                            <h4>Modern Study Spaces</h4>  
-                            <p>Comfortable seating with natural lighting</p>  
-                        </div>  
-                    </div>  
-                </div>  
-  
-                <!-- Slide 3: Image 2 -->  
-                <div class="media-slide" data-type="image">  
-                    <img src="images/three.jpg"   
-                         alt="Library reading room"   
-                         loading="lazy"  
-                         class="media-image">  
-                    <div class="media-overlay">  
-                        <div class="media-caption">  
-                            <h4>Peaceful Reading Rooms</h4>  
-                            <p>Quiet zones for focused study</p>  
-                        </div>  
-                    </div>  
-                </div>  
-  
-                <!-- Slide 4: Image 3 -->  
-                <div class="media-slide" data-type="image">  
-                    <img src="images/bookslibrary.jpg"   
-                         alt="Library book collection"   
-                         loading="lazy"  
-                         class="media-image">  
-                    <div class="media-overlay">  
-                        <div class="media-caption">  
-                            <h4>Extensive Book Collection</h4>  
-                            <p>Thousands of books across all subjects</p>  
-                        </div>  
-                    </div>  
-                </div>  
-  
-                <!-- Slide 5: Image 4 -->  
-                <div class="media-slide" data-type="image">  
-                    <img src="images/threek.jpg"   
-                         alt="Library workspace"   
-                         loading="lazy"  
-                         class="media-image">  
-                    <div class="media-overlay">  
-                        <div class="media-caption">  
-                            <h4>Individual Study Pods</h4>  
-                            <p>Private spaces for concentrated work</p>  
-                        </div>  
-                    </div>  
-                </div>  
-  
-                <!-- Slide 6: Image 5 -->  
-                <div class="media-slide" data-type="image">  
-                    <img src="images/charginglibrary.jpg"   
-                         alt="Library amenities"   
-                         loading="lazy"  
-                         class="media-image">  
-                    <div class="media-overlay">  
-                        <div class="media-caption">  
-                            <h4>Premium Amenities</h4>  
-                            <p>AC, WiFi, charging stations</p>  
-                        </div>  
-                    </div>  
-                </div>  
-  
-            </div>  
+<!-- Gallery Section -->
+<section id="gallery" class="gallery">  
+    <div class="container">  
+        <div class="section-header">  
+            <h2 class="section-title">Our Gallery</h2>  
+            <div class="section-divider"></div>  
+            <p class="section-subtitle">Explore our world-class facilities</p>  
         </div>  
   
-        <!-- Right Arrow -->  
-        <button class="media-carousel-btn media-btn-right" id="mediaNext" aria-label="Next">  
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
-                <polyline points="9 18 15 12 9 6"></polyline>  
-            </svg>  
-        </button>  
-    </div>
-
-    <!-- JavaScript -->
-    <script>
-        // Carousel Navigation
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.media-slide');
-        const track = document.getElementById('mediaTrack');
-        const prevBtn = document.getElementById('mediaPrev');
-        const nextBtn = document.getElementById('mediaNext');
-        const totalSlides = slides.length;
-
-        function updateCarousel() {
-            const offset = -currentSlide * 100;
-            track.style.transform = `translateX(${offset}%)`;
-        }
-
-        nextBtn.addEventListener('click', () => {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateCarousel();
-        });
-
-        prevBtn.addEventListener('click', () => {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            updateCarousel();
-        });
-
-        // YouTube IFrame API
-        let player;
-        let isMuted = true;
-
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtubePlayer', {
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            const unmuteBtn = document.getElementById('unmuteBtn');
-            const muteIcon = unmuteBtn.querySelector('.mute-icon');
-            const unmuteIcon = unmuteBtn.querySelector('.unmute-icon');
-            const unmuteText = unmuteBtn.querySelector('.unmute-text');
-            
-            unmuteBtn.addEventListener('click', function() {
-                if (isMuted) {
-                    player.unMute();
-                    isMuted = false;
-                    unmuteBtn.classList.add('unmuted');
-                    muteIcon.style.display = 'none';
-                    unmuteIcon.style.display = 'block';
-                    unmuteText.textContent = 'Sound On';
-                } else {
-                    player.mute();
-                    isMuted = true;
-                    unmuteBtn.classList.remove('unmuted');
-                    muteIcon.style.display = 'block';
-                    unmuteIcon.style.display = 'none';
-                    unmuteText.textContent = 'Tap to Unmute';
-                }
-            });
-        }
-    </script>
-
+        <!-- Media Carousel -->  
+        <div class="media-carousel-container">  
+            <!-- Left Arrow -->  
+            <button class="media-carousel-btn media-btn-left" id="mediaPrev" aria-label="Previous">  
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
+                    <polyline points="15 18 9 12 15 6"></polyline>  
+                </svg>  
+            </button>  
+  
+            <!-- Carousel Wrapper -->  
+            <div class="media-carousel-wrapper">  
+                <div class="media-carousel-track" id="mediaTrack">  
+                      
+                    <!-- Slide 1: YouTube Video -->  
+                    <div class="media-slide active" data-type="video">  
+                        <div class="media-video-container">
+                            <iframe 
+                                id="youtubePlayer"
+                                class="media-video" 
+                                src="https://www.youtube.com/embed/_Roq1WPnSDQ?autoplay=1&mute=1&loop=1&playlist=_Roq1WPnSDQ&controls=0&modestbranding=1&rel=0&showinfo=0&fs=1&iv_load_policy=3&enablejsapi=1"
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                            <!-- Custom Unmute Button -->
+                            <button class="unmute-btn" id="unmuteBtn">
+                                <svg class="mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                                </svg>
+                                <svg class="unmute-icon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                <span class="unmute-text">Tap to Unmute</span>
+                            </button>
+                        </div>
+                    </div>  
+  
+                    <!-- Slide 2: Image 1 -->  
+                    <div class="media-slide" data-type="image">  
+                        <img src="images/one.jpg"   
+                             alt="Library study area"   
+                             loading="lazy"  
+                             class="media-image">  
+                        <div class="media-overlay">  
+                            <div class="media-caption">  
+                                <h4>Modern Study Spaces</h4>  
+                                <p>Comfortable seating with natural lighting</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+  
+                    <!-- Slide 3: Image 2 -->  
+                    <div class="media-slide" data-type="image">  
+                        <img src="images/three.jpg"   
+                             alt="Library reading room"   
+                             loading="lazy"  
+                             class="media-image">  
+                        <div class="media-overlay">  
+                            <div class="media-caption">  
+                                <h4>Peaceful Reading Rooms</h4>  
+                                <p>Quiet zones for focused study</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+  
+                    <!-- Slide 4: Image 3 -->  
+                    <div class="media-slide" data-type="image">  
+                        <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200&q=80"   
+                             alt="Library book collection"   
+                             loading="lazy"  
+                             class="media-image">  
+                        <div class="media-overlay">  
+                            <div class="media-caption">  
+                                <h4>Extensive Book Collection</h4>  
+                                <p>Thousands of books across all subjects</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+  
+                    <!-- Slide 5: Image 4 -->  
+                    <div class="media-slide" data-type="image">  
+                        <img src="images/threek.jpg"   
+                             alt="Library workspace"   
+                             loading="lazy"  
+                             class="media-image">  
+                        <div class="media-overlay">  
+                            <div class="media-caption">  
+                                <h4>Individual Study Pods</h4>  
+                                <p>Private spaces for concentrated work</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+  
+                    <!-- Slide 6: Image 5 -->  
+                    <div class="media-slide" data-type="image">  
+                        <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=1200&q=80"   
+                             alt="Library amenities"   
+                             loading="lazy"  
+                             class="media-image">  
+                        <div class="media-overlay">  
+                            <div class="media-caption">  
+                                <h4>Premium Amenities</h4>  
+                                <p>AC, WiFi, charging stations</p>  
+                            </div>  
+                        </div>  
+                    </div>  
+  
+                </div>  
+            </div>  
+  
+            <!-- Right Arrow -->  
+            <button class="media-carousel-btn media-btn-right" id="mediaNext" aria-label="Next">  
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
+                    <polyline points="9 18 15 12 9 6"></polyline>  
+                </svg>  
+            </button>  
+        </div>  
+  
+    </div>  
+</section>
 
         <!-- About Section -->
         <section id="about" class="about">

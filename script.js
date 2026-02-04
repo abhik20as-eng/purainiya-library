@@ -367,3 +367,82 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Puraniya Library – Website Loaded Successfully');
 });
+/* ===================================
+   GALLERY CAROUSEL FUNCTIONALITY
+   =================================== */
+
+// Carousel Navigation
+let currentSlide = 0;
+const slides = document.querySelectorAll('.media-slide');
+const track = document.getElementById('mediaTrack');
+const prevBtn = document.getElementById('mediaPrev');
+const nextBtn = document.getElementById('mediaNext');
+const totalSlides = slides.length;
+
+function updateCarousel() {
+    const offset = -currentSlide * 100;
+    track.style.transform = `translateX(${offset}%)`;
+}
+
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+    });
+}
+
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+    });
+}
+
+/* ===================================
+   YOUTUBE IFRAME API FOR UNMUTE
+   =================================== */
+
+let player;
+let isMuted = true;
+
+// Load YouTube IFrame API
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Create player when API is ready
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    const unmuteBtn = document.getElementById('unmuteBtn');
+    if (!unmuteBtn) return;
+    
+    const muteIcon = unmuteBtn.querySelector('.mute-icon');
+    const unmuteIcon = unmuteBtn.querySelector('.unmute-icon');
+    const unmuteText = unmuteBtn.querySelector('.unmute-text');
+    
+    unmuteBtn.addEventListener('click', function() {
+        if (isMuted) {
+            player.unMute();
+            isMuted = false;
+            unmuteBtn.classList.add('unmuted');
+            muteIcon.style.display = 'none';
+            unmuteIcon.style.display = 'block';
+            if (unmuteText) unmuteText.textContent = 'Sound On';
+        } else {
+            player.mute();
+            isMuted = true;
+            unmuteBtn.classList.remove('unmuted');
+            muteIcon.style.display = 'block';
+            unmuteIcon.style.display = 'none';
+            if (unmuteText) unmuteText.textContent = 'Tap to Unmute';
+        }
+    });
+}
