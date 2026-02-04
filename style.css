@@ -790,7 +790,7 @@ body {
 }
 
 /* ===============================
-   FACILITIES SECTION - 4 COLUMNS × 3 ROWS
+   FACILITIES SECTION - 4 ROWS × 3 COLUMNS
    =============================== */
 
 .facilities {
@@ -800,7 +800,7 @@ body {
 
 .facilities-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2.5rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -857,7 +857,7 @@ body {
     margin-top: 0.5rem;
 }
 
-/* RESPONSIVE: 4 Columns → 3 Columns → 2 Columns */
+/* RESPONSIVE: 3 Columns on all devices */
 @media (max-width: 1024px) {
     .facilities-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -866,31 +866,13 @@ body {
 }
 
 @media (max-width: 768px) {
+    .facilities {
+        padding: 3.5rem 0;
+    }
+    
     .facilities-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
-    }
-    
-    .facility-icon {
-        width: 80px;
-        height: 80px;
-        padding: 1rem;
-    }
-    
-    .facility-icon img {
-        width: 46px;
-        height: 46px;
-    }
-    
-    .facility-title {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .facilities-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
     }
     
     .facility-card {
@@ -898,18 +880,44 @@ body {
     }
     
     .facility-icon {
-        width: 70px;
-        height: 70px;
-        padding: 0.875rem;
+        width: 75px;
+        height: 75px;
+        padding: 1rem;
     }
     
     .facility-icon img {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
     }
     
     .facility-title {
         font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .facilities-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    
+    .facility-card {
+        padding: 1rem 0.5rem;
+    }
+    
+    .facility-icon {
+        width: 60px;
+        height: 60px;
+        padding: 0.75rem;
+    }
+    
+    .facility-icon img {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .facility-title {
+        font-size: 0.85rem;
     }
 }
 

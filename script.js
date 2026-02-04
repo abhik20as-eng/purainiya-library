@@ -178,6 +178,14 @@ let arrowTimeout;
 let userInteracting = false;
 let player; // YouTube player instance
 let isMuted = true;
+let isTouchDevice = false;
+
+// Detect if device has touch capability
+function detectTouchDevice() {
+    isTouchDevice = ('ontouchstart' in window) || 
+                    (navigator.maxTouchPoints > 0) || 
+                    (navigator.msMaxTouchPoints > 0);
+}
 
 // Load YouTube IFrame API
 const tag = document.createElement('script');
@@ -227,16 +235,30 @@ function onPlayerStateChange(event) {
 
 // Mute/Unmute toggle
 const muteToggle = document.getElementById('muteToggle');
+const muteIcon = document.getElementById('muteIcon');
+const muteText = document.getElementById('muteText');
+
 muteToggle?.addEventListener('click', (e) => {
     e.stopPropagation();
     if (player) {
         if (isMuted) {
             player.unMute();
-            muteToggle.textContent = '🔊 Mute';
+            muteText.textContent = 'Mute';
+            // Change to unmuted icon (speaker with waves)
+            muteIcon.innerHTML = `
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            `;
             isMuted = false;
         } else {
             player.mute();
-            muteToggle.textContent = '🔇 Unmute';
+            muteText.textContent = 'Unmute';
+            // Change to muted icon (speaker with X)
+            muteIcon.innerHTML = `
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+            `;
             isMuted = true;
         }
     }
@@ -259,9 +281,9 @@ function playVideo() {
     }
 }
 
-// Show arrows temporarily
+// Show arrows temporarily (for touch devices)
 function showArrowsTemporarily(duration = 3000) {
-    if (!mediaCarouselContainer) return;
+    if (!mediaCarouselContainer || !isTouchDevice) return;
     
     userInteracting = true;
     mediaCarouselContainer.classList.add('user-active');
@@ -283,10 +305,21 @@ function updateArrowVisibility() {
     const currentSlide = mediaSlides[currentMediaSlide];
     const isVideoSlide = currentSlide?.getAttribute('data-type') === 'video';
     
-    if (isVideoSlide && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING && !userInteracting) {
-        mediaCarouselContainer.classList.add('video-playing');
-    } else {
-        mediaCarouselContainer.classList.remove('video-playing');
+    // On touch devices, handle visibility with user-active class
+    if (isTouchDevice) {
+        if (isVideoSlide && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING && !userInteracting) {
+            mediaCarouselContainer.classList.add('video-playing');
+        } else {
+            mediaCarouselContainer.classList.remove('video-playing');
+        }
+    } 
+    // On desktop, arrows show on hover (handled by CSS)
+    else {
+        if (isVideoSlide && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING) {
+            mediaCarouselContainer.classList.add('video-playing');
+        } else {
+            mediaCarouselContainer.classList.remove('video-playing');
+        }
     }
 }
 
@@ -320,25 +353,33 @@ mediaNextBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     showMediaSlide(currentMediaSlide + 1);
+    if (isTouchDevice) {
+        showArrowsTemporarily(3000);
+    }
 });
 
 mediaPrevBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     showMediaSlide(currentMediaSlide - 1);
+    if (isTouchDevice) {
+        showArrowsTemporarily(3000);
+    }
 });
 
-// Touch events
+// Touch events for arrow buttons
 mediaNextBtn?.addEventListener('touchstart', (e) => {
     e.preventDefault();
     e.stopPropagation();
     showMediaSlide(currentMediaSlide + 1);
+    showArrowsTemporarily(3000);
 }, { passive: false });
 
 mediaPrevBtn?.addEventListener('touchstart', (e) => {
     e.preventDefault();
     e.stopPropagation();
     showMediaSlide(currentMediaSlide - 1);
+    showArrowsTemporarily(3000);
 }, { passive: false });
 
 // Touch on carousel - show arrows temporarily
@@ -356,8 +397,25 @@ wrapper?.addEventListener('touchstart', (e) => {
     isSwiping = true;
 }, { passive: true });
 
+// Click on carousel (for touch devices) - show arrows
 wrapper?.addEventListener('click', (e) => {
-    showArrowsTemporarily(3000);
+    if (isTouchDevice) {
+        showArrowsTemporarily(3000);
+    }
+});
+
+// Mouse enter on carousel container (desktop hover) - handled by CSS
+mediaCarouselContainer?.addEventListener('mouseenter', () => {
+    if (!isTouchDevice) {
+        updateArrowVisibility();
+    }
+});
+
+// Mouse leave on carousel container (desktop)
+mediaCarouselContainer?.addEventListener('mouseleave', () => {
+    if (!isTouchDevice) {
+        updateArrowVisibility();
+    }
 });
 
 // Keyboard navigation
@@ -399,6 +457,7 @@ wrapper?.addEventListener('touchend', (e) => {
         } else {
             showMediaSlide(currentMediaSlide - 1);
         }
+        showArrowsTemporarily(3000);
     }
 }, { passive: true });
 
@@ -407,5 +466,7 @@ window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    detectTouchDevice();
     console.log('Puraniya Library – Website Loaded Successfully');
+    console.log('Touch Device:', isTouchDevice);
 });
