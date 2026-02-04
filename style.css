@@ -1653,97 +1653,41 @@ body {
   box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 }
 
-/* ===================================
-   YOUTUBE UNMUTE BUTTON
-   =================================== */
 
-.media-video-container {
+
+.video-container {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-.unmute-btn {
+.mute-toggle-btn {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 12px 20px;
-    border-radius: 30px;
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
     cursor: pointer;
-    z-index: 15;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    z-index: 10;
     transition: all 0.3s ease;
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
 }
 
-.unmute-btn:hover {
+.mute-toggle-btn:hover {
     background: rgba(0, 0, 0, 0.9);
-    transform: scale(1.05);
-    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
 }
 
-.unmute-btn svg {
-    width: 20px;
-    height: 20px;
-    stroke: white;
+.mute-toggle-btn svg {
+    width: 24px;
+    height: 24px;
+    color: white;
 }
-
-.unmute-btn.unmuted {
-    background: rgba(76, 175, 80, 0.9);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* ===================================
-   ENHANCED CAROUSEL ARROWS
-   =================================== */
-
-.media-carousel-btn {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Show arrows on carousel hover */
-.media-carousel-container:hover .media-carousel-btn {
-    opacity: 1;
-    visibility: visible;
-}
-
-.media-carousel-btn:hover {
-    background: linear-gradient(135deg, #fff, #f8f9fa);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-}
-
-.media-carousel-btn:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-/* Responsive - Show arrows on mobile */
-@media (max-width: 768px) {
-    .media-carousel-btn {
-        opacity: 0.7;
-        visibility: visible;
-    }
-    
-    .unmute-btn {
-        bottom: 10px;
-        right: 10px;
-        padding: 10px 16px;
-        font-size: 12px;
-    }
-    
-    .unmute-text {
-        display: none;
-    }
-}
-
-
 
 
 
