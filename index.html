@@ -189,12 +189,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
         </svg>  
     </button>  
 
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Carousel</title>
+    
     <style>
         * {
             margin: 0;
@@ -208,7 +203,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             padding: 40px 0;
         }
 
-        /* Enhanced Carousel Container */
+        /* Carousel Container */
         .media-carousel-container {
             position: relative;
             max-width: 1200px;
@@ -227,11 +222,11 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             transition: transform 0.5s ease-in-out;
         }
 
-        /* Video Container for YouTube iframe */
+        /* Video Container */
         .media-video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             border-radius: 16px;
@@ -247,7 +242,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             border-radius: 16px;
         }
 
-        /* Custom Unmute Button */
+        /* Unmute Button */
         .unmute-btn {
             position: absolute;
             bottom: 20px;
@@ -285,7 +280,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Enhanced Arrow Buttons - Hidden by Default */
+        /* Arrow Buttons - Show on Hover */
         .media-carousel-btn {
             position: absolute;
             top: 50%;
@@ -306,7 +301,6 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             visibility: hidden;
         }
 
-        /* Show Arrows on Carousel Hover */
         .media-carousel-container:hover .media-carousel-btn {
             opacity: 1;
             visibility: visible;
@@ -341,7 +335,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             stroke: #000;
         }
 
-        /* Enhanced Cards */
+        /* Slides */
         .media-slide {
             min-width: 100%;
             transition: opacity 0.5s ease;
@@ -349,10 +343,6 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             overflow: hidden;
             position: relative;
             flex-shrink: 0;
-        }
-
-        .media-slide.active {
-            display: block;
         }
 
         .media-image {
@@ -377,9 +367,6 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
             padding: 30px;
             border-radius: 0 0 16px 16px;
-            opacity: 1;
-            transform: translateY(0);
-            transition: background 0.4s ease;
         }
 
         .media-slide:hover .media-overlay {
@@ -400,18 +387,11 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
             .media-carousel-btn {
                 opacity: 0.7;
                 visibility: visible;
-            }
-            
-            .media-carousel-btn:active {
-                opacity: 1;
-            }
-            
-            .media-carousel-btn {
                 width: 44px;
                 height: 44px;
             }
@@ -453,138 +433,132 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             }
         }
     </style>
-</head>
-<body>
-
-    <section>
-        <div class="container">
-            <!-- Media Carousel -->  
-            <div class="media-carousel-container">  
-                <!-- Left Arrow -->  
-                <button class="media-carousel-btn media-btn-left" id="mediaPrev" aria-label="Previous">  
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
-                        <polyline points="15 18 9 12 15 6"></polyline>  
-                    </svg>  
-                </button>  
-          
-                <!-- Carousel Wrapper -->  
-                <div class="media-carousel-wrapper">  
-                    <div class="media-carousel-track" id="mediaTrack">  
-                          
-                        <!-- Slide 1: YouTube Video -->  
-                        <div class="media-slide active" data-type="video">  
-                            <div class="media-video-container">
-                                <iframe 
-                                    id="youtubePlayer"
-                                    class="media-video" 
-                                    src="https://www.youtube.com/embed/_Roq1WPnSDQ?autoplay=1&mute=1&loop=1&playlist=_Roq1WPnSDQ&controls=0&modestbranding=1&rel=0&showinfo=0&fs=1&iv_load_policy=3&enablejsapi=1"
-                                    title="YouTube video player" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen>
-                                </iframe>
-                                <!-- Custom Unmute Button -->
-                                <button class="unmute-btn" id="unmuteBtn">
-                                    <svg class="mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                                        <line x1="23" y1="9" x2="17" y2="15"></line>
-                                        <line x1="17" y1="9" x2="23" y2="15"></line>
-                                    </svg>
-                                    <svg class="unmute-icon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                                    </svg>
-                                    <span class="unmute-text">Tap to Unmute</span>
-                                </button>
-                            </div>
+<
+    <!-- Media Carousel -->  
+    <div class="media-carousel-container">  
+        <!-- Left Arrow -->  
+        <button class="media-carousel-btn media-btn-left" id="mediaPrev" aria-label="Previous">  
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
+                <polyline points="15 18 9 12 15 6"></polyline>  
+            </svg>  
+        </button>  
+  
+        <!-- Carousel Wrapper -->  
+        <div class="media-carousel-wrapper">  
+            <div class="media-carousel-track" id="mediaTrack">  
+                  
+                <!-- Slide 1: YouTube Video -->  
+                <div class="media-slide active" data-type="video">  
+                    <div class="media-video-container">
+                        <iframe 
+                            id="youtubePlayer"
+                            class="media-video" 
+                            src="https://www.youtube.com/embed/_Roq1WPnSDQ?autoplay=1&mute=1&loop=1&playlist=_Roq1WPnSDQ&controls=0&modestbranding=1&rel=0&showinfo=0&fs=1&iv_load_policy=3&enablejsapi=1"
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                        <!-- Custom Unmute Button -->
+                        <button class="unmute-btn" id="unmuteBtn">
+                            <svg class="mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                                <line x1="17" y1="9" x2="23" y2="15"></line>
+                            </svg>
+                            <svg class="unmute-icon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            </svg>
+                            <span class="unmute-text">Tap to Unmute</span>
+                        </button>
+                    </div>
+                </div>  
+  
+                <!-- Slide 2: Image 1 -->  
+                <div class="media-slide" data-type="image">  
+                    <img src="images/one.jpg"   
+                         alt="Library study area"   
+                         loading="lazy"  
+                         class="media-image">  
+                    <div class="media-overlay">  
+                        <div class="media-caption">  
+                            <h4>Modern Study Spaces</h4>  
+                            <p>Comfortable seating with natural lighting</p>  
                         </div>  
-          
-                        <!-- Slide 2: Image 1 -->  
-                        <div class="media-slide" data-type="image">  
-                            <img src="images/one.jpg"   
-                                 alt="Library study area"   
-                                 loading="lazy"  
-                                 class="media-image">  
-                            <div class="media-overlay">  
-                                <div class="media-caption">  
-                                    <h4>Modern Study Spaces</h4>  
-                                    <p>Comfortable seating with natural lighting</p>  
-                                </div>  
-                            </div>  
-                        </div>  
-          
-                        <!-- Slide 3: Image 2 -->  
-                        <div class="media-slide" data-type="image">  
-                            <img src="images/three.jpg"   
-                                 alt="Library reading room"   
-                                 loading="lazy"  
-                                 class="media-image">  
-                            <div class="media-overlay">  
-                                <div class="media-caption">  
-                                    <h4>Peaceful Reading Rooms</h4>  
-                                    <p>Quiet zones for focused study</p>  
-                                </div>  
-                            </div>  
-                        </div>  
-          
-                        <!-- Slide 4: Image 3 -->  
-                        <div class="media-slide" data-type="image">  
-                            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200&q=80"   
-                                 alt="Library book collection"   
-                                 loading="lazy"  
-                                 class="media-image">  
-                            <div class="media-overlay">  
-                                <div class="media-caption">  
-                                    <h4>Extensive Book Collection</h4>  
-                                    <p>Thousands of books across all subjects</p>  
-                                </div>  
-                            </div>  
-                        </div>  
-          
-                        <!-- Slide 5: Image 4 -->  
-                        <div class="media-slide" data-type="image">  
-                            <img src="images/threek.jpg"   
-                                 alt="Library workspace"   
-                                 loading="lazy"  
-                                 class="media-image">  
-                            <div class="media-overlay">  
-                                <div class="media-caption">  
-                                    <h4>Individual Study Pods</h4>  
-                                    <p>Private spaces for concentrated work</p>  
-                                </div>  
-                            </div>  
-                        </div>  
-          
-                        <!-- Slide 6: Image 5 -->  
-                        <div class="media-slide" data-type="image">  
-                            <img src="images/charginglibrary.jpg"   
-                                 alt="Library amenities"   
-                                 loading="lazy"  
-                                 class="media-image">  
-                            <div class="media-overlay">  
-                                <div class="media-caption">  
-                                    <h4>Premium Amenities</h4>  
-                                    <p>AC, WiFi, charging stations</p>  
-                                </div>  
-                            </div>  
-                        </div>  
-          
                     </div>  
                 </div>  
-          
-                <!-- Right Arrow -->  
-                <button class="media-carousel-btn media-btn-right" id="mediaNext" aria-label="Next">  
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
-                        <polyline points="9 18 15 12 9 6"></polyline>  
-                    </svg>  
-                </button>  
+  
+                <!-- Slide 3: Image 2 -->  
+                <div class="media-slide" data-type="image">  
+                    <img src="images/three.jpg"   
+                         alt="Library reading room"   
+                         loading="lazy"  
+                         class="media-image">  
+                    <div class="media-overlay">  
+                        <div class="media-caption">  
+                            <h4>Peaceful Reading Rooms</h4>  
+                            <p>Quiet zones for focused study</p>  
+                        </div>  
+                    </div>  
+                </div>  
+  
+                <!-- Slide 4: Image 3 -->  
+                <div class="media-slide" data-type="image">  
+                    <img src="images/bookslibrary.jpg"   
+                         alt="Library book collection"   
+                         loading="lazy"  
+                         class="media-image">  
+                    <div class="media-overlay">  
+                        <div class="media-caption">  
+                            <h4>Extensive Book Collection</h4>  
+                            <p>Thousands of books across all subjects</p>  
+                        </div>  
+                    </div>  
+                </div>  
+  
+                <!-- Slide 5: Image 4 -->  
+                <div class="media-slide" data-type="image">  
+                    <img src="images/threek.jpg"   
+                         alt="Library workspace"   
+                         loading="lazy"  
+                         class="media-image">  
+                    <div class="media-overlay">  
+                        <div class="media-caption">  
+                            <h4>Individual Study Pods</h4>  
+                            <p>Private spaces for concentrated work</p>  
+                        </div>  
+                    </div>  
+                </div>  
+  
+                <!-- Slide 6: Image 5 -->  
+                <div class="media-slide" data-type="image">  
+                    <img src="images/charginglibrary.jpg"   
+                         alt="Library amenities"   
+                         loading="lazy"  
+                         class="media-image">  
+                    <div class="media-overlay">  
+                        <div class="media-caption">  
+                            <h4>Premium Amenities</h4>  
+                            <p>AC, WiFi, charging stations</p>  
+                        </div>  
+                    </div>  
+                </div>  
+  
             </div>  
         </div>  
-    </section>
+  
+        <!-- Right Arrow -->  
+        <button class="media-carousel-btn media-btn-right" id="mediaNext" aria-label="Next">  
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">  
+                <polyline points="9 18 15 12 9 6"></polyline>  
+            </svg>  
+        </button>  
+    </div>
 
     <!-- JavaScript -->
     <script>
-        // Carousel functionality
+        // Carousel Navigation
         let currentSlide = 0;
         const slides = document.querySelectorAll('.media-slide');
         const track = document.getElementById('mediaTrack');
@@ -595,10 +569,6 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
         function updateCarousel() {
             const offset = -currentSlide * 100;
             track.style.transform = `translateX(${offset}%)`;
-            
-            slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === currentSlide);
-            });
         }
 
         nextBtn.addEventListener('click', () => {
@@ -615,13 +585,11 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
         let player;
         let isMuted = true;
 
-        // Load YouTube IFrame API
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // Create player when API is ready
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtubePlayer', {
                 events: {
@@ -656,8 +624,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
         }
     </script>
 
-</body>
-</html>
+
         <!-- About Section -->
         <section id="about" class="about">
             <div class="container">
