@@ -367,3 +367,22 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Puraniya Library – Website Loaded Successfully');
 });
+
+// Mute/Unmute toggle for YouTube video
+const muteBtn = document.getElementById('muteToggle');
+let isMuted = true;
+
+muteBtn.addEventListener('click', function() {
+    const iframe = document.getElementById('galleryVideo');
+    const currentSrc = iframe.src;
+    
+    if (isMuted) {
+        iframe.src = currentSrc.replace('mute=1', 'mute=0');
+        muteBtn.textContent = '🔊 Mute';
+        isMuted = false;
+    } else {
+        iframe.src = currentSrc.replace('mute=0', 'mute=1');
+        muteBtn.textContent = '🔇 Unmute';
+        isMuted = true;
+    }
+});
