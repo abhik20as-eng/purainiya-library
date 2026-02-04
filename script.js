@@ -26,7 +26,7 @@ overlay?.addEventListener('click', () => {
     hamburger.setAttribute('aria-expanded', 'false');
 });
 
-// Menu item click handlers (FIXED)
+// Menu item click handlers
 menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
         const section = item.getAttribute('data-section');
@@ -44,15 +44,12 @@ menuItems.forEach(item => {
             }
         }
 
-        // Navigate to another page (FIX HERE)
+        // Navigate to another page
         else if (page) {
             e.preventDefault();
-
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
             hamburger.setAttribute('aria-expanded', 'false');
-
-            // 🔥 REAL PAGE NAVIGATION
             window.location.href = page;
         }
     });
@@ -163,23 +160,102 @@ newsletterBtn?.addEventListener('click', () => {
     } else if (email) {
         alert('Invalid email address.');
     }
-});// Media Carousel - ARROWS SHOW ON TOUCH EVEN DURING VIDEO
+});
+
+// ============================================
+// MEDIA CAROUSEL - YOUTUBE API INTEGRATION
+// ============================================
+
 const mediaTrack = document.getElementById('mediaTrack');
 const mediaSlides = document.querySelectorAll('.media-slide');
 const mediaPrevBtn = document.getElementById('mediaPrev');
 const mediaNextBtn = document.getElementById('mediaNext');
-const galleryVideo = document.getElementById('galleryVideo');
 const mediaCarouselContainer = document.querySelector('.media-carousel-container');
 
 let currentMediaSlide = 0;
 const totalMediaSlides = mediaSlides.length;
 let arrowTimeout;
 let userInteracting = false;
+let player; // YouTube player instance
+let isMuted = true;
+
+// Load YouTube IFrame API
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Initialize YouTube Player
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('galleryVideo', {
+        height: '100%',
+        width: '100%',
+        videoId: '_Roq1WPnSDQ', // Your video ID
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            controls: 0,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+            loop: 1,
+            playlist: '_Roq1WPnSDQ' // Required for looping
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+// Player ready
+function onPlayerReady(event) {
+    event.target.playVideo();
+    updateArrowVisibility();
+}
+
+// Player state change
+function onPlayerStateChange(event) {
+    updateArrowVisibility();
+    
+    // Handle video ended - restart
+    if (event.data === YT.PlayerState.ENDED) {
+        player.seekTo(0);
+        player.playVideo();
+    }
+}
+
+// Mute/Unmute toggle
+const muteToggle = document.getElementById('muteToggle');
+muteToggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (player) {
+        if (isMuted) {
+            player.unMute();
+            muteToggle.textContent = '🔊 Mute';
+            isMuted = false;
+        } else {
+            player.mute();
+            muteToggle.textContent = '🔇 Unmute';
+            isMuted = true;
+        }
+    }
+});
 
 // Pause video function
 function pauseVideo() {
-    if (galleryVideo && !galleryVideo.paused) {
-        galleryVideo.pause();
+    if (player && player.getPlayerState) {
+        const state = player.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+        }
+    }
+}
+
+// Play video function
+function playVideo() {
+    if (player && player.playVideo) {
+        player.playVideo();
     }
 }
 
@@ -190,12 +266,10 @@ function showArrowsTemporarily(duration = 3000) {
     userInteracting = true;
     mediaCarouselContainer.classList.add('user-active');
     
-    // Clear existing timeout
     if (arrowTimeout) {
         clearTimeout(arrowTimeout);
     }
     
-    // Hide after duration
     arrowTimeout = setTimeout(() => {
         userInteracting = false;
         mediaCarouselContainer.classList.remove('user-active');
@@ -204,16 +278,14 @@ function showArrowsTemporarily(duration = 3000) {
 
 // Update arrow visibility based on video state
 function updateArrowVisibility() {
-    if (!mediaCarouselContainer || !galleryVideo) return;
+    if (!mediaCarouselContainer || !player) return;
     
     const currentSlide = mediaSlides[currentMediaSlide];
     const isVideoSlide = currentSlide?.getAttribute('data-type') === 'video';
     
-    if (isVideoSlide && !galleryVideo.paused && !userInteracting) {
-        // Video is playing and user not interacting - hide arrows
+    if (isVideoSlide && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING && !userInteracting) {
         mediaCarouselContainer.classList.add('video-playing');
     } else {
-        // Show arrows if: video paused, on image, or user interacting
         mediaCarouselContainer.classList.remove('video-playing');
     }
 }
@@ -235,9 +307,9 @@ function showMediaSlide(index) {
     mediaSlides[currentMediaSlide].classList.add('active');
     
     // Auto-play video when returning to it
-    if (currentMediaSlide === 0 && galleryVideo) {
-        galleryVideo.currentTime = 0;
-        galleryVideo.play().catch(err => console.log('Autoplay prevented'));
+    if (currentMediaSlide === 0 && player) {
+        player.seekTo(0);
+        playVideo();
     }
     
     updateArrowVisibility();
@@ -256,7 +328,7 @@ mediaPrevBtn?.addEventListener('click', (e) => {
     showMediaSlide(currentMediaSlide - 1);
 });
 
-// Touch events for better mobile response
+// Touch events
 mediaNextBtn?.addEventListener('touchstart', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -269,23 +341,13 @@ mediaPrevBtn?.addEventListener('touchstart', (e) => {
     showMediaSlide(currentMediaSlide - 1);
 }, { passive: false });
 
-// Video event listeners
-galleryVideo?.addEventListener('play', () => {
-    updateArrowVisibility();
-});
-
-galleryVideo?.addEventListener('pause', () => {
-    showArrowsTemporarily();
-    updateArrowVisibility();
-});
-
-galleryVideo?.addEventListener('ended', () => {
-    showArrowsTemporarily();
-    updateArrowVisibility();
-});
-
-// Touch on video or carousel - show arrows temporarily
+// Touch on carousel - show arrows temporarily
 const wrapper = document.querySelector('.media-carousel-wrapper');
+
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let isSwiping = false;
 
 wrapper?.addEventListener('touchstart', (e) => {
     showArrowsTemporarily(3000);
@@ -295,16 +357,6 @@ wrapper?.addEventListener('touchstart', (e) => {
 }, { passive: true });
 
 wrapper?.addEventListener('click', (e) => {
-    // Show arrows on any click/tap
-    showArrowsTemporarily(3000);
-});
-
-// Video specific touch - show arrows
-galleryVideo?.addEventListener('touchstart', (e) => {
-    showArrowsTemporarily(3000);
-}, { passive: true });
-
-galleryVideo?.addEventListener('click', () => {
     showArrowsTemporarily(3000);
 });
 
@@ -328,11 +380,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Swipe support
-let touchStartX = 0;
-let touchEndX = 0;
-let touchStartY = 0;
-let isSwiping = false;
-
 wrapper?.addEventListener('touchmove', (e) => {
     if (!isSwiping) return;
     touchEndX = e.touches[0].clientX;
@@ -346,7 +393,6 @@ wrapper?.addEventListener('touchend', (e) => {
     const xDiff = touchStartX - touchEndX;
     const yDiff = Math.abs(touchStartY - e.changedTouches[0].clientY);
     
-    // Horizontal swipe only
     if (yDiff < 100 && Math.abs(xDiff) > 50) {
         if (xDiff > 0) {
             showMediaSlide(currentMediaSlide + 1);
@@ -358,12 +404,8 @@ wrapper?.addEventListener('touchend', (e) => {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    if (galleryVideo) {
-        galleryVideo.play().catch(() => {});
-    }
-    updateArrowVisibility();
-}); 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
     console.log('Puraniya Library – Website Loaded Successfully');
 });
+
+// Make onYouTubeIframeAPIReady available globally
+window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
