@@ -194,8 +194,12 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
                         <div class="media-carousel-track" id="mediaTrack">  
                               
                             <!-- Slide 1: Video -->  
-                            <div class="media-slide active" data-type="video">  
-                                <div style="position: relative; width: 100%; height: 100%;">
+<div class="media-slide active" data-type="video">  
+    <div style="position: relative; width: 100%; height: 100%;">
+        <div id="galleryVideo" style="width: 100%; height: 100%;"></div>
+        <button id="muteToggle" style="position: absolute; bottom: 20px; right: 20px; z-index: 10; background: rgba(0,0,0,0.7); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;">🔇 Unmute</button>
+    </div>
+</div>
                                     <iframe id="galleryVideo" class="media-video" 
                                         src="https://www.youtube.com/embed/_Roq1WPnSDQ?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1" 
                                         frameborder="0" 
@@ -597,6 +601,249 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script>// Media Carousel - YouTube API Integration
+const mediaTrack = document.getElementById('mediaTrack');
+const mediaSlides = document.querySelectorAll('.media-slide');
+const mediaPrevBtn = document.getElementById('mediaPrev');
+const mediaNextBtn = document.getElementById('mediaNext');
+const mediaCarouselContainer = document.querySelector('.media-carousel-container');
+
+let currentMediaSlide = 0;
+const totalMediaSlides = mediaSlides.length;
+let arrowTimeout;
+let userInteracting = false;
+let player; // YouTube player instance
+let isMuted = true;
+
+// Load YouTube IFrame API
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Initialize YouTube Player
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('galleryVideo', {
+        height: '100%',
+        width: '100%',
+        videoId: '_Roq1WPnSDQ', // Your video ID
+        playerVars: {
+            autoplay: 1,
+            mute: 1,
+            controls: 0,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+            loop: 1,
+            playlist: '_Roq1WPnSDQ' // Required for looping
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+// Player ready
+function onPlayerReady(event) {
+    event.target.playVideo();
+    updateArrowVisibility();
+}
+
+// Player state change
+function onPlayerStateChange(event) {
+    updateArrowVisibility();
+    
+    // Handle video ended - restart
+    if (event.data === YT.PlayerState.ENDED) {
+        player.seekTo(0);
+        player.playVideo();
+    }
+}
+
+// Mute/Unmute toggle
+const muteToggle = document.getElementById('muteToggle');
+muteToggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (player) {
+        if (isMuted) {
+            player.unMute();
+            muteToggle.textContent = '🔊 Mute';
+            isMuted = false;
+        } else {
+            player.mute();
+            muteToggle.textContent = '🔇 Unmute';
+            isMuted = true;
+        }
+    }
+});
+
+// Pause video function
+function pauseVideo() {
+    if (player && player.getPlayerState) {
+        const state = player.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+        }
+    }
+}
+
+// Play video function
+function playVideo() {
+    if (player && player.playVideo) {
+        player.playVideo();
+    }
+}
+
+// Show arrows temporarily
+function showArrowsTemporarily(duration = 3000) {
+    if (!mediaCarouselContainer) return;
+    
+    userInteracting = true;
+    mediaCarouselContainer.classList.add('user-active');
+    
+    if (arrowTimeout) {
+        clearTimeout(arrowTimeout);
+    }
+    
+    arrowTimeout = setTimeout(() => {
+        userInteracting = false;
+        mediaCarouselContainer.classList.remove('user-active');
+    }, duration);
+}
+
+// Update arrow visibility based on video state
+function updateArrowVisibility() {
+    if (!mediaCarouselContainer || !player) return;
+    
+    const currentSlide = mediaSlides[currentMediaSlide];
+    const isVideoSlide = currentSlide?.getAttribute('data-type') === 'video';
+    
+    if (isVideoSlide && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING && !userInteracting) {
+        mediaCarouselContainer.classList.add('video-playing');
+    } else {
+        mediaCarouselContainer.classList.remove('video-playing');
+    }
+}
+
+// Show specific slide
+function showMediaSlide(index) {
+    pauseVideo();
+    
+    mediaSlides.forEach(slide => slide.classList.remove('active'));
+    
+    if (index >= totalMediaSlides) {
+        currentMediaSlide = 0;
+    } else if (index < 0) {
+        currentMediaSlide = totalMediaSlides - 1;
+    } else {
+        currentMediaSlide = index;
+    }
+    
+    mediaSlides[currentMediaSlide].classList.add('active');
+    
+    // Auto-play video when returning to it
+    if (currentMediaSlide === 0 && player) {
+        player.seekTo(0);
+        playVideo();
+    }
+    
+    updateArrowVisibility();
+}
+
+// Button click events
+mediaNextBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    showMediaSlide(currentMediaSlide + 1);
+});
+
+mediaPrevBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    showMediaSlide(currentMediaSlide - 1);
+});
+
+// Touch events
+mediaNextBtn?.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    showMediaSlide(currentMediaSlide + 1);
+}, { passive: false });
+
+mediaPrevBtn?.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    showMediaSlide(currentMediaSlide - 1);
+}, { passive: false });
+
+// Touch on carousel - show arrows temporarily
+const wrapper = document.querySelector('.media-carousel-wrapper');
+
+wrapper?.addEventListener('touchstart', (e) => {
+    showArrowsTemporarily(3000);
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    isSwiping = true;
+}, { passive: true });
+
+wrapper?.addEventListener('click', (e) => {
+    showArrowsTemporarily(3000);
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    const gallerySection = document.getElementById('gallery');
+    if (!gallerySection) return;
+    
+    const rect = gallerySection.getBoundingClientRect();
+    const isInView = rect.top < window.innerHeight && rect.bottom >= 0;
+    
+    if (isInView) {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            showMediaSlide(currentMediaSlide - 1);
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            showMediaSlide(currentMediaSlide + 1);
+        }
+    }
+});
+
+// Swipe support
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let isSwiping = false;
+
+wrapper?.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    touchEndX = e.touches[0].clientX;
+}, { passive: true });
+
+wrapper?.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    touchEndX = e.changedTouches[0].clientX;
+    isSwiping = false;
+    
+    const xDiff = touchStartX - touchEndX;
+    const yDiff = Math.abs(touchStartY - e.changedTouches[0].clientY);
+    
+    if (yDiff < 100 && Math.abs(xDiff) > 50) {
+        if (xDiff > 0) {
+            showMediaSlide(currentMediaSlide + 1);
+        } else {
+            showMediaSlide(currentMediaSlide - 1);
+        }
+    }
+}, { passive: true });
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Puraniya Library – Website Loaded Successfully');
+});
+
+// Make onYouTubeIframeAPIReady available globally
+window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 </body>
 </html>
