@@ -1654,49 +1654,13 @@ body {
 }
 
 /* ===================================
-   GALLERY SECTION - MEDIA CAROUSEL
+   YOUTUBE UNMUTE BUTTON
    =================================== */
 
-/* Carousel Container */
-.media-carousel-container {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Carousel Wrapper */
-.media-carousel-wrapper {
-    overflow: hidden;
-    border-radius: 16px;
-}
-
-.media-carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
-
-/* Video Container for YouTube */
 .media-video-container {
     position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    overflow: hidden;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
-.media-video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-}
-
-/* Custom Unmute Button */
 .unmute-btn {
     position: absolute;
     bottom: 20px;
@@ -1734,25 +1698,14 @@ body {
     border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Enhanced Arrow Buttons - Show on Hover */
+/* ===================================
+   ENHANCED CAROUSEL ARROWS
+   =================================== */
+
 .media-carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-    border: none;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     opacity: 0;
     visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Show arrows on carousel hover */
@@ -1771,98 +1724,11 @@ body {
     transform: translateY(-50%) scale(0.95);
 }
 
-.media-btn-left {
-    left: -28px;
-}
-
-.media-btn-right {
-    right: -28px;
-}
-
-.media-carousel-btn svg {
-    width: 28px;
-    height: 28px;
-    stroke: #333;
-    transition: stroke 0.3s ease;
-}
-
-.media-carousel-btn:hover svg {
-    stroke: #000;
-}
-
-/* Slides */
-.media-slide {
-    min-width: 100%;
-    transition: opacity 0.5s ease;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    flex-shrink: 0;
-}
-
-.media-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    transition: transform 0.4s ease;
-}
-
-.media-slide:hover .media-image {
-    transform: scale(1.02);
-}
-
-/* Text Overlay - Always Visible */
-.media-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
-    padding: 30px;
-    border-radius: 0 0 16px 16px;
-}
-
-.media-slide:hover .media-overlay {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
-}
-
-.media-caption h4 {
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.media-caption p {
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 1rem;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-/* Responsive Design */
+/* Responsive - Show arrows on mobile */
 @media (max-width: 768px) {
-    /* Always show arrows on mobile */
     .media-carousel-btn {
         opacity: 0.7;
         visibility: visible;
-        width: 44px;
-        height: 44px;
-    }
-    
-    .media-btn-left {
-        left: 10px;
-    }
-    
-    .media-btn-right {
-        right: 10px;
-    }
-    
-    .media-carousel-btn svg {
-        width: 22px;
-        height: 22px;
     }
     
     .unmute-btn {
@@ -1875,21 +1741,7 @@ body {
     .unmute-text {
         display: none;
     }
-    
-    .media-caption h4 {
-        font-size: 1.2rem;
-    }
-    
-    .media-caption p {
-        font-size: 0.9rem;
-    }
-    
-    .media-overlay {
-        padding: 20px;
-    }
 }
-
-
 
 
 
