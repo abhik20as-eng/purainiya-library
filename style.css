@@ -1681,6 +1681,44 @@ body {
     border-radius: 16px;
 }
 
+/* Custom Unmute Button */
+.unmute-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.unmute-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.unmute-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+}
+
+.unmute-btn.unmuted {
+    background: rgba(76, 175, 80, 0.9);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
 /* Enhanced Arrow Buttons */
 .media-carousel-btn {
     position: absolute;
@@ -1799,6 +1837,17 @@ body {
     .media-carousel-btn svg {
         width: 22px;
         height: 22px;
+    }
+    
+    .unmute-btn {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+    
+    .unmute-text {
+        display: none;
     }
 }
 

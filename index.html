@@ -197,13 +197,27 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
             <div class="media-slide active" data-type="video">  
                 <div class="media-video-container">
                     <iframe 
+                        id="youtubePlayer"
                         class="media-video" 
-                        src="https://www.youtube.com/embed/_Roq1WPnSDQ?autoplay=1&mute=1&loop=1&playlist=_Roq1WPnSDQ&controls=1&modestbranding=1&rel=0"
+                        src="https://www.youtube.com/embed/_Roq1WPnSDQ?autoplay=1&mute=1&loop=1&playlist=_Roq1WPnSDQ&controls=0&modestbranding=1&rel=0&showinfo=0&fs=1&iv_load_policy=3"
                         title="YouTube video player" 
                         frameborder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowfullscreen>
                     </iframe>
+                    <!-- Custom Unmute Button -->
+                    <button class="unmute-btn" id="unmuteBtn">
+                        <svg class="mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                            <line x1="23" y1="9" x2="17" y2="15"></line>
+                            <line x1="17" y1="9" x2="23" y2="15"></line>
+                        </svg>
+                        <svg class="unmute-icon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        <span class="unmute-text">Tap to Unmute</span>
+                    </button>
                 </div>
             </div>  
 
@@ -237,7 +251,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
 
             <!-- Slide 4: Image 3 -->  
             <div class="media-slide" data-type="image">  
-                <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1200&q=80"   
+                <img src="images/four.jpg"   
                      alt="Library book collection"   
                      loading="lazy"  
                      class="media-image">  
@@ -265,7 +279,7 @@ Best Study Library Near Purnea Law College, College Chowk Road, Purnea
 
             <!-- Slide 6: Image 5 -->  
             <div class="media-slide" data-type="image">  
-                <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=1200&q=80"   
+                <img src="images/charginglibrary.jpg"   
                      alt="Library amenities"   
                      loading="lazy"  
                      class="media-image">  

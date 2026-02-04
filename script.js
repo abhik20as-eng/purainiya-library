@@ -367,3 +367,47 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Puraniya Library – Website Loaded Successfully');
 });
+
+// Unmute functionality using YouTube IFrame API
+let player;
+let isMuted = true;
+
+// Load YouTube IFrame API
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Create player when API is ready
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    const unmuteBtn = document.getElementById('unmuteBtn');
+    const muteIcon = unmuteBtn.querySelector('.mute-icon');
+    const unmuteIcon = unmuteBtn.querySelector('.unmute-icon');
+    const unmuteText = unmuteBtn.querySelector('.unmute-text');
+    
+    unmuteBtn.addEventListener('click', function() {
+        if (isMuted) {
+            player.unMute();
+            isMuted = false;
+            unmuteBtn.classList.add('unmuted');
+            muteIcon.style.display = 'none';
+            unmuteIcon.style.display = 'block';
+            unmuteText.textContent = 'Sound On';
+        } else {
+            player.mute();
+            isMuted = true;
+            unmuteBtn.classList.remove('unmuted');
+            muteIcon.style.display = 'block';
+            unmuteIcon.style.display = 'none';
+            unmuteText.textContent = 'Tap to Unmute';
+        }
+    });
+}
