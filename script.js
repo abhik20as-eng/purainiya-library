@@ -190,7 +190,7 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('galleryVideo', {
         height: '100%',
         width: '100%',
-        videoId: '_Roq1WPnSDQ', // Your video ID
+        videoId: '_Roq1WPnSDQ',
         playerVars: {
             autoplay: 1,
             mute: 1,
@@ -199,7 +199,7 @@ function onYouTubeIframeAPIReady() {
             modestbranding: 1,
             playsinline: 1,
             loop: 1,
-            playlist: '_Roq1WPnSDQ' // Required for looping
+            playlist: '_Roq1WPnSDQ'
         },
         events: {
             'onReady': onPlayerReady,
@@ -402,10 +402,10 @@ wrapper?.addEventListener('touchend', (e) => {
     }
 }, { passive: true });
 
+// Make onYouTubeIframeAPIReady available globally
+window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Puraniya Library – Website Loaded Successfully');
 });
-
-// Make onYouTubeIframeAPIReady available globally
-window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
