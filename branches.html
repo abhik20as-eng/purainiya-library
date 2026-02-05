@@ -9,10 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="style.css"><link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
     
     <style>
@@ -33,166 +32,63 @@
             font-style: italic;
             letter-spacing: 0.02em;
         }
-    </style>
 
-</head>
+        /* Header Logo Styling - 90px SIZE */
+        .logo img {
+            height: 90px;
+            width: auto;
+            max-width: 300px;
+            object-fit: contain;
+        }
 
-<body>
+        @media (max-width: 768px) {
+            .logo img {
+                height: 70px;
+                max-width: 240px;
+            }
+        }
 
-<!-- ================= NAVBAR ================= -->
-<nav class="navbar">
-    <div class="nav-container">
-        <button class="hamburger" id="hamburger" aria-label="Open Menu">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-        </button>
+        /* Sidebar Logo Styling - Using footer.png */
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
 
-        <div class="logo">
-            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-            <div class="logo-text">
-                <div class="logo-main">पुरैनिया</div>
-                <div class="logo-sub">LIBRARY</div>
-            </div>
-        </div>
+        .sidebar-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
 
-        <div class="spacer"></div>
-    </div>
-</nav>
+        /* Hide old sidebar icon and text when using image */
+        .sidebar-header .sidebar-icon,
+        .sidebar-header .sidebar-logo-text {
+            display: none;
+        }
 
-<!-- ================= SIDEBAR ================= -->
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-content">
-        <div class="sidebar-header">
-            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-            <div class="sidebar-logo-text">
-                <div class="sidebar-logo-main">पुरैनिया</div>
-                <div class="sidebar-logo-sub">LIBRARY</div>
-            </div>
-           <button class="sidebar-close" id="sidebarClose" aria-label="Close Menu">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
-</button>
+        /* Footer Logo Styling - Using footer.png */
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
 
-        </div>
+        .footer-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
 
-        <nav class="sidebar-nav">
+        /* Hide old footer icon and text when using image */
+        .footer-logo .footer-icon,
+        .footer-logo .footer-logo-text {
+            display: none;
+        }
 
-    <!-- Home -->
-    <a href="index.html#home" class="menu-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-        <span>Home</span>
-    </a>
-
-    <!-- About -->
-    <a href="index.html#about" class="menu-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-        </svg>
-        <span>About Us</span>
-    </a>
-
-    <!-- Facilities -->
-    <a href="index.html#facilities" class="menu-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M17 1l4 4-4 4"></path>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-            <path d="M7 23l-4-4 4-4"></path>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-        </svg>
-        <span>Facilities</span>
-    </a>
-
-    <!-- Gallery -->
-    <a href="gallery.html" class="menu-item" data-page="gallery.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polyline points="21 15 16 10 5 21"></polyline>
-        </svg>
-        <span> Our Gallery</span>
-    </a>
-
-    <!-- Branches (ACTIVE) -->
-    <a href="branches.html" class="menu-item active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-        </svg>
-        <span>Our Branches</span>
-    </a>
-
-   <a href="ourvision.html" class="menu-item" data-page="ourvision.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="9"></circle>
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 3v4"></path>
-    </svg>
-    <span>Our Vision</span>
-</a>
-
-
-    <a href="blog.html" class="menu-item" data-page="blog.html">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
-                    <span>Blog</span>
-
-    <!-- Timing -->
-    <a href="index.html#timing" class="menu-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
-        <span>Timing</span>
-    </a>
-
-</nav>
-
-    </div>
-</div>
-
-<div class="overlay" id="overlay"></div>
-
-<!-- ================= MAIN CONTENT ================= -->
-<div class="main-content">
-
-<section class="branches">
-    <div class="container">
-
-        <div class="section-header">
-            <h1 class="section-title">Our Branch</h1>
-            <div class="section-divider"></div>
-            <p class="section-subtitle">Visit us at our location in Purnea</p>
-        </div>
-
-        <!-- 🔹 YOUR BRANCH CARD CONTENT (UNCHANGED) -->
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Branch - पुरैनिया Library</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
         .branches {
             padding: 6rem 0;
             background: #f3f4f6;
@@ -467,9 +363,140 @@
         }
     </style>
 </head>
+
 <body>
-    
- <div class="branch-container">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="nav-container">
+        <button class="hamburger" id="hamburger" aria-label="Open Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
+        <div class="logo">
+            <img src="images/header.png" alt="Purainiya Library Logo">
+        </div>
+
+        <div class="spacer"></div>
+    </div>
+</nav>
+
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-content">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="images/footer.png" alt="Purainiya Library">
+            </div>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <!-- Home -->
+            <a href="index.html#home" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span>Home</span>
+            </a>
+
+            <!-- About -->
+            <a href="index.html#about" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>About Us</span>
+            </a>
+
+            <!-- Facilities -->
+            <a href="index.html#facilities" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M17 1l4 4-4 4"></path>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <path d="M7 23l-4-4 4-4"></path>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                <span>Facilities</span>
+            </a>
+
+            <!-- Gallery -->
+            <a href="gallery.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span>Our Gallery</span>
+            </a>
+
+            <!-- Branches (ACTIVE) -->
+            <a href="branches.html" class="menu-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Our Branches</span>
+            </a>
+
+            <!-- Vision -->
+            <a href="ourvision.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 3v4"></path>
+                </svg>
+                <span>Our Vision</span>
+            </a>
+
+            <!-- Blog -->
+            <a href="blog.html" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span>Blog</span>
+            </a>
+
+            <!-- Timing -->
+            <a href="index.html#timing" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Timing</span>
+            </a>
+        </nav>
+    </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="main-content">
+
+    <section class="branches">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title">Our Branch</h1>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Visit us at our location in Purnea</p>
+            </div>
+
+            <div class="branch-container">
                 <div class="branch-card">
                     <div class="branch-header">
                         <div class="branch-icon">
@@ -590,7 +617,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                             </svg>
                                         </div>
-                                        <span class="contact-text">+91-XXXXXXXXXX</span>
+                                        <span class="contact-text">+91 8757701740</span>
                                     </div>
                                     <div class="contact-item">
                                         <div class="contact-icon">
@@ -607,88 +634,77 @@
                 </div>
             </div>
         </div>
-    </div>
-</body>
-</html>
-    </div>
-</section>
+    </section>
 
-<!-- ================= FOOTER ================= -->
-<!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-grid">
-                    <div class="footer-col">
-                        <div class="footer-logo">
-                            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
-                            <div class="footer-logo-text">
-                                <div class="footer-logo-main">पुरैनिया</div>
-                                <div class="footer-logo-sub">LIBRARY</div>
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="images/footer.png" alt="Purainiya Library">
+                    </div>
+                    <p class="footer-text">Your gateway to knowledge and excellence</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#facilities">Facilities</a></li>
+                        <li><a href="index.html#gallery">Gallery</a></li>
+                        <li><a href="index.html#timing">Timing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <div class="footer-location">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <span class="footer-location-text">
+                                    Near law College, Sukhnagar,<br>
+                                    Purnea, Bihar
+                                </span>
                             </div>
-                        </div>
-                        <p class="footer-text">Your gateway to knowledge and excellence</p>
-                    </div>
-
-                    <div class="footer-col">
-                        <h4 class="footer-title">Quick Links</h4>
-                        <ul class="footer-links">
-                            <li><a href="index.html#about">About Us</a></li>
-                            <li><a href="index.html#facilities">Facilities</a></li>
-                            <li><a href="index.html#gallery">Gallery</a></li>
-                            <li><a href="index.html#timing">Timing</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-col">
-                        <h4 class="footer-title">Contact</h4>
-                        <ul class="footer-contact">
-                            <li>
-                                <div class="footer-location">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                        <circle cx="12" cy="10" r="3"></circle>
-                                    </svg>
-                                    <span class="footer-location-text">
-                                        Near law College,Sukhnagar,College Chowk Road<br>
-                                        Purnea, Bihar
-                                    </span>
-                                </div>
-                            </li>
-                            <li>📞 +91 8757701740</li>
-                            <li>✉️ info@puraniyalibrary.com</li>
-                        </ul>
-                    </div>
-
-                      <div class="footer-bottom">
-                    <p>© 2026 Purainiya Library. All rights reserved.</p>
+                        </li>
+                        <li>📞 +91 8757701740</li>
+                        <li>✉️ info@puraniyalibrary.com</li>
+                    </ul>
                 </div>
             </div>
-        </footer>
-    </div>
 
-    <!-- Facility Modal -->
-    <div class="modal" id="facilityModal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-            <div class="modal-image" id="modalImage"></div>
-            <div class="modal-body">
-                <div class="modal-header">
-                    <div class="modal-icon" id="modalIcon"></div>
-                    <h3 class="modal-title" id="modalTitle"></h3>
-                </div>
-                <p class="modal-description" id="modalDescription"></p>
+            <div class="footer-bottom">
+                <p>© 2026 Purainiya Library. All rights reserved.</p>
             </div>
         </div>
-    </div>
+    </footer>
+</div>
 
-    <script src="script.js"></script>
+<!-- Facility Modal -->
+<div class="modal" id="facilityModal">
+    <div class="modal-content">
+        <button class="modal-close" id="modalClose">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="modal-image" id="modalImage"></div>
+        <div class="modal-body">
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon"></div>
+                <h3 class="modal-title" id="modalTitle"></h3>
+            </div>
+            <p class="modal-description" id="modalDescription"></p>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
