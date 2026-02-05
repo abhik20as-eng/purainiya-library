@@ -115,18 +115,54 @@
             }
         }
 
-        /* Header Logo Styling */
+        /* Header Logo Styling - BIGGER SIZE */
         .logo img {
-            height: 60px;
+            height: 80px;
             width: auto;
-            max-width: 200px;
+            max-width: 280px;
             object-fit: contain;
         }
 
         @media (max-width: 768px) {
             .logo img {
-                height: 50px;
+                height: 65px;
+                max-width: 220px;
             }
+        }
+
+        /* Sidebar Logo Styling - Using footer.png */
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        /* Footer Logo Styling - Using footer.png */
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .footer-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        /* Hide old footer icon and text when using image */
+        .footer-logo .footer-icon,
+        .footer-logo .footer-logo-text {
+            display: none;
         }
     </style>
 </head>
@@ -152,13 +188,8 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
-                <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
-                <div class="sidebar-logo-text">
-                    <div class="sidebar-logo-main">पुरैनिया</div>
-                    <div class="sidebar-logo-sub">LIBRARY</div>
+                <div class="sidebar-logo">
+                    <img src="images/footer.png" alt="Purainiya Library">
                 </div>
                 <button class="sidebar-close" id="sidebarClose">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -614,14 +645,7 @@
                 <div class="footer-grid">
                     <div class="footer-col">
                         <div class="footer-logo">
-                            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
-                            <div class="footer-logo-text">
-                                <div class="footer-logo-main">पुरैनिया</div>
-                                <div class="footer-logo-sub">LIBRARY</div>
-                            </div>
+                            <img src="images/footer.png" alt="Purainiya Library">
                         </div>
                         <p class="footer-text">Your gateway to knowledge and excellence</p>
                     </div>
