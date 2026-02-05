@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
@@ -27,8 +27,11 @@
         
         /* Hero title special styling */
         .hero-title-highlight {
-    font-family: 'Great Vibes', cursive !important;
-            letter-spacing: 0.02em;
+            font-family: cursive !important;
+            font-weight: 400 !important;
+            font-style: italic !important;
+            letter-spacing: 0.15em;
+            word-spacing: 0.3em;
         }
 
         /* Facilities Grid - Desktop: 4 columns 3 rows, Mobile: 3 columns 4 rows */
@@ -127,10 +130,7 @@
             </button>
             
             <div class="logo">
-                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
+                <img src="images/header.png" alt="Purainiya Library Logo" class="logo-icon">
                 <div class="logo-text">
                     <div class="logo-main">पुरैनिया</div>
                     <div class="logo-sub">LIBRARY</div>
@@ -145,10 +145,7 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
-                <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
+                <img src="images/header.png" alt="Purainiya Library Logo" class="sidebar-icon">
                 <div class="sidebar-logo-text">
                     <div class="sidebar-logo-main">पुरैनिया</div>
                     <div class="sidebar-logo-sub">LIBRARY</div>
@@ -607,10 +604,7 @@
                 <div class="footer-grid">
                     <div class="footer-col">
                         <div class="footer-logo">
-                            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
+                            <img src="images/header.png" alt="Purainiya Library Logo" class="footer-icon">
                             <div class="footer-logo-text">
                                 <div class="footer-logo-main">पुरैनिया</div>
                                 <div class="footer-logo-sub">LIBRARY</div>
@@ -645,7 +639,7 @@
                                 </div>
                             </li>
                             <li>📞 +91 8757701740</li>
-                            <li>✉️ info@puraniyalibrary.com</li>
+                            <li>✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5831363e3718282d2a393631213934313a2a392a21763b3735">[email&#160;protected]</a></li>
                         </ul>
                     </div>
                 </div>
@@ -672,11 +666,4 @@
                     <div class="modal-icon" id="modalIcon"></div>
                     <h3 class="modal-title" id="modalTitle"></h3>
                 </div>
-                <p class="modal-description" id="modalDescription"></p>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+                <p class="modal-description"
