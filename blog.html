@@ -11,9 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="style.css"><link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* Special styling for पुरैनिया to match the image */
@@ -33,8 +32,73 @@
             font-style: italic;
             letter-spacing: 0.02em;
         }
-    </style>
 
+        /* Header Logo Styling - Using header.png at 115px height and 300px width */
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: 115px;
+            width: 300px;
+            object-fit: contain;
+        }
+
+        /* Hide old logo icon and text */
+        .logo .logo-icon,
+        .logo .logo-text {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .logo img {
+                height: 85px;
+                width: 240px;
+            }
+        }
+
+        /* Sidebar Logo Styling - Using footer.png */
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        /* Hide old sidebar icon and text */
+        .sidebar-header .sidebar-icon,
+        .sidebar-header .sidebar-logo-text {
+            display: none;
+        }
+
+        /* Footer Logo Styling - Using footer.png at 70px height and 200px width */
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .footer-logo img {
+            height: 70px;
+            width: 200px;
+            object-fit: contain;
+        }
+
+        /* Hide old footer icon and text */
+        .footer-logo .footer-icon,
+        .footer-logo .footer-logo-text {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,14 +113,7 @@
         </button>
 
         <div class="logo">
-            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-            <div class="logo-text">
-                <div class="logo-main">पुरैनिया</div>
-                <div class="logo-sub">LIBRARY</div>
-            </div>
+            <img src="images/footer.png" alt="Purainiya Library Logo">
         </div>
 
         <div class="spacer"></div>
@@ -67,14 +124,8 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-content">
         <div class="sidebar-header">
-            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-
-            <div class="sidebar-logo-text">
-                <div class="sidebar-logo-main">पुरैनिया</div>
-                <div class="sidebar-logo-sub">LIBRARY</div>
+            <div class="sidebar-logo">
+                <img src="images/footer.png" alt="Purainiya Library">
             </div>
 
             <!-- CLOSE ICON -->
@@ -87,72 +138,72 @@
         </div>
 
         <nav class="sidebar-nav">
-                <a href="index.html#home" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                    </svg>
-                    <span>Home</span>
-                </a>
-                <a href="index.html#about" class="menu-item" >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
-                    <span>About Us</span>
-                </a>
-                <a href="index.html#facilities" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M17 1l4 4-4 4"></path>
-                        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-                        <path d="M7 23l-4-4 4-4"></path>
-                        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-                    </svg>
-                    <span>Facilities</span>
-                </a>
-                <a href="gallery.html" class="menu-item" data-page="gallery.html">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                        <polyline points="21 15 16 10 5 21"></polyline>
-                    </svg>
-                    <span>Our Gallery</span>
-                </a>
-                <a href="branches.html" class="menu-item" data-page="branches.html">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <span>Our Branches</span>
-                </a>
-                <a href="ourvision.html" class="menu-item" data-page="director">
-                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="9"></circle>
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 3v4"></path>
-    </svg>
-                    <span>Our Vision</span>
-                </a>
-                <a href="blog.html" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
-                    <span>Blog</span>
-                </a>
-                <a href="index.html#timing" class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>Timing</span>
-                </a>
-            </nav>
+            <a href="index.html#home" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="index.html#about" class="menu-item" >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>About Us</span>
+            </a>
+            <a href="index.html#facilities" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M17 1l4 4-4 4"></path>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                    <path d="M7 23l-4-4 4-4"></path>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                </svg>
+                <span>Facilities</span>
+            </a>
+            <a href="gallery.html" class="menu-item" data-page="gallery.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span>Our Gallery</span>
+            </a>
+            <a href="branches.html" class="menu-item" data-page="branches.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Our Branches</span>
+            </a>
+            <a href="ourvision.html" class="menu-item" data-page="director">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 3v4"></path>
+                </svg>
+                <span>Our Vision</span>
+            </a>
+            <a href="blog.html" class="menu-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span>Blog</span>
+            </a>
+            <a href="index.html#timing" class="menu-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Timing</span>
+            </a>
+        </nav>
     </div>
 </div>
 
@@ -174,15 +225,15 @@
         <div class="blog-grid">
 
             <!-- Blog Card -->
-
             <article class="blog-card">
                 <h3 class="blog-title">Library Near Purnea College for Competitive Exam | पुरैनिया Library</h3>
                 <p class="blog-excerpt">
                   library near Purnea College for competitive exam preparation? पुरैनिया Library, located in front of Law College at College Chowk Road, offers a peaceful study environment with premium facilities.
+                </p>
                 <a href="library-near-purnea-college-for-competitive-exam.html" class="blog-read">Read More →</a>
             </article>
 
-             <article class="blog-card">
+            <article class="blog-card">
                 <h3 class="blog-title">Best Library Near Green Park in Purnea | पुरैनिया Library</h3>
                 <p class="blog-excerpt">
                    Looking for the best library near Green Park in Purnea? पुरैनिया Library offers a peaceful, disciplined study environment with premium facilities designed for serious students and competitive exam aspirants.
@@ -193,7 +244,7 @@
             <article class="blog-card">
                 <h3 class="blog-title">Sign of Peace: Purainiya Library in Purnea</h3>
                 <p class="blog-excerpt">
-                   Strength doesn’t shout—it concentrates. Learn how the “Sign of Peace” philosophy helps students build focus, confidence, and long-term success.
+                   Strength doesn't shout—it concentrates. Learn how the "Sign of Peace" philosophy helps students build focus, confidence, and long-term success.
                 </p>
                 <a href="purainiyalibrary-sign-of-peace.html" class="blog-read">Read More →</a>
             </article>
@@ -204,25 +255,24 @@
                     Discover why silence plays a key role in concentration and how a disciplined study
                     environment can boost productivity.
                 </p>
-                <a href="blog-focus.html" class="blog-read">
-    Read More →
-</a>
-            </article><article class="blog-card">
-                <h3 class="blog-title">Best Library in Purnea – Purainiyalibrary</h3>
-                <strong>Purainiyalibrary</strong> is widely recognized as the <strong>best library in Purnea</strong>,
-                offering a peaceful, disciplined, and premium study environment for students preparing for
-                competitive exams, university studies, and professional courses.
-            </p>
-
-                <a href="purnea-purainiyalibrary.html" class="blog-read">Read More →</a>
+                <a href="blog-focus.html" class="blog-read">Read More →</a>
             </article>
 
+            <article class="blog-card">
+                <h3 class="blog-title">Best Library in Purnea – Purainiyalibrary</h3>
+                <p class="blog-excerpt">
+                    <strong>Purainiyalibrary</strong> is widely recognized as the <strong>best library in Purnea</strong>,
+                    offering a peaceful, disciplined, and premium study environment for students preparing for
+                    competitive exams, university studies, and professional courses.
+                </p>
+                <a href="purnea-purainiyalibrary.html" class="blog-read">Read More →</a>
+            </article>
 
             <article class="blog-card">
                 <h3 class="blog-title">Best Purainiyalibrary for Competitive Exams</h3>
                 <p class="blog-excerpt">
                     Purainiyalibrary provides a distraction-free study space in Purnea, ideal for competitive
-    exam preparation and long study hours.
+                    exam preparation and long study hours.
                 </p>
                 <a href="best-purainiyalibrary-for-competitive-exams.html" class="blog-read">Read More →</a>
             </article>
@@ -242,62 +292,55 @@
 </section>
 
 <!-- ================= FOOTER ================= -->
-   <footer class="footer">
-            <div class="container">
-                <div class="footer-grid">
-                    <div class="footer-col">
-                        <div class="footer-logo">
-                            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
-                            <div class="footer-logo-text">
-                                <div class="footer-logo-main">पुरैनिया</div>
-                                <div class="footer-logo-sub">LIBRARY</div>
-                            </div>
-                        </div>
-                        <p class="footer-text">Your gateway to knowledge and excellence</p>
-                    </div>
-
-                    <div class="footer-col">
-                        <h4 class="footer-title">Quick Links</h4>
-                        <ul class="footer-links">
-                            <li><a href="index.html#about">About Us</a></li>
-                            <li><a href="index.html#facilities">Facilities</a></li>
-                            <li><a href="index.html#gallery">Gallery</a></li>
-                            <li><a href="index.html#timing">Timing</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-col">
-                        <h4 class="footer-title">Contact</h4>
-                        <ul class="footer-contact">
-                            <li>
-                                <div class="footer-location">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                        <circle cx="12" cy="10" r="3"></circle>
-                                    </svg>
-                                    <span class="footer-location-text">
-                                        Near law College,Sukhnagar,College Chowk Road<br>
-                                        Purnea, Bihar
-                                    </span>
-                                </div>
-                            </li>
-                            <li>📞 +91 8757701740</li>
-                            <li>✉️ info@puraniyalibrary.com</li>
-                        </ul>
-                    </div>
-
-                      <div class="footer-bottom">
-                    <p>© 2026 Purainiya Library. All rights reserved.</p>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="images/footer.png" alt="Purainiya Library">
                 </div>
+                <p class="footer-text">Your gateway to knowledge and excellence</p>
             </div>
-        </footer>
+
+            <div class="footer-col">
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#facilities">Facilities</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#timing">Timing</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-title">Contact</h4>
+                <ul class="footer-contact">
+                    <li>
+                        <div class="footer-location">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span class="footer-location-text">
+                                Near law College,Sukhnagar,<br>
+                                Purnea, Bihar
+                            </span>
+                        </div>
+                    </li>
+                    <li>📞 +91 8757701740</li>
+                    <li>✉️ info@puraniyalibrary.com</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Purainiya Library. All rights reserved.</p>
+        </div>
     </div>
+</footer>
 
-    
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
