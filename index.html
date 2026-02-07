@@ -9,58 +9,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
     
     <style>
         /* Special styling for पुरैनिया to match the image */
-        .logo-main,
-        .sidebar-logo-main,
-        .footer-logo-main {
-            font-family: 'Laila', 'Kalam', cursive !important;
-            font-weight: 400 !important;
-            font-style: italic;
-            letter-spacing: 0.02em;
-        }
+        /* ===== HERO BANNER TYPOGRAPHY ===== */
+
+/* PLACE & PEACE */
+.hero-place,
+.hero-peace {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #f5c84c; /* matches your gold tone */
+    text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* SIGN OF */
+.hero-title-highlight {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    text-shadow: 1px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
         
-        /* ===== PREMIUM HERO TYPOGRAPHY ===== */
-        
-        /* SIGN OF - Elegant Dancing Script */
+        /* Hero title special styling */
         .hero-title-highlight {
-            font-family: 'Dancing Script', cursive !important;
-            font-style: normal;
-            font-weight: 700;
-            font-size: 4.5rem;
-            letter-spacing: 0.08em;
-            color: #ffffff;
-            text-shadow: 
-                2px 2px 4px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(251, 191, 36, 0.3);
-            line-height: 1.2;
-        }
-
-        /* PEACE - Bold Cinzel Serif */
-        .hero-peace {
-            font-family: 'Cinzel', serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            font-size: 1em;
-            color: #fcd34d;
-            text-shadow: 
-                3px 3px 6px rgba(0, 0, 0, 0.6),
-                0 0 30px rgba(251, 191, 36, 0.4);
-            line-height: 1.1;
-        }
-
-        /* Responsive Typography */
-        @media (max-width: 768px) {
-            .hero-title-highlight {
-                font-size: 3rem;
-                letter-spacing: 0.06em;
-            }
+    font-family: 'Dancing Script', cursive !important;
+            letter-spacing: 0.02em;
         }
 
         /* Facilities Grid - Desktop: 4 columns 3 rows, Mobile: 3 columns 4 rows */
@@ -147,18 +130,54 @@
             }
         }
 
-        /* Header Logo Styling */
+        /* Header Logo Styling - BIGGER SIZE */
         .logo img {
-            height: 60px;
+            height: 160px;
             width: auto;
-            max-width: 200px;
+            max-width: 320px;
             object-fit: contain;
         }
 
         @media (max-width: 768px) {
             .logo img {
-                height: 50px;
+                height: 125px;
+                max-width: 290px;
             }
+        }
+
+        /* Sidebar Logo Styling - Using footer.png */
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-logo img {
+            height: 160px;
+            width: auto;
+            max-width: 310px;
+            object-fit: contain;
+        }
+
+        /* Footer Logo Styling - Using footer.png */
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .footer-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        /* Hide old footer icon and text when using image */
+        .footer-logo .footer-icon,
+        .footer-logo .footer-logo-text {
+            display: none;
         }
     </style>
 </head>
@@ -173,7 +192,7 @@
             </button>
             
             <div class="logo">
-                <img src="images/header.png" alt="Purainiya Library Logo">
+                <img src="images/footer.png" alt="Purainiya Library Logo">
             </div>
 
             <div class="spacer"></div>
@@ -184,13 +203,8 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
-                <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
-                <div class="sidebar-logo-text">
-                    <div class="sidebar-logo-main">पुरैनिया</div>
-                    <div class="sidebar-logo-sub">LIBRARY</div>
+                <div class="sidebar-logo">
+                    <img src="images/footer.png" alt="Purainiya Library">
                 </div>
                 <button class="sidebar-close" id="sidebarClose">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -282,7 +296,7 @@
                 <h1 class="seo-h1">Best Study Library Near Purnea Law College, College Chowk Road, Purnea</h1>
                 <div class="hero-badge">PREMIUM STUDY DESTINATION</div>
                 <h1 class="hero-title hero-custom">
-                    <span class="hero-place">Place</span><br/>
+                   <br/>
                     <span class="hero-title-highlight">Sign of</span><br>
                     <span class="hero-peace">Peace</span>
                 </h1>
@@ -622,7 +636,7 @@
                     <h2 class="section-title">Our Location</h2>
                     <div class="section-divider"></div>
                     <p class="section-subtitle">
-                        Near Purnea Law College, College Chowk Road, Purnea
+                        Near Law College, Sukh Nagar,<br>Purnea,Bihar
                     </p>
                 </div>
 
@@ -646,14 +660,7 @@
                 <div class="footer-grid">
                     <div class="footer-col">
                         <div class="footer-logo">
-                            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
-                            <div class="footer-logo-text">
-                                <div class="footer-logo-main">पुरैनिया</div>
-                                <div class="footer-logo-sub">LIBRARY</div>
-                            </div>
+                            <img src="images/footer.png" alt="Purainiya Library">
                         </div>
                         <p class="footer-text">Your gateway to knowledge and excellence</p>
                     </div>
@@ -678,13 +685,13 @@
                                         <circle cx="12" cy="10" r="3"></circle>
                                     </svg>
                                     <span class="footer-location-text">
-                                        Near Law College, Sukh Nagar,Purnea College Chowk Road<br>
+                                        Near Law College, Sukh Nagar,<br>
                                         Purnea, Bihar
                                     </span>
                                 </div>
                             </li>
                             <li>📞 +91 8757701740</li>
-                            <li>✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f79e999198b787828596999e8e969b9e958596858ed994989a">[email&#160;protected]</a></li>
+                            <li>✉️ info@puraniyalibrary.com</li>
                         </ul>
                     </div>
                 </div>
@@ -711,4 +718,11 @@
                     <div class="modal-icon" id="modalIcon"></div>
                     <h3 class="modal-title" id="modalTitle"></h3>
                 </div>
-                <p class="modal-description"
+                <p class="modal-description" id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
