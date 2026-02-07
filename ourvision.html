@@ -8,11 +8,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- New Font Scheme -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&family=Bodoni+Moda:wght@400;600;700;900&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Hindi Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Kalam:wght@300;400;700&family=Laila:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* Special styling for पुरैनिया to match the image */
@@ -94,6 +96,195 @@
             object-fit: contain;
         }
 
+        /* ============ NEW FONT SCHEME ============ */
+        
+        /* Body Text - Lato */
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+
+        /* Section Titles - Playfair Display */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* Section Subtitles - Cormorant Garamond (italic) */
+        .section-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: #4b5563;
+        }
+
+        /* Vision Title - Playfair Display */
+        .vision-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* Vision Subtitle - Cormorant Garamond (italic) */
+        .vision-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: #4b5563;
+        }
+
+        /* Vision Founder Name - Playfair Display */
+        .vision-founder {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* Vision Role - Cinzel */
+        .vision-role {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #d97706;
+            margin-bottom: 2rem;
+        }
+
+        /* Vision Text - Lato */
+        .vision-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #374151;
+            margin-bottom: 1.75rem;
+        }
+
+        /* Vision Location - Lato */
+        .vision-location {
+            font-family: 'Lato', sans-serif;
+            background: #fffbeb;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-size: 1.05rem;
+            color: #1e293b;
+        }
+
+        .vision-location strong {
+            color: #d97706;
+        }
+
+        /* Branch Name - Playfair Display */
+        .branch-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Branch Tagline - Cormorant Garamond */
+        .branch-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.125rem;
+            opacity: 0.95;
+        }
+
+        /* Info Titles - Cinzel */
+        .info-title {
+            font-family: 'Cinzel', serif;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* Address Text - Lato */
+        .address-text {
+            font-family: 'Lato', sans-serif;
+            color: #374151;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Timing Days - Cinzel */
+        .timing-day {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Timing Hours - Bodoni Moda */
+        .timing-hours {
+            font-family: 'Bodoni Moda', serif;
+            color: #d97706;
+            font-weight: 700;
+        }
+
+        /* Service Names - Lato */
+        .service-name {
+            font-family: 'Lato', sans-serif;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        /* Contact Text - Lato */
+        .contact-text {
+            font-family: 'Lato', sans-serif;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        /* Map Button - Raleway */
+        .map-button {
+            font-family: 'Raleway', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom right, #fbbf24, #d97706);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Footer Headings - Cinzel */
+        .footer-title {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Footer Text - Lato */
+        .footer-text {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .footer-links,
+        .footer-contact {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .footer-bottom {
+            font-family: 'Lato', sans-serif;
+        }
+
+        /* Menu Items - Raleway */
+        .menu-item span {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        /* ========================================= */
+
         .branches {
             padding: 6rem 0;
             background: #f3f4f6;
@@ -111,24 +302,11 @@
             margin-bottom: 4rem;
         }
 
-        .section-title {
-            font-size: 3rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 1rem;
-            font-family: serif;
-        }
-
         .section-divider {
             width: 96px;
             height: 4px;
             background: #f59e0b;
             margin: 0 auto 1.5rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.25rem;
-            color: #4b5563;
         }
 
         .branch-container {
@@ -168,18 +346,6 @@
             color: #fff;
         }
 
-        .branch-name {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            font-family: serif;
-        }
-
-        .branch-tagline {
-            font-size: 1.125rem;
-            opacity: 0.95;
-        }
-
         .branch-body {
             padding: 2.5rem;
         }
@@ -190,16 +356,6 @@
 
         .info-section:last-child {
             margin-bottom: 0;
-        }
-
-        .info-title {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1rem;
         }
 
         .info-title svg {
@@ -213,13 +369,6 @@
             padding: 1.5rem;
             border-radius: 12px;
             border-left: 4px solid #f59e0b;
-        }
-
-        .address-text {
-            color: #374151;
-            font-size: 1.125rem;
-            line-height: 1.8;
-            margin-bottom: 1rem;
         }
 
         .address-highlight {
@@ -239,16 +388,6 @@
             padding: 0.75rem 1rem;
             background: #fffbeb;
             border-radius: 8px;
-        }
-
-        .timing-day {
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .timing-hours {
-            color: #d97706;
-            font-weight: 700;
         }
 
         .services-grid {
@@ -283,11 +422,6 @@
             color: #1e293b;
         }
 
-        .service-name {
-            color: #374151;
-            font-weight: 500;
-        }
-
         .contact-grid {
             display: grid;
             gap: 1rem;
@@ -319,26 +453,6 @@
             color: #1e293b;
         }
 
-        .contact-text {
-            color: #374151;
-            font-weight: 500;
-        }
-
-        .map-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-            padding: 1rem 2rem;
-            background: linear-gradient(to bottom right, #fbbf24, #d97706);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 9999px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(251, 191, 36, 0.3);
-        }
-
         .map-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(251, 191, 36, 0.4);
@@ -366,23 +480,11 @@
             margin-bottom: 3.5rem;
         }
 
-        .vision-title {
-            font-family: Cinzel, serif;
-            font-size: 3rem;
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-
         .vision-divider {
             width: 90px;
             height: 4px;
             background: #fbbf24;
             margin: 0 auto 1.5rem;
-        }
-
-        .vision-subtitle {
-            font-size: 1.25rem;
-            color: #4b5563;
         }
 
         .vision-card {
@@ -391,40 +493,6 @@
             padding: 3rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border-left: 6px solid #fbbf24;
-        }
-
-        .vision-founder {
-            font-family: Cinzel, serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-
-        .vision-role {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #d97706;
-            margin-bottom: 2rem;
-        }
-
-        .vision-text {
-            font-size: 1.15rem;
-            line-height: 1.9;
-            color: #374151;
-            margin-bottom: 1.75rem;
-        }
-
-        .vision-location {
-            background: #fffbeb;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            font-size: 1.05rem;
-            color: #1e293b;
-        }
-
-        .vision-location strong {
-            color: #d97706;
         }
 
         @media (max-width: 768px) {
