@@ -66,6 +66,15 @@ const shifts = [
     '2:00 AM - 6:00 AM'
 ];
 
+// Months array
+const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+];
+
+// Monthly payment amount (you can change this value)
+const MONTHLY_PAYMENT = 500; // Change this to your actual monthly fee
+
 // Load members from localStorage
 function loadMembers() {
     const members = localStorage.getItem('libraryMembers');
@@ -75,6 +84,13 @@ function loadMembers() {
 // Save members to localStorage
 function saveMembers(members) {
     localStorage.setItem('libraryMembers', JSON.stringify(members));
+}
+
+// Calculate total payment for a member
+function calculateTotalPayment(payments) {
+    if (!payments) return 0;
+    const paidMonths = Object.values(payments).filter(paid => paid === true).length;
+    return paidMonths * MONTHLY_PAYMENT;
 }
 
 // Render all members
@@ -122,13 +138,52 @@ function renderMembers() {
         shiftSelect.addEventListener('change', (e) => updateMember(index, 'shift', e.target.value));
         shiftCell.appendChild(shiftSelect);
         
-        // Payment Done
+        // Payment Section with Monthly Checkboxes
         const paymentCell = row.insertCell(4);
-        const paymentCheckbox = document.createElement('input');
-        paymentCheckbox.type = 'checkbox';
-        paymentCheckbox.checked = member.paymentDone;
-        paymentCheckbox.addEventListener('change', (e) => updateMember(index, 'paymentDone', e.target.checked));
-        paymentCell.appendChild(paymentCheckbox);
+        
+        // Initialize payments object if not exists
+        if (!member.payments) {
+            member.payments = {};
+        }
+        
+        // Create payment container
+        const paymentContainer = document.createElement('div');
+        paymentContainer.className = 'payment-container';
+        
+        // Monthly checkboxes grid
+        const monthsGrid = document.createElement('div');
+        monthsGrid.className = 'months-grid';
+        
+        months.forEach((month) => {
+            const monthLabel = document.createElement('label');
+            monthLabel.className = 'month-checkbox';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = member.payments[month] || false;
+            checkbox.addEventListener('change', (e) => {
+                updatePayment(index, month, e.target.checked);
+            });
+            
+            const monthText = document.createElement('span');
+            monthText.textContent = month;
+            
+            monthLabel.appendChild(checkbox);
+            monthLabel.appendChild(monthText);
+            monthsGrid.appendChild(monthLabel);
+        });
+        
+        paymentContainer.appendChild(monthsGrid);
+        
+        // Total payment display
+        const totalPayment = calculateTotalPayment(member.payments);
+        const totalDiv = document.createElement('div');
+        totalDiv.className = 'total-payment';
+        totalDiv.innerHTML = `<strong>Total Paid: ₹${totalPayment}</strong>`;
+        totalDiv.id = `total-${index}`;
+        
+        paymentContainer.appendChild(totalDiv);
+        paymentCell.appendChild(paymentContainer);
     });
 }
 
@@ -139,6 +194,23 @@ function updateMember(index, field, value) {
     saveMembers(members);
 }
 
+// Update payment for a specific month
+function updatePayment(index, month, isPaid) {
+    const members = loadMembers();
+    if (!members[index].payments) {
+        members[index].payments = {};
+    }
+    members[index].payments[month] = isPaid;
+    saveMembers(members);
+    
+    // Update total display
+    const totalPayment = calculateTotalPayment(members[index].payments);
+    const totalDiv = document.getElementById(`total-${index}`);
+    if (totalDiv) {
+        totalDiv.innerHTML = `<strong>Total Paid: ₹${totalPayment}</strong>`;
+    }
+}
+
 // Add new member
 function addMember() {
     const members = loadMembers();
@@ -147,7 +219,7 @@ function addMember() {
         mobile: '',
         name: '',
         shift: shifts[0],
-        paymentDone: false
+        payments: {}
     };
     members.push(newMember);
     saveMembers(members);

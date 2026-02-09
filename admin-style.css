@@ -213,4 +213,53 @@ input[type="checkbox"] {
 
 .date-display {
     font-weight: bold;
+}/* Payment Section Styles */
+.payment-container {
+    padding: 10px;
+}
+
+.months-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.month-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.month-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.month-checkbox span {
+    font-weight: normal;
+}
+
+.total-payment {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    border: 2px solid black;
+}
+
+.total-payment strong {
+    font-weight: bold;
+}
+
+/* Make payment column wider */
+#memberTable th:last-child,
+#memberTable td:last-child {
+    min-width: 350px;
 }
