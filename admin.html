@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purainiya Library Member Management</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <p class="subtitle">Purainiya Library Member Management</p>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+                <p class="error-message" id="errorMessage"></p>
+            </form>
+            
+            <div class="first-time-setup" id="firstTimeSetup" style="display: none;">
+                <h3>First Time Setup</h3>
+                <p>Create your admin credentials</p>
+                
+                <form id="setupForm">
+                    <div class="input-group">
+                        <label>Create Username</label>
+                        <input type="text" id="newUsername" placeholder="Choose username" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Create Password</label>
+                        <input type="password" id="newPassword" placeholder="Choose password" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Create Admin Account</button>
+                    <p class="error-message" id="setupErrorMessage"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Hidden initially) -->
+    <div class="container" id="adminPanel" style="display: none;">
+        <div class="header-section">
+            <h1>Purainiya Library Member Management</h1>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+        
+        <button class="add-btn" id="addMemberBtn">+</button>
+        
+        <table id="memberTable">
+            <thead>
+                <tr>
+                    <th>Date of Joining</th>
+                    <th>ID (Mobile Number)</th>
+                    <th>Name</th>
+                    <th>Shift</th>
+                    <th>Payment Done</th>
+                </tr>
+            </thead>
+            <tbody id="memberTableBody">
+                <!-- Members will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
