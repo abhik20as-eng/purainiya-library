@@ -103,6 +103,140 @@ function calculateTotalPayment(payments, selectedShifts) {
     return totalPaid;
 }
 
+// Print bill for a member
+function printMemberBill(index) {
+    const members = loadMembers();
+    const member = members[index];
+    
+    if (!member.name || !member.mobile) {
+        alert('Please fill member name and mobile number before printing bill!');
+        return;
+    }
+    
+    const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+    const paidMonths = member.payments ? Object.keys(member.payments).filter(month => member.payments[month] === true) : [];
+    const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+    const perMonthCharge = selectedShiftsCount * PAYMENT_PER_SHIFT_PER_MONTH;
+    
+    // Generate bill HTML
+    const billHTML = `
+        <div style="max-width: 800px; margin: 0 auto; padding: 40px; font-family: Arial, sans-serif; color: black;">
+            <div style="text-align: center; border-bottom: 3px solid black; padding-bottom: 20px; margin-bottom: 30px;">
+                <h1 style="margin: 0; font-size: 32px;">Purainiya Library</h1>
+                <h2 style="margin: 10px 0 0 0; font-size: 24px;">Member Payment Bill</h2>
+            </div>
+            
+            <div style="margin-bottom: 30px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold; width: 200px;">Member Name:</td>
+                        <td style="padding: 10px; border: 2px solid black;">${member.name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Mobile Number:</td>
+                        <td style="padding: 10px; border: 2px solid black;">${member.mobile}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Date of Joining:</td>
+                        <td style="padding: 10px; border: 2px solid black;">${member.doj}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Bill Date:</td>
+                        <td style="padding: 10px; border: 2px solid black;">${getTodayDate()}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div style="margin-bottom: 30px;">
+                <h3 style="border-bottom: 2px solid black; padding-bottom: 10px;">Selected Shifts</h3>
+                <div style="padding: 15px; border: 2px solid black; background-color: #f9f9f9;">
+                    ${member.selectedShifts && member.selectedShifts.length > 0 
+                        ? member.selectedShifts.map(shift => `<div style="padding: 5px;">• ${shift}</div>`).join('') 
+                        : '<div style="padding: 5px;">No shifts selected</div>'}
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 30px;">
+                <h3 style="border-bottom: 2px solid black; padding-bottom: 10px;">Payment Details</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 12px; border: 2px solid black; background-color: black; color: white; text-align: left;">Month</th>
+                            <th style="padding: 12px; border: 2px solid black; background-color: black; color: white; text-align: center;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${months.map(month => `
+                            <tr>
+                                <td style="padding: 10px; border: 2px solid black;">${month}</td>
+                                <td style="padding: 10px; border: 2px solid black; text-align: center;">
+                                    ${member.payments && member.payments[month] 
+                                        ? '<span style="color: black; font-weight: bold;">✓ PAID</span>' 
+                                        : '<span style="color: #999;">Not Paid</span>'}
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; border: 3px solid black; background-color: #f5f5f5;">
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
+                    <span style="font-size: 16px;">Number of Shifts:</span>
+                    <span style="font-size: 16px; font-weight: bold;">${selectedShiftsCount}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
+                    <span style="font-size: 16px;">Rate per Shift per Month:</span>
+                    <span style="font-size: 16px; font-weight: bold;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
+                    <span style="font-size: 16px;">Monthly Charge:</span>
+                    <span style="font-size: 16px; font-weight: bold;">₹${perMonthCharge}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
+                    <span style="font-size: 16px;">Months Paid:</span>
+                    <span style="font-size: 16px; font-weight: bold;">${paidMonths.length}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 15px 0; margin-top: 10px;">
+                    <span style="font-size: 20px; font-weight: bold;">TOTAL AMOUNT PAID:</span>
+                    <span style="font-size: 24px; font-weight: bold; background-color: black; color: white; padding: 5px 15px;">₹${totalPayment}</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; text-align: center; padding-top: 20px; border-top: 2px solid black;">
+                <p style="margin: 5px 0;">Thank you for being a valued member!</p>
+                <p style="margin: 5px 0; font-size: 14px; color: #666;">Purainiya Library Member Management System</p>
+            </div>
+        </div>
+    `;
+    
+    // Open print window
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Bill - ${member.name}</title>
+            <style>
+                @media print {
+                    body { margin: 0; padding: 20px; }
+                }
+                body { background: white; }
+            </style>
+        </head>
+        <body>
+            ${billHTML}
+            <script>
+                window.onload = function() {
+                    window.print();
+                }
+            </script>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+}
+
 // Render all members
 function renderMembers() {
     const members = loadMembers();
@@ -219,6 +353,14 @@ function renderMembers() {
         `;
         
         paymentContainer.appendChild(paymentInfo);
+        
+        // Print Bill Button
+        const printBtn = document.createElement('button');
+        printBtn.className = 'print-bill-btn';
+        printBtn.textContent = '🖨️ Print Bill';
+        printBtn.addEventListener('click', () => printMemberBill(index));
+        paymentContainer.appendChild(printBtn);
+        
         paymentCell.appendChild(paymentContainer);
     });
 }
