@@ -72,8 +72,8 @@ const months = [
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ];
 
-// Monthly payment amount (you can change this value)
-const MONTHLY_PAYMENT = 500; // Change this to your actual monthly fee
+// Payment per shift per month
+const PAYMENT_PER_SHIFT_PER_MONTH = 500;
 
 // Load members from localStorage
 function loadMembers() {
@@ -87,10 +87,20 @@ function saveMembers(members) {
 }
 
 // Calculate total payment for a member
-function calculateTotalPayment(payments) {
-    if (!payments) return 0;
-    const paidMonths = Object.values(payments).filter(paid => paid === true).length;
-    return paidMonths * MONTHLY_PAYMENT;
+function calculateTotalPayment(payments, selectedShifts) {
+    if (!payments || !selectedShifts || selectedShifts.length === 0) return 0;
+    
+    let totalPaid = 0;
+    const shiftsCount = selectedShifts.length;
+    
+    // For each month that's checked, multiply by number of shifts
+    Object.values(payments).forEach(isPaid => {
+        if (isPaid) {
+            totalPaid += (PAYMENT_PER_SHIFT_PER_MONTH * shiftsCount);
+        }
+    });
+    
+    return totalPaid;
 }
 
 // Render all members
@@ -125,18 +135,37 @@ function renderMembers() {
         nameInput.addEventListener('change', (e) => updateMember(index, 'name', e.target.value));
         nameCell.appendChild(nameInput);
         
-        // Shift
+        // Shift - Multiple Selection with Checkboxes
         const shiftCell = row.insertCell(3);
-        const shiftSelect = document.createElement('select');
-        shifts.forEach(shift => {
-            const option = document.createElement('option');
-            option.value = shift;
-            option.textContent = shift;
-            if (shift === member.shift) option.selected = true;
-            shiftSelect.appendChild(option);
+        const shiftContainer = document.createElement('div');
+        shiftContainer.className = 'shift-container';
+        
+        // Initialize selectedShifts array if not exists
+        if (!member.selectedShifts) {
+            member.selectedShifts = [];
+        }
+        
+        shifts.forEach((shift) => {
+            const shiftLabel = document.createElement('label');
+            shiftLabel.className = 'shift-checkbox';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = shift;
+            checkbox.checked = member.selectedShifts.includes(shift);
+            checkbox.addEventListener('change', (e) => {
+                updateShiftSelection(index, shift, e.target.checked);
+            });
+            
+            const shiftText = document.createElement('span');
+            shiftText.textContent = shift;
+            
+            shiftLabel.appendChild(checkbox);
+            shiftLabel.appendChild(shiftText);
+            shiftContainer.appendChild(shiftLabel);
         });
-        shiftSelect.addEventListener('change', (e) => updateMember(index, 'shift', e.target.value));
-        shiftCell.appendChild(shiftSelect);
+        
+        shiftCell.appendChild(shiftContainer);
         
         // Payment Section with Monthly Checkboxes
         const paymentCell = row.insertCell(4);
@@ -175,14 +204,21 @@ function renderMembers() {
         
         paymentContainer.appendChild(monthsGrid);
         
-        // Total payment display
-        const totalPayment = calculateTotalPayment(member.payments);
-        const totalDiv = document.createElement('div');
-        totalDiv.className = 'total-payment';
-        totalDiv.innerHTML = `<strong>Total Paid: ₹${totalPayment}</strong>`;
-        totalDiv.id = `total-${index}`;
+        // Payment breakdown and total
+        const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+        const paidMonthsCount = member.payments ? Object.values(member.payments).filter(paid => paid === true).length : 0;
+        const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
         
-        paymentContainer.appendChild(totalDiv);
+        const paymentInfo = document.createElement('div');
+        paymentInfo.className = 'payment-info';
+        paymentInfo.id = `payment-info-${index}`;
+        paymentInfo.innerHTML = `
+            <div class="payment-detail">Shifts: ${selectedShiftsCount} × ₹500 = ₹${selectedShiftsCount * 500}/month</div>
+            <div class="payment-detail">Paid Months: ${paidMonthsCount}</div>
+            <div class="total-payment"><strong>Total Paid: ₹${totalPayment}</strong></div>
+        `;
+        
+        paymentContainer.appendChild(paymentInfo);
         paymentCell.appendChild(paymentContainer);
     });
 }
@@ -194,6 +230,29 @@ function updateMember(index, field, value) {
     saveMembers(members);
 }
 
+// Update shift selection
+function updateShiftSelection(index, shift, isSelected) {
+    const members = loadMembers();
+    if (!members[index].selectedShifts) {
+        members[index].selectedShifts = [];
+    }
+    
+    if (isSelected) {
+        // Add shift if not already in array
+        if (!members[index].selectedShifts.includes(shift)) {
+            members[index].selectedShifts.push(shift);
+        }
+    } else {
+        // Remove shift from array
+        members[index].selectedShifts = members[index].selectedShifts.filter(s => s !== shift);
+    }
+    
+    saveMembers(members);
+    
+    // Update payment info display
+    updatePaymentDisplay(index);
+}
+
 // Update payment for a specific month
 function updatePayment(index, month, isPaid) {
     const members = loadMembers();
@@ -203,11 +262,26 @@ function updatePayment(index, month, isPaid) {
     members[index].payments[month] = isPaid;
     saveMembers(members);
     
-    // Update total display
-    const totalPayment = calculateTotalPayment(members[index].payments);
-    const totalDiv = document.getElementById(`total-${index}`);
-    if (totalDiv) {
-        totalDiv.innerHTML = `<strong>Total Paid: ₹${totalPayment}</strong>`;
+    // Update payment info display
+    updatePaymentDisplay(index);
+}
+
+// Update payment display
+function updatePaymentDisplay(index) {
+    const members = loadMembers();
+    const member = members[index];
+    
+    const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+    const paidMonthsCount = member.payments ? Object.values(member.payments).filter(paid => paid === true).length : 0;
+    const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+    
+    const paymentInfoDiv = document.getElementById(`payment-info-${index}`);
+    if (paymentInfoDiv) {
+        paymentInfoDiv.innerHTML = `
+            <div class="payment-detail">Shifts: ${selectedShiftsCount} × ₹500 = ₹${selectedShiftsCount * 500}/month</div>
+            <div class="payment-detail">Paid Months: ${paidMonthsCount}</div>
+            <div class="total-payment"><strong>Total Paid: ₹${totalPayment}</strong></div>
+        `;
     }
 }
 
@@ -218,7 +292,7 @@ function addMember() {
         doj: getTodayDate(),
         mobile: '',
         name: '',
-        shift: shifts[0],
+        selectedShifts: [],
         payments: {}
     };
     members.push(newMember);
