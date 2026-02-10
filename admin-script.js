@@ -182,7 +182,7 @@ function updateSummary() {
     document.getElementById('totalAmount').textContent = totalAmount;
 }
 
-// Print bill for a member
+// Print bill for a member - SINGLE PAGE VERSION
 function printMemberBill(index) {
     const members = loadMembers(currentYear);
     const member = members[index];
@@ -197,101 +197,89 @@ function printMemberBill(index) {
     const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
     const perMonthCharge = selectedShiftsCount * PAYMENT_PER_SHIFT_PER_MONTH;
     
-    // Generate bill HTML - Only show paid months
-    const paidMonthsRows = paidMonths.length > 0 ? paidMonths.map(month => `
-        <tr>
-            <td style="padding: 10px; border: 2px solid black;">${month}</td>
-            <td style="padding: 10px; border: 2px solid black; text-align: center;">
-                <span style="color: black; font-weight: bold;">✓ PAID</span>
-            </td>
-        </tr>
-    `).join('') : `
-        <tr>
-            <td colspan="2" style="padding: 10px; border: 2px solid black; text-align: center;">
-                No payments recorded
-            </td>
-        </tr>
-    `;
+    // Generate bill HTML - COMPACT SINGLE PAGE VERSION
+    const paidMonthsList = paidMonths.length > 0 
+        ? paidMonths.join(', ') 
+        : 'No payments recorded';
     
     const billHTML = `
-        <div style="max-width: 800px; margin: 0 auto; padding: 40px; font-family: Arial, sans-serif; color: black;">
-            <div style="text-align: center; border-bottom: 3px solid black; padding-bottom: 20px; margin-bottom: 30px;">
-                <h1 style="margin: 0; font-size: 32px;">Purainiya Library</h1>
-                <h2 style="margin: 10px 0 0 0; font-size: 24px;">Member Payment Bill</h2>
-                <p style="margin: 10px 0 0 0; font-size: 16px;">Year: ${currentYear}</p>
+        <div style="max-width: 800px; margin: 0 auto; padding: 30px; font-family: Arial, sans-serif; color: black;">
+            <!-- Header -->
+            <div style="text-align: center; border-bottom: 3px solid black; padding-bottom: 15px; margin-bottom: 20px;">
+                <h1 style="margin: 0; font-size: 28px;">Purainiya Library</h1>
+                <h2 style="margin: 8px 0 0 0; font-size: 20px;">Aspirants Payment Bill</h2>
+                <p style="margin: 5px 0 0 0; font-size: 14px;">Year: ${currentYear}</p>
             </div>
             
-            <div style="margin-bottom: 30px;">
+            <!-- Member Details - Compact Table -->
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr>
+                    <td style="padding: 8px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold; width: 150px;">Name:</td>
+                    <td style="padding: 8px; border: 2px solid black;">${member.name}</td>
+                    <td style="padding: 8px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold; width: 150px;">Mobile:</td>
+                    <td style="padding: 8px; border: 2px solid black;">${member.mobile}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Date of Joining:</td>
+                    <td style="padding: 8px; border: 2px solid black;">${member.doj}</td>
+                    <td style="padding: 8px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Bill Date:</td>
+                    <td style="padding: 8px; border: 2px solid black;">${getTodayDate()}</td>
+                </tr>
+            </table>
+            
+            <!-- Shifts and Payment in Two Columns -->
+            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                <!-- Left Column: Shifts -->
+                <div style="flex: 1;">
+                    <h3 style="border-bottom: 2px solid black; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 16px;">Selected Shifts</h3>
+                    <div style="padding: 12px; border: 2px solid black; background-color: #f9f9f9; min-height: 120px;">
+                        ${member.selectedShifts && member.selectedShifts.length > 0 
+                            ? member.selectedShifts.map(shift => `<div style="padding: 3px; font-size: 13px;">• ${shift}</div>`).join('') 
+                            : '<div style="padding: 3px; font-size: 13px;">No shifts selected</div>'}
+                    </div>
+                </div>
+                
+                <!-- Right Column: Paid Months -->
+                <div style="flex: 1;">
+                    <h3 style="border-bottom: 2px solid black; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 16px;">Paid Months (${paidMonths.length})</h3>
+                    <div style="padding: 12px; border: 2px solid black; background-color: #f9f9f9; min-height: 120px; font-size: 14px; line-height: 1.6;">
+                        ${paidMonthsList}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Summary - Compact -->
+            <div style="padding: 15px; border: 3px solid black; background-color: #f5f5f5;">
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
-                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold; width: 200px;">Member Name:</td>
-                        <td style="padding: 10px; border: 2px solid black;">${member.name}</td>
+                        <td style="padding: 8px 0; border-bottom: 1px solid black;">Number of Shifts:</td>
+                        <td style="padding: 8px 0; border-bottom: 1px solid black; text-align: right; font-weight: bold;">${selectedShiftsCount}</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Mobile Number:</td>
-                        <td style="padding: 10px; border: 2px solid black;">${member.mobile}</td>
+                        <td style="padding: 8px 0; border-bottom: 1px solid black;">Rate per Shift per Month:</td>
+                        <td style="padding: 8px 0; border-bottom: 1px solid black; text-align: right; font-weight: bold;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Date of Joining:</td>
-                        <td style="padding: 10px; border: 2px solid black;">${member.doj}</td>
+                        <td style="padding: 8px 0; border-bottom: 1px solid black;">Monthly Charge:</td>
+                        <td style="padding: 8px 0; border-bottom: 1px solid black; text-align: right; font-weight: bold;">₹${perMonthCharge}</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 2px solid black; background-color: #f5f5f5; font-weight: bold;">Bill Date:</td>
-                        <td style="padding: 10px; border: 2px solid black;">${getTodayDate()}</td>
+                        <td style="padding: 8px 0; border-bottom: 2px solid black;">Months Paid:</td>
+                        <td style="padding: 8px 0; border-bottom: 2px solid black; text-align: right; font-weight: bold;">${paidMonths.length}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px 0; font-size: 18px; font-weight: bold;">TOTAL AMOUNT PAID:</td>
+                        <td style="padding: 12px 0; text-align: right;">
+                            <span style="font-size: 22px; font-weight: bold; background-color: black; color: white; padding: 5px 15px;">₹${totalPayment}</span>
+                        </td>
                     </tr>
                 </table>
             </div>
             
-            <div style="margin-bottom: 30px;">
-                <h3 style="border-bottom: 2px solid black; padding-bottom: 10px;">Selected Shifts</h3>
-                <div style="padding: 15px; border: 2px solid black; background-color: #f9f9f9;">
-                    ${member.selectedShifts && member.selectedShifts.length > 0 
-                        ? member.selectedShifts.map(shift => `<div style="padding: 5px;">• ${shift}</div>`).join('') 
-                        : '<div style="padding: 5px;">No shifts selected</div>'}
-                </div>
-            </div>
-            
-            <div style="margin-bottom: 30px;">
-                <h3 style="border-bottom: 2px solid black; padding-bottom: 10px;">Paid Months</h3>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 12px; border: 2px solid black; background-color: black; color: white; text-align: left;">Month</th>
-                            <th style="padding: 12px; border: 2px solid black; background-color: black; color: white; text-align: center;">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${paidMonthsRows}
-                    </tbody>
-                </table>
-            </div>
-            
-            <div style="margin-top: 30px; padding: 20px; border: 3px solid black; background-color: #f5f5f5;">
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
-                    <span style="font-size: 16px;">Number of Shifts:</span>
-                    <span style="font-size: 16px; font-weight: bold;">${selectedShiftsCount}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
-                    <span style="font-size: 16px;">Rate per Shift per Month:</span>
-                    <span style="font-size: 16px; font-weight: bold;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
-                    <span style="font-size: 16px;">Monthly Charge:</span>
-                    <span style="font-size: 16px; font-weight: bold;">₹${perMonthCharge}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 2px solid black;">
-                    <span style="font-size: 16px;">Months Paid:</span>
-                    <span style="font-size: 16px; font-weight: bold;">${paidMonths.length}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 15px 0; margin-top: 10px;">
-                    <span style="font-size: 20px; font-weight: bold;">TOTAL AMOUNT PAID:</span>
-                    <span style="font-size: 24px; font-weight: bold; background-color: black; color: white; padding: 5px 15px;">₹${totalPayment}</span>
-                </div>
-            </div>
-            
-            <div style="margin-top: 40px; text-align: center; padding-top: 20px; border-top: 2px solid black;">
-                <p style="margin: 5px 0;">Thank you for being a valued member!</p>
-                <p style="margin: 5px 0; font-size: 14px; color: #666;">Purainiya Library Member Management System</p>
+            <!-- Footer -->
+            <div style="margin-top: 25px; text-align: center; padding-top: 15px; border-top: 2px solid black;">
+                <p style="margin: 3px 0; font-size: 14px;">Thank you for being a valued aspirant!</p>
+                <p style="margin: 3px 0; font-size: 12px; color: #666;">Purainiya Library Aspirants Management System</p>
             </div>
         </div>
     `;
@@ -305,7 +293,8 @@ function printMemberBill(index) {
             <title>Bill - ${member.name}</title>
             <style>
                 @media print {
-                    body { margin: 0; padding: 20px; }
+                    body { margin: 0; padding: 10px; }
+                    @page { size: A4; margin: 10mm; }
                 }
                 body { background: white; }
             </style>
