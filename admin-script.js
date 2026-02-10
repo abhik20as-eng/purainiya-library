@@ -42,7 +42,50 @@ function showLoginScreen() {
 function showAdminPanel() {
     document.getElementById('loginContainer').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
+    initializeYearSelector();
     renderMembers();
+}
+
+// ===== YEAR MANAGEMENT =====
+
+let currentYear = new Date().getFullYear();
+
+// Get current year
+function getCurrentYear() {
+    return currentYear;
+}
+
+// Initialize year selector
+function initializeYearSelector() {
+    const yearSelect = document.getElementById('yearSelect');
+    const allMembers = loadAllMembers();
+    
+    // Get all unique years from existing data
+    const years = new Set();
+    years.add(new Date().getFullYear()); // Always include current year
+    
+    Object.keys(allMembers).forEach(year => {
+        years.add(parseInt(year));
+    });
+    
+    // Sort years in descending order
+    const sortedYears = Array.from(years).sort((a, b) => b - a);
+    
+    // Populate year dropdown
+    yearSelect.innerHTML = '';
+    sortedYears.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        if (year === currentYear) option.selected = true;
+        yearSelect.appendChild(option);
+    });
+    
+    // Add change event listener
+    yearSelect.addEventListener('change', (e) => {
+        currentYear = parseInt(e.target.value);
+        renderMembers();
+    });
 }
 
 // ===== MEMBER MANAGEMENT SYSTEM =====
@@ -75,15 +118,28 @@ const months = [
 // Payment per shift per month
 const PAYMENT_PER_SHIFT_PER_MONTH = 500;
 
-// Load members from localStorage
-function loadMembers() {
-    const members = localStorage.getItem('libraryMembers');
-    return members ? JSON.parse(members) : [];
+// Load all members (all years)
+function loadAllMembers() {
+    const allMembers = localStorage.getItem('libraryMembersAllYears');
+    return allMembers ? JSON.parse(allMembers) : {};
 }
 
-// Save members to localStorage
-function saveMembers(members) {
-    localStorage.setItem('libraryMembers', JSON.stringify(members));
+// Save all members (all years)
+function saveAllMembers(allMembers) {
+    localStorage.setItem('libraryMembersAllYears', JSON.stringify(allMembers));
+}
+
+// Load members for specific year
+function loadMembers(year = currentYear) {
+    const allMembers = loadAllMembers();
+    return allMembers[year] || [];
+}
+
+// Save members for specific year
+function saveMembers(members, year = currentYear) {
+    const allMembers = loadAllMembers();
+    allMembers[year] = members;
+    saveAllMembers(allMembers);
 }
 
 // Calculate total payment for a member
@@ -103,9 +159,32 @@ function calculateTotalPayment(payments, selectedShifts) {
     return totalPaid;
 }
 
+// Update summary (total students and total amount)
+function updateSummary() {
+    const members = loadMembers(currentYear);
+    const searchTerm = document.getElementById('searchInput').value.trim();
+    
+    let visibleMembers = members;
+    
+    // Filter by search if active
+    if (searchTerm) {
+        visibleMembers = members.filter(member => 
+            member.mobile && member.mobile.includes(searchTerm)
+        );
+    }
+    
+    const totalStudents = visibleMembers.length;
+    const totalAmount = visibleMembers.reduce((sum, member) => {
+        return sum + calculateTotalPayment(member.payments, member.selectedShifts);
+    }, 0);
+    
+    document.getElementById('totalStudents').textContent = totalStudents;
+    document.getElementById('totalAmount').textContent = totalAmount;
+}
+
 // Print bill for a member
 function printMemberBill(index) {
-    const members = loadMembers();
+    const members = loadMembers(currentYear);
     const member = members[index];
     
     if (!member.name || !member.mobile) {
@@ -118,12 +197,28 @@ function printMemberBill(index) {
     const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
     const perMonthCharge = selectedShiftsCount * PAYMENT_PER_SHIFT_PER_MONTH;
     
-    // Generate bill HTML
+    // Generate bill HTML - Only show paid months
+    const paidMonthsRows = paidMonths.length > 0 ? paidMonths.map(month => `
+        <tr>
+            <td style="padding: 10px; border: 2px solid black;">${month}</td>
+            <td style="padding: 10px; border: 2px solid black; text-align: center;">
+                <span style="color: black; font-weight: bold;">✓ PAID</span>
+            </td>
+        </tr>
+    `).join('') : `
+        <tr>
+            <td colspan="2" style="padding: 10px; border: 2px solid black; text-align: center;">
+                No payments recorded
+            </td>
+        </tr>
+    `;
+    
     const billHTML = `
         <div style="max-width: 800px; margin: 0 auto; padding: 40px; font-family: Arial, sans-serif; color: black;">
             <div style="text-align: center; border-bottom: 3px solid black; padding-bottom: 20px; margin-bottom: 30px;">
                 <h1 style="margin: 0; font-size: 32px;">Purainiya Library</h1>
                 <h2 style="margin: 10px 0 0 0; font-size: 24px;">Member Payment Bill</h2>
+                <p style="margin: 10px 0 0 0; font-size: 16px;">Year: ${currentYear}</p>
             </div>
             
             <div style="margin-bottom: 30px;">
@@ -157,7 +252,7 @@ function printMemberBill(index) {
             </div>
             
             <div style="margin-bottom: 30px;">
-                <h3 style="border-bottom: 2px solid black; padding-bottom: 10px;">Payment Details</h3>
+                <h3 style="border-bottom: 2px solid black; padding-bottom: 10px;">Paid Months</h3>
                 <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                     <thead>
                         <tr>
@@ -166,16 +261,7 @@ function printMemberBill(index) {
                         </tr>
                     </thead>
                     <tbody>
-                        ${months.map(month => `
-                            <tr>
-                                <td style="padding: 10px; border: 2px solid black;">${month}</td>
-                                <td style="padding: 10px; border: 2px solid black; text-align: center;">
-                                    ${member.payments && member.payments[month] 
-                                        ? '<span style="color: black; font-weight: bold;">✓ PAID</span>' 
-                                        : '<span style="color: #999;">Not Paid</span>'}
-                                </td>
-                            </tr>
-                        `).join('')}
+                        ${paidMonthsRows}
                     </tbody>
                 </table>
             </div>
@@ -239,7 +325,7 @@ function printMemberBill(index) {
 
 // Render all members
 function renderMembers() {
-    const members = loadMembers();
+    const members = loadMembers(currentYear);
     const tbody = document.getElementById('memberTableBody');
     tbody.innerHTML = '';
 
@@ -363,18 +449,39 @@ function renderMembers() {
         
         paymentCell.appendChild(paymentContainer);
     });
+    
+    updateSummary();
+}
+
+// Search functionality
+function performSearch() {
+    const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+    const rows = document.querySelectorAll('#memberTableBody tr');
+    
+    rows.forEach(row => {
+        const mobileInput = row.querySelector('input[type="tel"]');
+        const mobile = mobileInput ? mobileInput.value.toLowerCase() : '';
+        
+        if (searchTerm === '' || mobile.includes(searchTerm)) {
+            row.classList.remove('hidden');
+        } else {
+            row.classList.add('hidden');
+        }
+    });
+    
+    updateSummary();
 }
 
 // Update member data
 function updateMember(index, field, value) {
-    const members = loadMembers();
+    const members = loadMembers(currentYear);
     members[index][field] = value;
-    saveMembers(members);
+    saveMembers(members, currentYear);
 }
 
 // Update shift selection
 function updateShiftSelection(index, shift, isSelected) {
-    const members = loadMembers();
+    const members = loadMembers(currentYear);
     if (!members[index].selectedShifts) {
         members[index].selectedShifts = [];
     }
@@ -389,7 +496,7 @@ function updateShiftSelection(index, shift, isSelected) {
         members[index].selectedShifts = members[index].selectedShifts.filter(s => s !== shift);
     }
     
-    saveMembers(members);
+    saveMembers(members, currentYear);
     
     // Update payment info display
     updatePaymentDisplay(index);
@@ -397,12 +504,12 @@ function updateShiftSelection(index, shift, isSelected) {
 
 // Update payment for a specific month
 function updatePayment(index, month, isPaid) {
-    const members = loadMembers();
+    const members = loadMembers(currentYear);
     if (!members[index].payments) {
         members[index].payments = {};
     }
     members[index].payments[month] = isPaid;
-    saveMembers(members);
+    saveMembers(members, currentYear);
     
     // Update payment info display
     updatePaymentDisplay(index);
@@ -410,7 +517,7 @@ function updatePayment(index, month, isPaid) {
 
 // Update payment display
 function updatePaymentDisplay(index) {
-    const members = loadMembers();
+    const members = loadMembers(currentYear);
     const member = members[index];
     
     const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
@@ -425,11 +532,13 @@ function updatePaymentDisplay(index) {
             <div class="total-payment"><strong>Total Paid: ₹${totalPayment}</strong></div>
         `;
     }
+    
+    updateSummary();
 }
 
 // Add new member
 function addMember() {
-    const members = loadMembers();
+    const members = loadMembers(currentYear);
     const newMember = {
         doj: getTodayDate(),
         mobile: '',
@@ -438,7 +547,7 @@ function addMember() {
         payments: {}
     };
     members.push(newMember);
-    saveMembers(members);
+    saveMembers(members, currentYear);
     renderMembers();
 }
 
@@ -510,4 +619,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add Member Button
     document.getElementById('addMemberBtn').addEventListener('click', addMember);
+    
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', performSearch);
+    document.getElementById('clearSearch').addEventListener('click', () => {
+        document.getElementById('searchInput').value = '';
+        performSearch();
+    });
 });

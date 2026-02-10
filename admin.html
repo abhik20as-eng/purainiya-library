@@ -62,7 +62,20 @@
             <button class="logout-btn" id="logoutBtn">Logout</button>
         </div>
         
-        <button class="add-btn" id="addMemberBtn">+</button>
+        <!-- Search Bar -->
+        <div class="search-section">
+            <input type="tel" id="searchInput" placeholder="🔍 Search by Mobile Number..." class="search-input">
+            <button id="clearSearch" class="clear-search-btn">Clear</button>
+        </div>
+        
+        <!-- Year Selection and Add Button -->
+        <div class="controls-section">
+            <div class="year-control">
+                <label for="yearSelect">Year:</label>
+                <select id="yearSelect" class="year-select"></select>
+            </div>
+            <button class="add-btn" id="addMemberBtn">+</button>
+        </div>
         
         <table id="memberTable">
             <thead>
@@ -77,14 +90,18 @@
             <tbody id="memberTableBody">
                 <!-- Members will be added here -->
             </tbody>
+            <tfoot>
+                <tr class="summary-row">
+                    <td colspan="4" class="summary-label">
+                        <strong>Total Students: <span id="totalStudents">0</span></strong>
+                    </td>
+                    <td class="summary-amount">
+                        <strong>Total Amount: ₹<span id="totalAmount">0</span></strong>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
-    </div><!-- Print Bill Template (Hidden) -->
-    <div id="printBillArea" style="display: none;">
-        <div id="billContent"></div>
     </div>
-
-    <script src="admin-script.js"></script>
-</body>
 
     <script src="admin-script.js"></script>
 </body>
