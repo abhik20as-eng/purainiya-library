@@ -10,11 +10,11 @@
             --primary: #1e40af;
             --primary-dark: #1e3a8a;
             --primary-light: #3b82f6;
-            --accent: #f59e0b;
-            --accent-dark: #d97706;
+            --accent: #fbbf24;
+            --accent-dark: #fbbf24;
             --success: #10b981;
             --danger: #ef4444;
-            --bg-main: #f1f5f9;
+            --bg-main: #fef3c7;
             --bg-card: #ffffff;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
@@ -33,7 +33,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--bg-main);
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
@@ -46,7 +46,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             position: relative;
             overflow: hidden;
         }
@@ -97,7 +97,7 @@
             font-family: 'Playfair Display', serif;
             font-size: 36px;
             font-weight: 700;
-            color: var(--primary);
+            color: #f59e0b;
             margin-bottom: 8px;
         }
 
@@ -132,15 +132,15 @@
 
         .input-group input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #fbbf24;
             background-color: white;
-            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
         }
 
         .login-btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: white;
             border: none;
             border-radius: 12px;
@@ -168,6 +168,15 @@
             font-size: 14px;
             min-height: 20px;
             font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .error-message.success {
+            color: var(--success);
+        }
+
+        .error-message.info {
+            color: #fbbf24;
         }
 
         .first-time-setup {
@@ -181,7 +190,7 @@
             text-align: center;
             margin-bottom: 10px;
             font-size: 24px;
-            color: var(--primary);
+            color: #f59e0b;
         }
 
         .first-time-setup p {
@@ -189,6 +198,30 @@
             margin-bottom: 24px;
             font-size: 14px;
             color: var(--text-secondary);
+        }
+
+        /* Loading Indicator */
+        .loading-indicator {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(251, 191, 36, 0.3);
+            border-radius: 50%;
+            border-top-color: #fbbf24;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Admin Panel */
@@ -205,7 +238,7 @@
         }
 
         .header-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             padding: 40px 50px;
             border-radius: 24px;
             margin-bottom: 30px;
@@ -236,12 +269,13 @@
         }
 
         .year-badge {
-            background: rgba(255,255,255,0.2);
+            background: rgba(251, 191, 36, 0.3);
             padding: 12px 24px;
             border-radius: 12px;
             font-size: 18px;
             font-weight: 600;
             backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .btn {
@@ -259,12 +293,12 @@
 
         .btn-white {
             background: white;
-            color: var(--primary);
+            color: #f59e0b;
             box-shadow: var(--shadow-sm);
         }
 
         .btn-white:hover {
-            background: var(--bg-main);
+            background: #fffbeb;
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
@@ -294,7 +328,7 @@
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: white;
             box-shadow: var(--shadow-sm);
         }
@@ -332,7 +366,7 @@
         .registration-header h2 {
             font-family: 'Playfair Display', serif;
             font-size: 32px;
-            color: var(--primary);
+            color: #fbbf24;
             margin-bottom: 10px;
         }
 
@@ -375,9 +409,9 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #fbbf24;
             background: white;
-            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
         }
 
         .form-group input:disabled {
@@ -438,7 +472,7 @@
         .members-header h2 {
             font-family: 'Playfair Display', serif;
             font-size: 28px;
-            color: var(--primary);
+            color: #fbbf24;
         }
 
         .search-box {
@@ -458,9 +492,9 @@
 
         .search-box input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #fbbf24;
             background: white;
-            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
         }
 
         .search-box::before {
@@ -488,7 +522,7 @@
         }
 
         .member-card:hover {
-            border-color: var(--primary);
+            border-color: #fbbf24;
             box-shadow: var(--shadow-md);
             transform: translateY(-3px);
         }
@@ -503,7 +537,7 @@
         .member-name {
             font-size: 20px;
             font-weight: 700;
-            color: var(--primary);
+            color: #fbbf24;
             margin-bottom: 5px;
         }
 
@@ -530,8 +564,8 @@
         }
 
         .member-badge.due {
-            background: #fef3c7;
-            color: #fbbf24;
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .member-info {
@@ -574,56 +608,6 @@
             font-weight: 500;
         }
 
-        /* Total Registration Counter */
-        .total-registration-box {
-            margin-top: 40px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp 0.5s ease;
-        }
-
-        .registration-counter {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-        }
-
-        .counter-icon {
-            font-size: 80px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .counter-content {
-            text-align: center;
-            color: white;
-        }
-
-        .counter-label {
-            font-size: 16px;
-            font-weight: 600;
-            opacity: 0.95;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .counter-value {
-            font-size: 72px;
-            font-weight: 700;
-            font-family: 'Playfair Display', serif;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            line-height: 1;
-        }
-
         /* Billing Section */
         .billing-section {
             background: var(--bg-card);
@@ -642,7 +626,7 @@
         .billing-header h2 {
             font-family: 'Playfair Display', serif;
             font-size: 28px;
-            color: var(--primary);
+            color: #fbbf24;
         }
 
         .member-selector {
@@ -666,7 +650,7 @@
 
         .member-selector select:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #fbbf24;
             background: white;
         }
 
@@ -685,7 +669,7 @@
         .billing-card h3 {
             font-size: 18px;
             font-weight: 600;
-            color: var(--primary);
+            color: #fbbf24;
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 2px solid var(--border);
@@ -710,7 +694,7 @@
         }
 
         .shift-option:hover {
-            border-color: var(--primary);
+            border-color: #fbbf24;
             background: var(--bg-main);
         }
 
@@ -718,7 +702,7 @@
             width: 22px;
             height: 22px;
             cursor: pointer;
-            accent-color: var(--primary);
+            accent-color: #fbbf24;
         }
 
         .shift-option label {
@@ -762,7 +746,7 @@
 
         .payment-date-section input[type="date"]:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #fbbf24;
             background: white;
         }
 
@@ -799,7 +783,7 @@
         }
 
         .summary-value.unpaid {
-            color: #fbbf24;
+            color: var(--danger);
         }
 
         .summary-value.paid {
@@ -868,12 +852,14 @@
         .history-header h2 {
             font-family: 'Playfair Display', serif;
             font-size: 28px;
-            color: var(--primary);
+            color: #fbbf24;
         }
 
         .history-filters {
             display: flex;
             gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .filter-select {
@@ -890,7 +876,7 @@
 
         .filter-select:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #fbbf24;
             background: white;
         }
 
@@ -910,7 +896,7 @@
         }
 
         .history-item:hover {
-            border-color: var(--primary);
+            border-color: #fbbf24;
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
         }
@@ -925,7 +911,7 @@
         .history-item-name {
             font-size: 22px;
             font-weight: 700;
-            color: var(--primary);
+            color: #fbbf24;
         }
 
         .history-item-amount {
@@ -956,6 +942,63 @@
             font-weight: 600;
             color: var(--text-primary);
             font-size: 15px;
+        }
+
+        /* Total Collection Box */
+        .total-collection-box {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            color: white;
+            animation: slideUp 0.5s ease;
+        }
+
+        .total-collection-label {
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.95;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .total-collection-amount {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .total-collection-details {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .collection-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .collection-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .collection-stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Responsive */
@@ -1000,6 +1043,25 @@
                 padding: 12px 16px;
             }
         }
+
+        /* Print Styles for Single Page Bill */
+        @media print {
+            body { 
+                margin: 0; 
+                padding: 0;
+                background: white;
+            }
+            
+            @page { 
+                size: A4; 
+                margin: 10mm;
+            }
+            
+            .print-bill-container {
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1009,6 +1071,7 @@
             <div class="login-logo">
                 <h2>Purainiya Library</h2>
                 <p>Professional Management System</p>
+                <p style="font-size: 12px; margin-top: 8px; color: #fbbf24;">🔥 Powered by Firebase</p>
             </div>
             
             <form id="loginForm">
@@ -1025,6 +1088,11 @@
                 <button type="submit" class="login-btn">Login</button>
                 <p class="error-message" id="errorMessage"></p>
             </form>
+            
+            <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                <div class="loading-spinner"></div>
+                Checking credentials...
+            </div>
             
             <div class="first-time-setup" id="firstTimeSetup" style="display: none;">
                 <h3>First Time Setup</h3>
@@ -1110,24 +1178,13 @@
             <!-- Members List -->
             <div class="members-section" style="margin-top: 40px;">
                 <div class="members-header">
-                    <h2>Recent Registrations</h2>
+                    <h2>Registered Members</h2>
                     <div class="search-box">
                         <input type="tel" id="memberSearch" placeholder="Search by mobile number...">
                     </div>
                 </div>
                 <div class="members-grid" id="membersGrid">
                     <!-- Members will be added here -->
-                </div>
-                
-                <!-- Total Registration Counter -->
-                <div class="total-registration-box">
-                    <div class="registration-counter">
-                        <div class="counter-icon">👥</div>
-                        <div class="counter-content">
-                            <div class="counter-label">Total Registered Students</div>
-                            <div class="counter-value" id="totalRegistrations">0</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1192,6 +1249,9 @@
                 <div class="history-header">
                     <h2>Billing History</h2>
                     <div class="history-filters">
+                        <select class="filter-select" id="historyMonthFilter">
+                            <option value="">All Months</option>
+                        </select>
                         <select class="filter-select" id="historyStatusFilter">
                             <option value="">All Status</option>
                             <option value="paid">Fully Paid</option>
@@ -1205,34 +1265,252 @@
                 <div class="history-list" id="historyList">
                     <!-- History items will be added here -->
                 </div>
+                
+                <!-- Total Collection Box -->
+                <div class="total-collection-box" id="totalCollectionBox">
+                    <div class="total-collection-label">Total Collection</div>
+                    <div class="total-collection-amount" id="totalCollectionAmount">₹0</div>
+                    <div class="total-collection-details">
+                        <div class="collection-stat">
+                            <div class="collection-stat-value" id="totalMembers">0</div>
+                            <div class="collection-stat-label">Members</div>
+                        </div>
+                        <div class="collection-stat">
+                            <div class="collection-stat-value" id="totalPaidMembers">0</div>
+                            <div class="collection-stat-label">Fully Paid</div>
+                        </div>
+                        <div class="collection-stat">
+                            <div class="collection-stat-value" id="totalDueAmount">₹0</div>
+                            <div class="collection-stat-label">Total Due</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script type="module">
+        console.log("🔄 Starting Firebase module initialization...");
+        
+        try {
+            // Import Firebase SDKs
+            console.log("📦 Importing Firebase SDKs...");
+            const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js");
+            const { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js");
+            
+            console.log("✅ Firebase SDKs imported successfully");
+
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
+                authDomain: "purainiya-library.firebaseapp.com",
+                projectId: "purainiya-library",
+                storageBucket: "purainiya-library.firebasestorage.app",
+                messagingSenderId: "885731486344",
+                appId: "1:885731486344:web:01d234421bd5678831cd3d"
+            };
+
+            console.log("🔧 Initializing Firebase app...");
+            const app = initializeApp(firebaseConfig);
+            
+            console.log("🔧 Getting Firestore instance...");
+            const db = getFirestore(app);
+
+            // Make Firebase available globally
+            window.firebaseDB = db;
+            window.firebaseDoc = doc;
+            window.firebaseSetDoc = setDoc;
+            window.firebaseGetDoc = getDoc;
+            window.firebaseGetDocs = getDocs;
+            window.firebaseCollection = collection;
+            window.firebaseQuery = query;
+            window.firebaseWhere = where;
+            window.firebaseUpdateDoc = updateDoc;
+            window.firebaseDeleteDoc = deleteDoc;
+            window.firebaseInitialized = true;
+            window.firebaseError = null;
+
+            console.log("✅ Firebase initialized successfully!");
+            console.log("📊 Database instance:", db);
+            
+            // Dispatch event to notify that Firebase is ready
+            window.dispatchEvent(new Event('firebaseReady'));
+            console.log("📢 Firebase ready event dispatched");
+        } catch (error) {
+            console.error("❌ Firebase initialization error:", error);
+            console.error("Error details:", error.message, error.stack);
+            window.firebaseInitialized = false;
+            window.firebaseError = error.message;
+            
+            // Dispatch error event
+            window.dispatchEvent(new CustomEvent('firebaseError', { detail: error.message }));
+            console.log("📢 Firebase error event dispatched");
+        }
+    </script>
+
     <script>
+        // ===== FIREBASE HELPER FUNCTIONS =====
+        function checkFirebaseReady() {
+            if (!window.firebaseInitialized) {
+                console.warn("⚠️ Firebase not initialized yet");
+                throw new Error('Firebase not initialized. Please wait or refresh the page.');
+            }
+            if (!window.firebaseDB) {
+                console.warn("⚠️ Firebase database not available");
+                throw new Error('Firebase database not available. Please check your connection.');
+            }
+            console.log("✅ Firebase ready check passed");
+        }
+
+        async function saveAdminToFirebase(username, password) {
+            try {
+                checkFirebaseReady();
+                const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
+                await window.firebaseSetDoc(adminDoc, {
+                    username: username,
+                    password: btoa(password),
+                    createdAt: new Date().toISOString()
+                });
+                console.log("✅ Admin saved to Firebase successfully");
+                return true;
+            } catch (error) {
+                console.error("❌ Error saving admin to Firebase:", error);
+                return false;
+            }
+        }
+
+        async function loadAdminFromFirebase() {
+            try {
+                checkFirebaseReady();
+                console.log("🔍 Attempting to read from Firestore...");
+                const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
+                console.log("📄 Admin document reference created");
+                
+                const docSnap = await window.firebaseGetDoc(adminDoc);
+                console.log("✅ Firestore read successful");
+                
+                if (docSnap.exists()) {
+                    console.log("✅ Admin document exists in Firestore");
+                    return docSnap.data();
+                }
+                console.log("ℹ️ No admin document found in Firestore (this is normal for first-time setup)");
+                return null;
+            } catch (error) {
+                console.error("❌ Error loading admin from Firebase:", error);
+                console.error("Error code:", error.code);
+                console.error("Error message:", error.message);
+                
+                // Check for specific Firestore errors
+                if (error.code === 'permission-denied') {
+                    throw new Error('Firestore security rules are blocking access. Please update your rules.');
+                } else if (error.code === 'unavailable') {
+                    throw new Error('Firestore is not available. Please check if Firestore is enabled in Firebase Console.');
+                }
+                
+                return null;
+            }
+        }
+
+        async function saveMemberToFirebase(member, year) {
+            try {
+                checkFirebaseReady();
+                const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, member.mobile);
+                await window.firebaseSetDoc(memberDoc, {
+                    ...member,
+                    updatedAt: new Date().toISOString()
+                });
+                return true;
+            } catch (error) {
+                console.error("❌ Error saving member to Firebase:", error);
+                return false;
+            }
+        }
+
+        async function loadMembersFromFirebase(year) {
+            try {
+                checkFirebaseReady();
+                const membersCol = window.firebaseCollection(window.firebaseDB, `members_${year}`);
+                const snapshot = await window.firebaseGetDocs(membersCol);
+                const members = [];
+                snapshot.forEach(doc => {
+                    members.push(doc.data());
+                });
+                console.log(`✅ Loaded ${members.length} members from Firebase`);
+                return members;
+            } catch (error) {
+                console.error("❌ Error loading members from Firebase:", error);
+                return [];
+            }
+        }
+
+        async function deleteMemberFromFirebase(mobile, year) {
+            try {
+                checkFirebaseReady();
+                const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, mobile);
+                await window.firebaseDeleteDoc(memberDoc);
+                return true;
+            } catch (error) {
+                console.error("❌ Error deleting member from Firebase:", error);
+                return false;
+            }
+        }
+
         // ===== AUTHENTICATION =====
-        function checkAdminExists() {
-            return localStorage.getItem('adminCredentials') !== null;
+        async function checkAdminExists() {
+            try {
+                console.log("🔍 Checking if admin exists in Firestore...");
+                const firebaseAdmin = await loadAdminFromFirebase();
+                const exists = firebaseAdmin !== null;
+                console.log(`Admin exists: ${exists}`);
+                return exists;
+            } catch (error) {
+                console.error("❌ Error checking admin:", error);
+                // Re-throw the error so it can be caught by the caller
+                throw error;
+            }
         }
 
-        function createAdmin(username, password) {
-            const credentials = { username, password: btoa(password) };
-            localStorage.setItem('adminCredentials', JSON.stringify(credentials));
+        async function createAdmin(username, password) {
+            try {
+                await saveAdminToFirebase(username, password);
+                return true;
+            } catch (error) {
+                console.error("Error creating admin:", error);
+                return false;
+            }
         }
 
-        function verifyLogin(username, password) {
-            const stored = localStorage.getItem('adminCredentials');
-            if (!stored) return false;
-            const credentials = JSON.parse(stored);
-            return credentials.username === username && credentials.password === btoa(password);
+        async function verifyLogin(username, password) {
+            try {
+                const firebaseAdmin = await loadAdminFromFirebase();
+                
+                console.log("Firebase Admin Data:", firebaseAdmin);
+                console.log("Input Username:", username);
+                console.log("Input Password (encoded):", btoa(password));
+                console.log("Stored Password:", firebaseAdmin ? firebaseAdmin.password : 'N/A');
+                
+                if (firebaseAdmin && 
+                    firebaseAdmin.username === username && 
+                    firebaseAdmin.password === btoa(password)) {
+                    console.log("Login successful!");
+                    return true;
+                }
+                
+                console.log("Login failed - credentials don't match");
+                return false;
+            } catch (error) {
+                console.error("Error verifying login:", error);
+                return false;
+            }
         }
 
         function isLoggedIn() {
-            return localStorage.getItem('isLoggedIn') === 'true';
+            return sessionStorage.getItem('isLoggedIn') === 'true';
         }
 
         function setLoggedIn(status) {
-            localStorage.setItem('isLoggedIn', status);
+            sessionStorage.setItem('isLoggedIn', status);
         }
 
         function showLoginScreen() {
@@ -1276,16 +1554,28 @@
             return `${parts[2]}/${parts[1]}/${parts[0]}`;
         }
 
-        function loadMembers() {
-            const allMembers = localStorage.getItem('libraryMembersAllYears');
-            const data = allMembers ? JSON.parse(allMembers) : {};
-            return data[currentYear] || [];
+        async function loadMembers() {
+            try {
+                // Load from Firebase
+                const firebaseMembers = await loadMembersFromFirebase(currentYear);
+                return firebaseMembers;
+            } catch (error) {
+                console.error("Error loading members:", error);
+                return [];
+            }
         }
 
-        function saveMembers(members) {
-            const allMembers = JSON.parse(localStorage.getItem('libraryMembersAllYears') || '{}');
-            allMembers[currentYear] = members;
-            localStorage.setItem('libraryMembersAllYears', JSON.stringify(allMembers));
+        async function saveMembers(members) {
+            try {
+                // Save to Firebase only
+                for (const member of members) {
+                    await saveMemberToFirebase(member, currentYear);
+                }
+                return true;
+            } catch (error) {
+                console.error("Error saving members:", error);
+                return false;
+            }
         }
 
         function parseDate(dateStr) {
@@ -1298,6 +1588,37 @@
             const end = parseDate(endDate);
             const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
             return Math.max(0, months);
+        }
+
+        function populateMonthFilter() {
+            const select = document.getElementById('historyMonthFilter');
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = new Date().getFullYear();
+            
+            let options = '<option value="">All Months</option>';
+            
+            // Generate last 12 months
+            for (let i = 0; i < 12; i++) {
+                const monthIndex = (currentMonth - i + 12) % 12;
+                const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
+                const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+                options += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
+            }
+            
+            select.innerHTML = options;
+        }
+
+        function getPaymentMonthYear(member) {
+            // Get the month/year when payment was last recorded
+            if (!member.paymentUntilDate) return null;
+            const date = parseDate(member.paymentUntilDate);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
         }
 
         function calculatePaymentDetails(member) {
@@ -1333,13 +1654,14 @@
         }
 
         // ===== INITIALIZATION =====
-        function initializeApp() {
+        async function initializeApp() {
             document.getElementById('yearDisplay').textContent = currentYear;
             document.getElementById('regDate').value = getTodayDate();
-            renderMembers();
-            populateBillingMemberSelect();
+            populateMonthFilter();
+            await renderMembers();
+            await populateBillingMemberSelect();
             renderShiftSelection();
-            renderHistory();
+            await renderHistory();
         }
 
         // ===== REGISTRATION =====
@@ -1348,25 +1670,11 @@
             const grid = document.getElementById('membersGrid');
             const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
             
-            // Update total registrations count
-            document.getElementById('totalRegistrations').textContent = members.length;
-            
             const filtered = members.filter(m => 
                 !searchTerm || m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm)
             );
 
-            // Sort by date of joining (most recent first) and limit to 10 if no search
-            let displayMembers = filtered;
-            if (!searchTerm) {
-                // Sort by joining date (newest first)
-                displayMembers = filtered.sort((a, b) => {
-                    const dateA = parseDate(a.doj);
-                    const dateB = parseDate(b.doj);
-                    return dateB - dateA;
-                }).slice(0, 10); // Show only 10 most recent
-            }
-
-            if (displayMembers.length === 0) {
+            if (filtered.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state" style="grid-column: 1/-1;">
                         <div class="empty-state-icon">👥</div>
@@ -1376,25 +1684,10 @@
                 return;
             }
 
-            grid.innerHTML = displayMembers.map(member => {
+            grid.innerHTML = filtered.map(member => {
                 const details = calculatePaymentDetails(member);
-                
-                // Determine status: Registered (no billing), Unpaid (has billing but not paid), Paid (all clear)
-                let status, statusText;
-                
-                if (!member.selectedShifts || member.selectedShifts.length === 0) {
-                    // No shifts selected = just registered
-                    status = 'registered';
-                    statusText = 'Registered';
-                } else if (details.isPaid) {
-                    // Has shifts and fully paid
-                    status = 'active';
-                    statusText = 'Paid';
-                } else {
-                    // Has shifts but not paid
-                    status = 'due';
-                    statusText = 'Unpaid';
-                }
+                const status = details.isPaid ? 'active' : (details.totalDue > 0 ? 'due' : 'registered');
+                const statusText = details.isPaid ? 'All Paid' : (details.totalDue > 0 ? 'Has Due' : 'Registered');
 
                 return `
                     <div class="member-card" onclick="selectMemberForBilling('${member.mobile}')">
@@ -1414,12 +1707,10 @@
                                 <span class="member-info-label">Shifts:</span>
                                 <span class="member-info-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
                             </div>
-                            ${(member.selectedShifts && member.selectedShifts.length > 0) ? `
                             <div class="member-info-row">
                                 <span class="member-info-label">Balance:</span>
-                                <span class="member-info-value" style="color: ${details.unpaidAmount > 0 ? '#fbbf24' : '#10b981'}">₹${details.unpaidAmount}</span>
+                                <span class="member-info-value" style="color: ${details.unpaidAmount > 0 ? 'var(--danger)' : 'var(--success)'}">₹${details.unpaidAmount}</span>
                             </div>
-                            ` : ''}
                         </div>
                     </div>
                 `;
@@ -1433,8 +1724,8 @@
         }
 
         // ===== BILLING =====
-        function populateBillingMemberSelect() {
-            const members = loadMembers();
+        async function populateBillingMemberSelect() {
+            const members = await loadMembers();
             const select = document.getElementById('billingMemberSelect');
             select.innerHTML = '<option value="">-- Choose a member --</option>' +
                 members.map(m => `<option value="${m.mobile}">${m.name} (${m.mobile})</option>`).join('');
@@ -1452,7 +1743,7 @@
 
         let currentBillingMember = null;
 
-        function loadBillingForMember() {
+        async function loadBillingForMember() {
             const mobile = document.getElementById('billingMemberSelect').value;
             if (!mobile) {
                 document.getElementById('billingContent').style.display = 'none';
@@ -1460,7 +1751,7 @@
                 return;
             }
 
-            const members = loadMembers();
+            const members = await loadMembers();
             currentBillingMember = members.find(m => m.mobile === mobile);
             
             if (!currentBillingMember) return;
@@ -1485,7 +1776,7 @@
             updatePaymentSummary();
         }
 
-        function updatePaymentSummary() {
+        async function updatePaymentSummary() {
             if (!currentBillingMember) return;
 
             // Get selected shifts
@@ -1497,6 +1788,14 @@
             });
 
             currentBillingMember.selectedShifts = selectedShifts;
+
+            // Save to Firebase and localStorage immediately when shifts are updated
+            const members = await loadMembers();
+            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
+            if (index !== -1) {
+                members[index] = currentBillingMember;
+                await saveMembers(members);
+            }
 
             const details = calculatePaymentDetails(currentBillingMember);
             const summary = document.getElementById('paymentSummary');
@@ -1515,7 +1814,11 @@
                     <span class="summary-value">${selectedShifts.length}</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Per Month:</span>
+                    <span class="summary-label">Per Shift/Month:</span>
+                    <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Monthly Total:</span>
                     <span class="summary-value">₹${details.perMonthCharge}</span>
                 </div>
                 <div class="summary-row">
@@ -1531,9 +1834,12 @@
                     <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
                 </div>
             `;
+
+            // Update members grid to reflect changes
+            await renderMembers();
         }
 
-        function saveBilling() {
+        async function saveBilling() {
             if (!currentBillingMember) return;
 
             const selectedShifts = [];
@@ -1552,17 +1858,17 @@
             const details = calculatePaymentDetails(currentBillingMember);
             currentBillingMember.totalPaid = details.totalDue;
 
-            const members = loadMembers();
+            const members = await loadMembers();
             const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
             if (index !== -1) {
                 members[index] = currentBillingMember;
-                saveMembers(members);
+                await saveMembers(members);
             }
 
             alert('✓ Billing saved and marked as paid!');
             updatePaymentSummary();
-            renderMembers();
-            renderHistory();
+            await renderMembers();
+            await renderHistory();
         }
 
         function printBill() {
@@ -1571,89 +1877,89 @@
             const details = calculatePaymentDetails(currentBillingMember);
             
             const billHTML = `
-                <div style="max-width: 900px; margin: 0 auto; padding: 60px; font-family: 'Poppins', sans-serif; color: #1e293b;">
-                    <div style="text-align: center; border-bottom: 4px solid #1e40af; padding-bottom: 30px; margin-bottom: 40px;">
-                        <h1 style="margin: 0; font-size: 48px; font-family: 'Playfair Display', serif; color: #1e40af;">Purainiya Library</h1>
-                        <h2 style="margin: 15px 0 0 0; font-size: 26px; color: #64748b; font-weight: 600;">Payment Receipt</h2>
-                        <p style="margin: 12px 0 0 0; font-size: 16px; color: #94a3b8;">Year: ${currentYear} | Date: ${getTodayDate()}</p>
+                <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Poppins', sans-serif; color: #1e293b;">
+                    <div style="text-align: center; border-bottom: 3px solid #fbbf24; padding-bottom: 15px; margin-bottom: 18px;">
+                        <h1 style="margin: 0; font-size: 32px; font-family: 'Playfair Display', serif; color: #fbbf24;">Purainiya Library</h1>
+                        <h2 style="margin: 8px 0 0 0; font-size: 18px; color: #64748b; font-weight: 600;">Payment Receipt</h2>
+                        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;">Year: ${currentYear} | Date: ${getTodayDate()}</p>
                     </div>
                     
-                    <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 30px; border-radius: 16px; margin-bottom: 35px; border: 3px solid #1e40af;">
+                    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #fbbf24;">
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
-                                <td style="padding: 14px; font-weight: 700; color: #1e293b; width: 35%;">Name:</td>
-                                <td style="padding: 14px; color: #334155; font-size: 18px;">${currentBillingMember.name}</td>
+                                <td style="padding: 6px; font-weight: 700; color: #1e293b; width: 35%; font-size: 14px;">Name:</td>
+                                <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.name}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 14px; font-weight: 700; color: #1e293b;">Mobile:</td>
-                                <td style="padding: 14px; color: #334155; font-size: 18px;">${currentBillingMember.mobile}</td>
+                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Mobile:</td>
+                                <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.mobile}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 14px; font-weight: 700; color: #1e293b;">Joining Date:</td>
-                                <td style="padding: 14px; color: #334155; font-size: 18px;">${currentBillingMember.doj}</td>
+                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Joining Date:</td>
+                                <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.doj}</td>
                             </tr>
                         </table>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 35px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                         <div>
-                            <h3 style="border-bottom: 3px solid #1e40af; padding-bottom: 14px; margin: 0 0 20px 0; font-size: 20px; color: #1e40af;">Selected Shifts</h3>
-                            <div style="background: #f8fafc; padding: 24px; border-radius: 14px; min-height: 180px; border: 2px solid #e2e8f0;">
+                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24;">Selected Shifts</h3>
+                            <div style="background: #fffbeb; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a;">
                                 ${currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.length > 0 
-                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 8px 0; font-size: 16px; color: #475569;">• ${shift}</div>`).join('') 
-                                    : '<div style="padding: 8px 0; font-size: 16px; color: #94a3b8;">No shifts selected</div>'}
+                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 3px 0; font-size: 12px; color: #475569;">• ${shift}</div>`).join('') 
+                                    : '<div style="padding: 3px 0; font-size: 12px; color: #94a3b8;">No shifts selected</div>'}
                             </div>
                         </div>
                         
                         <div>
-                            <h3 style="border-bottom: 3px solid #1e40af; padding-bottom: 14px; margin: 0 0 20px 0; font-size: 20px; color: #1e40af;">Payment Period</h3>
-                            <div style="background: #f8fafc; padding: 24px; border-radius: 14px; min-height: 180px; border: 2px solid #e2e8f0;">
-                                <div style="padding: 8px 0; font-size: 16px; color: #475569;"><strong>From:</strong> ${details.startDate}</div>
-                                <div style="padding: 8px 0; font-size: 16px; color: #475569;"><strong>To:</strong> ${details.endDate}</div>
-                                <div style="padding: 8px 0; font-size: 16px; color: #475569;"><strong>Total Months:</strong> ${details.totalMonths}</div>
+                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24;">Payment Period</h3>
+                            <div style="background: #fffbeb; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a;">
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>From:</strong> ${details.startDate}</div>
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>To:</strong> ${details.endDate}</div>
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>Total Months:</strong> ${details.totalMonths}</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div style="padding: 35px; border: 3px solid #1e40af; background: #f0f9ff; border-radius: 16px;">
-                        <h3 style="margin: 0 0 25px 0; font-size: 22px; color: #1e40af; text-align: center;">Payment Summary</h3>
+                    <div style="padding: 15px; border: 2px solid #fbbf24; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 10px;">
+                        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #fbbf24; text-align: center;">Payment Summary</h3>
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #bfdbfe; color: #64748b;">Number of Shifts:</td>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #bfdbfe; text-align: right; font-weight: 600; color: #1e293b;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Number of Shifts:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #bfdbfe; color: #64748b;">Rate per Shift per Month:</td>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #bfdbfe; text-align: right; font-weight: 600; color: #1e293b;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Rate per Shift/Month:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #bfdbfe; color: #64748b;">Monthly Charge:</td>
-                                <td style="padding: 14px 0; border-bottom: 1px solid #bfdbfe; text-align: right; font-weight: 600; color: #1e293b;">₹${details.perMonthCharge}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Monthly Total (${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0} × ₹${PAYMENT_PER_SHIFT_PER_MONTH}):</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${details.perMonthCharge}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 14px 0; border-bottom: 2px solid #1e40af; color: #64748b;">Total Months:</td>
-                                <td style="padding: 14px 0; border-bottom: 2px solid #1e40af; text-align: right; font-weight: 600; color: #1e293b;">${details.totalMonths}</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; color: #64748b; font-size: 12px;">Total Months:</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${details.totalMonths}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 14px 0; border-bottom: 2px solid #1e40af; color: #64748b; font-size: 17px; font-weight: 600;">Total Due Amount:</td>
-                                <td style="padding: 14px 0; border-bottom: 2px solid #1e40af; text-align: right; font-weight: 700; color: #ef4444; font-size: 20px;">₹${details.totalDue}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Due Amount:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #ef4444; font-size: 14px;">₹${details.totalDue}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 14px 0; border-bottom: 2px solid #1e40af; color: #64748b; font-size: 17px; font-weight: 600;">Total Paid:</td>
-                                <td style="padding: 14px 0; border-bottom: 2px solid #1e40af; text-align: right; font-weight: 700; color: #10b981; font-size: 20px;">₹${details.totalPaid}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Paid:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #10b981; font-size: 14px;">₹${details.totalPaid}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 20px 0; font-size: 22px; font-weight: 700; color: #1e40af;">REMAINING BALANCE:</td>
-                                <td style="padding: 20px 0; text-align: right;">
-                                    <span style="font-size: 32px; font-weight: 700; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 12px 28px; border-radius: 12px; display: inline-block;">₹${details.unpaidAmount}</span>
+                                <td style="padding: 10px 0; font-size: 15px; font-weight: 700; color: #fbbf24;">REMAINING BALANCE:</td>
+                                <td style="padding: 10px 0; text-align: right;">
+                                    <span style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 6px 16px; border-radius: 8px; display: inline-block;">₹${details.unpaidAmount}</span>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     
-                    <div style="margin-top: 45px; text-align: center; padding-top: 30px; border-top: 2px solid #e2e8f0;">
-                        <p style="margin: 8px 0; font-size: 17px; color: #64748b;">Thank you for being a valued member!</p>
-                        <p style="margin: 8px 0; font-size: 15px; color: #94a3b8;">Purainiya Library Management System</p>
+                    <div style="margin-top: 18px; text-align: center; padding-top: 15px; border-top: 2px solid #e2e8f0;">
+                        <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Thank you for being a valued member!</p>
+                        <p style="margin: 4px 0; font-size: 11px; color: #94a3b8;">Purainiya Library Management System</p>
                     </div>
                 </div>
             `;
@@ -1666,18 +1972,42 @@
                     <title>Receipt - ${currentBillingMember.name}</title>
                     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
                     <style>
-                        @media print {
-                            body { margin: 0; padding: 20px; }
-                            @page { size: A4; margin: 15mm; }
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
                         }
-                        body { background: white; }
+                        @media print {
+                            body { 
+                                margin: 0; 
+                                padding: 8px;
+                            }
+                            @page { 
+                                size: A4 portrait; 
+                                margin: 8mm;
+                            }
+                            .print-bill-container { 
+                                page-break-inside: avoid !important;
+                                page-break-after: avoid !important;
+                                page-break-before: avoid !important;
+                            }
+                            * {
+                                page-break-inside: avoid !important;
+                            }
+                        }
+                        body { 
+                            background: white;
+                            font-family: 'Poppins', sans-serif;
+                        }
                     </style>
                 </head>
                 <body>
                     ${billHTML}
                     <script>
                         window.onload = function() {
-                            window.print();
+                            setTimeout(function() {
+                                window.print();
+                            }, 500);
                         }
                     <\/script>
                 </body>
@@ -1687,9 +2017,10 @@
         }
 
         // ===== HISTORY =====
-        function renderHistory() {
-            const members = loadMembers();
+        async function renderHistory() {
+            const members = await loadMembers();
             const statusFilter = document.getElementById('historyStatusFilter').value;
+            const monthFilter = document.getElementById('historyMonthFilter').value;
             const searchTerm = document.getElementById('historySearch').value.toLowerCase();
             
             let filtered = members.filter(m => {
@@ -1699,10 +2030,29 @@
                 const matchesStatus = !statusFilter || 
                     (statusFilter === 'paid' && details.isPaid) ||
                     (statusFilter === 'due' && !details.isPaid);
-                return matchesSearch && matchesStatus;
+                const matchesMonth = !monthFilter || getPaymentMonthYear(m) === monthFilter;
+                return matchesSearch && matchesStatus && matchesMonth;
             });
 
             const list = document.getElementById('historyList');
+            
+            // Calculate totals
+            let totalCollection = 0;
+            let totalDue = 0;
+            let paidMembersCount = 0;
+            
+            filtered.forEach(member => {
+                const details = calculatePaymentDetails(member);
+                totalCollection += details.totalPaid;
+                totalDue += details.unpaidAmount;
+                if (details.isPaid) paidMembersCount++;
+            });
+            
+            // Update total collection display
+            document.getElementById('totalCollectionAmount').textContent = `₹${totalCollection.toLocaleString()}`;
+            document.getElementById('totalMembers').textContent = filtered.length;
+            document.getElementById('totalPaidMembers').textContent = paidMembersCount;
+            document.getElementById('totalDueAmount').textContent = `₹${totalDue.toLocaleString()}`;
             
             if (filtered.length === 0) {
                 list.innerHTML = `
@@ -1745,7 +2095,7 @@
                             </div>
                             <div class="history-detail">
                                 <span class="history-detail-label">Balance</span>
-                                <span class="history-detail-value" style="color: ${details.unpaidAmount > 0 ? '#fbbf24' : '#10b981'}; font-weight: 700;">₹${details.unpaidAmount}</span>
+                                <span class="history-detail-value" style="color: ${details.unpaidAmount > 0 ? '#ef4444' : '#10b981'}; font-weight: 700;">₹${details.unpaidAmount}</span>
                             </div>
                         </div>
                     </div>
@@ -1754,7 +2104,7 @@
         }
 
         // ===== TAB SWITCHING =====
-        function switchTab(tabName) {
+        async function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
@@ -1762,25 +2112,173 @@
             document.getElementById(`${tabName}Tab`).classList.add('active');
             
             if (tabName === 'billing') {
-                populateBillingMemberSelect();
+                await populateBillingMemberSelect();
             } else if (tabName === 'history') {
-                renderHistory();
+                await renderHistory();
             }
         }
 
         // ===== EVENT LISTENERS =====
-        document.addEventListener('DOMContentLoaded', () => {
-            if (isLoggedIn()) {
-                showAdminPanel();
-            } else {
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Show loading indicator
+            const loginForm = document.getElementById('loginForm');
+            const setupForm = document.getElementById('firstTimeSetup');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            if (!isLoggedIn()) {
                 showLoginScreen();
-                if (!checkAdminExists()) {
-                    document.getElementById('loginForm').style.display = 'none';
-                    document.getElementById('firstTimeSetup').style.display = 'block';
+                loginForm.style.display = 'none';
+                setupForm.style.display = 'none';
+                loadingIndicator.style.display = 'block';
+                
+                // Wait for Firebase to initialize with event listener
+                const waitForFirebase = () => {
+                    return new Promise((resolve, reject) => {
+                        // Check if already initialized
+                        if (window.firebaseInitialized === true) {
+                            console.log("✅ Firebase already initialized");
+                            resolve();
+                            return;
+                        }
+                        
+                        if (window.firebaseError) {
+                            console.log("❌ Firebase error detected");
+                            reject(window.firebaseError);
+                            return;
+                        }
+                        
+                        // Listen for ready event
+                        const readyHandler = () => {
+                            console.log("✅ Firebase ready event received");
+                            resolve();
+                        };
+                        
+                        const errorHandler = (event) => {
+                            console.log("❌ Firebase error event received");
+                            reject(event.detail);
+                        };
+                        
+                        window.addEventListener('firebaseReady', readyHandler, { once: true });
+                        window.addEventListener('firebaseError', errorHandler, { once: true });
+                        
+                        // Increased timeout to 30 seconds
+                        setTimeout(() => {
+                            window.removeEventListener('firebaseReady', readyHandler);
+                            window.removeEventListener('firebaseError', errorHandler);
+                            
+                            if (!window.firebaseInitialized) {
+                                reject('Firebase initialization timeout after 30 seconds. Please check your internet connection and refresh the page.');
+                            }
+                        }, 30000);
+                    });
+                };
+                
+                try {
+                    console.log("⏳ Waiting for Firebase...");
+                    
+                    // Add additional check - wait a bit for module to load
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // Check if Firebase variables are available
+                    if (typeof window.firebaseDB === 'undefined') {
+                        console.log("⚠️ Firebase module still loading, waiting longer...");
+                        await waitForFirebase();
+                    } else {
+                        console.log("✅ Firebase module already loaded");
+                    }
+                    
+                    console.log("✅ Firebase connected successfully");
+                    
+                    // Check if admin exists in Firebase
+                    console.log("🔍 Checking if admin exists...");
+                    const adminExists = await checkAdminExists();
+                    console.log("Admin exists:", adminExists);
+                    
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (!adminExists) {
+                        console.log("📝 Showing setup form");
+                        loginForm.style.display = 'none';
+                        setupForm.style.display = 'block';
+                    } else {
+                        console.log("🔐 Showing login form");
+                        loginForm.style.display = 'block';
+                        setupForm.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error("❌ Firebase connection failed:", error);
+                    
+                    let errorHTML = `
+                        <div style="color: #ef4444; padding: 20px; text-align: center; max-width: 600px; margin: 0 auto;">
+                            <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
+                            <div style="font-weight: 600; margin-bottom: 10px;">Failed to connect to Firebase</div>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 15px;">${error}</div>
+                    `;
+                    
+                    // Check if it's a Firestore-specific error
+                    if (error.message && error.message.includes('security rules')) {
+                        errorHTML += `
+                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Fix Firestore Security Rules:</div>
+                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
+                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
+                                    <li>Select project: <strong>purainiya-library</strong></li>
+                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
+                                    <li>Click <strong>"Rules"</strong> tab at top</li>
+                                    <li>Replace rules with this code:</li>
+                                </ol>
+                                <pre style="background: #fff; padding: 10px; border-radius: 6px; font-size: 11px; overflow-x: auto; text-align: left; margin-top: 10px;">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+                                <div style="color: #92400e; font-size: 12px; margin-top: 10px;">6. Click <strong>"Publish"</strong> button</div>
+                            </div>
+                        `;
+                    } else if (error.message && error.message.includes('Firestore is not available')) {
+                        errorHTML += `
+                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Enable Firestore Database:</div>
+                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
+                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
+                                    <li>Select project: <strong>purainiya-library</strong></li>
+                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
+                                    <li>Click <strong>"Create Database"</strong> button</li>
+                                    <li>Choose <strong>"Start in production mode"</strong></li>
+                                    <li>Select your preferred region</li>
+                                    <li>Click <strong>"Enable"</strong></li>
+                                    <li>Then update security rules (see above)</li>
+                                </ol>
+                            </div>
+                        `;
+                    } else {
+                        errorHTML += `
+                            <div style="font-size: 12px; color: #64748b; margin: 15px 0; text-align: left; line-height: 1.6;">
+                                <strong>Common issues:</strong><br>
+                                • Check your internet connection<br>
+                                • Make sure Firestore is enabled: <a href="https://console.firebase.google.com/project/purainiya-library/firestore" target="_blank" style="color: #fbbf24;">Check Now</a><br>
+                                • Verify security rules allow access<br>
+                            </div>
+                        `;
+                    }
+                    
+                    errorHTML += `
+                            <button onclick="location.reload()" style="background: #fbbf24; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px;">
+                                🔄 Retry After Fix
+                            </button>
+                        </div>
+                    `;
+                    
+                    loadingIndicator.innerHTML = errorHTML;
                 }
+            } else {
+                showAdminPanel();
             }
             
-            document.getElementById('setupForm').addEventListener('submit', (e) => {
+            document.getElementById('setupForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const username = document.getElementById('newUsername').value;
                 const password = document.getElementById('newPassword').value;
@@ -1797,26 +2295,56 @@
                     return;
                 }
                 
-                createAdmin(username, password);
-                errorMsg.textContent = '';
-                document.getElementById('firstTimeSetup').style.display = 'none';
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('errorMessage').textContent = 'Account created! Please login.';
-                document.getElementById('setupForm').reset();
+                errorMsg.textContent = 'Creating account...';
+                errorMsg.style.color = '#fbbf24';
+                
+                const success = await createAdmin(username, password);
+                
+                if (success) {
+                    errorMsg.textContent = '';
+                    errorMsg.style.color = '#ef4444';
+                    document.getElementById('firstTimeSetup').style.display = 'none';
+                    document.getElementById('loginForm').style.display = 'block';
+                    document.getElementById('errorMessage').textContent = 'Account created! Please login.';
+                    document.getElementById('errorMessage').style.color = '#10b981';
+                    document.getElementById('setupForm').reset();
+                } else {
+                    errorMsg.textContent = 'Failed to create account. Please try again.';
+                    errorMsg.style.color = '#ef4444';
+                }
             });
             
-            document.getElementById('loginForm').addEventListener('submit', (e) => {
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
                 const errorMsg = document.getElementById('errorMessage');
+                const submitBtn = e.target.querySelector('button[type="submit"]');
                 
-                if (verifyLogin(username, password)) {
-                    setLoggedIn('true');
-                    showAdminPanel();
-                    document.getElementById('loginForm').reset();
-                } else {
-                    errorMsg.textContent = 'Invalid username or password!';
+                // Show loading state
+                submitBtn.textContent = 'Logging in...';
+                submitBtn.disabled = true;
+                errorMsg.textContent = '';
+                
+                try {
+                    const isValid = await verifyLogin(username, password);
+                    
+                    if (isValid) {
+                        setLoggedIn('true');
+                        showAdminPanel();
+                        document.getElementById('loginForm').reset();
+                    } else {
+                        errorMsg.textContent = 'Invalid username or password!';
+                        errorMsg.style.color = '#ef4444';
+                        submitBtn.textContent = 'Login';
+                        submitBtn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error("Login error:", error);
+                    errorMsg.textContent = 'Connection error. Please check your internet connection.';
+                    errorMsg.style.color = '#ef4444';
+                    submitBtn.textContent = 'Login';
+                    submitBtn.disabled = false;
                 }
             });
             
@@ -1826,12 +2354,12 @@
                 document.getElementById('errorMessage').textContent = '';
             });
 
-            document.getElementById('registrationForm').addEventListener('submit', (e) => {
+            document.getElementById('registrationForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const mobile = document.getElementById('regMobile').value;
                 const name = document.getElementById('regName').value;
                 
-                const members = loadMembers();
+                const members = await loadMembers();
                 
                 if (members.find(m => m.mobile === mobile)) {
                     alert('Member with this mobile number already exists!');
@@ -1848,7 +2376,7 @@
                     totalPaid: 0
                 });
                 
-                saveMembers(members);
+                await saveMembers(members);
                 
                 document.getElementById('successMessage').style.display = 'block';
                 setTimeout(() => {
@@ -1857,8 +2385,8 @@
                 
                 document.getElementById('registrationForm').reset();
                 document.getElementById('regDate').value = getTodayDate();
-                renderMembers();
-                populateBillingMemberSelect();
+                await renderMembers();
+                await populateBillingMemberSelect();
             });
 
             document.getElementById('memberSearch').addEventListener('input', renderMembers);
@@ -1869,18 +2397,32 @@
 
             document.getElementById('billingMemberSelect').addEventListener('change', loadBillingForMember);
             
-            document.getElementById('shiftSelection').addEventListener('change', updatePaymentSummary);
-            document.getElementById('paymentUntilDate').addEventListener('change', () => {
+            document.getElementById('shiftSelection').addEventListener('change', async (e) => {
+                if (e.target.type === 'checkbox') {
+                    await updatePaymentSummary();
+                }
+            });
+            document.getElementById('paymentUntilDate').addEventListener('change', async () => {
                 if (currentBillingMember) {
                     currentBillingMember.paymentUntilDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
                     currentBillingMember.paymentUntilDateManuallySet = true;
-                    updatePaymentSummary();
+                    
+                    // Save immediately when date changes
+                    const members = await loadMembers();
+                    const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
+                    if (index !== -1) {
+                        members[index] = currentBillingMember;
+                        await saveMembers(members);
+                    }
+                    
+                    await updatePaymentSummary();
                 }
             });
 
             document.getElementById('saveBillingBtn').addEventListener('click', saveBilling);
             document.getElementById('printBillBtn').addEventListener('click', printBill);
             
+            document.getElementById('historyMonthFilter').addEventListener('change', renderHistory);
             document.getElementById('historyStatusFilter').addEventListener('change', renderHistory);
             document.getElementById('historySearch').addEventListener('input', renderHistory);
         });
