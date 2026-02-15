@@ -1683,20 +1683,21 @@
             return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
-        // FIXED: Calculate months from exact joining date (day-to-day)
-        // Example: Joined 15/02/26, Payment until 15/09/26 = 7 months
+        // Calculate complete months from joining date to payment date
+        // Example: 16/02/26 to 16/09/26 = 7 months ✓
+        // Example: 20/02/26 to 20/08/26 = 6 months ✓
+        // Example: 15/02/26 to 14/03/26 = 0 months (not completed)
         function getMonthsDifference(startDate, endDate) {
             const start = parseDate(startDate);
             const end = parseDate(endDate);
             
-            // Calculate year and month difference
+            // Calculate months between
             let months = (end.getFullYear() - start.getFullYear()) * 12;
             months += end.getMonth() - start.getMonth();
             
-            // If the end day is greater than or equal to start day, we've completed this month
-            // Otherwise, we haven't completed the current month yet
-            if (end.getDate() >= start.getDate()) {
-                months += 1;
+            // If end day < start day, we haven't completed the month cycle yet
+            if (end.getDate() < start.getDate()) {
+                months -= 1;
             }
             
             return Math.max(0, months);
