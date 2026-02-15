@@ -825,6 +825,8 @@
         .history-filters {
             display: flex;
             gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .filter-select {
@@ -907,6 +909,63 @@
             font-weight: 600;
             color: var(--text-primary);
             font-size: 15px;
+        }
+
+        /* Total Collection Box */
+        .total-collection-box {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            color: white;
+            animation: slideUp 0.5s ease;
+        }
+
+        .total-collection-label {
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.95;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .total-collection-amount {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .total-collection-details {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .collection-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .collection-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .collection-stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Responsive */
@@ -1151,6 +1210,9 @@
                 <div class="history-header">
                     <h2>Billing History</h2>
                     <div class="history-filters">
+                        <select class="filter-select" id="historyMonthFilter">
+                            <option value="">All Months</option>
+                        </select>
                         <select class="filter-select" id="historyStatusFilter">
                             <option value="">All Status</option>
                             <option value="paid">Fully Paid</option>
@@ -1163,6 +1225,26 @@
                 </div>
                 <div class="history-list" id="historyList">
                     <!-- History items will be added here -->
+                </div>
+                
+                <!-- Total Collection Box -->
+                <div class="total-collection-box" id="totalCollectionBox">
+                    <div class="total-collection-label">Total Collection</div>
+                    <div class="total-collection-amount" id="totalCollectionAmount">₹0</div>
+                    <div class="total-collection-details">
+                        <div class="collection-stat">
+                            <div class="collection-stat-value" id="totalMembers">0</div>
+                            <div class="collection-stat-label">Members</div>
+                        </div>
+                        <div class="collection-stat">
+                            <div class="collection-stat-value" id="totalPaidMembers">0</div>
+                            <div class="collection-stat-label">Fully Paid</div>
+                        </div>
+                        <div class="collection-stat">
+                            <div class="collection-stat-value" id="totalDueAmount">₹0</div>
+                            <div class="collection-stat-label">Total Due</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1390,6 +1472,37 @@
             return Math.max(0, months);
         }
 
+        function populateMonthFilter() {
+            const select = document.getElementById('historyMonthFilter');
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = new Date().getFullYear();
+            
+            let options = '<option value="">All Months</option>';
+            
+            // Generate last 12 months
+            for (let i = 0; i < 12; i++) {
+                const monthIndex = (currentMonth - i + 12) % 12;
+                const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
+                const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+                options += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
+            }
+            
+            select.innerHTML = options;
+        }
+
+        function getPaymentMonthYear(member) {
+            // Get the month/year when payment was last recorded
+            if (!member.paymentUntilDate) return null;
+            const date = parseDate(member.paymentUntilDate);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        }
+
         function calculatePaymentDetails(member) {
             if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0) {
                 return {
@@ -1426,6 +1539,7 @@
         async function initializeApp() {
             document.getElementById('yearDisplay').textContent = currentYear;
             document.getElementById('regDate').value = getTodayDate();
+            populateMonthFilter();
             await renderMembers();
             await populateBillingMemberSelect();
             renderShiftSelection();
@@ -1788,6 +1902,7 @@
         async function renderHistory() {
             const members = await loadMembers();
             const statusFilter = document.getElementById('historyStatusFilter').value;
+            const monthFilter = document.getElementById('historyMonthFilter').value;
             const searchTerm = document.getElementById('historySearch').value.toLowerCase();
             
             let filtered = members.filter(m => {
@@ -1797,10 +1912,29 @@
                 const matchesStatus = !statusFilter || 
                     (statusFilter === 'paid' && details.isPaid) ||
                     (statusFilter === 'due' && !details.isPaid);
-                return matchesSearch && matchesStatus;
+                const matchesMonth = !monthFilter || getPaymentMonthYear(m) === monthFilter;
+                return matchesSearch && matchesStatus && matchesMonth;
             });
 
             const list = document.getElementById('historyList');
+            
+            // Calculate totals
+            let totalCollection = 0;
+            let totalDue = 0;
+            let paidMembersCount = 0;
+            
+            filtered.forEach(member => {
+                const details = calculatePaymentDetails(member);
+                totalCollection += details.totalPaid;
+                totalDue += details.unpaidAmount;
+                if (details.isPaid) paidMembersCount++;
+            });
+            
+            // Update total collection display
+            document.getElementById('totalCollectionAmount').textContent = `₹${totalCollection.toLocaleString()}`;
+            document.getElementById('totalMembers').textContent = filtered.length;
+            document.getElementById('totalPaidMembers').textContent = paidMembersCount;
+            document.getElementById('totalDueAmount').textContent = `₹${totalDue.toLocaleString()}`;
             
             if (filtered.length === 0) {
                 list.innerHTML = `
@@ -1996,6 +2130,7 @@
             document.getElementById('saveBillingBtn').addEventListener('click', saveBilling);
             document.getElementById('printBillBtn').addEventListener('click', printBill);
             
+            document.getElementById('historyMonthFilter').addEventListener('change', renderHistory);
             document.getElementById('historyStatusFilter').addEventListener('change', renderHistory);
             document.getElementById('historySearch').addEventListener('input', renderHistory);
         });
