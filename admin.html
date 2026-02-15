@@ -4,25 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purainiya Library - Member Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2d3748;
-            --primary-light: #4a5568;
-            --accent: #f59e0b;
-            --accent-dark: #d97706;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --border: #e5e7eb;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+            --primary-dark: #1a1a1a;
+            --primary-gold: #d4af37;
+            --secondary-gold: #f4e4c1;
+            --cream: #faf8f3;
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --border-color: #e0d8c8;
+            --hover-bg: #f5f2ed;
+            --success: #2d5016;
+            --danger: #8b2828;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
         }
 
         * {
@@ -32,21 +29,20 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-main);
-            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #f0ebe1 100%);
+            color: var(--text-dark);
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* Login Screen */
+        /* Login Screen Styles */
         .login-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             position: relative;
             overflow: hidden;
         }
@@ -54,24 +50,27 @@
         .login-container::before {
             content: '';
             position: absolute;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
-            animation: drift 15s ease-in-out infinite;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--primary-gold) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
         }
 
-        @keyframes drift {
+        @keyframes float {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-50px, 50px) rotate(5deg); }
+            50% { transform: translate(-30px, 30px) rotate(180deg); }
         }
 
         .login-box {
             background: white;
-            border-radius: 20px;
-            padding: 50px 45px;
+            border-radius: 16px;
+            padding: 50px 40px;
             width: 100%;
-            max-width: 450px;
-            box-shadow: var(--shadow-xl);
+            max-width: 440px;
+            box-shadow: var(--shadow-lg);
             position: relative;
             z-index: 1;
             animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -80,7 +79,7 @@
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -88,23 +87,21 @@
             }
         }
 
-        .login-logo {
+        .login-box h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+
+        .subtitle {
             text-align: center;
             margin-bottom: 35px;
-        }
-
-        .login-logo h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 34px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .login-logo p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            letter-spacing: 0.3px;
+            font-size: 14px;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
         }
 
         .input-group {
@@ -114,48 +111,47 @@
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
+            font-weight: 500;
+            color: var(--text-dark);
             font-size: 14px;
         }
 
         .input-group input {
             width: 100%;
             padding: 14px 16px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            background-color: var(--bg-main);
-            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: white;
+            color: var(--text-dark);
             font-size: 15px;
             transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
+            font-family: 'DM Sans', sans-serif;
         }
 
         .input-group input:focus {
             outline: none;
-            border-color: var(--accent);
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
 
         .login-btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #3a3a3a 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
         }
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
         }
 
         .login-btn:active {
@@ -174,27 +170,27 @@
         .first-time-setup {
             margin-top: 30px;
             padding-top: 30px;
-            border-top: 2px solid var(--border);
+            border-top: 2px solid var(--border-color);
         }
 
         .first-time-setup h3 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Crimson Pro', serif;
             text-align: center;
             margin-bottom: 10px;
             font-size: 24px;
-            color: var(--primary);
+            color: var(--primary-dark);
         }
 
         .first-time-setup p {
             text-align: center;
             margin-bottom: 24px;
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--text-light);
         }
 
-        /* Admin Panel */
+        /* Admin Panel Styles */
         .container {
-            max-width: 1800px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 30px;
             animation: fadeIn 0.6s ease;
@@ -206,28 +202,34 @@
         }
 
         .header-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            padding: 35px 45px;
-            border-radius: 20px;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 16px;
             margin-bottom: 30px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
+            font-family: 'Crimson Pro', serif;
+            font-size: 32px;
             font-weight: 700;
             margin: 0;
-        }
-
-        .header-subtitle {
-            font-size: 15px;
-            opacity: 0.9;
-            margin-top: 5px;
+            color: var(--primary-dark);
         }
 
         .header-actions {
@@ -237,8 +239,8 @@
         }
 
         .btn {
-            padding: 12px 28px;
-            border-radius: 10px;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
@@ -249,50 +251,72 @@
             gap: 8px;
         }
 
-        .btn-white {
-            background: white;
-            color: var(--primary);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-white:hover {
-            background: var(--bg-main);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Tab Navigation */
-        .tab-navigation {
-            background: var(--bg-card);
-            padding: 8px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow-sm);
-            display: inline-flex;
-            gap: 8px;
-        }
-
-        .tab-btn {
-            padding: 12px 32px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        .btn-primary {
+            background: var(--primary-dark);
             color: white;
             box-shadow: var(--shadow-sm);
         }
 
+        .btn-primary:hover {
+            background: #2a2a2a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-gold);
+            background: var(--hover-bg);
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 28px;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-dark);
+            color: white;
+        }
+
         .tab-btn:not(.active):hover {
-            background: var(--bg-main);
-            color: var(--text-primary);
+            background: var(--hover-bg);
+            color: var(--text-dark);
         }
 
         /* Tab Content */
@@ -305,11 +329,11 @@
             display: block;
         }
 
-        /* Controls Section */
+        /* Search and Controls */
         .controls-section {
-            background: var(--bg-card);
+            background: white;
             padding: 25px 30px;
-            border-radius: 15px;
+            border-radius: 16px;
             margin-bottom: 25px;
             box-shadow: var(--shadow-sm);
             display: flex;
@@ -327,18 +351,16 @@
         .search-box input {
             width: 100%;
             padding: 14px 16px 14px 45px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
             font-size: 15px;
             transition: all 0.3s ease;
-            background-color: var(--bg-main);
         }
 
         .search-box input:focus {
             outline: none;
-            border-color: var(--accent);
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
 
         .search-box::before {
@@ -358,53 +380,49 @@
 
         .year-selector label {
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-dark);
         }
 
         .year-selector select {
             padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg-main);
-            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-dark);
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            min-width: 130px;
+            min-width: 120px;
             transition: all 0.3s ease;
         }
 
         .year-selector select:focus {
             outline: none;
-            border-color: var(--accent);
-            background-color: white;
+            border-color: var(--primary-gold);
         }
 
         .add-member-btn {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gold);
             color: white;
             border: none;
             border-radius: 50%;
-            font-size: 32px;
+            font-size: 28px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            box-shadow: var(--shadow-sm);
         }
 
         .add-member-btn:hover {
             transform: rotate(90deg) scale(1.1);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
         }
 
-        /* Table Container */
+        /* Table Styles */
         .table-container {
-            background: var(--bg-card);
-            border-radius: 15px;
+            background: white;
+            border-radius: 16px;
             box-shadow: var(--shadow-md);
             overflow: hidden;
         }
@@ -415,7 +433,7 @@
         }
 
         thead {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: var(--primary-dark);
             color: white;
         }
 
@@ -423,14 +441,14 @@
             padding: 18px 20px;
             text-align: left;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         td {
             padding: 20px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-color);
             vertical-align: top;
         }
 
@@ -439,7 +457,7 @@
         }
 
         tbody tr:hover {
-            background-color: var(--bg-main);
+            background-color: var(--hover-bg);
         }
 
         tbody tr.hidden {
@@ -451,29 +469,25 @@
         }
 
         input[type="text"],
-        input[type="tel"],
-        input[type="date"] {
+        input[type="tel"] {
             width: 100%;
-            padding: 10px 14px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
+            padding: 10px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
             font-size: 14px;
             transition: all 0.3s ease;
-            background: var(--bg-main);
         }
 
         input[type="text"]:focus,
-        input[type="tel"]:focus,
-        input[type="date"]:focus {
+        input[type="tel"]:focus {
             outline: none;
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
 
         .date-display {
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-dark);
             white-space: nowrap;
         }
 
@@ -487,254 +501,174 @@
         .shift-checkbox {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
-            padding: 8px 10px;
-            border-radius: 8px;
+            padding: 6px 8px;
+            border-radius: 6px;
             transition: background-color 0.2s ease;
         }
 
         .shift-checkbox:hover {
-            background-color: var(--bg-main);
+            background-color: var(--hover-bg);
         }
 
         .shift-checkbox input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
-            accent-color: var(--accent);
+            accent-color: var(--primary-gold);
         }
 
         .shift-checkbox span {
             font-size: 13px;
-            color: var(--text-primary);
+            color: var(--text-dark);
         }
 
-        /* Payment Container - NEW DESIGN */
+        /* Payment Container */
         .payment-container {
-            padding: 20px;
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-radius: 12px;
-            border: 2px solid var(--accent);
-        }
-
-        .payment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .payment-header h4 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .months-due-badge {
-            background: var(--danger);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .payment-range {
-            background: white;
             padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 2px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .payment-range-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .date-inputs {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-        }
-
-        .payment-summary {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 14px;
-        }
-
-        .summary-row.total {
-            border-top: 2px solid var(--accent);
-            margin-top: 10px;
-            padding-top: 12px;
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--primary);
-        }
-
-        .summary-label {
-            color: var(--text-secondary);
-        }
-
-        .summary-value {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .summary-value.unpaid {
-            color: var(--danger);
-        }
-
-        .summary-value.paid {
-            color: var(--success);
-        }
-
-        .payment-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .payment-btn {
-            padding: 12px;
-            border: none;
+            background: var(--cream);
             border-radius: 8px;
+        }
+
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .month-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .month-checkbox:hover {
+            background-color: white;
+        }
+
+        .month-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+
+        .month-checkbox span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .payment-info {
+            border-top: 2px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+
+        .payment-detail {
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            background-color: white;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .total-payment {
+            margin-top: 10px;
+            padding: 12px;
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            font-size: 15px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .print-bill-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--primary-gold);
+            color: white;
+            border: none;
+            border-radius: 6px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
-        .payment-btn.mark-paid {
-            background: var(--success);
-            color: white;
-        }
-
-        .payment-btn.mark-paid:hover {
-            background: #059669;
+        .print-bill-btn:hover {
+            background: #c49d2e;
             transform: translateY(-2px);
             box-shadow: var(--shadow-sm);
         }
 
-        .payment-btn.print-bill {
-            background: var(--primary);
+        /* Summary Row */
+        .summary-row {
+            background: var(--primary-dark) !important;
             color: white;
         }
 
-        .payment-btn.print-bill:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .payment-status {
-            text-align: center;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .payment-status.all-paid {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .payment-status.has-due {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* Summary Footer */
-        .summary-footer {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
-            color: white;
-        }
-
-        .summary-footer td {
-            padding: 22px 20px;
+        .summary-row td {
+            padding: 20px;
             font-size: 16px;
             font-weight: 600;
             border-bottom: none !important;
         }
 
-        .summary-label-cell {
+        .summary-label {
             text-align: right;
         }
 
-        .summary-amount-cell {
+        .summary-amount {
             text-align: center;
             font-size: 20px;
         }
 
-        /* Billing History */
+        /* Billing History Styles */
         .history-container {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 35px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
             box-shadow: var(--shadow-md);
         }
 
         .history-filters {
             display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 15px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
         .filter-group {
             flex: 1;
-            min-width: 220px;
+            min-width: 200px;
         }
 
         .filter-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-dark);
             font-size: 14px;
         }
 
         .filter-group select,
         .filter-group input {
             width: 100%;
-            padding: 12px 14px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
             font-size: 14px;
-            background: var(--bg-main);
-            transition: all 0.3s ease;
-        }
-
-        .filter-group select:focus,
-        .filter-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
         }
 
         .history-list {
@@ -744,17 +678,16 @@
         }
 
         .history-item {
-            border: 2px solid var(--border);
+            border: 2px solid var(--border-color);
             border-radius: 12px;
-            padding: 24px;
+            padding: 20px;
             transition: all 0.3s ease;
             cursor: pointer;
-            background: white;
         }
 
         .history-item:hover {
-            border-color: var(--accent);
-            box-shadow: var(--shadow-md);
+            border-color: var(--primary-gold);
+            box-shadow: var(--shadow-sm);
             transform: translateY(-2px);
         }
 
@@ -762,26 +695,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .history-item-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
         }
 
         .history-item-amount {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary-gold);
         }
 
         .history-item-details {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            color: var(--text-secondary);
+            gap: 12px;
+            color: var(--text-light);
             font-size: 14px;
         }
 
@@ -792,20 +725,20 @@
 
         .history-detail-label {
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-dark);
             margin-bottom: 4px;
         }
 
         .empty-state {
             text-align: center;
-            padding: 80px 20px;
-            color: var(--text-secondary);
+            padding: 60px 20px;
+            color: var(--text-light);
         }
 
         .empty-state-icon {
-            font-size: 72px;
+            font-size: 64px;
             margin-bottom: 20px;
-            opacity: 0.4;
+            opacity: 0.5;
         }
 
         .empty-state-text {
@@ -813,7 +746,7 @@
             font-weight: 500;
         }
 
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -826,7 +759,7 @@
             }
 
             h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .controls-section {
@@ -834,12 +767,12 @@
                 align-items: stretch;
             }
 
-            .payment-actions {
-                grid-template-columns: 1fr;
+            .months-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
 
             table {
-                font-size: 13px;
+                font-size: 14px;
             }
 
             th, td {
@@ -852,10 +785,8 @@
     <!-- Login Screen -->
     <div class="login-container" id="loginContainer">
         <div class="login-box">
-            <div class="login-logo">
-                <h2>Purainiya Library</h2>
-                <p>Member Management System</p>
-            </div>
+            <h2>Admin Login</h2>
+            <p class="subtitle">Purainiya Library Member Management</p>
             
             <form id="loginForm">
                 <div class="input-group">
@@ -902,12 +833,9 @@
     <!-- Admin Panel -->
     <div class="container" id="adminPanel" style="display: none;">
         <div class="header-section">
-            <div>
-                <h1>Purainiya Library</h1>
-                <p class="header-subtitle">Aspirants Member Management System</p>
-            </div>
+            <h1>Purainiya Library</h1>
             <div class="header-actions">
-                <button class="btn btn-white" id="logoutBtn">Logout</button>
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
             </div>
         </div>
 
@@ -940,18 +868,18 @@
                             <th>Mobile Number</th>
                             <th>Name</th>
                             <th>Shift</th>
-                            <th>Payment & Billing</th>
+                            <th>Payment Done</th>
                         </tr>
                     </thead>
                     <tbody id="memberTableBody">
                         <!-- Members will be added here -->
                     </tbody>
                     <tfoot>
-                        <tr class="summary-footer">
-                            <td colspan="4" class="summary-label-cell">
+                        <tr class="summary-row">
+                            <td colspan="4" class="summary-label">
                                 Total Students: <span id="totalStudents">0</span>
                             </td>
-                            <td class="summary-amount-cell">
+                            <td class="summary-amount">
                                 Total: ₹<span id="totalAmount">0</span>
                             </td>
                         </tr>
@@ -969,11 +897,21 @@
                         <select id="historyYearFilter"></select>
                     </div>
                     <div class="filter-group">
-                        <label>Payment Status</label>
-                        <select id="historyStatusFilter">
-                            <option value="">All Status</option>
-                            <option value="paid">Fully Paid</option>
-                            <option value="due">Has Due</option>
+                        <label>Month</label>
+                        <select id="historyMonthFilter">
+                            <option value="">All Months</option>
+                            <option value="Jan">January</option>
+                            <option value="Feb">February</option>
+                            <option value="Mar">March</option>
+                            <option value="Apr">April</option>
+                            <option value="May">May</option>
+                            <option value="Jun">June</option>
+                            <option value="Jul">July</option>
+                            <option value="Aug">August</option>
+                            <option value="Sep">September</option>
+                            <option value="Oct">October</option>
+                            <option value="Nov">November</option>
+                            <option value="Dec">December</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -1037,6 +975,10 @@
 
         let currentYear = new Date().getFullYear();
 
+        function getCurrentYear() {
+            return currentYear;
+        }
+
         function initializeYearSelector() {
             const yearSelect = document.getElementById('yearSelect');
             const historyYearSelect = document.getElementById('historyYearFilter');
@@ -1083,16 +1025,6 @@
             return `${day}/${month}/${year}`;
         }
 
-        function formatDateForInput(dateString) {
-            const parts = dateString.split('/');
-            return `${parts[2]}-${parts[1]}-${parts[0]}`;
-        }
-
-        function formatDateFromInput(dateString) {
-            const parts = dateString.split('-');
-            return `${parts[2]}/${parts[1]}/${parts[0]}`;
-        }
-
         const shifts = [
             '6:00 AM - 10:00 AM',
             '10:00 AM - 2:00 PM',
@@ -1100,6 +1032,11 @@
             '6:00 PM - 10:00 PM',
             '10:00 PM - 2:00 AM',
             '2:00 AM - 6:00 AM'
+        ];
+
+        const months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
 
         const PAYMENT_PER_SHIFT_PER_MONTH = 500;
@@ -1124,51 +1061,19 @@
             saveAllMembers(allMembers);
         }
 
-        function parseDate(dateStr) {
-            const parts = dateStr.split('/');
-            return new Date(parts[2], parts[1] - 1, parts[0]);
-        }
-
-        function getMonthsDifference(startDate, endDate) {
-            const start = parseDate(startDate);
-            const end = parseDate(endDate);
+        function calculateTotalPayment(payments, selectedShifts) {
+            if (!payments || !selectedShifts || selectedShifts.length === 0) return 0;
             
-            const months = (end.getFullYear() - start.getFullYear()) * 12 + 
-                          (end.getMonth() - start.getMonth()) + 1;
-            return months;
-        }
-
-        function calculatePaymentDetails(member) {
-            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0) {
-                return {
-                    totalMonths: 0,
-                    perMonthCharge: 0,
-                    totalDue: 0,
-                    totalPaid: 0,
-                    unpaidAmount: 0,
-                    isPaid: true
-                };
-            }
-
-            const startDate = member.doj;
-            const endDate = member.paymentUntilDate || getTodayDate();
+            let totalPaid = 0;
+            const shiftsCount = selectedShifts.length;
             
-            const totalMonths = getMonthsDifference(startDate, endDate);
-            const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-            const totalDue = totalMonths * perMonthCharge;
-            const totalPaid = member.totalPaid || 0;
-            const unpaidAmount = Math.max(0, totalDue - totalPaid);
-
-            return {
-                totalMonths,
-                perMonthCharge,
-                totalDue,
-                totalPaid,
-                unpaidAmount,
-                isPaid: unpaidAmount === 0,
-                startDate,
-                endDate
-            };
+            Object.values(payments).forEach(isPaid => {
+                if (isPaid) {
+                    totalPaid += (PAYMENT_PER_SHIFT_PER_MONTH * shiftsCount);
+                }
+            });
+            
+            return totalPaid;
         }
 
         function updateSummary() {
@@ -1185,8 +1090,7 @@
             
             const totalStudents = visibleMembers.length;
             const totalAmount = visibleMembers.reduce((sum, member) => {
-                const details = calculatePaymentDetails(member);
-                return sum + details.totalPaid;
+                return sum + calculateTotalPayment(member.payments, member.selectedShifts);
             }, 0);
             
             document.getElementById('totalStudents').textContent = totalStudents;
@@ -1201,93 +1105,85 @@
                 alert('Please fill member name and mobile number before printing bill!');
                 return;
             }
-
-            const details = calculatePaymentDetails(member);
+            
+            const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+            const paidMonths = member.payments ? Object.keys(member.payments).filter(month => member.payments[month] === true) : [];
+            const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+            const perMonthCharge = selectedShiftsCount * PAYMENT_PER_SHIFT_PER_MONTH;
+            
+            const paidMonthsList = paidMonths.length > 0 ? paidMonths.join(', ') : 'No payments recorded';
             
             const billHTML = `
-                <div style="max-width: 850px; margin: 0 auto; padding: 50px; font-family: 'Inter', sans-serif; color: #1f2937;">
-                    <div style="text-align: center; border-bottom: 4px solid #f59e0b; padding-bottom: 25px; margin-bottom: 35px;">
-                        <h1 style="margin: 0; font-size: 42px; font-family: 'Playfair Display', serif; color: #2d3748;">Purainiya Library</h1>
-                        <h2 style="margin: 12px 0 0 0; font-size: 24px; color: #6b7280; font-weight: 600;">Payment Receipt</h2>
-                        <p style="margin: 10px 0 0 0; font-size: 15px; color: #9ca3af;">Year: ${currentYear} | Date: ${getTodayDate()}</p>
+                <div style="max-width: 800px; margin: 0 auto; padding: 40px; font-family: 'DM Sans', sans-serif; color: #1a1a1a;">
+                    <div style="text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 20px; margin-bottom: 30px;">
+                        <h1 style="margin: 0; font-size: 36px; font-family: 'Crimson Pro', serif; color: #1a1a1a;">Purainiya Library</h1>
+                        <h2 style="margin: 10px 0 0 0; font-size: 22px; color: #666;">Payment Receipt</h2>
+                        <p style="margin: 8px 0 0 0; font-size: 14px; color: #999;">Year: ${currentYear}</p>
                     </div>
                     
-                    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 25px; border-radius: 12px; margin-bottom: 30px; border: 2px solid #f59e0b;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding: 12px; font-weight: 700; color: #374151; width: 30%;">Name:</td>
-                                <td style="padding: 12px; color: #1f2937; font-size: 16px;">${member.name}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; font-weight: 700; color: #374151;">Mobile:</td>
-                                <td style="padding: 12px; color: #1f2937; font-size: 16px;">${member.mobile}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; font-weight: 700; color: #374151;">Joining Date:</td>
-                                <td style="padding: 12px; color: #1f2937; font-size: 16px;">${member.doj}</td>
-                            </tr>
-                        </table>
-                    </div>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+                        <tr>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600; width: 150px;">Name:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${member.name}</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600; width: 150px;">Mobile:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${member.mobile}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600;">Joining Date:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${member.doj}</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600;">Bill Date:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${getTodayDate()}</td>
+                        </tr>
+                    </table>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
-                        <div>
-                            <h3 style="border-bottom: 3px solid #f59e0b; padding-bottom: 12px; margin: 0 0 18px 0; font-size: 18px; color: #2d3748;">Selected Shifts</h3>
-                            <div style="background: #f8fafc; padding: 20px; border-radius: 10px; min-height: 160px; border: 2px solid #e5e7eb;">
+                    <div style="display: flex; gap: 25px; margin-bottom: 25px;">
+                        <div style="flex: 1;">
+                            <h3 style="border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin: 0 0 15px 0; font-size: 18px;">Selected Shifts</h3>
+                            <div style="padding: 15px; border: 2px solid #e0d8c8; background-color: #faf8f3; min-height: 140px; border-radius: 8px;">
                                 ${member.selectedShifts && member.selectedShifts.length > 0 
-                                    ? member.selectedShifts.map(shift => `<div style="padding: 6px 0; font-size: 15px; color: #4b5563;">• ${shift}</div>`).join('') 
-                                    : '<div style="padding: 6px 0; font-size: 15px; color: #9ca3af;">No shifts selected</div>'}
+                                    ? member.selectedShifts.map(shift => `<div style="padding: 5px; font-size: 14px;">• ${shift}</div>`).join('') 
+                                    : '<div style="padding: 5px; font-size: 14px; color: #999;">No shifts selected</div>'}
                             </div>
                         </div>
                         
-                        <div>
-                            <h3 style="border-bottom: 3px solid #f59e0b; padding-bottom: 12px; margin: 0 0 18px 0; font-size: 18px; color: #2d3748;">Payment Period</h3>
-                            <div style="background: #f8fafc; padding: 20px; border-radius: 10px; min-height: 160px; border: 2px solid #e5e7eb;">
-                                <div style="padding: 6px 0; font-size: 15px; color: #4b5563;"><strong>From:</strong> ${details.startDate}</div>
-                                <div style="padding: 6px 0; font-size: 15px; color: #4b5563;"><strong>To:</strong> ${details.endDate}</div>
-                                <div style="padding: 6px 0; font-size: 15px; color: #4b5563;"><strong>Total Months:</strong> ${details.totalMonths}</div>
+                        <div style="flex: 1;">
+                            <h3 style="border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin: 0 0 15px 0; font-size: 18px;">Paid Months (${paidMonths.length})</h3>
+                            <div style="padding: 15px; border: 2px solid #e0d8c8; background-color: #faf8f3; min-height: 140px; font-size: 15px; line-height: 1.8; border-radius: 8px;">
+                                ${paidMonthsList}
                             </div>
                         </div>
                     </div>
                     
-                    <div style="padding: 30px; border: 3px solid #f59e0b; background: #fffbeb; border-radius: 12px;">
-                        <h3 style="margin: 0 0 20px 0; font-size: 20px; color: #2d3748; text-align: center;">Payment Summary</h3>
+                    <div style="padding: 20px; border: 3px solid #d4af37; background-color: #faf8f3; border-radius: 8px;">
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
-                                <td style="padding: 12px 0; border-bottom: 1px solid #fde68a; color: #6b7280;">Number of Shifts:</td>
-                                <td style="padding: 12px 0; border-bottom: 1px solid #fde68a; text-align: right; font-weight: 600; color: #1f2937;">${member.selectedShifts ? member.selectedShifts.length : 0}</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8;">Number of Shifts:</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8; text-align: right; font-weight: 600;">${selectedShiftsCount}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 12px 0; border-bottom: 1px solid #fde68a; color: #6b7280;">Rate per Shift per Month:</td>
-                                <td style="padding: 12px 0; border-bottom: 1px solid #fde68a; text-align: right; font-weight: 600; color: #1f2937;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8;">Rate per Shift per Month:</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8; text-align: right; font-weight: 600;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 12px 0; border-bottom: 1px solid #fde68a; color: #6b7280;">Monthly Charge:</td>
-                                <td style="padding: 12px 0; border-bottom: 1px solid #fde68a; text-align: right; font-weight: 600; color: #1f2937;">₹${details.perMonthCharge}</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8;">Monthly Charge:</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8; text-align: right; font-weight: 600;">₹${perMonthCharge}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 12px 0; border-bottom: 2px solid #f59e0b; color: #6b7280;">Total Months:</td>
-                                <td style="padding: 12px 0; border-bottom: 2px solid #f59e0b; text-align: right; font-weight: 600; color: #1f2937;">${details.totalMonths}</td>
+                                <td style="padding: 10px 0; border-bottom: 2px solid #d4af37;">Months Paid:</td>
+                                <td style="padding: 10px 0; border-bottom: 2px solid #d4af37; text-align: right; font-weight: 600;">${paidMonths.length}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 12px 0; border-bottom: 2px solid #f59e0b; color: #6b7280; font-size: 16px; font-weight: 600;">Total Due Amount:</td>
-                                <td style="padding: 12px 0; border-bottom: 2px solid #f59e0b; text-align: right; font-weight: 700; color: #ef4444; font-size: 18px;">₹${details.totalDue}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px 0; border-bottom: 2px solid #f59e0b; color: #6b7280; font-size: 16px; font-weight: 600;">Total Paid:</td>
-                                <td style="padding: 12px 0; border-bottom: 2px solid #f59e0b; text-align: right; font-weight: 700; color: #10b981; font-size: 18px;">₹${details.totalPaid}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 18px 0; font-size: 20px; font-weight: 700; color: #2d3748;">REMAINING BALANCE:</td>
-                                <td style="padding: 18px 0; text-align: right;">
-                                    <span style="font-size: 28px; font-weight: 700; background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); color: white; padding: 10px 24px; border-radius: 8px; display: inline-block;">₹${details.unpaidAmount}</span>
+                                <td style="padding: 15px 0; font-size: 20px; font-weight: 700;">TOTAL AMOUNT PAID:</td>
+                                <td style="padding: 15px 0; text-align: right;">
+                                    <span style="font-size: 26px; font-weight: 700; background-color: #1a1a1a; color: white; padding: 8px 20px; border-radius: 6px;">₹${totalPayment}</span>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     
-                    <div style="margin-top: 40px; text-align: center; padding-top: 25px; border-top: 2px solid #e5e7eb;">
-                        <p style="margin: 6px 0; font-size: 16px; color: #6b7280;">Thank you for being a valued member!</p>
-                        <p style="margin: 6px 0; font-size: 14px; color: #9ca3af;">Purainiya Library Management System</p>
+                    <div style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 2px solid #e0d8c8;">
+                        <p style="margin: 5px 0; font-size: 15px; color: #666;">Thank you for being a valued member!</p>
+                        <p style="margin: 5px 0; font-size: 13px; color: #999;">Purainiya Library Management System</p>
                     </div>
                 </div>
             `;
@@ -1298,10 +1194,10 @@
                 <html>
                 <head>
                     <title>Receipt - ${member.name}</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+                    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@700&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
                     <style>
                         @media print {
-                            body { margin: 0; padding: 20px; }
+                            body { margin: 0; padding: 15px; }
                             @page { size: A4; margin: 15mm; }
                         }
                         body { background: white; }
@@ -1379,131 +1275,69 @@
                 shiftCell.appendChild(shiftContainer);
                 
                 const paymentCell = row.insertCell(4);
-                renderPaymentSection(paymentCell, member, index);
+                
+                if (!member.payments) {
+                    member.payments = {};
+                }
+                
+                const paymentContainer = document.createElement('div');
+                paymentContainer.className = 'payment-container';
+                
+                const monthsGrid = document.createElement('div');
+                monthsGrid.className = 'months-grid';
+                
+                months.forEach((month) => {
+                    const monthLabel = document.createElement('label');
+                    monthLabel.className = 'month-checkbox';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = member.payments[month] || false;
+                    checkbox.addEventListener('change', (e) => {
+                        updatePayment(index, month, e.target.checked);
+                    });
+                    
+                    const monthText = document.createElement('span');
+                    monthText.textContent = month;
+                    
+                    monthLabel.appendChild(checkbox);
+                    monthLabel.appendChild(monthText);
+                    monthsGrid.appendChild(monthLabel);
+                });
+                
+                paymentContainer.appendChild(monthsGrid);
+                
+                const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+                const paidMonthsCount = member.payments ? Object.values(member.payments).filter(paid => paid === true).length : 0;
+                const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+                
+                const paymentInfo = document.createElement('div');
+                paymentInfo.className = 'payment-info';
+                paymentInfo.id = `payment-info-${index}`;
+                paymentInfo.innerHTML = `
+                    <div class="payment-detail">
+                        <span>Shifts:</span>
+                        <span>${selectedShiftsCount} × ₹500 = ₹${selectedShiftsCount * 500}/month</span>
+                    </div>
+                    <div class="payment-detail">
+                        <span>Paid Months:</span>
+                        <span>${paidMonthsCount}</span>
+                    </div>
+                    <div class="total-payment">Total Paid: ₹${totalPayment}</div>
+                `;
+                
+                paymentContainer.appendChild(paymentInfo);
+                
+                const printBtn = document.createElement('button');
+                printBtn.className = 'print-bill-btn';
+                printBtn.textContent = '🖨️ Print Bill';
+                printBtn.addEventListener('click', () => printMemberBill(index));
+                paymentContainer.appendChild(printBtn);
+                
+                paymentCell.appendChild(paymentContainer);
             });
             
             updateSummary();
-        }
-
-        function renderPaymentSection(cell, member, index) {
-            const details = calculatePaymentDetails(member);
-            
-            const container = document.createElement('div');
-            container.className = 'payment-container';
-            container.id = `payment-container-${index}`;
-            
-            const header = document.createElement('div');
-            header.className = 'payment-header';
-            header.innerHTML = `
-                <h4>💰 Payment Tracker</h4>
-                ${details.unpaidAmount > 0 ? `<span class="months-due-badge">${details.totalMonths} Months</span>` : ''}
-            `;
-            container.appendChild(header);
-
-            const status = document.createElement('div');
-            status.className = `payment-status ${details.isPaid ? 'all-paid' : 'has-due'}`;
-            status.textContent = details.isPaid ? '✓ All Payments Done' : '⚠ Payment Due';
-            container.appendChild(status);
-
-            const range = document.createElement('div');
-            range.className = 'payment-range';
-            range.innerHTML = `
-                <div class="payment-range-label">Payment Until Date</div>
-                <div class="date-inputs">
-                    <input type="date" id="payment-until-${index}" value="${member.paymentUntilDate ? formatDateForInput(member.paymentUntilDate) : formatDateForInput(getTodayDate())}" />
-                </div>
-            `;
-            container.appendChild(range);
-
-            setTimeout(() => {
-                const dateInput = document.getElementById(`payment-until-${index}`);
-                if (dateInput) {
-                    dateInput.addEventListener('change', (e) => {
-                        updatePaymentUntilDate(index, formatDateFromInput(e.target.value));
-                    });
-                }
-            }, 0);
-
-            const summary = document.createElement('div');
-            summary.className = 'payment-summary';
-            summary.innerHTML = `
-                <div class="summary-row">
-                    <span class="summary-label">From: ${details.startDate}</span>
-                    <span class="summary-value">To: ${details.endDate}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Months:</span>
-                    <span class="summary-value">${details.totalMonths}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Per Month:</span>
-                    <span class="summary-value">₹${details.perMonthCharge}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Due:</span>
-                    <span class="summary-value unpaid">₹${details.totalDue}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Paid:</span>
-                    <span class="summary-value paid">₹${details.totalPaid}</span>
-                </div>
-                <div class="summary-row total">
-                    <span class="summary-label">Balance:</span>
-                    <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
-                </div>
-            `;
-            container.appendChild(summary);
-
-            const actions = document.createElement('div');
-            actions.className = 'payment-actions';
-            
-            const markPaidBtn = document.createElement('button');
-            markPaidBtn.className = 'payment-btn mark-paid';
-            markPaidBtn.innerHTML = '✓ Mark Paid';
-            markPaidBtn.addEventListener('click', () => markAsPaid(index));
-            
-            const printBtn = document.createElement('button');
-            printBtn.className = 'payment-btn print-bill';
-            printBtn.innerHTML = '🖨️ Print Bill';
-            printBtn.addEventListener('click', () => printMemberBill(index));
-            
-            actions.appendChild(markPaidBtn);
-            actions.appendChild(printBtn);
-            container.appendChild(actions);
-
-            cell.innerHTML = '';
-            cell.appendChild(container);
-        }
-
-        function updatePaymentUntilDate(index, date) {
-            const members = loadMembers(currentYear);
-            members[index].paymentUntilDate = date;
-            saveMembers(members, currentYear);
-            
-            const row = document.getElementById('memberTableBody').rows[index];
-            const paymentCell = row.cells[4];
-            renderPaymentSection(paymentCell, members[index], index);
-            updateSummary();
-        }
-
-        function markAsPaid(index) {
-            const members = loadMembers(currentYear);
-            const details = calculatePaymentDetails(members[index]);
-            
-            if (details.unpaidAmount === 0) {
-                alert('No pending payment!');
-                return;
-            }
-
-            if (confirm(`Mark ₹${details.totalDue} as paid?\n\nThis will update the total paid amount to ₹${details.totalDue}.`)) {
-                members[index].totalPaid = details.totalDue;
-                saveMembers(members, currentYear);
-                
-                const row = document.getElementById('memberTableBody').rows[index];
-                const paymentCell = row.cells[4];
-                renderPaymentSection(paymentCell, members[index], index);
-                updateSummary();
-            }
         }
 
         function performSearch() {
@@ -1545,10 +1379,42 @@
             }
             
             saveMembers(members, currentYear);
+            updatePaymentDisplay(index);
+        }
+
+        function updatePayment(index, month, isPaid) {
+            const members = loadMembers(currentYear);
+            if (!members[index].payments) {
+                members[index].payments = {};
+            }
+            members[index].payments[month] = isPaid;
+            saveMembers(members, currentYear);
+            updatePaymentDisplay(index);
+        }
+
+        function updatePaymentDisplay(index) {
+            const members = loadMembers(currentYear);
+            const member = members[index];
             
-            const row = document.getElementById('memberTableBody').rows[index];
-            const paymentCell = row.cells[4];
-            renderPaymentSection(paymentCell, members[index], index);
+            const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+            const paidMonthsCount = member.payments ? Object.values(member.payments).filter(paid => paid === true).length : 0;
+            const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+            
+            const paymentInfoDiv = document.getElementById(`payment-info-${index}`);
+            if (paymentInfoDiv) {
+                paymentInfoDiv.innerHTML = `
+                    <div class="payment-detail">
+                        <span>Shifts:</span>
+                        <span>${selectedShiftsCount} × ₹500 = ₹${selectedShiftsCount * 500}/month</span>
+                    </div>
+                    <div class="payment-detail">
+                        <span>Paid Months:</span>
+                        <span>${paidMonthsCount}</span>
+                    </div>
+                    <div class="total-payment">Total Paid: ₹${totalPayment}</div>
+                `;
+            }
+            
             updateSummary();
         }
 
@@ -1559,8 +1425,7 @@
                 mobile: '',
                 name: '',
                 selectedShifts: [],
-                paymentUntilDate: getTodayDate(),
-                totalPaid: 0
+                payments: {}
             };
             members.push(newMember);
             saveMembers(members, currentYear);
@@ -1575,7 +1440,7 @@
 
         function renderBillingHistory() {
             const selectedYear = document.getElementById('historyYearFilter').value || currentYear;
-            const statusFilter = document.getElementById('historyStatusFilter').value;
+            const selectedMonth = document.getElementById('historyMonthFilter').value;
             const searchTerm = document.getElementById('historySearchInput').value.toLowerCase();
             
             const members = loadMembers(selectedYear);
@@ -1585,17 +1450,14 @@
             let filteredMembers = members.filter(member => {
                 if (!member.name || !member.mobile) return false;
                 
-                const details = calculatePaymentDetails(member);
-                
                 const matchesSearch = !searchTerm || 
                     member.name.toLowerCase().includes(searchTerm) || 
                     member.mobile.includes(searchTerm);
                 
-                const matchesStatus = !statusFilter || 
-                    (statusFilter === 'paid' && details.isPaid) ||
-                    (statusFilter === 'due' && !details.isPaid);
+                const matchesMonth = !selectedMonth || 
+                    (member.payments && member.payments[selectedMonth]);
                 
-                return matchesSearch && matchesStatus;
+                return matchesSearch && matchesMonth;
             });
 
             if (filteredMembers.length === 0) {
@@ -1609,7 +1471,8 @@
             }
 
             filteredMembers.forEach(member => {
-                const details = calculatePaymentDetails(member);
+                const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+                const paidMonths = member.payments ? Object.keys(member.payments).filter(month => member.payments[month]) : [];
                 
                 const historyItem = document.createElement('div');
                 historyItem.className = 'history-item';
@@ -1621,7 +1484,7 @@
                 historyItem.innerHTML = `
                     <div class="history-item-header">
                         <div class="history-item-name">${member.name}</div>
-                        <div class="history-item-amount">₹${details.totalPaid}</div>
+                        <div class="history-item-amount">₹${totalPayment}</div>
                     </div>
                     <div class="history-item-details">
                         <div class="history-detail">
@@ -1637,16 +1500,8 @@
                             <span>${member.selectedShifts ? member.selectedShifts.length : 0}</span>
                         </div>
                         <div class="history-detail">
-                            <span class="history-detail-label">Payment Period</span>
-                            <span>${details.totalMonths} months</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Total Due</span>
-                            <span style="color: #ef4444; font-weight: 600;">₹${details.totalDue}</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Balance</span>
-                            <span style="color: ${details.unpaidAmount > 0 ? '#ef4444' : '#10b981'}; font-weight: 700;">₹${details.unpaidAmount}</span>
+                            <span class="history-detail-label">Paid Months</span>
+                            <span>${paidMonths.length > 0 ? paidMonths.join(', ') : 'None'}</span>
                         </div>
                     </div>
                 `;
@@ -1743,7 +1598,7 @@
                 });
             });
             
-            document.getElementById('historyStatusFilter').addEventListener('change', renderBillingHistory);
+            document.getElementById('historyMonthFilter').addEventListener('change', renderBillingHistory);
             document.getElementById('historySearchInput').addEventListener('input', renderBillingHistory);
         });
     </script>
