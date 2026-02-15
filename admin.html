@@ -11,7 +11,7 @@
             --primary-dark: #1e3a8a;
             --primary-light: #3b82f6;
             --accent: #fbbf24;
-            --accent-dark: #f59e0b;
+            --accent-dark: #fbbf24;
             --success: #10b981;
             --danger: #ef4444;
             --bg-main: #f1f5f9;
@@ -1543,7 +1543,7 @@
             updatePaymentSummary();
         }
 
-        function updatePaymentSummary() {
+        async function updatePaymentSummary() {
             if (!currentBillingMember) return;
 
             // Get selected shifts
@@ -1555,6 +1555,14 @@
             });
 
             currentBillingMember.selectedShifts = selectedShifts;
+
+            // Save to Firebase and localStorage immediately when shifts are updated
+            const members = await loadMembers();
+            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
+            if (index !== -1) {
+                members[index] = currentBillingMember;
+                await saveMembers(members);
+            }
 
             const details = calculatePaymentDetails(currentBillingMember);
             const summary = document.getElementById('paymentSummary');
@@ -1573,7 +1581,11 @@
                     <span class="summary-value">${selectedShifts.length}</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Per Month:</span>
+                    <span class="summary-label">Per Shift/Month:</span>
+                    <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Monthly Total:</span>
                     <span class="summary-value">₹${details.perMonthCharge}</span>
                 </div>
                 <div class="summary-row">
@@ -1589,6 +1601,9 @@
                     <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
                 </div>
             `;
+
+            // Update members grid to reflect changes
+            await renderMembers();
         }
 
         async function saveBilling() {
@@ -1681,11 +1696,11 @@
                                 <td style="padding: 8px 0; border-bottom: 1px solid #bfdbfe; text-align: right; font-weight: 600; color: #1e293b; font-size: 13px;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #bfdbfe; color: #64748b; font-size: 13px;">Rate per Shift per Month:</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid #bfdbfe; color: #64748b; font-size: 13px;">Rate per Shift/Month:</td>
                                 <td style="padding: 8px 0; border-bottom: 1px solid #bfdbfe; text-align: right; font-weight: 600; color: #1e293b; font-size: 13px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #bfdbfe; color: #64748b; font-size: 13px;">Monthly Charge:</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid #bfdbfe; color: #64748b; font-size: 13px;">Monthly Total (${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0} × ₹${PAYMENT_PER_SHIFT_PER_MONTH}):</td>
                                 <td style="padding: 8px 0; border-bottom: 1px solid #bfdbfe; text-align: right; font-weight: 600; color: #1e293b; font-size: 13px;">₹${details.perMonthCharge}</td>
                             </tr>
                             <tr>
@@ -1934,12 +1949,25 @@
 
             document.getElementById('billingMemberSelect').addEventListener('change', loadBillingForMember);
             
-            document.getElementById('shiftSelection').addEventListener('change', updatePaymentSummary);
-            document.getElementById('paymentUntilDate').addEventListener('change', () => {
+            document.getElementById('shiftSelection').addEventListener('change', async (e) => {
+                if (e.target.type === 'checkbox') {
+                    await updatePaymentSummary();
+                }
+            });
+            document.getElementById('paymentUntilDate').addEventListener('change', async () => {
                 if (currentBillingMember) {
                     currentBillingMember.paymentUntilDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
                     currentBillingMember.paymentUntilDateManuallySet = true;
-                    updatePaymentSummary();
+                    
+                    // Save immediately when date changes
+                    const members = await loadMembers();
+                    const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
+                    if (index !== -1) {
+                        members[index] = currentBillingMember;
+                        await saveMembers(members);
+                    }
+                    
+                    await updatePaymentSummary();
                 }
             });
 
