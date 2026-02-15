@@ -454,106 +454,6 @@
             display: none;
         }
 
-        /* Recent Registrations Section */
-        .recent-registrations {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-lg);
-            margin-top: 40px;
-        }
-
-        .recent-registrations h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: #fbbf24;
-            margin-bottom: 10px;
-        }
-
-        .recent-stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            padding: 20px 30px;
-            border-radius: 16px;
-            border: 2px solid #fbbf24;
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .stat-value {
-            font-size: 36px;
-            font-weight: 700;
-            color: #f59e0b;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 5px;
-        }
-
-        .recent-members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .recent-member-card {
-            background: var(--bg-main);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .recent-member-card::before {
-            content: '✨';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 20px;
-        }
-
-        .recent-member-card:hover {
-            border-color: #fbbf24;
-            box-shadow: var(--shadow-md);
-            transform: translateY(-3px);
-        }
-
-        .recent-member-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fbbf24;
-            margin-bottom: 5px;
-        }
-
-        .recent-member-mobile {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        .recent-member-date {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--text-primary);
-            padding-top: 12px;
-            border-top: 2px solid var(--border);
-        }
-
         /* Members List */
         .members-section {
             background: var(--bg-card);
@@ -567,6 +467,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .members-header h2 {
@@ -575,9 +477,48 @@
             color: #fbbf24;
         }
 
+        .members-header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-main);
+            padding: 6px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .filter-tab.active {
+            background: #fbbf24;
+            color: white;
+        }
+
+        .filter-tab:not(.active):hover {
+            background: white;
+            color: var(--text-primary);
+        }
+
         .search-box {
             position: relative;
-            width: 350px;
+            width: 300px;
         }
 
         .search-box input {
@@ -606,6 +547,17 @@
             font-size: 18px;
         }
 
+        .total-students-badge {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: var(--shadow-sm);
+            white-space: nowrap;
+        }
+
         .members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -619,6 +571,21 @@
             padding: 25px;
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+        }
+
+        .member-card.new-member::before {
+            content: '✨ NEW';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .member-card:hover {
@@ -1142,6 +1109,30 @@
                 flex: 1;
                 padding: 12px 16px;
             }
+
+            .members-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .members-header-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .filter-tabs {
+                width: 100%;
+            }
+
+            .filter-tab {
+                flex: 1;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
         }
 
         /* Print Styles for Single Page Bill */
@@ -1275,33 +1266,22 @@
                 </div>
             </div>
 
-            <!-- Recent Registrations -->
-            <div class="recent-registrations">
-                <h2>Recent Registrations</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 20px;">Latest members who joined in the last 7 days</p>
-                
-                <div class="recent-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="recentCount">0</div>
-                        <div class="stat-label">New This Week</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalStudentsCount">0</div>
-                        <div class="stat-label">Total Members</div>
-                    </div>
-                </div>
-                
-                <div class="recent-members-grid" id="recentMembersGrid">
-                    <!-- Recent members will be added here -->
-                </div>
-            </div>
-
             <!-- Members List -->
             <div class="members-section" style="margin-top: 40px;">
                 <div class="members-header">
-                    <h2>All Registered Members</h2>
-                    <div class="search-box">
-                        <input type="tel" id="memberSearch" placeholder="Search by mobile number...">
+                    <h2>Registered Members</h2>
+                    <div class="members-header-controls">
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="7days">Last 7 Days</button>
+                            <button class="filter-tab" data-filter="month">This Month</button>
+                        </div>
+                        <div class="search-box">
+                            <input type="tel" id="memberSearch" placeholder="Search by mobile number...">
+                        </div>
+                        <div class="total-students-badge" id="totalStudentsBadge">
+                            Total: 0
+                        </div>
                     </div>
                 </div>
                 <div class="members-grid" id="membersGrid">
@@ -1587,7 +1567,6 @@
                 return exists;
             } catch (error) {
                 console.error("❌ Error checking admin:", error);
-                // Re-throw the error so it can be caught by the caller
                 throw error;
             }
         }
@@ -1657,6 +1636,8 @@
             '2:00 AM - 6:00 AM'
         ];
 
+        let currentFilter = 'all'; // Track current filter
+
         function getTodayDate() {
             const today = new Date();
             const day = String(today.getDate()).padStart(2, '0');
@@ -1677,7 +1658,6 @@
 
         async function loadMembers() {
             try {
-                // Load from Firebase
                 const firebaseMembers = await loadMembersFromFirebase(currentYear);
                 return firebaseMembers;
             } catch (error) {
@@ -1688,7 +1668,6 @@
 
         async function saveMembers(members) {
             try {
-                // Save to Firebase only
                 for (const member of members) {
                     await saveMemberToFirebase(member, currentYear);
                 }
@@ -1704,19 +1683,22 @@
             return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
-        // FIXED: Correct month counting from day-to-day
+        // FIXED: Proper month calculation from exact joining day
         function getMonthsDifference(startDate, endDate) {
             const start = parseDate(startDate);
             const end = parseDate(endDate);
             
-            // Calculate the difference in months
-            let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+            // Calculate year and month difference
+            let months = (end.getFullYear() - start.getFullYear()) * 12;
+            months += end.getMonth() - start.getMonth();
             
-            // If end day is greater than or equal to start day, add 1 month (inclusive counting)
-            // Example: 15/02/26 to 15/06/26 = 4 full months (Feb 15-Mar 15, Mar 15-Apr 15, Apr 15-May 15, May 15-Jun 15)
-            if (end.getDate() >= start.getDate()) {
-                months += 1;
+            // If we haven't reached the same day in the end month, subtract one month
+            if (end.getDate() < start.getDate()) {
+                months--;
             }
+            
+            // Add 1 to include the current month
+            months += 1;
             
             return Math.max(0, months);
         }
@@ -1746,7 +1728,6 @@
         }
 
         function getPaymentMonthYear(member) {
-            // Get the month/year when payment was last recorded
             if (!member.paymentUntilDate) return null;
             const date = parseDate(member.paymentUntilDate);
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -1784,18 +1765,20 @@
             };
         }
 
-        // Get recent registrations (last 7 days)
-        function getRecentRegistrations(members) {
+        // Check if member was registered within a time period
+        function isRecentMember(doj, days) {
+            const joinDate = parseDate(doj);
             const today = new Date();
-            const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-            
-            return members.filter(member => {
-                const joinDate = parseDate(member.doj);
-                return joinDate >= sevenDaysAgo && joinDate <= today;
-            }).sort((a, b) => {
-                // Sort by date, most recent first
-                return parseDate(b.doj) - parseDate(a.doj);
-            });
+            const diffTime = Math.abs(today - joinDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays <= days;
+        }
+
+        function isThisMonthMember(doj) {
+            const joinDate = parseDate(doj);
+            const today = new Date();
+            return joinDate.getMonth() === today.getMonth() && 
+                   joinDate.getFullYear() === today.getFullYear();
         }
 
         // ===== INITIALIZATION =====
@@ -1804,42 +1787,9 @@
             document.getElementById('regDate').value = getTodayDate();
             populateMonthFilter();
             await renderMembers();
-            await renderRecentRegistrations();
             await populateBillingMemberSelect();
             renderShiftSelection();
             await renderHistory();
-        }
-
-        // ===== RECENT REGISTRATIONS =====
-        async function renderRecentRegistrations() {
-            const members = await loadMembers();
-            const recentMembers = getRecentRegistrations(members);
-            const grid = document.getElementById('recentMembersGrid');
-            
-            // Update stats
-            document.getElementById('recentCount').textContent = recentMembers.length;
-            document.getElementById('totalStudentsCount').textContent = members.length;
-            
-            if (recentMembers.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1/-1;">
-                        <div class="empty-state-icon">📅</div>
-                        <div class="empty-state-text">No new registrations in the last 7 days</div>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = recentMembers.map(member => `
-                <div class="recent-member-card" onclick="selectMemberForBilling('${member.mobile}')">
-                    <div class="recent-member-name">${member.name}</div>
-                    <div class="recent-member-mobile">📱 ${member.mobile}</div>
-                    <div class="recent-member-date">
-                        <span>📅</span>
-                        <span>Joined: ${member.doj}</span>
-                    </div>
-                </div>
-            `).join('');
         }
 
         // ===== REGISTRATION =====
@@ -1848,15 +1798,35 @@
             const grid = document.getElementById('membersGrid');
             const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
             
-            const filtered = members.filter(m => 
-                !searchTerm || m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm)
-            );
+            // Apply filters
+            let filtered = members.filter(m => {
+                const matchesSearch = !searchTerm || m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm);
+                
+                let matchesFilter = true;
+                if (currentFilter === '7days') {
+                    matchesFilter = isRecentMember(m.doj, 7);
+                } else if (currentFilter === 'month') {
+                    matchesFilter = isThisMonthMember(m.doj);
+                }
+                
+                return matchesSearch && matchesFilter;
+            });
+
+            // Sort by date - most recent first
+            filtered.sort((a, b) => {
+                const dateA = parseDate(a.doj);
+                const dateB = parseDate(b.doj);
+                return dateB - dateA;
+            });
+
+            // Update total count badge
+            document.getElementById('totalStudentsBadge').textContent = `Total: ${filtered.length}`;
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state" style="grid-column: 1/-1;">
                         <div class="empty-state-icon">👥</div>
-                        <div class="empty-state-text">No members registered yet</div>
+                        <div class="empty-state-text">No members found</div>
                     </div>
                 `;
                 return;
@@ -1866,9 +1836,10 @@
                 const details = calculatePaymentDetails(member);
                 const status = details.isPaid ? 'active' : (details.totalDue > 0 ? 'due' : 'registered');
                 const statusText = details.isPaid ? 'All Paid' : (details.totalDue > 0 ? 'Has Due' : 'Registered');
+                const isNew = isRecentMember(member.doj, 7);
 
                 return `
-                    <div class="member-card" onclick="selectMemberForBilling('${member.mobile}')">
+                    <div class="member-card ${isNew ? 'new-member' : ''}" onclick="selectMemberForBilling('${member.mobile}')">
                         <div class="member-card-header">
                             <div>
                                 <div class="member-name">${member.name}</div>
@@ -1967,7 +1938,7 @@
 
             currentBillingMember.selectedShifts = selectedShifts;
 
-            // Save to Firebase and localStorage immediately when shifts are updated
+            // Save to Firebase immediately when shifts are updated
             const members = await loadMembers();
             const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
             if (index !== -1) {
@@ -2293,8 +2264,6 @@
                 await populateBillingMemberSelect();
             } else if (tabName === 'history') {
                 await renderHistory();
-            } else if (tabName === 'register') {
-                await renderRecentRegistrations();
             }
         }
 
@@ -2566,11 +2535,20 @@ service cloud.firestore {
                 document.getElementById('registrationForm').reset();
                 document.getElementById('regDate').value = getTodayDate();
                 await renderMembers();
-                await renderRecentRegistrations();
                 await populateBillingMemberSelect();
             });
 
             document.getElementById('memberSearch').addEventListener('input', renderMembers);
+            
+            // Filter tabs event listeners
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', async () => {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.dataset.filter;
+                    await renderMembers();
+                });
+            });
             
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => switchTab(btn.dataset.tab));
