@@ -475,6 +475,30 @@
             color: #fbbf24;
         }
 
+        .members-header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #fbbf24;
+            background: white;
+        }
+
         .search-box {
             position: relative;
             width: 350px;
@@ -504,6 +528,32 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 18px;
+        }
+
+        .members-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--bg-main);
+            border-radius: 12px;
+        }
+
+        .stat-box {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 5px;
         }
 
         .members-grid {
@@ -862,24 +912,6 @@
             flex-wrap: wrap;
         }
 
-        .filter-select {
-            padding: 14px 18px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background: white;
-        }
-
         .history-list {
             display: flex;
             flex-direction: column;
@@ -1178,11 +1210,31 @@
             <!-- Members List -->
             <div class="members-section" style="margin-top: 40px;">
                 <div class="members-header">
-                    <h2>Registered Members</h2>
-                    <div class="search-box">
-                        <input type="tel" id="memberSearch" placeholder="Search by mobile number...">
+                    <h2>Recent Registrations</h2>
+                    <div class="members-header-controls">
+                        <select id="memberFilter" class="filter-select">
+                            <option value="recent">Last 7 Days</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Members</option>
+                        </select>
+                        <div class="search-box">
+                            <input type="tel" id="memberSearch" placeholder="Search by mobile number...">
+                        </div>
                     </div>
                 </div>
+                
+                <!-- Stats Box -->
+                <div class="members-stats" id="membersStats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="totalMembersCount">0</div>
+                        <div class="stat-label">Total Members</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="recentMembersCount">0</div>
+                        <div class="stat-label">Shown Below</div>
+                    </div>
+                </div>
+                
                 <div class="members-grid" id="membersGrid">
                     <!-- Members will be added here -->
                 </div>
@@ -1586,7 +1638,15 @@
         function getMonthsDifference(startDate, endDate) {
             const start = parseDate(startDate);
             const end = parseDate(endDate);
-            const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+            
+            // Calculate months based on actual dates
+            let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+            
+            // If end date's day is greater than or equal to start date's day, add 1 month
+            if (end.getDate() >= start.getDate()) {
+                months += 1;
+            }
+            
             return Math.max(0, months);
         }
 
@@ -1653,6 +1713,32 @@
             };
         }
 
+        function getDaysAgo(dateString) {
+            const memberDate = parseDate(dateString);
+            const today = new Date();
+            const diffTime = Math.abs(today - memberDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        function filterMembersByDateRange(members, filterType) {
+            const today = new Date();
+            
+            return members.filter(member => {
+                const daysAgo = getDaysAgo(member.doj);
+                
+                switch(filterType) {
+                    case 'recent':
+                        return daysAgo <= 7; // Last 7 days
+                    case 'month':
+                        return daysAgo <= 30; // Last 30 days
+                    case 'all':
+                    default:
+                        return true; // All members
+                }
+            });
+        }
+
         // ===== INITIALIZATION =====
         async function initializeApp() {
             document.getElementById('yearDisplay').textContent = currentYear;
@@ -1666,23 +1752,41 @@
 
         // ===== REGISTRATION =====
         async function renderMembers() {
-            const members = await loadMembers();
+            const allMembers = await loadMembers();
             const grid = document.getElementById('membersGrid');
             const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
+            const filterType = document.getElementById('memberFilter').value;
             
-            const filtered = members.filter(m => 
-                !searchTerm || m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm)
-            );
+            // Filter by date range first
+            let filtered = filterMembersByDateRange(allMembers, filterType);
+            
+            // Then filter by search term
+            if (searchTerm) {
+                filtered = filtered.filter(m => 
+                    m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Update stats
+            document.getElementById('totalMembersCount').textContent = allMembers.length;
+            document.getElementById('recentMembersCount').textContent = filtered.length;
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state" style="grid-column: 1/-1;">
                         <div class="empty-state-icon">👥</div>
-                        <div class="empty-state-text">No members registered yet</div>
+                        <div class="empty-state-text">No members found</div>
                     </div>
                 `;
                 return;
             }
+
+            // Sort by date (most recent first)
+            filtered.sort((a, b) => {
+                const dateA = parseDate(a.doj);
+                const dateB = parseDate(b.doj);
+                return dateB - dateA;
+            });
 
             grid.innerHTML = filtered.map(member => {
                 const details = calculatePaymentDetails(member);
@@ -2390,6 +2494,7 @@ service cloud.firestore {
             });
 
             document.getElementById('memberSearch').addEventListener('input', renderMembers);
+            document.getElementById('memberFilter').addEventListener('change', renderMembers);
             
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => switchTab(btn.dataset.tab));
