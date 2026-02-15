@@ -1291,72 +1291,130 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Import Firebase SDKs
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        console.log("🔄 Starting Firebase module initialization...");
+        
+        try {
+            // Import Firebase SDKs
+            console.log("📦 Importing Firebase SDKs...");
+            const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js");
+            const { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js");
+            
+            console.log("✅ Firebase SDKs imported successfully");
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
-            authDomain: "purainiya-library.firebaseapp.com",
-            projectId: "purainiya-library",
-            storageBucket: "purainiya-library.firebasestorage.app",
-            messagingSenderId: "885731486344",
-            appId: "1:885731486344:web:01d234421bd5678831cd3d"
-        };
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
+                authDomain: "purainiya-library.firebaseapp.com",
+                projectId: "purainiya-library",
+                storageBucket: "purainiya-library.firebasestorage.app",
+                messagingSenderId: "885731486344",
+                appId: "1:885731486344:web:01d234421bd5678831cd3d"
+            };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+            console.log("🔧 Initializing Firebase app...");
+            const app = initializeApp(firebaseConfig);
+            
+            console.log("🔧 Getting Firestore instance...");
+            const db = getFirestore(app);
 
-        // Make Firebase available globally
-        window.firebaseDB = db;
-        window.firebaseDoc = doc;
-        window.firebaseSetDoc = setDoc;
-        window.firebaseGetDoc = getDoc;
-        window.firebaseGetDocs = getDocs;
-        window.firebaseCollection = collection;
-        window.firebaseQuery = query;
-        window.firebaseWhere = where;
-        window.firebaseUpdateDoc = updateDoc;
-        window.firebaseDeleteDoc = deleteDoc;
+            // Make Firebase available globally
+            window.firebaseDB = db;
+            window.firebaseDoc = doc;
+            window.firebaseSetDoc = setDoc;
+            window.firebaseGetDoc = getDoc;
+            window.firebaseGetDocs = getDocs;
+            window.firebaseCollection = collection;
+            window.firebaseQuery = query;
+            window.firebaseWhere = where;
+            window.firebaseUpdateDoc = updateDoc;
+            window.firebaseDeleteDoc = deleteDoc;
+            window.firebaseInitialized = true;
+            window.firebaseError = null;
 
-        console.log("Firebase initialized successfully!");
+            console.log("✅ Firebase initialized successfully!");
+            console.log("📊 Database instance:", db);
+            
+            // Dispatch event to notify that Firebase is ready
+            window.dispatchEvent(new Event('firebaseReady'));
+            console.log("📢 Firebase ready event dispatched");
+        } catch (error) {
+            console.error("❌ Firebase initialization error:", error);
+            console.error("Error details:", error.message, error.stack);
+            window.firebaseInitialized = false;
+            window.firebaseError = error.message;
+            
+            // Dispatch error event
+            window.dispatchEvent(new CustomEvent('firebaseError', { detail: error.message }));
+            console.log("📢 Firebase error event dispatched");
+        }
     </script>
 
     <script>
         // ===== FIREBASE HELPER FUNCTIONS =====
+        function checkFirebaseReady() {
+            if (!window.firebaseInitialized) {
+                console.warn("⚠️ Firebase not initialized yet");
+                throw new Error('Firebase not initialized. Please wait or refresh the page.');
+            }
+            if (!window.firebaseDB) {
+                console.warn("⚠️ Firebase database not available");
+                throw new Error('Firebase database not available. Please check your connection.');
+            }
+            console.log("✅ Firebase ready check passed");
+        }
+
         async function saveAdminToFirebase(username, password) {
             try {
+                checkFirebaseReady();
                 const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
                 await window.firebaseSetDoc(adminDoc, {
                     username: username,
                     password: btoa(password),
                     createdAt: new Date().toISOString()
                 });
+                console.log("✅ Admin saved to Firebase successfully");
                 return true;
             } catch (error) {
-                console.error("Error saving admin to Firebase:", error);
+                console.error("❌ Error saving admin to Firebase:", error);
                 return false;
             }
         }
 
         async function loadAdminFromFirebase() {
             try {
+                checkFirebaseReady();
+                console.log("🔍 Attempting to read from Firestore...");
                 const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
+                console.log("📄 Admin document reference created");
+                
                 const docSnap = await window.firebaseGetDoc(adminDoc);
+                console.log("✅ Firestore read successful");
+                
                 if (docSnap.exists()) {
+                    console.log("✅ Admin document exists in Firestore");
                     return docSnap.data();
                 }
+                console.log("ℹ️ No admin document found in Firestore (this is normal for first-time setup)");
                 return null;
             } catch (error) {
-                console.error("Error loading admin from Firebase:", error);
+                console.error("❌ Error loading admin from Firebase:", error);
+                console.error("Error code:", error.code);
+                console.error("Error message:", error.message);
+                
+                // Check for specific Firestore errors
+                if (error.code === 'permission-denied') {
+                    throw new Error('Firestore security rules are blocking access. Please update your rules.');
+                } else if (error.code === 'unavailable') {
+                    throw new Error('Firestore is not available. Please check if Firestore is enabled in Firebase Console.');
+                }
+                
                 return null;
             }
         }
 
         async function saveMemberToFirebase(member, year) {
             try {
+                checkFirebaseReady();
                 const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, member.mobile);
                 await window.firebaseSetDoc(memberDoc, {
                     ...member,
@@ -1364,33 +1422,36 @@
                 });
                 return true;
             } catch (error) {
-                console.error("Error saving member to Firebase:", error);
+                console.error("❌ Error saving member to Firebase:", error);
                 return false;
             }
         }
 
         async function loadMembersFromFirebase(year) {
             try {
+                checkFirebaseReady();
                 const membersCol = window.firebaseCollection(window.firebaseDB, `members_${year}`);
                 const snapshot = await window.firebaseGetDocs(membersCol);
                 const members = [];
                 snapshot.forEach(doc => {
                     members.push(doc.data());
                 });
+                console.log(`✅ Loaded ${members.length} members from Firebase`);
                 return members;
             } catch (error) {
-                console.error("Error loading members from Firebase:", error);
+                console.error("❌ Error loading members from Firebase:", error);
                 return [];
             }
         }
 
         async function deleteMemberFromFirebase(mobile, year) {
             try {
+                checkFirebaseReady();
                 const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, mobile);
                 await window.firebaseDeleteDoc(memberDoc);
                 return true;
             } catch (error) {
-                console.error("Error deleting member from Firebase:", error);
+                console.error("❌ Error deleting member from Firebase:", error);
                 return false;
             }
         }
@@ -1398,11 +1459,15 @@
         // ===== AUTHENTICATION =====
         async function checkAdminExists() {
             try {
+                console.log("🔍 Checking if admin exists in Firestore...");
                 const firebaseAdmin = await loadAdminFromFirebase();
-                return firebaseAdmin !== null;
+                const exists = firebaseAdmin !== null;
+                console.log(`Admin exists: ${exists}`);
+                return exists;
             } catch (error) {
-                console.error("Error checking admin:", error);
-                return false;
+                console.error("❌ Error checking admin:", error);
+                // Re-throw the error so it can be caught by the caller
+                throw error;
             }
         }
 
@@ -1419,9 +1484,20 @@
         async function verifyLogin(username, password) {
             try {
                 const firebaseAdmin = await loadAdminFromFirebase();
-                if (firebaseAdmin && firebaseAdmin.username === username && firebaseAdmin.password === btoa(password)) {
+                
+                console.log("Firebase Admin Data:", firebaseAdmin);
+                console.log("Input Username:", username);
+                console.log("Input Password (encoded):", btoa(password));
+                console.log("Stored Password:", firebaseAdmin ? firebaseAdmin.password : 'N/A');
+                
+                if (firebaseAdmin && 
+                    firebaseAdmin.username === username && 
+                    firebaseAdmin.password === btoa(password)) {
+                    console.log("Login successful!");
                     return true;
                 }
+                
+                console.log("Login failed - credentials don't match");
                 return false;
             } catch (error) {
                 console.error("Error verifying login:", error);
@@ -2055,20 +2131,148 @@
                 setupForm.style.display = 'none';
                 loadingIndicator.style.display = 'block';
                 
-                // Wait for Firebase to initialize
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                // Wait for Firebase to initialize with event listener
+                const waitForFirebase = () => {
+                    return new Promise((resolve, reject) => {
+                        // Check if already initialized
+                        if (window.firebaseInitialized === true) {
+                            console.log("✅ Firebase already initialized");
+                            resolve();
+                            return;
+                        }
+                        
+                        if (window.firebaseError) {
+                            console.log("❌ Firebase error detected");
+                            reject(window.firebaseError);
+                            return;
+                        }
+                        
+                        // Listen for ready event
+                        const readyHandler = () => {
+                            console.log("✅ Firebase ready event received");
+                            resolve();
+                        };
+                        
+                        const errorHandler = (event) => {
+                            console.log("❌ Firebase error event received");
+                            reject(event.detail);
+                        };
+                        
+                        window.addEventListener('firebaseReady', readyHandler, { once: true });
+                        window.addEventListener('firebaseError', errorHandler, { once: true });
+                        
+                        // Increased timeout to 30 seconds
+                        setTimeout(() => {
+                            window.removeEventListener('firebaseReady', readyHandler);
+                            window.removeEventListener('firebaseError', errorHandler);
+                            
+                            if (!window.firebaseInitialized) {
+                                reject('Firebase initialization timeout after 30 seconds. Please check your internet connection and refresh the page.');
+                            }
+                        }, 30000);
+                    });
+                };
                 
-                // Check if admin exists in Firebase
-                const adminExists = await checkAdminExists();
-                
-                loadingIndicator.style.display = 'none';
-                
-                if (!adminExists) {
-                    loginForm.style.display = 'none';
-                    setupForm.style.display = 'block';
-                } else {
-                    loginForm.style.display = 'block';
-                    setupForm.style.display = 'none';
+                try {
+                    console.log("⏳ Waiting for Firebase...");
+                    
+                    // Add additional check - wait a bit for module to load
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // Check if Firebase variables are available
+                    if (typeof window.firebaseDB === 'undefined') {
+                        console.log("⚠️ Firebase module still loading, waiting longer...");
+                        await waitForFirebase();
+                    } else {
+                        console.log("✅ Firebase module already loaded");
+                    }
+                    
+                    console.log("✅ Firebase connected successfully");
+                    
+                    // Check if admin exists in Firebase
+                    console.log("🔍 Checking if admin exists...");
+                    const adminExists = await checkAdminExists();
+                    console.log("Admin exists:", adminExists);
+                    
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (!adminExists) {
+                        console.log("📝 Showing setup form");
+                        loginForm.style.display = 'none';
+                        setupForm.style.display = 'block';
+                    } else {
+                        console.log("🔐 Showing login form");
+                        loginForm.style.display = 'block';
+                        setupForm.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error("❌ Firebase connection failed:", error);
+                    
+                    let errorHTML = `
+                        <div style="color: #ef4444; padding: 20px; text-align: center; max-width: 600px; margin: 0 auto;">
+                            <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
+                            <div style="font-weight: 600; margin-bottom: 10px;">Failed to connect to Firebase</div>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 15px;">${error}</div>
+                    `;
+                    
+                    // Check if it's a Firestore-specific error
+                    if (error.message && error.message.includes('security rules')) {
+                        errorHTML += `
+                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Fix Firestore Security Rules:</div>
+                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
+                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
+                                    <li>Select project: <strong>purainiya-library</strong></li>
+                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
+                                    <li>Click <strong>"Rules"</strong> tab at top</li>
+                                    <li>Replace rules with this code:</li>
+                                </ol>
+                                <pre style="background: #fff; padding: 10px; border-radius: 6px; font-size: 11px; overflow-x: auto; text-align: left; margin-top: 10px;">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+                                <div style="color: #92400e; font-size: 12px; margin-top: 10px;">6. Click <strong>"Publish"</strong> button</div>
+                            </div>
+                        `;
+                    } else if (error.message && error.message.includes('Firestore is not available')) {
+                        errorHTML += `
+                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Enable Firestore Database:</div>
+                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
+                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
+                                    <li>Select project: <strong>purainiya-library</strong></li>
+                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
+                                    <li>Click <strong>"Create Database"</strong> button</li>
+                                    <li>Choose <strong>"Start in production mode"</strong></li>
+                                    <li>Select your preferred region</li>
+                                    <li>Click <strong>"Enable"</strong></li>
+                                    <li>Then update security rules (see above)</li>
+                                </ol>
+                            </div>
+                        `;
+                    } else {
+                        errorHTML += `
+                            <div style="font-size: 12px; color: #64748b; margin: 15px 0; text-align: left; line-height: 1.6;">
+                                <strong>Common issues:</strong><br>
+                                • Check your internet connection<br>
+                                • Make sure Firestore is enabled: <a href="https://console.firebase.google.com/project/purainiya-library/firestore" target="_blank" style="color: #fbbf24;">Check Now</a><br>
+                                • Verify security rules allow access<br>
+                            </div>
+                        `;
+                    }
+                    
+                    errorHTML += `
+                            <button onclick="location.reload()" style="background: #fbbf24; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px;">
+                                🔄 Retry After Fix
+                            </button>
+                        </div>
+                    `;
+                    
+                    loadingIndicator.innerHTML = errorHTML;
                 }
             } else {
                 showAdminPanel();
@@ -2122,14 +2326,23 @@
                 submitBtn.disabled = true;
                 errorMsg.textContent = '';
                 
-                const isValid = await verifyLogin(username, password);
-                
-                if (isValid) {
-                    setLoggedIn('true');
-                    showAdminPanel();
-                    document.getElementById('loginForm').reset();
-                } else {
-                    errorMsg.textContent = 'Invalid username or password!';
+                try {
+                    const isValid = await verifyLogin(username, password);
+                    
+                    if (isValid) {
+                        setLoggedIn('true');
+                        showAdminPanel();
+                        document.getElementById('loginForm').reset();
+                    } else {
+                        errorMsg.textContent = 'Invalid username or password!';
+                        errorMsg.style.color = '#ef4444';
+                        submitBtn.textContent = 'Login';
+                        submitBtn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error("Login error:", error);
+                    errorMsg.textContent = 'Connection error. Please check your internet connection.';
+                    errorMsg.style.color = '#ef4444';
                     submitBtn.textContent = 'Login';
                     submitBtn.disabled = false;
                 }
