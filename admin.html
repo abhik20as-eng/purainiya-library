@@ -168,6 +168,15 @@
             font-size: 14px;
             min-height: 20px;
             font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .error-message.success {
+            color: var(--success);
+        }
+
+        .error-message.info {
+            color: #fbbf24;
         }
 
         .first-time-setup {
@@ -189,6 +198,30 @@
             margin-bottom: 24px;
             font-size: 14px;
             color: var(--text-secondary);
+        }
+
+        /* Loading Indicator */
+        .loading-indicator {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(251, 191, 36, 0.3);
+            border-radius: 50%;
+            border-top-color: #fbbf24;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Admin Panel */
@@ -1038,6 +1071,7 @@
             <div class="login-logo">
                 <h2>Purainiya Library</h2>
                 <p>Professional Management System</p>
+                <p style="font-size: 12px; margin-top: 8px; color: #fbbf24;">🔥 Powered by Firebase</p>
             </div>
             
             <form id="loginForm">
@@ -1054,6 +1088,11 @@
                 <button type="submit" class="login-btn">Login</button>
                 <p class="error-message" id="errorMessage"></p>
             </form>
+            
+            <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                <div class="loading-spinner"></div>
+                Checking credentials...
+            </div>
             
             <div class="first-time-setup" id="firstTimeSetup" style="display: none;">
                 <h3>First Time Setup</h3>
@@ -1358,36 +1397,44 @@
 
         // ===== AUTHENTICATION =====
         async function checkAdminExists() {
-            const localAdmin = localStorage.getItem('adminCredentials');
-            if (localAdmin) return true;
-            
-            const firebaseAdmin = await loadAdminFromFirebase();
-            if (firebaseAdmin) {
-                localStorage.setItem('adminCredentials', JSON.stringify(firebaseAdmin));
-                return true;
+            try {
+                const firebaseAdmin = await loadAdminFromFirebase();
+                return firebaseAdmin !== null;
+            } catch (error) {
+                console.error("Error checking admin:", error);
+                return false;
             }
-            return false;
         }
 
         async function createAdmin(username, password) {
-            const credentials = { username, password: btoa(password) };
-            localStorage.setItem('adminCredentials', JSON.stringify(credentials));
-            await saveAdminToFirebase(username, password);
+            try {
+                await saveAdminToFirebase(username, password);
+                return true;
+            } catch (error) {
+                console.error("Error creating admin:", error);
+                return false;
+            }
         }
 
-        function verifyLogin(username, password) {
-            const stored = localStorage.getItem('adminCredentials');
-            if (!stored) return false;
-            const credentials = JSON.parse(stored);
-            return credentials.username === username && credentials.password === btoa(password);
+        async function verifyLogin(username, password) {
+            try {
+                const firebaseAdmin = await loadAdminFromFirebase();
+                if (firebaseAdmin && firebaseAdmin.username === username && firebaseAdmin.password === btoa(password)) {
+                    return true;
+                }
+                return false;
+            } catch (error) {
+                console.error("Error verifying login:", error);
+                return false;
+            }
         }
 
         function isLoggedIn() {
-            return localStorage.getItem('isLoggedIn') === 'true';
+            return sessionStorage.getItem('isLoggedIn') === 'true';
         }
 
         function setLoggedIn(status) {
-            localStorage.setItem('isLoggedIn', status);
+            sessionStorage.setItem('isLoggedIn', status);
         }
 
         function showLoginScreen() {
@@ -1432,31 +1479,26 @@
         }
 
         async function loadMembers() {
-            // Try Firebase first
-            const firebaseMembers = await loadMembersFromFirebase(currentYear);
-            if (firebaseMembers.length > 0) {
-                // Update localStorage with Firebase data
-                const allMembers = JSON.parse(localStorage.getItem('libraryMembersAllYears') || '{}');
-                allMembers[currentYear] = firebaseMembers;
-                localStorage.setItem('libraryMembersAllYears', JSON.stringify(allMembers));
+            try {
+                // Load from Firebase
+                const firebaseMembers = await loadMembersFromFirebase(currentYear);
                 return firebaseMembers;
+            } catch (error) {
+                console.error("Error loading members:", error);
+                return [];
             }
-
-            // Fallback to localStorage
-            const allMembers = localStorage.getItem('libraryMembersAllYears');
-            const data = allMembers ? JSON.parse(allMembers) : {};
-            return data[currentYear] || [];
         }
 
         async function saveMembers(members) {
-            // Save to localStorage
-            const allMembers = JSON.parse(localStorage.getItem('libraryMembersAllYears') || '{}');
-            allMembers[currentYear] = members;
-            localStorage.setItem('libraryMembersAllYears', JSON.stringify(allMembers));
-
-            // Save to Firebase
-            for (const member of members) {
-                await saveMemberToFirebase(member, currentYear);
+            try {
+                // Save to Firebase only
+                for (const member of members) {
+                    await saveMemberToFirebase(member, currentYear);
+                }
+                return true;
+            } catch (error) {
+                console.error("Error saving members:", error);
+                return false;
             }
         }
 
@@ -2002,18 +2044,34 @@
 
         // ===== EVENT LISTENERS =====
         document.addEventListener('DOMContentLoaded', async () => {
-            // Wait for Firebase to initialize
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            if (isLoggedIn()) {
-                showAdminPanel();
-            } else {
+            // Show loading indicator
+            const loginForm = document.getElementById('loginForm');
+            const setupForm = document.getElementById('firstTimeSetup');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            if (!isLoggedIn()) {
                 showLoginScreen();
+                loginForm.style.display = 'none';
+                setupForm.style.display = 'none';
+                loadingIndicator.style.display = 'block';
+                
+                // Wait for Firebase to initialize
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Check if admin exists in Firebase
                 const adminExists = await checkAdminExists();
+                
+                loadingIndicator.style.display = 'none';
+                
                 if (!adminExists) {
-                    document.getElementById('loginForm').style.display = 'none';
-                    document.getElementById('firstTimeSetup').style.display = 'block';
+                    loginForm.style.display = 'none';
+                    setupForm.style.display = 'block';
+                } else {
+                    loginForm.style.display = 'block';
+                    setupForm.style.display = 'none';
                 }
+            } else {
+                showAdminPanel();
             }
             
             document.getElementById('setupForm').addEventListener('submit', async (e) => {
@@ -2033,26 +2091,47 @@
                     return;
                 }
                 
-                await createAdmin(username, password);
-                errorMsg.textContent = '';
-                document.getElementById('firstTimeSetup').style.display = 'none';
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('errorMessage').textContent = 'Account created! Please login.';
-                document.getElementById('setupForm').reset();
+                errorMsg.textContent = 'Creating account...';
+                errorMsg.style.color = '#fbbf24';
+                
+                const success = await createAdmin(username, password);
+                
+                if (success) {
+                    errorMsg.textContent = '';
+                    errorMsg.style.color = '#ef4444';
+                    document.getElementById('firstTimeSetup').style.display = 'none';
+                    document.getElementById('loginForm').style.display = 'block';
+                    document.getElementById('errorMessage').textContent = 'Account created! Please login.';
+                    document.getElementById('errorMessage').style.color = '#10b981';
+                    document.getElementById('setupForm').reset();
+                } else {
+                    errorMsg.textContent = 'Failed to create account. Please try again.';
+                    errorMsg.style.color = '#ef4444';
+                }
             });
             
-            document.getElementById('loginForm').addEventListener('submit', (e) => {
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
                 const errorMsg = document.getElementById('errorMessage');
+                const submitBtn = e.target.querySelector('button[type="submit"]');
                 
-                if (verifyLogin(username, password)) {
+                // Show loading state
+                submitBtn.textContent = 'Logging in...';
+                submitBtn.disabled = true;
+                errorMsg.textContent = '';
+                
+                const isValid = await verifyLogin(username, password);
+                
+                if (isValid) {
                     setLoggedIn('true');
                     showAdminPanel();
                     document.getElementById('loginForm').reset();
                 } else {
                     errorMsg.textContent = 'Invalid username or password!';
+                    submitBtn.textContent = 'Login';
+                    submitBtn.disabled = false;
                 }
             });
             
