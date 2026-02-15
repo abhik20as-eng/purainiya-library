@@ -3,8 +3,783 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purainiya Library Member Management</title>
-    <link rel="stylesheet" href="admin-style.css">
+    <title>Purainiya Library - Member Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-gold: #d4af37;
+            --secondary-gold: #f4e4c1;
+            --cream: #faf8f3;
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --border-color: #e0d8c8;
+            --hover-bg: #f5f2ed;
+            --success: #2d5016;
+            --danger: #8b2828;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #f0ebe1 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Login Screen Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--primary-gold) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-30px, 30px) rotate(180deg); }
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 16px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-box h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 14px;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: white;
+            color: var(--text-dark);
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #3a3a3a 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+            font-weight: 500;
+        }
+
+        .first-time-setup {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .first-time-setup h3 {
+            font-family: 'Crimson Pro', serif;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: var(--primary-dark);
+        }
+
+        .first-time-setup p {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Admin Panel Styles */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .header-section {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold) 0%, var(--secondary-gold) 100%);
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary-dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-dark);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: #2a2a2a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-gold);
+            background: var(--hover-bg);
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 28px;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .tab-btn:not(.active):hover {
+            background: var(--hover-bg);
+            color: var(--text-dark);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Search and Controls */
+        .controls-section {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 16px 14px 45px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .year-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .year-selector label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .year-selector select {
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-dark);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .year-selector select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+        }
+
+        .add-member-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gold);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .add-member-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Table Styles */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        th {
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        tbody tr.hidden {
+            display: none;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="tel"]:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .date-display {
+            font-weight: 600;
+            color: var(--text-dark);
+            white-space: nowrap;
+        }
+
+        /* Shift Selection */
+        .shift-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .shift-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .shift-checkbox:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .shift-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-gold);
+        }
+
+        .shift-checkbox span {
+            font-size: 13px;
+            color: var(--text-dark);
+        }
+
+        /* Payment Container */
+        .payment-container {
+            padding: 15px;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .month-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .month-checkbox:hover {
+            background-color: white;
+        }
+
+        .month-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+
+        .month-checkbox span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .payment-info {
+            border-top: 2px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+
+        .payment-detail {
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            background-color: white;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .total-payment {
+            margin-top: 10px;
+            padding: 12px;
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            font-size: 15px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .print-bill-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--primary-gold);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .print-bill-btn:hover {
+            background: #c49d2e;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Summary Row */
+        .summary-row {
+            background: var(--primary-dark) !important;
+            color: white;
+        }
+
+        .summary-row td {
+            padding: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-bottom: none !important;
+        }
+
+        .summary-label {
+            text-align: right;
+        }
+
+        .summary-amount {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        /* Billing History Styles */
+        .history-container {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .history-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-item {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            border-color: var(--primary-gold);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-2px);
+        }
+
+        .history-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .history-item-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .history-item-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .history-item-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .history-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-detail-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header-section {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .controls-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .months-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Login Screen -->
@@ -55,54 +830,777 @@
         </div>
     </div>
 
-    <!-- Admin Panel (Hidden initially) -->
+    <!-- Admin Panel -->
     <div class="container" id="adminPanel" style="display: none;">
         <div class="header-section">
-            <h1>Purainiya Library Member Management</h1>
-            <button class="logout-btn" id="logoutBtn">Logout</button>
-        </div>
-        
-        <!-- Search Bar -->
-        <div class="search-section">
-            <input type="tel" id="searchInput" placeholder="🔍 Search by Mobile Number..." class="search-input">
-            <button id="clearSearch" class="clear-search-btn">Clear</button>
-        </div>
-        
-        <!-- Year Selection and Add Button -->
-        <div class="controls-section">
-            <div class="year-control">
-                <label for="yearSelect">Year:</label>
-                <select id="yearSelect" class="year-select"></select>
+            <h1>Purainiya Library</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="logoutBtn">Logout</button>
             </div>
-            <button class="add-btn" id="addMemberBtn">+</button>
         </div>
-        
-        <table id="memberTable">
-            <thead>
-                <tr>
-                    <th>Date of Joining</th>
-                    <th>ID (Mobile Number)</th>
-                    <th>Name</th>
-                    <th>Shift</th>
-                    <th>Payment Done</th>
-                </tr>
-            </thead>
-            <tbody id="memberTableBody">
-                <!-- Members will be added here -->
-            </tbody>
-            <tfoot>
-                <tr class="summary-row">
-                    <td colspan="4" class="summary-label">
-                        <strong>Total Students: <span id="totalStudents">0</span></strong>
-                    </td>
-                    <td class="summary-amount">
-                        <strong>Total Amount: ₹<span id="totalAmount">0</span></strong>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="members">Members</button>
+            <button class="tab-btn" data-tab="history">Billing History</button>
+        </div>
+
+        <!-- Members Tab -->
+        <div class="tab-content active" id="membersTab">
+            <div class="controls-section">
+                <div class="search-box">
+                    <input type="tel" id="searchInput" placeholder="Search by Mobile Number...">
+                </div>
+                
+                <div class="year-selector">
+                    <label>Year:</label>
+                    <select id="yearSelect"></select>
+                </div>
+
+                <button class="add-member-btn" id="addMemberBtn" title="Add New Member">+</button>
+            </div>
+
+            <div class="table-container">
+                <table id="memberTable">
+                    <thead>
+                        <tr>
+                            <th>Date of Joining</th>
+                            <th>Mobile Number</th>
+                            <th>Name</th>
+                            <th>Shift</th>
+                            <th>Payment Done</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberTableBody">
+                        <!-- Members will be added here -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="summary-row">
+                            <td colspan="4" class="summary-label">
+                                Total Students: <span id="totalStudents">0</span>
+                            </td>
+                            <td class="summary-amount">
+                                Total: ₹<span id="totalAmount">0</span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Billing History Tab -->
+        <div class="tab-content" id="historyTab">
+            <div class="history-container">
+                <div class="history-filters">
+                    <div class="filter-group">
+                        <label>Year</label>
+                        <select id="historyYearFilter"></select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Month</label>
+                        <select id="historyMonthFilter">
+                            <option value="">All Months</option>
+                            <option value="Jan">January</option>
+                            <option value="Feb">February</option>
+                            <option value="Mar">March</option>
+                            <option value="Apr">April</option>
+                            <option value="May">May</option>
+                            <option value="Jun">June</option>
+                            <option value="Jul">July</option>
+                            <option value="Aug">August</option>
+                            <option value="Sep">September</option>
+                            <option value="Oct">October</option>
+                            <option value="Nov">November</option>
+                            <option value="Dec">December</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Search Member</label>
+                        <input type="text" id="historySearchInput" placeholder="Name or Mobile">
+                    </div>
+                </div>
+
+                <div class="history-list" id="historyList">
+                    <!-- History items will be added here -->
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="admin-script.js"></script>
+    <script>
+        // ===== AUTHENTICATION SYSTEM =====
+
+        function checkAdminExists() {
+            return localStorage.getItem('adminCredentials') !== null;
+        }
+
+        function createAdmin(username, password) {
+            const credentials = {
+                username: username,
+                password: btoa(password)
+            };
+            localStorage.setItem('adminCredentials', JSON.stringify(credentials));
+        }
+
+        function verifyLogin(username, password) {
+            const stored = localStorage.getItem('adminCredentials');
+            if (!stored) return false;
+            
+            const credentials = JSON.parse(stored);
+            return credentials.username === username && credentials.password === btoa(password);
+        }
+
+        function isLoggedIn() {
+            return localStorage.getItem('isLoggedIn') === 'true';
+        }
+
+        function setLoggedIn(status) {
+            localStorage.setItem('isLoggedIn', status);
+        }
+
+        function showLoginScreen() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        function showAdminPanel() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            initializeYearSelector();
+            renderMembers();
+            initializeHistoryTab();
+        }
+
+        // ===== YEAR MANAGEMENT =====
+
+        let currentYear = new Date().getFullYear();
+
+        function getCurrentYear() {
+            return currentYear;
+        }
+
+        function initializeYearSelector() {
+            const yearSelect = document.getElementById('yearSelect');
+            const historyYearSelect = document.getElementById('historyYearFilter');
+            const allMembers = loadAllMembers();
+            
+            const years = new Set();
+            years.add(new Date().getFullYear());
+            
+            Object.keys(allMembers).forEach(year => {
+                years.add(parseInt(year));
+            });
+            
+            const sortedYears = Array.from(years).sort((a, b) => b - a);
+            
+            yearSelect.innerHTML = '';
+            historyYearSelect.innerHTML = '';
+            
+            sortedYears.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                if (year === currentYear) option.selected = true;
+                yearSelect.appendChild(option);
+
+                const historyOption = option.cloneNode(true);
+                historyYearSelect.appendChild(historyOption);
+            });
+            
+            yearSelect.addEventListener('change', (e) => {
+                currentYear = parseInt(e.target.value);
+                renderMembers();
+            });
+
+            historyYearSelect.addEventListener('change', renderBillingHistory);
+        }
+
+        // ===== MEMBER MANAGEMENT =====
+
+        function getTodayDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        const shifts = [
+            '6:00 AM - 10:00 AM',
+            '10:00 AM - 2:00 PM',
+            '2:00 PM - 6:00 PM',
+            '6:00 PM - 10:00 PM',
+            '10:00 PM - 2:00 AM',
+            '2:00 AM - 6:00 AM'
+        ];
+
+        const months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+
+        const PAYMENT_PER_SHIFT_PER_MONTH = 500;
+
+        function loadAllMembers() {
+            const allMembers = localStorage.getItem('libraryMembersAllYears');
+            return allMembers ? JSON.parse(allMembers) : {};
+        }
+
+        function saveAllMembers(allMembers) {
+            localStorage.setItem('libraryMembersAllYears', JSON.stringify(allMembers));
+        }
+
+        function loadMembers(year = currentYear) {
+            const allMembers = loadAllMembers();
+            return allMembers[year] || [];
+        }
+
+        function saveMembers(members, year = currentYear) {
+            const allMembers = loadAllMembers();
+            allMembers[year] = members;
+            saveAllMembers(allMembers);
+        }
+
+        function calculateTotalPayment(payments, selectedShifts) {
+            if (!payments || !selectedShifts || selectedShifts.length === 0) return 0;
+            
+            let totalPaid = 0;
+            const shiftsCount = selectedShifts.length;
+            
+            Object.values(payments).forEach(isPaid => {
+                if (isPaid) {
+                    totalPaid += (PAYMENT_PER_SHIFT_PER_MONTH * shiftsCount);
+                }
+            });
+            
+            return totalPaid;
+        }
+
+        function updateSummary() {
+            const members = loadMembers(currentYear);
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            
+            let visibleMembers = members;
+            
+            if (searchTerm) {
+                visibleMembers = members.filter(member => 
+                    member.mobile && member.mobile.includes(searchTerm)
+                );
+            }
+            
+            const totalStudents = visibleMembers.length;
+            const totalAmount = visibleMembers.reduce((sum, member) => {
+                return sum + calculateTotalPayment(member.payments, member.selectedShifts);
+            }, 0);
+            
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('totalAmount').textContent = totalAmount;
+        }
+
+        function printMemberBill(index) {
+            const members = loadMembers(currentYear);
+            const member = members[index];
+            
+            if (!member.name || !member.mobile) {
+                alert('Please fill member name and mobile number before printing bill!');
+                return;
+            }
+            
+            const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+            const paidMonths = member.payments ? Object.keys(member.payments).filter(month => member.payments[month] === true) : [];
+            const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+            const perMonthCharge = selectedShiftsCount * PAYMENT_PER_SHIFT_PER_MONTH;
+            
+            const paidMonthsList = paidMonths.length > 0 ? paidMonths.join(', ') : 'No payments recorded';
+            
+            const billHTML = `
+                <div style="max-width: 800px; margin: 0 auto; padding: 40px; font-family: 'DM Sans', sans-serif; color: #1a1a1a;">
+                    <div style="text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 20px; margin-bottom: 30px;">
+                        <h1 style="margin: 0; font-size: 36px; font-family: 'Crimson Pro', serif; color: #1a1a1a;">Purainiya Library</h1>
+                        <h2 style="margin: 10px 0 0 0; font-size: 22px; color: #666;">Payment Receipt</h2>
+                        <p style="margin: 8px 0 0 0; font-size: 14px; color: #999;">Year: ${currentYear}</p>
+                    </div>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+                        <tr>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600; width: 150px;">Name:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${member.name}</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600; width: 150px;">Mobile:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${member.mobile}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600;">Joining Date:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${member.doj}</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8; background-color: #faf8f3; font-weight: 600;">Bill Date:</td>
+                            <td style="padding: 10px; border: 2px solid #e0d8c8;">${getTodayDate()}</td>
+                        </tr>
+                    </table>
+                    
+                    <div style="display: flex; gap: 25px; margin-bottom: 25px;">
+                        <div style="flex: 1;">
+                            <h3 style="border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin: 0 0 15px 0; font-size: 18px;">Selected Shifts</h3>
+                            <div style="padding: 15px; border: 2px solid #e0d8c8; background-color: #faf8f3; min-height: 140px; border-radius: 8px;">
+                                ${member.selectedShifts && member.selectedShifts.length > 0 
+                                    ? member.selectedShifts.map(shift => `<div style="padding: 5px; font-size: 14px;">• ${shift}</div>`).join('') 
+                                    : '<div style="padding: 5px; font-size: 14px; color: #999;">No shifts selected</div>'}
+                            </div>
+                        </div>
+                        
+                        <div style="flex: 1;">
+                            <h3 style="border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin: 0 0 15px 0; font-size: 18px;">Paid Months (${paidMonths.length})</h3>
+                            <div style="padding: 15px; border: 2px solid #e0d8c8; background-color: #faf8f3; min-height: 140px; font-size: 15px; line-height: 1.8; border-radius: 8px;">
+                                ${paidMonthsList}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 20px; border: 3px solid #d4af37; background-color: #faf8f3; border-radius: 8px;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8;">Number of Shifts:</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8; text-align: right; font-weight: 600;">${selectedShiftsCount}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8;">Rate per Shift per Month:</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8; text-align: right; font-weight: 600;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8;">Monthly Charge:</td>
+                                <td style="padding: 10px 0; border-bottom: 1px solid #e0d8c8; text-align: right; font-weight: 600;">₹${perMonthCharge}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 0; border-bottom: 2px solid #d4af37;">Months Paid:</td>
+                                <td style="padding: 10px 0; border-bottom: 2px solid #d4af37; text-align: right; font-weight: 600;">${paidMonths.length}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 15px 0; font-size: 20px; font-weight: 700;">TOTAL AMOUNT PAID:</td>
+                                <td style="padding: 15px 0; text-align: right;">
+                                    <span style="font-size: 26px; font-weight: 700; background-color: #1a1a1a; color: white; padding: 8px 20px; border-radius: 6px;">₹${totalPayment}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 2px solid #e0d8c8;">
+                        <p style="margin: 5px 0; font-size: 15px; color: #666;">Thank you for being a valued member!</p>
+                        <p style="margin: 5px 0; font-size: 13px; color: #999;">Purainiya Library Management System</p>
+                    </div>
+                </div>
+            `;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Receipt - ${member.name}</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@700&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        @media print {
+                            body { margin: 0; padding: 15px; }
+                            @page { size: A4; margin: 15mm; }
+                        }
+                        body { background: white; }
+                    </style>
+                </head>
+                <body>
+                    ${billHTML}
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        function renderMembers() {
+            const members = loadMembers(currentYear);
+            const tbody = document.getElementById('memberTableBody');
+            tbody.innerHTML = '';
+
+            members.forEach((member, index) => {
+                const row = tbody.insertRow();
+                
+                const dateCell = row.insertCell(0);
+                dateCell.className = 'date-display';
+                dateCell.textContent = member.doj;
+                
+                const idCell = row.insertCell(1);
+                const idInput = document.createElement('input');
+                idInput.type = 'tel';
+                idInput.value = member.mobile;
+                idInput.placeholder = 'Mobile Number';
+                idInput.addEventListener('change', (e) => updateMember(index, 'mobile', e.target.value));
+                idCell.appendChild(idInput);
+                
+                const nameCell = row.insertCell(2);
+                const nameInput = document.createElement('input');
+                nameInput.type = 'text';
+                nameInput.value = member.name;
+                nameInput.placeholder = 'Member Name';
+                nameInput.addEventListener('change', (e) => updateMember(index, 'name', e.target.value));
+                nameCell.appendChild(nameInput);
+                
+                const shiftCell = row.insertCell(3);
+                const shiftContainer = document.createElement('div');
+                shiftContainer.className = 'shift-container';
+                
+                if (!member.selectedShifts) {
+                    member.selectedShifts = [];
+                }
+                
+                shifts.forEach((shift) => {
+                    const shiftLabel = document.createElement('label');
+                    shiftLabel.className = 'shift-checkbox';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = shift;
+                    checkbox.checked = member.selectedShifts.includes(shift);
+                    checkbox.addEventListener('change', (e) => {
+                        updateShiftSelection(index, shift, e.target.checked);
+                    });
+                    
+                    const shiftText = document.createElement('span');
+                    shiftText.textContent = shift;
+                    
+                    shiftLabel.appendChild(checkbox);
+                    shiftLabel.appendChild(shiftText);
+                    shiftContainer.appendChild(shiftLabel);
+                });
+                
+                shiftCell.appendChild(shiftContainer);
+                
+                const paymentCell = row.insertCell(4);
+                
+                if (!member.payments) {
+                    member.payments = {};
+                }
+                
+                const paymentContainer = document.createElement('div');
+                paymentContainer.className = 'payment-container';
+                
+                const monthsGrid = document.createElement('div');
+                monthsGrid.className = 'months-grid';
+                
+                months.forEach((month) => {
+                    const monthLabel = document.createElement('label');
+                    monthLabel.className = 'month-checkbox';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = member.payments[month] || false;
+                    checkbox.addEventListener('change', (e) => {
+                        updatePayment(index, month, e.target.checked);
+                    });
+                    
+                    const monthText = document.createElement('span');
+                    monthText.textContent = month;
+                    
+                    monthLabel.appendChild(checkbox);
+                    monthLabel.appendChild(monthText);
+                    monthsGrid.appendChild(monthLabel);
+                });
+                
+                paymentContainer.appendChild(monthsGrid);
+                
+                const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+                const paidMonthsCount = member.payments ? Object.values(member.payments).filter(paid => paid === true).length : 0;
+                const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+                
+                const paymentInfo = document.createElement('div');
+                paymentInfo.className = 'payment-info';
+                paymentInfo.id = `payment-info-${index}`;
+                paymentInfo.innerHTML = `
+                    <div class="payment-detail">
+                        <span>Shifts:</span>
+                        <span>${selectedShiftsCount} × ₹500 = ₹${selectedShiftsCount * 500}/month</span>
+                    </div>
+                    <div class="payment-detail">
+                        <span>Paid Months:</span>
+                        <span>${paidMonthsCount}</span>
+                    </div>
+                    <div class="total-payment">Total Paid: ₹${totalPayment}</div>
+                `;
+                
+                paymentContainer.appendChild(paymentInfo);
+                
+                const printBtn = document.createElement('button');
+                printBtn.className = 'print-bill-btn';
+                printBtn.textContent = '🖨️ Print Bill';
+                printBtn.addEventListener('click', () => printMemberBill(index));
+                paymentContainer.appendChild(printBtn);
+                
+                paymentCell.appendChild(paymentContainer);
+            });
+            
+            updateSummary();
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const rows = document.querySelectorAll('#memberTableBody tr');
+            
+            rows.forEach(row => {
+                const mobileInput = row.querySelector('input[type="tel"]');
+                const mobile = mobileInput ? mobileInput.value.toLowerCase() : '';
+                
+                if (searchTerm === '' || mobile.includes(searchTerm)) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+            
+            updateSummary();
+        }
+
+        function updateMember(index, field, value) {
+            const members = loadMembers(currentYear);
+            members[index][field] = value;
+            saveMembers(members, currentYear);
+        }
+
+        function updateShiftSelection(index, shift, isSelected) {
+            const members = loadMembers(currentYear);
+            if (!members[index].selectedShifts) {
+                members[index].selectedShifts = [];
+            }
+            
+            if (isSelected) {
+                if (!members[index].selectedShifts.includes(shift)) {
+                    members[index].selectedShifts.push(shift);
+                }
+            } else {
+                members[index].selectedShifts = members[index].selectedShifts.filter(s => s !== shift);
+            }
+            
+            saveMembers(members, currentYear);
+            updatePaymentDisplay(index);
+        }
+
+        function updatePayment(index, month, isPaid) {
+            const members = loadMembers(currentYear);
+            if (!members[index].payments) {
+                members[index].payments = {};
+            }
+            members[index].payments[month] = isPaid;
+            saveMembers(members, currentYear);
+            updatePaymentDisplay(index);
+        }
+
+        function updatePaymentDisplay(index) {
+            const members = loadMembers(currentYear);
+            const member = members[index];
+            
+            const selectedShiftsCount = member.selectedShifts ? member.selectedShifts.length : 0;
+            const paidMonthsCount = member.payments ? Object.values(member.payments).filter(paid => paid === true).length : 0;
+            const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+            
+            const paymentInfoDiv = document.getElementById(`payment-info-${index}`);
+            if (paymentInfoDiv) {
+                paymentInfoDiv.innerHTML = `
+                    <div class="payment-detail">
+                        <span>Shifts:</span>
+                        <span>${selectedShiftsCount} × ₹500 = ₹${selectedShiftsCount * 500}/month</span>
+                    </div>
+                    <div class="payment-detail">
+                        <span>Paid Months:</span>
+                        <span>${paidMonthsCount}</span>
+                    </div>
+                    <div class="total-payment">Total Paid: ₹${totalPayment}</div>
+                `;
+            }
+            
+            updateSummary();
+        }
+
+        function addMember() {
+            const members = loadMembers(currentYear);
+            const newMember = {
+                doj: getTodayDate(),
+                mobile: '',
+                name: '',
+                selectedShifts: [],
+                payments: {}
+            };
+            members.push(newMember);
+            saveMembers(members, currentYear);
+            renderMembers();
+        }
+
+        // ===== BILLING HISTORY =====
+
+        function initializeHistoryTab() {
+            renderBillingHistory();
+        }
+
+        function renderBillingHistory() {
+            const selectedYear = document.getElementById('historyYearFilter').value || currentYear;
+            const selectedMonth = document.getElementById('historyMonthFilter').value;
+            const searchTerm = document.getElementById('historySearchInput').value.toLowerCase();
+            
+            const members = loadMembers(selectedYear);
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            
+            let filteredMembers = members.filter(member => {
+                if (!member.name || !member.mobile) return false;
+                
+                const matchesSearch = !searchTerm || 
+                    member.name.toLowerCase().includes(searchTerm) || 
+                    member.mobile.includes(searchTerm);
+                
+                const matchesMonth = !selectedMonth || 
+                    (member.payments && member.payments[selectedMonth]);
+                
+                return matchesSearch && matchesMonth;
+            });
+
+            if (filteredMembers.length === 0) {
+                historyList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <div class="empty-state-text">No billing history found</div>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredMembers.forEach(member => {
+                const totalPayment = calculateTotalPayment(member.payments, member.selectedShifts);
+                const paidMonths = member.payments ? Object.keys(member.payments).filter(month => member.payments[month]) : [];
+                
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.onclick = () => {
+                    const index = members.indexOf(member);
+                    if (index !== -1) printMemberBill(index);
+                };
+                
+                historyItem.innerHTML = `
+                    <div class="history-item-header">
+                        <div class="history-item-name">${member.name}</div>
+                        <div class="history-item-amount">₹${totalPayment}</div>
+                    </div>
+                    <div class="history-item-details">
+                        <div class="history-detail">
+                            <span class="history-detail-label">Mobile</span>
+                            <span>${member.mobile}</span>
+                        </div>
+                        <div class="history-detail">
+                            <span class="history-detail-label">Joining Date</span>
+                            <span>${member.doj}</span>
+                        </div>
+                        <div class="history-detail">
+                            <span class="history-detail-label">Shifts</span>
+                            <span>${member.selectedShifts ? member.selectedShifts.length : 0}</span>
+                        </div>
+                        <div class="history-detail">
+                            <span class="history-detail-label">Paid Months</span>
+                            <span>${paidMonths.length > 0 ? paidMonths.join(', ') : 'None'}</span>
+                        </div>
+                    </div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // ===== TAB SWITCHING =====
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+            
+            if (tabName === 'history') {
+                renderBillingHistory();
+            }
+        }
+
+        // ===== EVENT HANDLERS =====
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isLoggedIn()) {
+                showAdminPanel();
+            } else {
+                showLoginScreen();
+                
+                if (!checkAdminExists()) {
+                    document.getElementById('loginForm').style.display = 'none';
+                    document.getElementById('firstTimeSetup').style.display = 'block';
+                }
+            }
+            
+            document.getElementById('setupForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('newUsername').value;
+                const password = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const errorMsg = document.getElementById('setupErrorMessage');
+                
+                if (password !== confirmPassword) {
+                    errorMsg.textContent = 'Passwords do not match!';
+                    return;
+                }
+                
+                if (password.length < 4) {
+                    errorMsg.textContent = 'Password must be at least 4 characters!';
+                    return;
+                }
+                
+                createAdmin(username, password);
+                errorMsg.textContent = '';
+                document.getElementById('firstTimeSetup').style.display = 'none';
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Account created! Please login.';
+                document.getElementById('setupForm').reset();
+            });
+            
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const errorMsg = document.getElementById('errorMessage');
+                
+                if (verifyLogin(username, password)) {
+                    setLoggedIn('true');
+                    showAdminPanel();
+                    document.getElementById('loginForm').reset();
+                } else {
+                    errorMsg.textContent = 'Invalid username or password!';
+                }
+            });
+            
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                setLoggedIn('false');
+                showLoginScreen();
+                document.getElementById('errorMessage').textContent = '';
+            });
+            
+            document.getElementById('addMemberBtn').addEventListener('click', addMember);
+            
+            document.getElementById('searchInput').addEventListener('input', performSearch);
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchTab(btn.dataset.tab);
+                });
+            });
+            
+            document.getElementById('historyMonthFilter').addEventListener('change', renderBillingHistory);
+            document.getElementById('historySearchInput').addEventListener('input', renderBillingHistory);
+        });
+    </script>
 </body>
 </html>
