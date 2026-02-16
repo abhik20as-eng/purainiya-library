@@ -4,25 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purainiya Library - Professional Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1e40af;
-            --primary-dark: #1e3a8a;
-            --primary-light: #3b82f6;
-            --accent: #fbbf24;
-            --accent-dark: #fbbf24;
+            --primary: #1e293b;
+            --primary-light: #334155;
+            --primary-dark: #0f172a;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
             --success: #10b981;
+            --success-light: #d1fae5;
             --danger: #ef4444;
-            --bg-main: #fef3c7;
+            --danger-light: #fee2e2;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --bg-main: #f8fafc;
             --bg-card: #ffffff;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
+            --text-muted: #94a3b8;
             --border: #e2e8f0;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+            --border-dark: #cbd5e1;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         * {
@@ -32,11 +38,12 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Login Screen */
@@ -46,7 +53,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             position: relative;
             overflow: hidden;
         }
@@ -56,7 +63,7 @@
             position: absolute;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
             animation: rotate 30s linear infinite;
         }
 
@@ -67,20 +74,20 @@
 
         .login-box {
             background: white;
-            border-radius: 24px;
-            padding: 50px 45px;
+            border-radius: 20px;
+            padding: 48px 40px;
             width: 100%;
-            max-width: 450px;
+            max-width: 440px;
             box-shadow: var(--shadow-xl);
             position: relative;
             z-index: 1;
-            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(50px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -90,24 +97,26 @@
 
         .login-logo {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 36px;
         }
 
         .login-logo h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: #f59e0b;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
             margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
         .login-logo p {
             color: var(--text-secondary);
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .input-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .input-group label {
@@ -115,41 +124,44 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: 0.3px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 14px 18px;
+            padding: 12px 16px;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             background-color: var(--bg-main);
             color: var(--text-primary);
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
         }
 
         .input-group input:focus {
             outline: none;
-            border-color: #fbbf24;
+            border-color: var(--accent);
             background-color: white;
-            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
 
         .login-btn {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s ease;
+            margin-top: 8px;
+            transition: all 0.2s ease;
             box-shadow: var(--shadow-md);
+            letter-spacing: 0.3px;
         }
 
         .login-btn:hover {
@@ -164,10 +176,10 @@
         .error-message {
             color: var(--danger);
             text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-            min-height: 20px;
-            font-weight: 500;
+            margin-top: 14px;
+            font-size: 13px;
+            min-height: 18px;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
@@ -176,28 +188,30 @@
         }
 
         .error-message.info {
-            color: #fbbf24;
+            color: var(--accent);
         }
 
         .first-time-setup {
-            margin-top: 30px;
-            padding-top: 30px;
+            margin-top: 28px;
+            padding-top: 28px;
             border-top: 2px solid var(--border);
         }
 
         .first-time-setup h3 {
             font-family: 'Playfair Display', serif;
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 24px;
-            color: #f59e0b;
+            margin-bottom: 8px;
+            font-size: 22px;
+            color: var(--primary);
+            font-weight: 800;
         }
 
         .first-time-setup p {
             text-align: center;
-            margin-bottom: 24px;
-            font-size: 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
             color: var(--text-secondary);
+            font-weight: 500;
         }
 
         /* Loading Indicator */
@@ -206,17 +220,18 @@
             padding: 20px;
             color: var(--text-secondary);
             font-size: 14px;
+            font-weight: 500;
         }
 
         .loading-spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(251, 191, 36, 0.3);
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(59, 130, 246, 0.2);
             border-radius: 50%;
-            border-top-color: #fbbf24;
+            border-top-color: var(--accent);
             animation: spin 1s linear infinite;
-            margin-right: 10px;
+            margin-right: 8px;
             vertical-align: middle;
         }
 
@@ -228,8 +243,8 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 30px;
-            animation: fadeIn 0.6s ease;
+            padding: 24px;
+            animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
@@ -238,10 +253,10 @@
         }
 
         .header-section {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            padding: 40px 50px;
-            border-radius: 24px;
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 32px 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
             box-shadow: var(--shadow-lg);
             display: flex;
             justify-content: space-between;
@@ -251,54 +266,58 @@
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 38px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             margin: 0;
+            letter-spacing: -0.5px;
         }
 
         .header-subtitle {
-            font-size: 16px;
-            opacity: 0.95;
-            margin-top: 8px;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 6px;
+            font-weight: 500;
         }
 
         .header-actions {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
         }
 
         .year-badge {
-            background: rgba(251, 191, 36, 0.3);
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.5px;
         }
 
         .btn {
-            padding: 12px 28px;
-            border-radius: 12px;
+            padding: 10px 24px;
+            border-radius: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            letter-spacing: 0.3px;
         }
 
         .btn-white {
             background: white;
-            color: #f59e0b;
+            color: var(--primary);
             box-shadow: var(--shadow-sm);
         }
 
         .btn-white:hover {
-            background: #fffbeb;
+            background: var(--bg-main);
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
@@ -306,29 +325,31 @@
         /* Tab Navigation */
         .tab-navigation {
             background: var(--bg-card);
-            padding: 12px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow-md);
+            padding: 8px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
             display: inline-flex;
-            gap: 8px;
+            gap: 6px;
+            border: 2px solid var(--border);
         }
 
         .tab-btn {
-            padding: 14px 36px;
+            padding: 12px 28px;
             border: none;
             background: transparent;
             color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            border-radius: 14px;
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            transition: all 0.2s ease;
             position: relative;
+            letter-spacing: 0.3px;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            background: var(--primary);
             color: white;
             box-shadow: var(--shadow-sm);
         }
@@ -341,7 +362,7 @@
         /* Tab Content */
         .tab-content {
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.3s ease;
         }
 
         .tab-content.active {
@@ -351,35 +372,39 @@
         /* Registration Form */
         .registration-card {
             background: var(--bg-card);
-            border-radius: 24px;
-            padding: 50px;
-            box-shadow: var(--shadow-lg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
             max-width: 800px;
             margin: 0 auto;
+            border: 2px solid var(--border);
         }
 
         .registration-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
 
         .registration-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            color: #fbbf24;
-            margin-bottom: 10px;
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .registration-header p {
             color: var(--text-secondary);
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin-bottom: 24px;
         }
 
         .form-group {
@@ -392,50 +417,54 @@
         }
 
         .form-group label {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            letter-spacing: 0.3px;
         }
 
         .form-group input {
-            padding: 14px 18px;
+            padding: 12px 16px;
             border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
+            border-radius: 10px;
+            font-size: 14px;
             background: var(--bg-main);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #fbbf24;
+            border-color: var(--accent);
             background: white;
-            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
 
         .form-group input:disabled {
             background: var(--border);
             cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .register-btn {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
             color: white;
             border: none;
-            border-radius: 14px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             box-shadow: var(--shadow-md);
-            margin-top: 10px;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
         }
 
         .register-btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
 
@@ -444,70 +473,76 @@
         }
 
         .success-message {
-            background: #d1fae5;
+            background: var(--success-light);
             color: #065f46;
-            padding: 16px 20px;
-            border-radius: 12px;
+            padding: 14px 18px;
+            border-radius: 10px;
             text-align: center;
-            margin-top: 20px;
-            font-weight: 600;
+            margin-top: 16px;
+            font-weight: 700;
             display: none;
+            font-size: 14px;
+            border: 2px solid var(--success);
         }
 
         /* Members List */
         .members-section {
             background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-lg);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--border);
         }
 
         .members-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
         }
 
         .members-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: #fbbf24;
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .members-header-controls {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
             flex-wrap: wrap;
         }
 
         .filter-tabs {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             background: var(--bg-main);
             padding: 6px;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 2px solid var(--border);
         }
 
         .filter-tab {
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             background: transparent;
             color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            transition: all 0.2s ease;
             white-space: nowrap;
+            letter-spacing: 0.3px;
         }
 
         .filter-tab.active {
-            background: #fbbf24;
+            background: var(--primary);
             color: white;
         }
 
@@ -518,58 +553,60 @@
 
         .search-box {
             position: relative;
-            width: 300px;
+            width: 280px;
         }
 
         .search-box input {
             width: 100%;
-            padding: 14px 18px 14px 50px;
+            padding: 12px 16px 12px 44px;
             border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
+            border-radius: 10px;
+            font-size: 14px;
             background: var(--bg-main);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
 
         .search-box input:focus {
             outline: none;
-            border-color: #fbbf24;
+            border-color: var(--accent);
             background: white;
-            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
 
         .search-box::before {
             content: '🔍';
             position: absolute;
-            left: 18px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .total-students-badge {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            background: var(--primary);
             color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 10px 20px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px;
             box-shadow: var(--shadow-sm);
             white-space: nowrap;
+            letter-spacing: 0.5px;
         }
 
         .members-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
         }
 
         .member-card {
             background: var(--bg-main);
             border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 25px;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s ease;
             cursor: pointer;
             position: relative;
         }
@@ -577,47 +614,50 @@
         .member-card.new-member::before {
             content: '✨ NEW';
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             background: var(--success);
             color: white;
             padding: 4px 10px;
             border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
         }
 
         .member-card:hover {
-            border-color: #fbbf24;
+            border-color: var(--accent);
             box-shadow: var(--shadow-md);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
         .member-card-header {
             display: flex;
             justify-content: space-between;
             align-items: start;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .member-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: #fbbf24;
-            margin-bottom: 5px;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
         }
 
         .member-mobile {
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 600;
         }
 
         .member-badge {
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
 
         .member-badge.registered {
@@ -626,12 +666,12 @@
         }
 
         .member-badge.active {
-            background: #d1fae5;
+            background: var(--success-light);
             color: #065f46;
         }
 
         .member-badge.due {
-            background: #fee2e2;
+            background: var(--danger-light);
             color: #991b1b;
         }
 
@@ -639,244 +679,263 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            padding-top: 15px;
+            padding-top: 12px;
             border-top: 2px solid var(--border);
         }
 
         .member-info-row {
             display: flex;
             justify-content: space-between;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .member-info-label {
             color: var(--text-secondary);
+            font-weight: 600;
         }
 
         .member-info-value {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
         }
 
         .empty-state {
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
             color: var(--text-secondary);
         }
 
         .empty-state-icon {
-            font-size: 72px;
-            margin-bottom: 20px;
+            font-size: 64px;
+            margin-bottom: 16px;
             opacity: 0.4;
         }
 
         .empty-state-text {
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 600;
         }
 
         /* Billing Section */
         .billing-section {
             background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-lg);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--border);
         }
 
         .billing-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .billing-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: #fbbf24;
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .member-selector {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .member-selector label {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
         }
 
         .member-selector select {
-            padding: 14px 18px;
+            padding: 12px 16px;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             background: var(--bg-main);
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            min-width: 300px;
-            transition: all 0.3s ease;
+            min-width: 280px;
+            transition: all 0.2s ease;
         }
 
         .member-selector select:focus {
             outline: none;
-            border-color: #fbbf24;
+            border-color: var(--accent);
             background: white;
         }
 
         .billing-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 24px;
         }
 
         .billing-card {
             background: var(--bg-main);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 12px;
+            padding: 24px;
+            border: 2px solid var(--border);
         }
 
         .billing-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #fbbf24;
-            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 2px solid var(--border);
+            letter-spacing: -0.3px;
         }
 
         .shift-selection {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .shift-option {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
+            padding: 12px 14px;
             background: white;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .shift-option:hover {
-            border-color: #fbbf24;
+            border-color: var(--accent);
             background: var(--bg-main);
         }
 
         .shift-option input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            accent-color: #fbbf24;
+            accent-color: var(--primary);
         }
 
         .shift-option label {
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-primary);
             flex: 1;
+            font-weight: 600;
         }
 
         .payment-tracker {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
         .payment-date-section {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 18px;
+            border-radius: 10px;
             border: 2px solid var(--border);
         }
 
         .payment-date-label {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 800;
             color: var(--text-secondary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .payment-date-section input[type="date"] {
             width: 100%;
-            padding: 14px 18px;
+            padding: 12px 16px;
             border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
+            border-radius: 10px;
+            font-size: 14px;
             background: var(--bg-main);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            font-weight: 600;
         }
 
         .payment-date-section input[type="date"]:focus {
             outline: none;
-            border-color: #fbbf24;
+            border-color: var(--accent);
             background: white;
         }
 
         .payment-summary {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            padding: 25px;
-            border-radius: 12px;
-            border: 2px solid var(--accent);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-dark);
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            font-size: 15px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .summary-row.total {
-            border-top: 2px solid var(--accent);
-            margin-top: 15px;
-            padding-top: 18px;
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--primary);
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            margin-top: 12px;
+            padding-top: 16px;
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
         }
 
         .summary-label {
-            color: var(--text-secondary);
+            font-weight: 600;
         }
 
         .summary-value {
-            font-weight: 600;
-            color: var(--text-primary);
+            font-weight: 700;
+            color: white;
         }
 
         .summary-value.unpaid {
-            color: var(--danger);
+            color: #fca5a5;
         }
 
         .summary-value.paid {
-            color: var(--success);
+            color: #86efac;
         }
 
         .billing-actions {
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 16px;
+            margin-top: 8px;
         }
 
         .action-btn {
-            padding: 16px;
+            padding: 14px;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            letter-spacing: 0.3px;
         }
 
         .action-btn.save {
@@ -891,7 +950,7 @@
         }
 
         .action-btn.print {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
             color: white;
             box-shadow: var(--shadow-md);
         }
@@ -904,66 +963,69 @@
         /* History Section */
         .history-section {
             background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-lg);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--border);
         }
 
         .history-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .history-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: #fbbf24;
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .history-filters {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
             flex-wrap: wrap;
         }
 
         .filter-select {
-            padding: 14px 18px;
+            padding: 12px 16px;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             background: var(--bg-main);
             color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .filter-select:focus {
             outline: none;
-            border-color: #fbbf24;
+            border-color: var(--accent);
             background: white;
         }
 
         .history-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
         .history-item {
             background: var(--bg-main);
             border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.2s ease;
             cursor: pointer;
         }
 
         .history-item:hover {
-            border-color: #fbbf24;
+            border-color: var(--accent);
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
         }
@@ -972,25 +1034,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .history-item-name {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fbbf24;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.3px;
         }
 
         .history-item-amount {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
         }
 
         .history-item-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
         }
 
         .history-detail {
@@ -999,44 +1062,48 @@
         }
 
         .history-detail-label {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-secondary);
-            margin-bottom: 5px;
-            font-size: 13px;
+            margin-bottom: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .history-detail-value {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 14px;
         }
 
         /* Total Collection Box */
         .total-collection-box {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 16px;
+            padding: 28px;
+            margin-top: 24px;
             box-shadow: var(--shadow-lg);
             text-align: center;
             color: white;
-            animation: slideUp 0.5s ease;
+            animation: slideUp 0.4s ease;
+            border: 2px solid var(--primary-dark);
         }
 
         .total-collection-label {
-            font-size: 16px;
-            font-weight: 600;
-            opacity: 0.95;
-            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            opacity: 0.9;
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .total-collection-amount {
-            font-size: 48px;
-            font-weight: 700;
+            font-size: 42px;
+            font-weight: 800;
             font-family: 'Playfair Display', serif;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: -1px;
         }
 
         .total-collection-details {
@@ -1045,7 +1112,7 @@
             border-top: 2px solid rgba(255,255,255,0.3);
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 32px;
             flex-wrap: wrap;
         }
 
@@ -1056,33 +1123,34 @@
         }
 
         .collection-stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
         }
 
         .collection-stat-label {
-            font-size: 13px;
+            font-size: 12px;
             opacity: 0.9;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
+            font-weight: 700;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 16px;
             }
 
             .header-section {
                 flex-direction: column;
-                gap: 20px;
+                gap: 16px;
                 text-align: center;
-                padding: 30px;
+                padding: 24px;
             }
 
             h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .form-grid {
@@ -1107,7 +1175,7 @@
 
             .tab-btn {
                 flex: 1;
-                padding: 12px 16px;
+                padding: 10px 16px;
             }
 
             .members-header {
@@ -1130,12 +1198,12 @@
 
             .filter-tab {
                 flex: 1;
-                padding: 10px 12px;
-                font-size: 13px;
+                padding: 8px 12px;
+                font-size: 12px;
             }
         }
 
-        /* Print Styles for Single Page Bill */
+        /* Print Styles */
         @media print {
             body { 
                 margin: 0; 
@@ -1162,7 +1230,7 @@
             <div class="login-logo">
                 <h2>Purainiya Library</h2>
                 <p>Professional Management System</p>
-                <p style="font-size: 12px; margin-top: 8px; color: #fbbf24;">🔥 Powered by Firebase</p>
+                <p style="font-size: 11px; margin-top: 6px; color: var(--accent); font-weight: 600;">🔥 Powered by Firebase</p>
             </div>
             
             <form id="loginForm">
@@ -1267,7 +1335,7 @@
             </div>
 
             <!-- Members List -->
-            <div class="members-section" style="margin-top: 40px;">
+            <div class="members-section" style="margin-top: 32px;">
                 <div class="members-header">
                     <h2>Registered Members</h2>
                     <div class="members-header-controls">
@@ -1296,9 +1364,13 @@
                 <div class="billing-header">
                     <h2>Member Billing</h2>
                     <div class="member-selector">
-                        <label style="font-weight: 600;">Select Member:</label>
+                        <label>Select Member:</label>
                         <select id="billingMemberSelect">
                             <option value="">-- Choose a member --</option>
+                        </select>
+                        <label style="margin-left: 20px;">Billing Month:</label>
+                        <select id="billingMonthFilter">
+                            <option value="">-- Select Month --</option>
                         </select>
                     </div>
                 </div>
@@ -1313,13 +1385,8 @@
                         </div>
 
                         <div class="billing-card">
-                            <h3>💰 Payment Tracker</h3>
+                            <h3>💰 Payment Summary</h3>
                             <div class="payment-tracker">
-                                <div class="payment-date-section">
-                                    <div class="payment-date-label">Payment Until Date</div>
-                                    <input type="date" id="paymentUntilDate">
-                                </div>
-
                                 <div class="payment-summary" id="paymentSummary">
                                     <!-- Summary will be generated here -->
                                 </div>
@@ -1358,7 +1425,7 @@
                             <option value="paid">Fully Paid</option>
                             <option value="due">Has Due</option>
                         </select>
-                        <div class="search-box" style="width: 300px;">
+                        <div class="search-box" style="width: 280px;">
                             <input type="text" id="historySearch" placeholder="Search member...">
                         </div>
                     </div>
@@ -1677,34 +1744,67 @@
                 return false;
             }
         }
+function getBillingMonthFromJoiningDate(joiningDate) {
+    const join = parseDate(joiningDate);
+    const today = new Date();
+
+    let billingMonth = today.getMonth();
+    let billingYear = today.getFullYear();
+
+    // If today date is before joining day → previous month bill
+    if (today.getDate() < join.getDate()) {
+        billingMonth -= 1;
+        if (billingMonth < 0) {
+            billingMonth = 11;
+            billingYear -= 1;
+        }
+    }
+
+    const months = [
+        'January','February','March','April','May','June',
+        'July','August','September','October','November','December'
+    ];
+
+    return {
+        monthName: months[billingMonth],
+        monthIndex: billingMonth,
+        year: billingYear
+    };
+}
 
         function parseDate(dateStr) {
             const parts = dateStr.split('/');
             return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
-        // FIXED: Proper month calculation from exact joining day
+        // CORRECTED: Calculate complete months from joining date
+        // 16/02/26 to 16/02/26 = 1 month (current month)
+        // 16/02/26 to 17/02/26 = 1 month (within first month)
+        // 16/02/26 to 15/03/26 = 1 month (not yet completed second cycle)
+        // 16/02/26 to 16/03/26 = 1 month (completed 1 cycle)
+        // 16/02/26 to 17/03/26 = 2 months (into second cycle)
+        // 16/02/26 to 16/09/26 = 7 months (7 complete cycles)
+        // 20/02/26 to 20/08/26 = 6 months (6 complete cycles)
         function getMonthsDifference(startDate, endDate) {
             const start = parseDate(startDate);
             const end = parseDate(endDate);
             
-            // Calculate year and month difference
+            // Calculate months between
             let months = (end.getFullYear() - start.getFullYear()) * 12;
             months += end.getMonth() - start.getMonth();
             
-            // If we haven't reached the same day in the end month, subtract one month
+            // If end day < start day, we haven't completed the month cycle yet
             if (end.getDate() < start.getDate()) {
-                months--;
+                months -= 1;
             }
             
-            // Add 1 to include the current month
-            months += 1;
-            
-            return Math.max(0, months);
+            // Minimum 1 month (current month always counts)
+            return Math.max(1, months);
         }
 
         function populateMonthFilter() {
             const select = document.getElementById('historyMonthFilter');
+            const billingSelect = document.getElementById('billingMonthFilter');
             const months = [
                 'January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'
@@ -1715,6 +1815,7 @@
             const currentYear = new Date().getFullYear();
             
             let options = '<option value="">All Months</option>';
+            let billingOptions = '<option value="">-- Select Month --</option>';
             
             // Generate last 12 months
             for (let i = 0; i < 12; i++) {
@@ -1722,15 +1823,59 @@
                 const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
                 const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
                 options += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
+                billingOptions += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
             }
             
             select.innerHTML = options;
+            billingSelect.innerHTML = billingOptions;
         }
 
         function getPaymentMonthYear(member) {
             if (!member.paymentUntilDate) return null;
             const date = parseDate(member.paymentUntilDate);
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        }
+
+        // Calculate billing for a specific month from joining date
+        function calculateBillingForMonth(member, selectedMonth) {
+            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0 || !selectedMonth) {
+                return {
+                    totalMonths: 0,
+                    perMonthCharge: 0,
+                    totalDue: 0,
+                    totalPaid: 0,
+                    unpaidAmount: 0,
+                    isPaid: true,
+                    startDate: member.doj,
+                    endDate: getTodayDate()
+                };
+            }
+
+            // Parse selected month (format: "YYYY-MM")
+            const [year, month] = selectedMonth.split('-');
+            const joiningDate = parseDate(member.doj);
+            
+            // Calculate the last day of the selected month
+            const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+            const endDate = `${String(lastDayOfMonth).padStart(2, '0')}/${month}/${year}`;
+            
+            // Calculate months from joining date to end of selected month
+            const totalMonths = getMonthsDifference(member.doj, endDate);
+            const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
+            const totalDue = totalMonths * perMonthCharge;
+            const totalPaid = member.totalPaid || 0;
+            const unpaidAmount = Math.max(0, totalDue - totalPaid);
+
+            return {
+                totalMonths,
+                perMonthCharge,
+                totalDue,
+                totalPaid,
+                unpaidAmount,
+                isPaid: unpaidAmount === 0,
+                startDate: member.doj,
+                endDate: endDate
+            };
         }
 
         function calculatePaymentDetails(member) {
@@ -1908,19 +2053,14 @@
             document.getElementById('billingContent').style.display = 'block';
             document.getElementById('billingEmptyState').style.display = 'none';
 
-            // Update payment until date
-            if (!currentBillingMember.paymentUntilDateManuallySet) {
-                currentBillingMember.paymentUntilDate = getTodayDate();
-            }
-
             // Set shifts
             shifts.forEach((shift, index) => {
                 const checkbox = document.getElementById(`shift-${index}`);
                 checkbox.checked = currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.includes(shift);
             });
 
-            // Set payment date
-            document.getElementById('paymentUntilDate').value = formatDateForInput(currentBillingMember.paymentUntilDate || getTodayDate());
+            // Reset billing month filter
+            document.getElementById('billingMonthFilter').value = '';
 
             updatePaymentSummary();
         }
@@ -1946,79 +2086,96 @@
                 await saveMembers(members);
             }
 
-            const details = calculatePaymentDetails(currentBillingMember);
-            const summary = document.getElementById('paymentSummary');
+            // Get selected billing month
+            const billingMonth = document.getElementById('billingMonthFilter').value;
+            let details;
+            let selectedMonthDisplay = '';
+            
+            if (billingMonth) {
+                // Calculate billing for specific month from joining date
+                details = calculateBillingForMonth(currentBillingMember, billingMonth);
+                
+                // Format month display (e.g., "February 2026")
+                const [year, month] = billingMonth.split('-');
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+                selectedMonthDisplay = `${months[parseInt(month) - 1]} ${year}`;
+            } else {
+                // Calculate normal billing to today
+                details = calculatePaymentDetails(currentBillingMember);
+                selectedMonthDisplay = 'Current Month';
+            }
 
-            summary.innerHTML = `
-                <div class="summary-row">
-                    <span class="summary-label">Period:</span>
-                    <span class="summary-value">${details.startDate} to ${details.endDate}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Months:</span>
-                    <span class="summary-value">${details.totalMonths}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Shifts Selected:</span>
-                    <span class="summary-value">${selectedShifts.length}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Per Shift/Month:</span>
-                    <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Monthly Total:</span>
-                    <span class="summary-value">₹${details.perMonthCharge}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Due:</span>
-                    <span class="summary-value unpaid">₹${details.totalDue}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Paid:</span>
-                    <span class="summary-value paid">₹${details.totalPaid}</span>
-                </div>
-                <div class="summary-row total">
-                    <span class="summary-label">Balance:</span>
-                    <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
-                </div>
-            `;
+           const billingData = getBillingMonthFromJoiningDate(currentBillingMember.doj);
+
+summary.innerHTML = `
+    <div class="summary-row">
+        <span class="summary-label">Joining Date:</span>
+        <span class="summary-value">${currentBillingMember.doj}</span>
+    </div>
+
+    <div class="summary-row">
+        <span class="summary-label">Billing Month:</span>
+        <span class="summary-value">${billingData.monthName} ${billingData.year}</span>
+    </div>
+
+    <div class="summary-row">
+        <span class="summary-label">Shifts Selected:</span>
+        <span class="summary-value">${selectedShifts.length}</span>
+    </div>
+
+    <div class="summary-row">
+        <span class="summary-label">Per Shift:</span>
+        <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
+    </div>
+
+    <div class="summary-row total">
+        <span class="summary-label">Total Amount:</span>
+        <span class="summary-value">
+            ₹${selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH}
+        </span>
+    </div>
+`;
 
             // Update members grid to reflect changes
             await renderMembers();
         }
 
         async function saveBilling() {
-            if (!currentBillingMember) return;
+    if (!currentBillingMember) return;
 
-            const selectedShifts = [];
-            shifts.forEach((shift, index) => {
-                if (document.getElementById(`shift-${index}`).checked) {
-                    selectedShifts.push(shift);
-                }
-            });
+    const selectedShifts = [];
 
-            const paymentDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
-            
-            currentBillingMember.selectedShifts = selectedShifts;
-            currentBillingMember.paymentUntilDate = paymentDate;
-            currentBillingMember.paymentUntilDateManuallySet = true;
-
-            const details = calculatePaymentDetails(currentBillingMember);
-            currentBillingMember.totalPaid = details.totalDue;
-
-            const members = await loadMembers();
-            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-            if (index !== -1) {
-                members[index] = currentBillingMember;
-                await saveMembers(members);
-            }
-
-            alert('✓ Billing saved and marked as paid!');
-            updatePaymentSummary();
-            await renderMembers();
-            await renderHistory();
+    shifts.forEach((shift, index) => {
+        if (document.getElementById(`shift-${index}`).checked) {
+            selectedShifts.push(shift);
         }
+    });
+
+    const billingData = getBillingMonthFromJoiningDate(currentBillingMember.doj);
+
+    currentBillingMember.selectedShifts = selectedShifts;
+
+    currentBillingMember.paymentUntilDate =
+        `01/${String(billingData.monthIndex + 1).padStart(2, '0')}/${billingData.year}`;
+
+    currentBillingMember.totalPaid =
+        selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
+
+    const members = await loadMembers();
+    const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
+
+    if (index !== -1) {
+        members[index] = currentBillingMember;
+        await saveMembers(members);
+    }
+
+    alert('✓ Billing saved successfully!');
+    updatePaymentSummary();
+    await renderMembers();
+    await renderHistory();
+}
+
 
         function printBill() {
             if (!currentBillingMember) return;
@@ -2026,89 +2183,89 @@
             const details = calculatePaymentDetails(currentBillingMember);
             
             const billHTML = `
-                <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Poppins', sans-serif; color: #1e293b;">
-                    <div style="text-align: center; border-bottom: 3px solid #fbbf24; padding-bottom: 15px; margin-bottom: 18px;">
-                        <h1 style="margin: 0; font-size: 32px; font-family: 'Playfair Display', serif; color: #fbbf24;">Purainiya Library</h1>
-                        <h2 style="margin: 8px 0 0 0; font-size: 18px; color: #64748b; font-weight: 600;">Payment Receipt</h2>
-                        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;">Year: ${currentYear} | Date: ${getTodayDate()}</p>
+                <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Inter', sans-serif; color: #1e293b;">
+                    <div style="text-align: center; border-bottom: 3px solid #1e293b; padding-bottom: 15px; margin-bottom: 18px;">
+                        <h1 style="margin: 0; font-size: 32px; font-family: 'Playfair Display', serif; color: #1e293b; font-weight: 800;">Purainiya Library</h1>
+                        <h2 style="margin: 8px 0 0 0; font-size: 18px; color: #64748b; font-weight: 700;">Payment Receipt</h2>
+                        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8; font-weight: 600;">Year: ${currentYear} | Date: ${getTodayDate()}</p>
                     </div>
                     
-                    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #fbbf24;">
+                    <div style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #cbd5e1;">
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
                                 <td style="padding: 6px; font-weight: 700; color: #1e293b; width: 35%; font-size: 14px;">Name:</td>
-                                <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.name}</td>
+                                <td style="padding: 6px; color: #334155; font-size: 15px; font-weight: 600;">${currentBillingMember.name}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Mobile:</td>
-                                <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.mobile}</td>
+                                <td style="padding: 6px; color: #334155; font-size: 15px; font-weight: 600;">${currentBillingMember.mobile}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Joining Date:</td>
-                                <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.doj}</td>
+                                <td style="padding: 6px; color: #334155; font-size: 15px; font-weight: 600;">${currentBillingMember.doj}</td>
                             </tr>
                         </table>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                         <div>
-                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24;">Selected Shifts</h3>
-                            <div style="background: #fffbeb; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a;">
+                            <h3 style="border-bottom: 2px solid #1e293b; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #1e293b; font-weight: 800;">Selected Shifts</h3>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #e2e8f0;">
                                 ${currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.length > 0 
-                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 3px 0; font-size: 12px; color: #475569;">• ${shift}</div>`).join('') 
-                                    : '<div style="padding: 3px 0; font-size: 12px; color: #94a3b8;">No shifts selected</div>'}
+                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;">• ${shift}</div>`).join('') 
+                                    : '<div style="padding: 3px 0; font-size: 12px; color: #94a3b8; font-weight: 600;">No shifts selected</div>'}
                             </div>
                         </div>
                         
                         <div>
-                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24;">Payment Period</h3>
-                            <div style="background: #fffbeb; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a;">
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>From:</strong> ${details.startDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>To:</strong> ${details.endDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>Total Months:</strong> ${details.totalMonths}</div>
+                            <h3 style="border-bottom: 2px solid #1e293b; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #1e293b; font-weight: 800;">Payment Period</h3>
+                            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #e2e8f0;">
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>From:</strong> ${details.startDate}</div>
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>To:</strong> ${details.endDate}</div>
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>Total Months:</strong> ${details.totalMonths}</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div style="padding: 15px; border: 2px solid #fbbf24; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 10px;">
-                        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #fbbf24; text-align: center;">Payment Summary</h3>
+                    <div style="padding: 15px; border: 2px solid #1e293b; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 10px;">
+                        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #1e293b; text-align: center; font-weight: 800;">Payment Summary</h3>
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Number of Shifts:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 600;">Number of Shifts:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Rate per Shift/Month:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 600;">Rate per Shift/Month:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Monthly Total (${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0} × ₹${PAYMENT_PER_SHIFT_PER_MONTH}):</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${details.perMonthCharge}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 600;">Monthly Total (${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0} × ₹${PAYMENT_PER_SHIFT_PER_MONTH}):</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">₹${details.perMonthCharge}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; color: #64748b; font-size: 12px;">Total Months:</td>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${details.totalMonths}</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; color: #64748b; font-size: 12px; font-weight: 600;">Total Months:</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">${details.totalMonths}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Due Amount:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #ef4444; font-size: 14px;">₹${details.totalDue}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 13px; font-weight: 700;">Total Due Amount:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 800; color: #ef4444; font-size: 14px;">₹${details.totalDue}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Paid:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #10b981; font-size: 14px;">₹${details.totalPaid}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 13px; font-weight: 700;">Total Paid:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 800; color: #10b981; font-size: 14px;">₹${details.totalPaid}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px 0; font-size: 15px; font-weight: 700; color: #fbbf24;">REMAINING BALANCE:</td>
+                                <td style="padding: 10px 0; font-size: 15px; font-weight: 800; color: #1e293b;">REMAINING BALANCE:</td>
                                 <td style="padding: 10px 0; text-align: right;">
-                                    <span style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 6px 16px; border-radius: 8px; display: inline-block;">₹${details.unpaidAmount}</span>
+                                    <span style="font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 6px 16px; border-radius: 8px; display: inline-block;">₹${details.unpaidAmount}</span>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     
                     <div style="margin-top: 18px; text-align: center; padding-top: 15px; border-top: 2px solid #e2e8f0;">
-                        <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Thank you for being a valued member!</p>
-                        <p style="margin: 4px 0; font-size: 11px; color: #94a3b8;">Purainiya Library Management System</p>
+                        <p style="margin: 4px 0; font-size: 13px; color: #64748b; font-weight: 600;">Thank you for being a valued member!</p>
+                        <p style="margin: 4px 0; font-size: 11px; color: #94a3b8; font-weight: 600;">Purainiya Library Management System</p>
                     </div>
                 </div>
             `;
@@ -2119,7 +2276,7 @@
                 <html>
                 <head>
                     <title>Receipt - ${currentBillingMember.name}</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
                     <style>
                         * {
                             margin: 0;
@@ -2146,7 +2303,7 @@
                         }
                         body { 
                             background: white;
-                            font-family: 'Poppins', sans-serif;
+                            font-family: 'Inter', sans-serif;
                         }
                     </style>
                 </head>
@@ -2172,17 +2329,55 @@
             const monthFilter = document.getElementById('historyMonthFilter').value;
             const searchTerm = document.getElementById('historySearch').value.toLowerCase();
             
+            console.log('=== History Filter Debug ===');
+            console.log('Total members:', members.length);
+            console.log('Month filter:', monthFilter);
+            console.log('Status filter:', statusFilter);
+            console.log('Search term:', searchTerm);
+            
             let filtered = members.filter(m => {
-                if (!m.name || !m.mobile) return false;
+                if (!m.name || !m.mobile) {
+                    console.log('Filtered out (no name/mobile):', m);
+                    return false;
+                }
+                
                 const details = calculatePaymentDetails(m);
-                const matchesSearch = !searchTerm || m.name.toLowerCase().includes(searchTerm) || m.mobile.includes(searchTerm);
+                
+                // Search matching
+                const matchesSearch = !searchTerm || 
+                    m.name.toLowerCase().includes(searchTerm) || 
+                    m.mobile.includes(searchTerm);
+                
+                // Status matching
                 const matchesStatus = !statusFilter || 
                     (statusFilter === 'paid' && details.isPaid) ||
                     (statusFilter === 'due' && !details.isPaid);
-                const matchesMonth = !monthFilter || getPaymentMonthYear(m) === monthFilter;
-                return matchesSearch && matchesStatus && matchesMonth;
+                
+                // Month filtering - FIXED
+                let matchesMonth = true;
+                if (monthFilter) {
+                    if (m.paymentUntilDate) {
+                        const paymentDate = parseDate(m.paymentUntilDate);
+                        const paymentMonthYear = `${paymentDate.getFullYear()}-${String(paymentDate.getMonth() + 1).padStart(2, '0')}`;
+                        matchesMonth = paymentMonthYear === monthFilter;
+                        console.log(`Checking ${m.name}: payment date ${m.paymentUntilDate} -> ${paymentMonthYear} === ${monthFilter}? ${matchesMonth}`);
+                    } else {
+                        // If no payment date, don't match any month filter
+                        matchesMonth = false;
+                        console.log(`Checking ${m.name}: no payment date, filtered out`);
+                    }
+                }
+                
+                const result = matchesSearch && matchesStatus && matchesMonth;
+                if (!result) {
+                    console.log(`Filtered out ${m.name}:`, { matchesSearch, matchesStatus, matchesMonth });
+                }
+                
+                return result;
             });
 
+            console.log('Filtered members:', filtered.length);
+            
             const list = document.getElementById('historyList');
             
             // Calculate totals
@@ -2231,11 +2426,15 @@
                                 <span class="history-detail-value">${member.doj}</span>
                             </div>
                             <div class="history-detail">
+                                <span class="history-detail-label">Payment Until</span>
+                                <span class="history-detail-value">${member.paymentUntilDate || 'N/A'}</span>
+                            </div>
+                            <div class="history-detail">
                                 <span class="history-detail-label">Shifts</span>
                                 <span class="history-detail-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
                             </div>
                             <div class="history-detail">
-                                <span class="history-detail-label">Payment Period</span>
+                                <span class="history-detail-label">Total Months</span>
                                 <span class="history-detail-value">${details.totalMonths} months</span>
                             </div>
                             <div class="history-detail">
@@ -2244,7 +2443,7 @@
                             </div>
                             <div class="history-detail">
                                 <span class="history-detail-label">Balance</span>
-                                <span class="history-detail-value" style="color: ${details.unpaidAmount > 0 ? '#ef4444' : '#10b981'}; font-weight: 700;">₹${details.unpaidAmount}</span>
+                                <span class="history-detail-value" style="color: ${details.unpaidAmount > 0 ? '#ef4444' : '#10b981'}; font-weight: 800;">₹${details.unpaidAmount}</span>
                             </div>
                         </div>
                     </div>
@@ -2360,23 +2559,23 @@
                     let errorHTML = `
                         <div style="color: #ef4444; padding: 20px; text-align: center; max-width: 600px; margin: 0 auto;">
                             <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
-                            <div style="font-weight: 600; margin-bottom: 10px;">Failed to connect to Firebase</div>
-                            <div style="font-size: 13px; color: #64748b; margin-bottom: 15px;">${error}</div>
+                            <div style="font-weight: 700; margin-bottom: 10px;">Failed to connect to Firebase</div>
+                            <div style="font-size: 13px; color: #64748b; margin-bottom: 15px; font-weight: 600;">${error}</div>
                     `;
                     
                     // Check if it's a Firestore-specific error
                     if (error.message && error.message.includes('security rules')) {
                         errorHTML += `
-                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
-                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Fix Firestore Security Rules:</div>
-                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
-                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
+                            <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
+                                <div style="font-weight: 700; color: #92400e; margin-bottom: 10px;">🔧 Fix Firestore Security Rules:</div>
+                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left; font-weight: 600;">
+                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #f59e0b; text-decoration: underline;">Firebase Console</a></li>
                                     <li>Select project: <strong>purainiya-library</strong></li>
                                     <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
                                     <li>Click <strong>"Rules"</strong> tab at top</li>
                                     <li>Replace rules with this code:</li>
                                 </ol>
-                                <pre style="background: #fff; padding: 10px; border-radius: 6px; font-size: 11px; overflow-x: auto; text-align: left; margin-top: 10px;">rules_version = '2';
+                                <pre style="background: #fff; padding: 10px; border-radius: 6px; font-size: 11px; overflow-x: auto; text-align: left; margin-top: 10px; font-weight: 600;">rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
@@ -2384,15 +2583,15 @@ service cloud.firestore {
     }
   }
 }</pre>
-                                <div style="color: #92400e; font-size: 12px; margin-top: 10px;">6. Click <strong>"Publish"</strong> button</div>
+                                <div style="color: #92400e; font-size: 12px; margin-top: 10px; font-weight: 700;">6. Click <strong>"Publish"</strong> button</div>
                             </div>
                         `;
                     } else if (error.message && error.message.includes('Firestore is not available')) {
                         errorHTML += `
-                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
-                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Enable Firestore Database:</div>
-                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
-                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
+                            <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
+                                <div style="font-weight: 700; color: #92400e; margin-bottom: 10px;">🔧 Enable Firestore Database:</div>
+                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left; font-weight: 600;">
+                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #f59e0b; text-decoration: underline;">Firebase Console</a></li>
                                     <li>Select project: <strong>purainiya-library</strong></li>
                                     <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
                                     <li>Click <strong>"Create Database"</strong> button</li>
@@ -2405,17 +2604,17 @@ service cloud.firestore {
                         `;
                     } else {
                         errorHTML += `
-                            <div style="font-size: 12px; color: #64748b; margin: 15px 0; text-align: left; line-height: 1.6;">
+                            <div style="font-size: 12px; color: #64748b; margin: 15px 0; text-align: left; line-height: 1.6; font-weight: 600;">
                                 <strong>Common issues:</strong><br>
                                 • Check your internet connection<br>
-                                • Make sure Firestore is enabled: <a href="https://console.firebase.google.com/project/purainiya-library/firestore" target="_blank" style="color: #fbbf24;">Check Now</a><br>
+                                • Make sure Firestore is enabled: <a href="https://console.firebase.google.com/project/purainiya-library/firestore" target="_blank" style="color: #3b82f6;">Check Now</a><br>
                                 • Verify security rules allow access<br>
                             </div>
                         `;
                     }
                     
                     errorHTML += `
-                            <button onclick="location.reload()" style="background: #fbbf24; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px;">
+                            <button onclick="location.reload()" style="background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px;">
                                 🔄 Retry After Fix
                             </button>
                         </div>
@@ -2445,7 +2644,7 @@ service cloud.firestore {
                 }
                 
                 errorMsg.textContent = 'Creating account...';
-                errorMsg.style.color = '#fbbf24';
+                errorMsg.style.color = '#3b82f6';
                 
                 const success = await createAdmin(username, password);
                 
@@ -2556,24 +2755,10 @@ service cloud.firestore {
 
             document.getElementById('billingMemberSelect').addEventListener('change', loadBillingForMember);
             
+            document.getElementById('billingMonthFilter').addEventListener('change', updatePaymentSummary);
+            
             document.getElementById('shiftSelection').addEventListener('change', async (e) => {
                 if (e.target.type === 'checkbox') {
-                    await updatePaymentSummary();
-                }
-            });
-            document.getElementById('paymentUntilDate').addEventListener('change', async () => {
-                if (currentBillingMember) {
-                    currentBillingMember.paymentUntilDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
-                    currentBillingMember.paymentUntilDateManuallySet = true;
-                    
-                    // Save immediately when date changes
-                    const members = await loadMembers();
-                    const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-                    if (index !== -1) {
-                        members[index] = currentBillingMember;
-                        await saveMembers(members);
-                    }
-                    
                     await updatePaymentSummary();
                 }
             });
