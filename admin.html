@@ -2059,32 +2059,36 @@
                 await saveMembers(members);
             }
 
-            // Check if billing month is selected
+            // Get selected billing month
             const billingMonth = document.getElementById('billingMonthFilter').value;
             let details;
+            let selectedMonthDisplay = '';
             
             if (billingMonth) {
                 // Calculate billing for specific month from joining date
                 details = calculateBillingForMonth(currentBillingMember, billingMonth);
+                
+                // Format month display (e.g., "February 2026")
+                const [year, month] = billingMonth.split('-');
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+                selectedMonthDisplay = `${months[parseInt(month) - 1]} ${year}`;
             } else {
-                // Calculate normal billing
+                // Calculate normal billing to today
                 details = calculatePaymentDetails(currentBillingMember);
+                selectedMonthDisplay = 'Current Month';
             }
-            
+
             const summary = document.getElementById('paymentSummary');
 
             summary.innerHTML = `
                 <div class="summary-row">
                     <span class="summary-label">Joining Date:</span>
-                    <span class="summary-value">${details.startDate}</span>
+                    <span class="summary-value">${currentBillingMember.doj}</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Payment Until:</span>
-                    <span class="summary-value">${details.endDate}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Months:</span>
-                    <span class="summary-value">${details.totalMonths}</span>
+                    <span class="summary-label">Billing Month:</span>
+                    <span class="summary-value">${selectedMonthDisplay}</span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Shifts Selected:</span>
@@ -2099,15 +2103,19 @@
                     <span class="summary-value">₹${details.perMonthCharge}</span>
                 </div>
                 <div class="summary-row">
+                    <span class="summary-label">Total Months:</span>
+                    <span class="summary-value">${details.totalMonths}</span>
+                </div>
+                <div class="summary-row">
                     <span class="summary-label">Total Due:</span>
                     <span class="summary-value unpaid">₹${details.totalDue}</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Paid:</span>
+                    <span class="summary-label">Already Paid:</span>
                     <span class="summary-value paid">₹${details.totalPaid}</span>
                 </div>
                 <div class="summary-row total">
-                    <span class="summary-label">Balance:</span>
+                    <span class="summary-label">Balance to Pay:</span>
                     <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
                 </div>
             `;
@@ -2323,27 +2331,55 @@
             const monthFilter = document.getElementById('historyMonthFilter').value;
             const searchTerm = document.getElementById('historySearch').value.toLowerCase();
             
+            console.log('=== History Filter Debug ===');
+            console.log('Total members:', members.length);
+            console.log('Month filter:', monthFilter);
+            console.log('Status filter:', statusFilter);
+            console.log('Search term:', searchTerm);
+            
             let filtered = members.filter(m => {
-                if (!m.name || !m.mobile) return false;
+                if (!m.name || !m.mobile) {
+                    console.log('Filtered out (no name/mobile):', m);
+                    return false;
+                }
+                
                 const details = calculatePaymentDetails(m);
-                const matchesSearch = !searchTerm || m.name.toLowerCase().includes(searchTerm) || m.mobile.includes(searchTerm);
+                
+                // Search matching
+                const matchesSearch = !searchTerm || 
+                    m.name.toLowerCase().includes(searchTerm) || 
+                    m.mobile.includes(searchTerm);
+                
+                // Status matching
                 const matchesStatus = !statusFilter || 
                     (statusFilter === 'paid' && details.isPaid) ||
                     (statusFilter === 'due' && !details.isPaid);
                 
-                // Fix month filtering - check if payment until date is in the selected month
+                // Month filtering - FIXED
                 let matchesMonth = true;
-                if (monthFilter && m.paymentUntilDate) {
-                    const paymentDate = parseDate(m.paymentUntilDate);
-                    const paymentMonthYear = `${paymentDate.getFullYear()}-${String(paymentDate.getMonth() + 1).padStart(2, '0')}`;
-                    matchesMonth = paymentMonthYear === monthFilter;
-                } else if (monthFilter && !m.paymentUntilDate) {
-                    matchesMonth = false;
+                if (monthFilter) {
+                    if (m.paymentUntilDate) {
+                        const paymentDate = parseDate(m.paymentUntilDate);
+                        const paymentMonthYear = `${paymentDate.getFullYear()}-${String(paymentDate.getMonth() + 1).padStart(2, '0')}`;
+                        matchesMonth = paymentMonthYear === monthFilter;
+                        console.log(`Checking ${m.name}: payment date ${m.paymentUntilDate} -> ${paymentMonthYear} === ${monthFilter}? ${matchesMonth}`);
+                    } else {
+                        // If no payment date, don't match any month filter
+                        matchesMonth = false;
+                        console.log(`Checking ${m.name}: no payment date, filtered out`);
+                    }
                 }
                 
-                return matchesSearch && matchesStatus && matchesMonth;
+                const result = matchesSearch && matchesStatus && matchesMonth;
+                if (!result) {
+                    console.log(`Filtered out ${m.name}:`, { matchesSearch, matchesStatus, matchesMonth });
+                }
+                
+                return result;
             });
 
+            console.log('Filtered members:', filtered.length);
+            
             const list = document.getElementById('historyList');
             
             // Calculate totals
