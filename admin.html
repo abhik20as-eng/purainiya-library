@@ -1744,33 +1744,6 @@
                 return false;
             }
         }
-function getBillingMonthFromJoiningDate(joiningDate) {
-    const join = parseDate(joiningDate);
-    const today = new Date();
-
-    let billingMonth = today.getMonth();
-    let billingYear = today.getFullYear();
-
-    // If today date is before joining day → previous month bill
-    if (today.getDate() < join.getDate()) {
-        billingMonth -= 1;
-        if (billingMonth < 0) {
-            billingMonth = 11;
-            billingYear -= 1;
-        }
-    }
-
-    const months = [
-        'January','February','March','April','May','June',
-        'July','August','September','October','November','December'
-    ];
-
-    return {
-        monthName: months[billingMonth],
-        monthIndex: billingMonth,
-        year: billingYear
-    };
-}
 
         function parseDate(dateStr) {
             const parts = dateStr.split('/');
@@ -2106,76 +2079,105 @@ function getBillingMonthFromJoiningDate(joiningDate) {
                 selectedMonthDisplay = 'Current Month';
             }
 
-           const billingData = getBillingMonthFromJoiningDate(currentBillingMember.doj);
+            const summary = document.getElementById('paymentSummary');
 
-summary.innerHTML = `
-    <div class="summary-row">
-        <span class="summary-label">Joining Date:</span>
-        <span class="summary-value">${currentBillingMember.doj}</span>
-    </div>
-
-    <div class="summary-row">
-        <span class="summary-label">Billing Month:</span>
-        <span class="summary-value">${billingData.monthName} ${billingData.year}</span>
-    </div>
-
-    <div class="summary-row">
-        <span class="summary-label">Shifts Selected:</span>
-        <span class="summary-value">${selectedShifts.length}</span>
-    </div>
-
-    <div class="summary-row">
-        <span class="summary-label">Per Shift:</span>
-        <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
-    </div>
-
-    <div class="summary-row total">
-        <span class="summary-label">Total Amount:</span>
-        <span class="summary-value">
-            ₹${selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH}
-        </span>
-    </div>
-`;
+            summary.innerHTML = `
+                <div class="summary-row">
+                    <span class="summary-label">Joining Date:</span>
+                    <span class="summary-value">${currentBillingMember.doj}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Billing Month:</span>
+                    <span class="summary-value">${selectedMonthDisplay}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Shifts Selected:</span>
+                    <span class="summary-value">${selectedShifts.length}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Per Shift/Month:</span>
+                    <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Monthly Total:</span>
+                    <span class="summary-value">₹${details.perMonthCharge}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Total Months:</span>
+                    <span class="summary-value">${details.totalMonths}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Total Due:</span>
+                    <span class="summary-value unpaid">₹${details.totalDue}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Already Paid:</span>
+                    <span class="summary-value paid">₹${details.totalPaid}</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label">Balance to Pay:</span>
+                    <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
+                </div>
+            `;
 
             // Update members grid to reflect changes
             await renderMembers();
         }
 
         async function saveBilling() {
-    if (!currentBillingMember) return;
+            if (!currentBillingMember) return;
 
-    const selectedShifts = [];
+            const selectedShifts = [];
+            shifts.forEach((shift, index) => {
+                if (document.getElementById(`shift-${index}`).checked) {
+                    selectedShifts.push(shift);
+                }
+            });
 
-    shifts.forEach((shift, index) => {
-        if (document.getElementById(`shift-${index}`).checked) {
-            selectedShifts.push(shift);
+            // Get billing month from filter
+            const billingMonth = document.getElementById('billingMonthFilter').value;
+            let paymentDate;
+            
+            if (billingMonth) {
+                // Calculate payment date from billing month
+                const [year, month] = billingMonth.split('-');
+                const joiningDate = parseDate(currentBillingMember.doj);
+                const joiningDay = joiningDate.getDate();
+                
+                // Set payment date to joining day of selected month
+                const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+                const day = Math.min(joiningDay, lastDayOfMonth);
+                paymentDate = `${String(day).padStart(2, '0')}/${month}/${year}`;
+            } else {
+                paymentDate = getTodayDate();
+            }
+            
+            currentBillingMember.selectedShifts = selectedShifts;
+            currentBillingMember.paymentUntilDate = paymentDate;
+            currentBillingMember.paymentUntilDateManuallySet = true;
+
+            // Calculate based on the billing month if selected
+            let details;
+            if (billingMonth) {
+                details = calculateBillingForMonth(currentBillingMember, billingMonth);
+            } else {
+                details = calculatePaymentDetails(currentBillingMember);
+            }
+            
+            currentBillingMember.totalPaid = details.totalDue;
+
+            const members = await loadMembers();
+            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
+            if (index !== -1) {
+                members[index] = currentBillingMember;
+                await saveMembers(members);
+            }
+
+            alert('✓ Billing saved and marked as paid!');
+            updatePaymentSummary();
+            await renderMembers();
+            await renderHistory();
         }
-    });
-
-    const billingData = getBillingMonthFromJoiningDate(currentBillingMember.doj);
-
-    currentBillingMember.selectedShifts = selectedShifts;
-
-    currentBillingMember.paymentUntilDate =
-        `01/${String(billingData.monthIndex + 1).padStart(2, '0')}/${billingData.year}`;
-
-    currentBillingMember.totalPaid =
-        selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-
-    const members = await loadMembers();
-    const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-
-    if (index !== -1) {
-        members[index] = currentBillingMember;
-        await saveMembers(members);
-    }
-
-    alert('✓ Billing saved successfully!');
-    updatePaymentSummary();
-    await renderMembers();
-    await renderHistory();
-}
-
 
         function printBill() {
             if (!currentBillingMember) return;
