@@ -3,1707 +3,1112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purainiya Library - Professional Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <title>Library Management System - Admin Panel</title>
     <style>
-        :root {
-            --primary: #1e293b;
-            --primary-light: #334155;
-            --primary-dark: #0f172a;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --success: #10b981;
-            --success-light: #d1fae5;
-            --danger: #ef4444;
-            --danger-light: #fee2e2;
-            --warning: #f59e0b;
-            --warning-light: #fef3c7;
-            --bg-main: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --border-dark: #cbd5e1;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.12);
-            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            line-height: 1.6;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+            --text: #374151;
+            --text-light: #6b7280;
+            --sidebar-width: 260px;
         }
 
-        /* Login Screen */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ========== LOGIN PAGE ========== */
         .login-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-container::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
-            animation: rotate 30s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         }
 
         .login-box {
             background: white;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 48px 40px;
             width: 100%;
-            max-width: 440px;
-            box-shadow: var(--shadow-xl);
-            position: relative;
-            z-index: 1;
-            animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .login-logo {
+        .login-header {
             text-align: center;
-            margin-bottom: 36px;
+            margin-bottom: 32px;
         }
 
-        .login-logo h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary);
+        .login-header h1 {
+            font-size: 28px;
+            color: var(--dark);
             margin-bottom: 8px;
-            letter-spacing: -0.5px;
         }
 
-        .login-logo p {
-            color: var(--text-secondary);
+        .login-header p {
+            color: var(--text-light);
             font-size: 14px;
-            font-weight: 500;
         }
 
-        .input-group {
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .input-group label {
+        .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--text-primary);
-            font-size: 13px;
-            letter-spacing: 0.3px;
+            font-size: 14px;
+            color: var(--dark);
         }
 
-        .input-group input {
+        .form-group input {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid var(--border);
-            border-radius: 10px;
-            background-color: var(--bg-main);
-            color: var(--text-primary);
+            border-radius: 8px;
             font-size: 14px;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
+            transition: all 0.2s;
         }
 
-        .input-group input:focus {
+        .form-group input:focus {
             outline: none;
-            border-color: var(--accent);
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
-        .login-btn {
+        .btn {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
+            padding: 12px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 8px;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-md);
-            letter-spacing: 0.3px;
+            transition: all 0.2s;
         }
 
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+        .btn-primary {
+            background: var(--primary);
+            color: white;
         }
 
-        .login-btn:active {
-            transform: translateY(0);
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
         }
 
         .error-message {
             color: var(--danger);
-            text-align: center;
-            margin-top: 14px;
             font-size: 13px;
-            min-height: 18px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .error-message.success {
-            color: var(--success);
-        }
-
-        .error-message.info {
-            color: var(--accent);
-        }
-
-        .first-time-setup {
-            margin-top: 28px;
-            padding-top: 28px;
-            border-top: 2px solid var(--border);
-        }
-
-        .first-time-setup h3 {
-            font-family: 'Playfair Display', serif;
+            margin-top: 8px;
             text-align: center;
-            margin-bottom: 8px;
-            font-size: 22px;
-            color: var(--primary);
-            font-weight: 800;
         }
 
-        .first-time-setup p {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
+        .hidden {
+            display: none !important;
         }
 
-        /* Loading Indicator */
-        .loading-indicator {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-secondary);
+        /* ========== ADMIN DASHBOARD ========== */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark);
+            color: white;
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .sidebar-nav {
+            padding: 24px 0;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            border-left: 4px solid white;
+        }
+
+        .nav-item-icon {
+            font-size: 18px;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 10px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 32px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .stat-card-title {
+            font-size: 14px;
+            color: var(--text-light);
             font-weight: 500;
         }
 
-        .loading-spinner {
+        .stat-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-card-icon.blue {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-card-icon.green {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .stat-card-icon.orange {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            color: var(--dark);
+        }
+
+        /* Form Styles */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: white;
+            cursor: pointer;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            width: auto;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--light);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 12px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr:hover {
+            background: var(--light);
+        }
+
+        .badge {
             display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid rgba(59, 130, 246, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Search & Filters */
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-icon {
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Student Info Display */
+        .student-info {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .student-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .student-info-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .student-info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Billing Actions */
+        .billing-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        /* Print Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 24px;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            color: var(--dark);
+        }
+
+        .receipt-info {
+            margin-bottom: 24px;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .receipt-label {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .receipt-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-cancel {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            border-top-color: var(--accent);
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Admin Panel */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .header-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            padding: 32px 40px;
-            border-radius: 16px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            font-weight: 800;
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
-
-        .header-subtitle {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-top: 6px;
-            font-weight: 500;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .year-badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.5px;
-        }
-
-        .btn {
-            padding: 10px 24px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            letter-spacing: 0.3px;
-        }
-
-        .btn-white {
-            background: white;
-            color: var(--primary);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-white:hover {
-            background: var(--bg-main);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Tab Navigation */
-        .tab-navigation {
-            background: var(--bg-card);
-            padding: 8px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-sm);
-            display: inline-flex;
-            gap: 6px;
-            border: 2px solid var(--border);
-        }
-
-        .tab-btn {
-            padding: 12px 28px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            position: relative;
-            letter-spacing: 0.3px;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .tab-btn:not(.active):hover {
-            background: var(--bg-main);
-            color: var(--text-primary);
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Registration Form */
-        .registration-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: var(--shadow-md);
-            max-width: 800px;
-            margin: 0 auto;
-            border: 2px solid var(--border);
-        }
-
-        .registration-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .registration-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: var(--primary);
-            margin-bottom: 8px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .registration-header p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            font-size: 13px;
-            letter-spacing: 0.3px;
-        }
-
-        .form-group input {
-            padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: var(--bg-main);
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-
-        .form-group input:disabled {
-            background: var(--border);
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .register-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-md);
-            margin-top: 8px;
-            letter-spacing: 0.3px;
-        }
-
-        .register-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .register-btn:active {
-            transform: translateY(0);
-        }
-
+        /* Success Message */
         .success-message {
-            background: var(--success-light);
-            color: #065f46;
-            padding: 14px 18px;
-            border-radius: 10px;
-            text-align: center;
-            margin-top: 16px;
-            font-weight: 700;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             display: none;
-            font-size: 14px;
-            border: 2px solid var(--success);
         }
 
-        /* Members List */
-        .members-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: var(--shadow-md);
-            border: 2px solid var(--border);
-        }
-
-        .members-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .members-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: var(--primary);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .members-header-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .filter-tabs {
-            display: flex;
-            gap: 6px;
-            background: var(--bg-main);
-            padding: 6px;
-            border-radius: 10px;
-            border: 2px solid var(--border);
-        }
-
-        .filter-tab {
-            padding: 8px 16px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            letter-spacing: 0.3px;
-        }
-
-        .filter-tab.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .filter-tab:not(.active):hover {
-            background: white;
-            color: var(--text-primary);
-        }
-
-        .search-box {
-            position: relative;
-            width: 280px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 16px 12px 44px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: var(--bg-main);
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-
-        .search-box::before {
-            content: '🔍';
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-        }
-
-        .total-students-badge {
-            background: var(--primary);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: var(--shadow-sm);
-            white-space: nowrap;
-            letter-spacing: 0.5px;
-        }
-
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 20px;
-        }
-
-        .member-card {
-            background: var(--bg-main);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .member-card.new-member::before {
-            content: '✨ NEW';
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--success);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-        }
-
-        .member-card:hover {
-            border-color: var(--accent);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-        }
-
-        .member-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 12px;
-        }
-
-        .member-name {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 4px;
-            letter-spacing: -0.3px;
-        }
-
-        .member-mobile {
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .member-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-
-        .member-badge.registered {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .member-badge.active {
-            background: var(--success-light);
-            color: #065f46;
-        }
-
-        .member-badge.due {
-            background: var(--danger-light);
-            color: #991b1b;
-        }
-
-        .member-info {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding-top: 12px;
-            border-top: 2px solid var(--border);
-        }
-
-        .member-info-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-        }
-
-        .member-info-label {
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .member-info-value {
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.4;
-        }
-
-        .empty-state-text {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        /* Billing Section */
-        .billing-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: var(--shadow-md);
-            border: 2px solid var(--border);
-        }
-
-        .billing-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .billing-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: var(--primary);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .member-selector {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .member-selector label {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-
-        .member-selector select {
-            padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            min-width: 280px;
-            transition: all 0.2s ease;
-        }
-
-        .member-selector select:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-        }
-
-        .billing-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        .billing-card {
-            background: var(--bg-main);
-            border-radius: 12px;
-            padding: 24px;
-            border: 2px solid var(--border);
-        }
-
-        .billing-card h3 {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--border);
-            letter-spacing: -0.3px;
-        }
-
-        .shift-selection {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .shift-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .shift-option:hover {
-            border-color: var(--accent);
-            background: var(--bg-main);
-        }
-
-        .shift-option input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-
-        .shift-option label {
-            cursor: pointer;
-            font-size: 13px;
-            color: var(--text-primary);
-            flex: 1;
-            font-weight: 600;
-        }
-
-        .payment-tracker {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .payment-date-section {
-            background: white;
-            padding: 18px;
-            border-radius: 10px;
-            border: 2px solid var(--border);
-        }
-
-        .payment-date-label {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .payment-date-section input[type="date"] {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: var(--bg-main);
-            transition: all 0.2s ease;
-            font-weight: 600;
-        }
-
-        .payment-date-section input[type="date"]:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-        }
-
-        .payment-summary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid var(--primary-dark);
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .summary-row.total {
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            margin-top: 12px;
-            padding-top: 16px;
-            font-weight: 800;
-            font-size: 16px;
-            color: white;
-        }
-
-        .summary-label {
-            font-weight: 600;
-        }
-
-        .summary-value {
-            font-weight: 700;
-            color: white;
-        }
-
-        .summary-value.unpaid {
-            color: #fca5a5;
-        }
-
-        .summary-value.paid {
-            color: #86efac;
-        }
-
-        .billing-actions {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 8px;
-        }
-
-        .action-btn {
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            letter-spacing: 0.3px;
-        }
-
-        .action-btn.save {
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            box-shadow: var(--shadow-md);
-        }
-
-        .action-btn.save:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .action-btn.print {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
-            color: white;
-            box-shadow: var(--shadow-md);
-        }
-
-        .action-btn.print:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* History Section */
-        .history-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: var(--shadow-md);
-            border: 2px solid var(--border);
-        }
-
-        .history-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .history-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: var(--primary);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .history-filters {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .filter-select {
-            padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-        }
-
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .history-item {
-            background: var(--bg-main);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .history-item:hover {
-            border-color: var(--accent);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-        }
-
-        .history-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .history-item-name {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: -0.3px;
-        }
-
-        .history-item-amount {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .history-item-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-        }
-
-        .history-detail {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .history-detail-label {
-            font-weight: 700;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .history-detail-value {
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        /* Total Collection Box */
-        .total-collection-box {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 16px;
-            padding: 28px;
-            margin-top: 24px;
-            box-shadow: var(--shadow-lg);
-            text-align: center;
-            color: white;
-            animation: slideUp 0.4s ease;
-            border: 2px solid var(--primary-dark);
-        }
-
-        .total-collection-label {
-            font-size: 14px;
-            font-weight: 700;
-            opacity: 0.9;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .total-collection-amount {
-            font-size: 42px;
-            font-weight: 800;
-            font-family: 'Playfair Display', serif;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            letter-spacing: -1px;
-        }
-
-        .total-collection-details {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid rgba(255,255,255,0.3);
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-        }
-
-        .collection-stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .collection-stat-value {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .collection-stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 700;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 16px;
-            }
-
-            .header-section {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-                padding: 24px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .billing-content {
-                grid-template-columns: 1fr;
-            }
-
-            .billing-actions {
-                grid-template-columns: 1fr;
-            }
-
-            .members-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tab-navigation {
-                width: 100%;
-            }
-
-            .tab-btn {
-                flex: 1;
-                padding: 10px 16px;
-            }
-
-            .members-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .members-header-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .filter-tabs {
-                width: 100%;
-            }
-
-            .filter-tab {
-                flex: 1;
-                padding: 8px 12px;
-                font-size: 12px;
-            }
+        .success-message.show {
+            display: block;
         }
 
         /* Print Styles */
         @media print {
-            body { 
-                margin: 0; 
-                padding: 0;
+            .modal {
+                display: block !important;
+                position: static;
                 background: white;
             }
-            
-            @page { 
-                size: A4; 
-                margin: 10mm;
+
+            .modal-content {
+                box-shadow: none;
+                max-width: 100%;
             }
-            
-            .print-bill-container {
-                page-break-inside: avoid;
-                page-break-after: avoid;
+
+            .modal-footer {
+                display: none;
             }
+
+            body * {
+                visibility: hidden;
+            }
+
+            .modal, .modal * {
+                visibility: visible;
+            }
+
+            .modal {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+
+        /* Date Filter */
+        .date-filter {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .date-filter select,
+        .date-filter input[type="date"] {
+            padding: 10px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .date-filter label {
+            font-weight: 600;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div class="login-container" id="loginContainer">
+    <!-- ========== LOGIN PAGE ========== -->
+    <div id="loginPage" class="login-container">
         <div class="login-box">
-            <div class="login-logo">
-                <h2>Purainiya Library</h2>
-                <p>Professional Management System</p>
-                <p style="font-size: 11px; margin-top: 6px; color: var(--accent); font-weight: 600;">🔥 Powered by Firebase</p>
+            <div class="login-header">
+                <h1>📚 Library Admin</h1>
+                <p>Sign in to access the dashboard</p>
             </div>
-            
             <form id="loginForm">
-                <div class="input-group">
-                    <label>Username</label>
-                    <input type="text" id="username" placeholder="Enter username" required>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="admin@library.com" required>
                 </div>
-                
-                <div class="input-group">
+                <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="password" placeholder="Enter password" required>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required>
                 </div>
-                
-                <button type="submit" class="login-btn">Login</button>
-                <p class="error-message" id="errorMessage"></p>
+                <button type="submit" class="btn btn-primary">
+                    <span id="loginButtonText">Sign In</span>
+                </button>
+                <div id="loginError" class="error-message"></div>
             </form>
-            
-            <div class="loading-indicator" id="loadingIndicator" style="display: none;">
-                <div class="loading-spinner"></div>
-                Checking credentials...
+        </div>
+    </div>
+
+    <!-- ========== ADMIN DASHBOARD ========== -->
+    <div id="adminPage" class="admin-container hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Library Admin</h2>
+                <p>Management System</p>
             </div>
-            
-            <div class="first-time-setup" id="firstTimeSetup" style="display: none;">
-                <h3>First Time Setup</h3>
-                <p>Create your admin credentials</p>
-                
-                <form id="setupForm">
-                    <div class="input-group">
-                        <label>Create Username</label>
-                        <input type="text" id="newUsername" placeholder="Choose username" required>
+            <nav class="sidebar-nav">
+                <div class="nav-item active" data-page="dashboard">
+                    <span class="nav-item-icon">📊</span>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-page="register">
+                    <span class="nav-item-icon">➕</span>
+                    <span>Register Student</span>
+                </div>
+                <div class="nav-item" data-page="billing">
+                    <span class="nav-item-icon">💰</span>
+                    <span>Billing</span>
+                </div>
+                <div class="nav-item" data-page="history">
+                    <span class="nav-item-icon">📜</span>
+                    <span>Billing History</span>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="logoutBtn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- ========== DASHBOARD PAGE ========== -->
+            <div id="dashboardPage" class="page">
+                <div class="page-header">
+                    <h1>Dashboard</h1>
+                    <p>Overview of your library management system</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Total Students</div>
+                            <div class="stat-card-icon blue">👥</div>
+                        </div>
+                        <div class="stat-card-value" id="totalStudents">0</div>
                     </div>
-                    
-                    <div class="input-group">
-                        <label>Create Password</label>
-                        <input type="password" id="newPassword" placeholder="Choose password" required>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Active Students</div>
+                            <div class="stat-card-icon green">✓</div>
+                        </div>
+                        <div class="stat-card-value" id="activeStudents">0</div>
                     </div>
-                    
-                    <div class="input-group">
-                        <label>Confirm Password</label>
-                        <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Total Pending Dues</div>
+                            <div class="stat-card-icon orange">₹</div>
+                        </div>
+                        <div class="stat-card-value" id="totalDues">₹0</div>
                     </div>
-                    
-                    <button type="submit" class="login-btn">Create Admin Account</button>
-                    <p class="error-message" id="setupErrorMessage"></p>
-                </form>
+                </div>
+
+                <!-- Recent Registrations -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Registrations</h3>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Mobile</th>
+                                    <th>Shift</th>
+                                    <th>Joining Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentRegistrations">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: var(--text-light);">No recent registrations</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== REGISTER STUDENT PAGE ========== -->
+            <div id="registerPage" class="page hidden">
+                <div class="page-header">
+                    <h1>Register New Student</h1>
+                    <p>Add a new student to the library system</p>
+                </div>
+
+                <div id="registerSuccess" class="success-message">
+                    ✓ Student registered successfully!
+                </div>
+
+                <div class="card">
+                    <form id="registerForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Student Name *</label>
+                                <input type="text" id="studentName" placeholder="Enter full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Mobile Number *</label>
+                                <input type="tel" id="studentMobile" placeholder="Enter mobile number" pattern="[0-9]{10}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Select Shift *</label>
+                                <select id="studentShift" required>
+                                    <option value="">-- Select Shift --</option>
+                                    <option value="Shift 1 (6 AM - 10 AM)">Shift 1 → 6 AM - 10 AM</option>
+                                    <option value="Shift 2 (10 AM - 2 PM)">Shift 2 → 10 AM - 2 PM</option>
+                                    <option value="Shift 3 (2 PM - 6 PM)">Shift 3 → 2 PM - 6 PM</option>
+                                    <option value="Shift 4 (6 PM - 10 PM)">Shift 4 → 6 PM - 10 PM</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Joining Date</label>
+                                <input type="text" id="joiningDate" readonly style="background: var(--light); cursor: not-allowed;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Monthly Fee</label>
+                            <input type="text" value="₹500 per shift" readonly style="background: var(--light); cursor: not-allowed;">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <span id="registerButtonText">Register Student</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ========== BILLING PAGE ========== -->
+            <div id="billingPage" class="page hidden">
+                <div class="page-header">
+                    <h1>Student Billing</h1>
+                    <p>Search and manage student payments</p>
+                </div>
+
+                <div class="card">
+                    <div class="search-bar">
+                        <input type="tel" id="searchMobile" class="search-input" placeholder="Enter mobile number to search student..." pattern="[0-9]{10}">
+                        <button type="button" class="btn-icon" id="searchBtn">Search</button>
+                    </div>
+                </div>
+
+                <!-- Student Info (Hidden by default) -->
+                <div id="studentInfoCard" class="card hidden">
+                    <div class="card-header">
+                        <h3>Student Information</h3>
+                    </div>
+                    <div class="student-info">
+                        <div class="student-info-grid">
+                            <div class="student-info-item">
+                                <span class="student-info-label">Name</span>
+                                <span class="student-info-value" id="infoName">-</span>
+                            </div>
+                            <div class="student-info-item">
+                                <span class="student-info-label">Mobile</span>
+                                <span class="student-info-value" id="infoMobile">-</span>
+                            </div>
+                            <div class="student-info-item">
+                                <span class="student-info-label">Shift</span>
+                                <span class="student-info-value" id="infoShift">-</span>
+                            </div>
+                            <div class="student-info-item">
+                                <span class="student-info-label">Monthly Fee</span>
+                                <span class="student-info-value" id="infoMonthlyFee">-</span>
+                            </div>
+                            <div class="student-info-item">
+                                <span class="student-info-label">Joining Date</span>
+                                <span class="student-info-value" id="infoJoiningDate">-</span>
+                            </div>
+                            <div class="student-info-item">
+                                <span class="student-info-label">Last Paid Till</span>
+                                <span class="student-info-value" id="infoLastPaidTill">-</span>
+                            </div>
+                            <div class="student-info-item">
+                                <span class="student-info-label">Total Due Months</span>
+                                <span class="student-info-value" id="infoDueMonths" style="color: var(--danger);">-</span>
+                            </div>
+                            <div class="student-info-item">
+                                <span class="student-info-label">Total Due Amount</span>
+                                <span class="student-info-value" id="infoDueAmount" style="color: var(--danger);">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="billing-actions">
+                        <button class="btn btn-secondary btn-small" id="payFullDueBtn">Pay Full Due</button>
+                        <button class="btn btn-primary btn-small" id="payCustomBtn">Pay Custom Amount</button>
+                        <button class="btn btn-icon btn-small" id="printBillBtn">Print Bill</button>
+                    </div>
+                </div>
+
+                <!-- Custom Payment Form (Hidden by default) -->
+                <div id="customPaymentCard" class="card hidden">
+                    <div class="card-header">
+                        <h3>Custom Payment</h3>
+                    </div>
+                    <form id="customPaymentForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Amount to Pay (₹) *</label>
+                                <input type="number" id="customAmount" placeholder="Enter amount" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Mode *</label>
+                                <select id="paymentMode" required>
+                                    <option value="">-- Select Mode --</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Card">Card</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Process Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ========== BILLING HISTORY PAGE ========== -->
+            <div id="historyPage" class="page hidden">
+                <div class="page-header">
+                    <h1>Billing History</h1>
+                    <p>View all payment transactions</p>
+                </div>
+
+                <div class="card">
+                    <div class="date-filter">
+                        <label>Filter:</label>
+                        <select id="historyFilter">
+                            <option value="all">All</option>
+                            <option value="today">Today</option>
+                            <option value="thisMonth">This Month</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                        <input type="date" id="dateFrom" class="hidden">
+                        <input type="date" id="dateTo" class="hidden">
+                        <button class="btn-icon btn-small hidden" id="applyDateFilter">Apply</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Mobile</th>
+                                    <th>Amount Paid</th>
+                                    <th>Paid For Period</th>
+                                    <th>Payment Date</th>
+                                    <th>Payment Mode</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTable">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: var(--text-light);">No billing history found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========== PRINT RECEIPT MODAL ========== -->
+    <div id="printModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📚 Library Payment Receipt</h2>
+                <p style="color: var(--text-light); font-size: 14px;">Official Payment Receipt</p>
+            </div>
+            <div class="receipt-info">
+                <div class="receipt-row">
+                    <span class="receipt-label">Student Name:</span>
+                    <span class="receipt-value" id="receiptName">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Mobile Number:</span>
+                    <span class="receipt-value" id="receiptMobile">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Shift:</span>
+                    <span class="receipt-value" id="receiptShift">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Amount Paid:</span>
+                    <span class="receipt-value" id="receiptAmount" style="color: var(--secondary); font-size: 20px;">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Paid For Period:</span>
+                    <span class="receipt-value" id="receiptPeriod">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Date:</span>
+                    <span class="receipt-value" id="receiptDate">-</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Mode:</span>
+                    <span class="receipt-value" id="receiptMode">-</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Print Receipt</button>
+                <button class="btn btn-cancel" id="closeModalBtn">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="container" id="adminPanel" style="display: none;">
-        <div class="header-section">
-            <div>
-                <h1>Purainiya Library</h1>
-                <p class="header-subtitle">Professional Member Management System</p>
-            </div>
-            <div class="header-actions">
-                <div class="year-badge" id="yearDisplay">2025</div>
-                <button class="btn btn-white" id="logoutBtn">Logout</button>
-            </div>
-        </div>
-
-        <!-- Tab Navigation -->
-        <div class="tab-navigation">
-            <button class="tab-btn active" data-tab="register">📝 Registration</button>
-            <button class="tab-btn" data-tab="billing">💰 Billing</button>
-            <button class="tab-btn" data-tab="history">📊 History</button>
-        </div>
-
-        <!-- Registration Tab -->
-        <div class="tab-content active" id="registerTab">
-            <div class="registration-card">
-                <div class="registration-header">
-                    <h2>New Member Registration</h2>
-                    <p>Register a new member to the library system</p>
-                </div>
-
-                <form id="registrationForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Mobile Number *</label>
-                            <input type="tel" id="regMobile" placeholder="Enter mobile number" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" id="regName" placeholder="Enter full name" required>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Date of Joining</label>
-                            <input type="text" id="regDate" disabled>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="register-btn">✓ Register Member</button>
-                </form>
-
-                <div class="success-message" id="successMessage">
-                    ✓ Member registered successfully!
-                </div>
-            </div>
-
-            <!-- Members List -->
-            <div class="members-section" style="margin-top: 32px;">
-                <div class="members-header">
-                    <h2>Registered Members</h2>
-                    <div class="members-header-controls">
-                        <div class="filter-tabs">
-                            <button class="filter-tab active" data-filter="all">All</button>
-                            <button class="filter-tab" data-filter="7days">Last 7 Days</button>
-                            <button class="filter-tab" data-filter="month">This Month</button>
-                        </div>
-                        <div class="search-box">
-                            <input type="tel" id="memberSearch" placeholder="Search by mobile number...">
-                        </div>
-                        <div class="total-students-badge" id="totalStudentsBadge">
-                            Total: 0
-                        </div>
-                    </div>
-                </div>
-                <div class="members-grid" id="membersGrid">
-                    <!-- Members will be added here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Billing Tab -->
-        <div class="tab-content" id="billingTab">
-            <div class="billing-section">
-                <div class="billing-header">
-                    <h2>Member Billing</h2>
-                    <div class="member-selector">
-                        <label>Select Member:</label>
-                        <select id="billingMemberSelect">
-                            <option value="">-- Choose a member --</option>
-                        </select>
-                        <label style="margin-left: 20px;">Billing Until:</label>
-                        <input type="date" id="billingUntilDate" style="padding: 12px 16px; border: 2px solid var(--border); border-radius: 10px; background: var(--bg-main); color: var(--text-primary); font-size: 14px; font-weight: 600;">
-                    </div>
-                </div>
-
-                <div id="billingContent" style="display: none;">
-                    <div class="billing-content">
-                        <div class="billing-card">
-                            <h3>⏰ Select Shifts</h3>
-                            <div class="shift-selection" id="shiftSelection">
-                                <!-- Shifts will be added here -->
-                            </div>
-                        </div>
-
-                        <div class="billing-card">
-                            <h3>💰 Payment Summary</h3>
-                            <div class="payment-tracker">
-                                <div class="payment-summary" id="paymentSummary">
-                                    <!-- Summary will be generated here -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="billing-actions">
-                            <button class="action-btn save" id="saveBillingBtn">
-                                ✓ Save & Mark Paid
-                            </button>
-                            <button class="action-btn print" id="printBillBtn">
-                                🖨️ Print Bill
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="billingEmptyState" class="empty-state">
-                    <div class="empty-state-icon">📋</div>
-                    <div class="empty-state-text">Select a member to manage billing</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- History Tab -->
-        <div class="tab-content" id="historyTab">
-            <div class="history-section">
-                <div class="history-header">
-                    <h2>Billing History</h2>
-                    <div class="history-filters">
-                        <select class="filter-select" id="historyMonthFilter">
-                            <option value="">All Months</option>
-                        </select>
-                        <select class="filter-select" id="historyStatusFilter">
-                            <option value="">All Status</option>
-                            <option value="paid">Fully Paid</option>
-                            <option value="due">Has Due</option>
-                        </select>
-                        <div class="search-box" style="width: 280px;">
-                            <input type="text" id="historySearch" placeholder="Search member...">
-                        </div>
-                    </div>
-                </div>
-                <div class="history-list" id="historyList">
-                    <!-- History items will be added here -->
-                </div>
-                
-                <!-- Total Collection Box -->
-                <div class="total-collection-box" id="totalCollectionBox">
-                    <div class="total-collection-label">Total Collection</div>
-                    <div class="total-collection-amount" id="totalCollectionAmount">₹0</div>
-                    <div class="total-collection-details">
-                        <div class="collection-stat">
-                            <div class="collection-stat-value" id="totalMembers">0</div>
-                            <div class="collection-stat-label">Members</div>
-                        </div>
-                        <div class="collection-stat">
-                            <div class="collection-stat-value" id="totalPaidMembers">0</div>
-                            <div class="collection-stat-label">Fully Paid</div>
-                        </div>
-                        <div class="collection-stat">
-                            <div class="collection-stat-value" id="totalDueAmount">₹0</div>
-                            <div class="collection-stat-label">Total Due</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase SDK -->
+    <!-- ========== FIREBASE & JAVASCRIPT ========== -->
     <script type="module">
-        console.log("🔄 Starting Firebase module initialization...");
-        
-        try {
-            // Import Firebase SDKs
-            console.log("📦 Importing Firebase SDKs...");
-            const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js");
-            const { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js");
-            
-            console.log("✅ Firebase SDKs imported successfully");
+        // ========================================
+        // FIREBASE CONFIGURATION
+        // ========================================
+        // 🔥 REPLACE WITH YOUR FIREBASE CONFIG
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js';
+        import { getFirestore, collection, addDoc, doc, getDoc, getDocs, updateDoc, query, where, orderBy, limit, Timestamp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js';
 
-            // Firebase configuration
-            const firebaseConfig = {
-                apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
-                authDomain: "purainiya-library.firebaseapp.com",
-                projectId: "purainiya-library",
-                storageBucket: "purainiya-library.firebasestorage.app",
-                messagingSenderId: "885731486344",
-                appId: "1:885731486344:web:01d234421bd5678831cd3d"
-            };
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-            console.log("🔧 Initializing Firebase app...");
-            const app = initializeApp(firebaseConfig);
-            
-            console.log("🔧 Getting Firestore instance...");
-            const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-            // Make Firebase available globally
-            window.firebaseDB = db;
-            window.firebaseDoc = doc;
-            window.firebaseSetDoc = setDoc;
-            window.firebaseGetDoc = getDoc;
-            window.firebaseGetDocs = getDocs;
-            window.firebaseCollection = collection;
-            window.firebaseQuery = query;
-            window.firebaseWhere = where;
-            window.firebaseUpdateDoc = updateDoc;
-            window.firebaseDeleteDoc = deleteDoc;
-            window.firebaseInitialized = true;
-            window.firebaseError = null;
+        // ========================================
+        // GLOBAL STATE
+        // ========================================
+        let currentStudent = null;
 
-            console.log("✅ Firebase initialized successfully!");
-            console.log("📊 Database instance:", db);
-            
-            // Dispatch event to notify that Firebase is ready
-            window.dispatchEvent(new Event('firebaseReady'));
-            console.log("📢 Firebase ready event dispatched");
-        } catch (error) {
-            console.error("❌ Firebase initialization error:", error);
-            console.error("Error details:", error.message, error.stack);
-            window.firebaseInitialized = false;
-            window.firebaseError = error.message;
-            
-            // Dispatch error event
-            window.dispatchEvent(new CustomEvent('firebaseError', { detail: error.message }));
-            console.log("📢 Firebase error event dispatched");
-        }
-    </script>
-
-    <script>
-        // ===== FIREBASE HELPER FUNCTIONS =====
-        function checkFirebaseReady() {
-            if (!window.firebaseInitialized) {
-                console.warn("⚠️ Firebase not initialized yet");
-                throw new Error('Firebase not initialized. Please wait or refresh the page.');
+        // ========================================
+        // AUTHENTICATION
+        // ========================================
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('adminPage').classList.remove('hidden');
+                loadDashboard();
+            } else {
+                document.getElementById('loginPage').classList.remove('hidden');
+                document.getElementById('adminPage').classList.add('hidden');
             }
-            if (!window.firebaseDB) {
-                console.warn("⚠️ Firebase database not available");
-                throw new Error('Firebase database not available. Please check your connection.');
-            }
-            console.log("✅ Firebase ready check passed");
-        }
+        });
 
-        async function saveAdminToFirebase(username, password) {
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            const btnText = document.getElementById('loginButtonText');
+
+            btnText.innerHTML = '<span class="loading"></span> Signing in...';
+            errorDiv.textContent = '';
+
             try {
-                checkFirebaseReady();
-                const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
-                await window.firebaseSetDoc(adminDoc, {
-                    username: username,
-                    password: btoa(password),
-                    createdAt: new Date().toISOString()
-                });
-                console.log("✅ Admin saved to Firebase successfully");
-                return true;
+                await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
-                console.error("❌ Error saving admin to Firebase:", error);
-                return false;
+                errorDiv.textContent = error.message;
+                btnText.textContent = 'Sign In';
             }
-        }
+        });
 
-        async function loadAdminFromFirebase() {
-            try {
-                checkFirebaseReady();
-                console.log("🔍 Attempting to read from Firestore...");
-                const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
-                console.log("📄 Admin document reference created");
-                
-                const docSnap = await window.firebaseGetDoc(adminDoc);
-                console.log("✅ Firestore read successful");
-                
-                if (docSnap.exists()) {
-                    console.log("✅ Admin document exists in Firestore");
-                    return docSnap.data();
-                }
-                console.log("ℹ️ No admin document found in Firestore (this is normal for first-time setup)");
-                return null;
-            } catch (error) {
-                console.error("❌ Error loading admin from Firebase:", error);
-                console.error("Error code:", error.code);
-                console.error("Error message:", error.message);
-                
-                // Check for specific Firestore errors
-                if (error.code === 'permission-denied') {
-                    throw new Error('Firestore security rules are blocking access. Please update your rules.');
-                } else if (error.code === 'unavailable') {
-                    throw new Error('Firestore is not available. Please check if Firestore is enabled in Firebase Console.');
-                }
-                
-                return null;
-            }
-        }
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(auth);
+        });
 
-        async function saveMemberToFirebase(member, year) {
-            try {
-                checkFirebaseReady();
-                const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, member.mobile);
-                await window.firebaseSetDoc(memberDoc, {
-                    ...member,
-                    updatedAt: new Date().toISOString()
-                });
-                return true;
-            } catch (error) {
-                console.error("❌ Error saving member to Firebase:", error);
-                return false;
-            }
-        }
+        // ========================================
+        // NAVIGATION
+        // ========================================
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                // Update active nav
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
 
-        async function loadMembersFromFirebase(year) {
-            try {
-                checkFirebaseReady();
-                const membersCol = window.firebaseCollection(window.firebaseDB, `members_${year}`);
-                const snapshot = await window.firebaseGetDocs(membersCol);
-                const members = [];
-                snapshot.forEach(doc => {
-                    members.push(doc.data());
-                });
-                console.log(`✅ Loaded ${members.length} members from Firebase`);
-                return members;
-            } catch (error) {
-                console.error("❌ Error loading members from Firebase:", error);
-                return [];
-            }
-        }
+                // Show corresponding page
+                const pageName = item.dataset.page;
+                document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+                document.getElementById(`${pageName}Page`).classList.remove('hidden');
 
-        async function deleteMemberFromFirebase(mobile, year) {
-            try {
-                checkFirebaseReady();
-                const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, mobile);
-                await window.firebaseDeleteDoc(memberDoc);
-                return true;
-            } catch (error) {
-                console.error("❌ Error deleting member from Firebase:", error);
-                return false;
-            }
-        }
+                // Load page data
+                if (pageName === 'dashboard') loadDashboard();
+                if (pageName === 'history') loadBillingHistory();
+            });
+        });
 
-        // ===== AUTHENTICATION =====
-        async function checkAdminExists() {
-            try {
-                console.log("🔍 Checking if admin exists in Firestore...");
-                const firebaseAdmin = await loadAdminFromFirebase();
-                const exists = firebaseAdmin !== null;
-                console.log(`Admin exists: ${exists}`);
-                return exists;
-            } catch (error) {
-                console.error("❌ Error checking admin:", error);
-                throw error;
-            }
-        }
-
-        async function createAdmin(username, password) {
-            try {
-                await saveAdminToFirebase(username, password);
-                return true;
-            } catch (error) {
-                console.error("Error creating admin:", error);
-                return false;
-            }
-        }
-
-        async function verifyLogin(username, password) {
-            try {
-                const firebaseAdmin = await loadAdminFromFirebase();
-                
-                console.log("Firebase Admin Data:", firebaseAdmin);
-                console.log("Input Username:", username);
-                console.log("Input Password (encoded):", btoa(password));
-                console.log("Stored Password:", firebaseAdmin ? firebaseAdmin.password : 'N/A');
-                
-                if (firebaseAdmin && 
-                    firebaseAdmin.username === username && 
-                    firebaseAdmin.password === btoa(password)) {
-                    console.log("Login successful!");
-                    return true;
-                }
-                
-                console.log("Login failed - credentials don't match");
-                return false;
-            } catch (error) {
-                console.error("Error verifying login:", error);
-                return false;
-            }
-        }
-
-        function isLoggedIn() {
-            return sessionStorage.getItem('isLoggedIn') === 'true';
-        }
-
-        function setLoggedIn(status) {
-            sessionStorage.setItem('isLoggedIn', status);
-        }
-
-        function showLoginScreen() {
-            document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('adminPanel').style.display = 'none';
-        }
-
-        function showAdminPanel() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            initializeApp();
-        }
-
-        // ===== DATA MANAGEMENT =====
-        const currentYear = new Date().getFullYear();
-        const PAYMENT_PER_SHIFT_PER_MONTH = 500;
-        const shifts = [
-            '6:00 AM - 10:00 AM',
-            '10:00 AM - 2:00 PM',
-            '2:00 PM - 6:00 PM',
-            '6:00 PM - 10:00 PM',
-            '10:00 PM - 2:00 AM',
-            '2:00 AM - 6:00 AM'
-        ];
-
-        let currentFilter = 'all'; // Track current filter
-
-        function getTodayDate() {
+        // ========================================
+        // UTILITY FUNCTIONS
+        // ========================================
+        // Get current date in DD/MM/YYYY format
+        function getCurrentDate() {
             const today = new Date();
             const day = String(today.getDate()).padStart(2, '0');
             const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -1711,970 +1116,454 @@
             return `${day}/${month}/${year}`;
         }
 
-        function formatDateForInput(dateString) {
-            const parts = dateString.split('/');
-            return `${parts[2]}-${parts[1]}-${parts[0]}`;
-        }
-
-        function formatDateFromInput(dateString) {
-            const parts = dateString.split('-');
-            return `${parts[2]}/${parts[1]}/${parts[0]}`;
-        }
-
-        async function loadMembers() {
-            try {
-                const firebaseMembers = await loadMembersFromFirebase(currentYear);
-                return firebaseMembers;
-            } catch (error) {
-                console.error("Error loading members:", error);
-                return [];
-            }
-        }
-
-        async function saveMembers(members) {
-            try {
-                for (const member of members) {
-                    await saveMemberToFirebase(member, currentYear);
-                }
-                return true;
-            } catch (error) {
-                console.error("Error saving members:", error);
-                return false;
-            }
-        }
-
+        // Parse date from DD/MM/YYYY to Date object
         function parseDate(dateStr) {
-            const parts = dateStr.split('/');
-            return new Date(parts[2], parts[1] - 1, parts[0]);
+            const [day, month, year] = dateStr.split('/');
+            return new Date(year, month - 1, day);
         }
 
-        // ✅ FIXED: Calculate complete billing cycles from joining date
-        // Billing cycles are based on JOINING DATE, not payment date
-        // Join 16/02/26 → Cycles: 16 Feb-15 Mar (Month 1), 16 Mar-15 Apr (Month 2)...
-        // Bill on 16/03/26 = 1 month complete (first cycle done)
-        // Bill on 15/03/26 = 0 months (first cycle not done yet)
-        // Bill on 17/03/26 = 1 month complete (still in first cycle)
-        // Bill on 16/04/26 = 2 months complete (two cycles done)
-        function getCompleteCyclesFromJoining(joiningDate, billingUntilDate) {
-            const start = parseDate(joiningDate);
-            const end = parseDate(billingUntilDate);
-            
-            // Calculate month difference
-            let months = (end.getFullYear() - start.getFullYear()) * 12;
-            months += end.getMonth() - start.getMonth();
-            
-            // Check if we've reached the joining day in the end month
-            // If end day >= start day, we've completed that cycle
-            if (end.getDate() >= start.getDate()) {
-                months += 1; // Completed the current cycle
+        // Format date to DD/MM/YYYY
+        function formatDate(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // ========================================
+        // BILLING CALCULATION LOGIC
+        // ========================================
+        /**
+         * Calculate billing cycles from joining date
+         * 
+         * BILLING CYCLE RULES:
+         * - Cycles are based on JOINING DATE (not payment date)
+         * - If joined 16/02/2026:
+         *   → Cycle 1: 16 Feb - 15 Mar
+         *   → Cycle 2: 16 Mar - 15 Apr
+         *   → Cycle 3: 16 Apr - 15 May
+         * 
+         * - Payment date DOES NOT change the billing cycle
+         * - If student pays on 18/02, cycle still remains 16 Feb - 15 Mar
+         * 
+         * UNPAID MONTHS CALCULATION:
+         * - System tracks last_paid_till_date (end of last paid cycle)
+         * - Unpaid months = cycles between last_paid_till_date and current date
+         * 
+         * EXAMPLE:
+         * - Join: 16/02/26
+         * - Paid: 18/02/26 (covers 16 Feb - 15 Mar)
+         * - Skip March payment
+         * - Bill on: 05/05/26
+         * - Result: 
+         *   Unpaid: 16 Mar - 15 Apr (1 month)
+         *   Current: 16 Apr - 15 May (1 month)
+         *   Total Due: 2 months × ₹500 = ₹1000
+         */
+        function calculateDueMonths(joiningDate, lastPaidTillDate) {
+            const joining = parseDate(joiningDate);
+            const lastPaid = parseDate(lastPaidTillDate);
+            const today = new Date();
+
+            // Calculate months difference based on joining day
+            let months = (today.getFullYear() - lastPaid.getFullYear()) * 12;
+            months += today.getMonth() - lastPaid.getMonth();
+
+            // If current day >= joining day, we've completed that cycle
+            if (today.getDate() >= joining.getDate()) {
+                months += 1;
             }
-            
+
             return Math.max(0, months);
         }
 
-        function populateMonthFilter() {
-            const select = document.getElementById('historyMonthFilter');
-            const months = [
-                'January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'
-            ];
+        // Calculate new last_paid_till_date after payment
+        function calculateNewLastPaidDate(joiningDate, lastPaidTillDate, monthsPaid) {
+            const joining = parseDate(joiningDate);
+            const lastPaid = parseDate(lastPaidTillDate);
             
-            const currentDate = new Date();
-            const currentMonth = currentDate.getMonth();
-            const currentYear = new Date().getFullYear();
+            // Add monthsPaid to lastPaidTillDate
+            const newDate = new Date(lastPaid);
+            newDate.setMonth(newDate.getMonth() + monthsPaid);
             
-            let options = '<option value="">All Months</option>';
+            // Ensure we maintain the joining day
+            const joiningDay = joining.getDate();
+            const maxDay = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate();
+            newDate.setDate(Math.min(joiningDay, maxDay));
             
-            // Generate last 12 months
-            for (let i = 0; i < 12; i++) {
-                const monthIndex = (currentMonth - i + 12) % 12;
-                const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
-                const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
-                options += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
-            }
-            
-            select.innerHTML = options;
+            return formatDate(newDate);
         }
 
-        function getPaymentMonthYear(member) {
-            if (!member.lastPaidUntilDate) return null;
-            const date = parseDate(member.lastPaidUntilDate);
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        }
+        // ========================================
+        // DASHBOARD
+        // ========================================
+        async function loadDashboard() {
+            try {
+                // Get all students
+                const studentsSnapshot = await getDocs(collection(db, 'students'));
+                const students = studentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        // ✅ FIXED: Calculate billing with proper unpaid month tracking
-        function calculatePaymentDetails(member, billingUntilDate = null) {
-            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0) {
-                return {
-                    totalCyclesFromJoining: 0,
-                    unpaidCycles: 0,
-                    currentBillingCycles: 0,
-                    perMonthCharge: 0,
-                    totalDue: 0,
-                    totalPaid: 0,
-                    unpaidAmount: 0,
-                    isPaid: true,
-                    startDate: member.doj,
-                    endDate: getTodayDate(),
-                    lastPaidUntilDate: member.lastPaidUntilDate || null
-                };
-            }
-
-            // Use provided billing date or today
-            const endDate = billingUntilDate || getTodayDate();
-            
-            // Calculate total completed cycles from joining to billing date
-            const totalCyclesFromJoining = getCompleteCyclesFromJoining(member.doj, endDate);
-            
-            // Calculate unpaid cycles
-            let unpaidCycles = 0;
-            let currentBillingCycles = 0;
-            
-            if (member.lastPaidUntilDate) {
-                // Calculate cycles from last paid date to current billing date
-                const cyclesSinceLastPaid = getCompleteCyclesFromJoining(member.lastPaidUntilDate, endDate);
+                // Calculate stats
+                const totalStudents = students.length;
+                const activeStudents = students.filter(s => s.status === 'Active').length;
                 
-                // If cycles since last paid > 0, then we have unpaid months
-                // The -1 is because lastPaidUntilDate was the END of paid cycle
-                unpaidCycles = Math.max(0, cyclesSinceLastPaid - 1);
-                currentBillingCycles = Math.max(1, cyclesSinceLastPaid);
-            } else {
-                // First time billing - all cycles are current
-                unpaidCycles = 0;
-                currentBillingCycles = totalCyclesFromJoining;
-            }
+                let totalDues = 0;
+                students.forEach(student => {
+                    const dueMonths = calculateDueMonths(student.joining_date, student.last_paid_till_date);
+                    totalDues += dueMonths * student.monthly_fee;
+                });
 
-            const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-            const totalDue = currentBillingCycles * perMonthCharge;
-            const totalPaid = member.totalPaid || 0;
-            const unpaidAmount = Math.max(0, totalDue);
+                // Update stats
+                document.getElementById('totalStudents').textContent = totalStudents;
+                document.getElementById('activeStudents').textContent = activeStudents;
+                document.getElementById('totalDues').textContent = `₹${totalDues.toLocaleString()}`;
 
-            return {
-                totalCyclesFromJoining,
-                unpaidCycles,
-                currentBillingCycles,
-                perMonthCharge,
-                totalDue,
-                totalPaid,
-                unpaidAmount,
-                isPaid: unpaidAmount === 0,
-                startDate: member.doj,
-                endDate: endDate,
-                lastPaidUntilDate: member.lastPaidUntilDate || null
-            };
-        }
-
-        // Check if member was registered within a time period
-        function isRecentMember(doj, days) {
-            const joinDate = parseDate(doj);
-            const today = new Date();
-            const diffTime = Math.abs(today - joinDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            return diffDays <= days;
-        }
-
-        function isThisMonthMember(doj) {
-            const joinDate = parseDate(doj);
-            const today = new Date();
-            return joinDate.getMonth() === today.getMonth() && 
-                   joinDate.getFullYear() === today.getFullYear();
-        }
-
-        // ===== INITIALIZATION =====
-        async function initializeApp() {
-            document.getElementById('yearDisplay').textContent = currentYear;
-            document.getElementById('regDate').value = getTodayDate();
-            populateMonthFilter();
-            await renderMembers();
-            await populateBillingMemberSelect();
-            renderShiftSelection();
-            await renderHistory();
-        }
-
-        // ===== REGISTRATION =====
-        async function renderMembers() {
-            const members = await loadMembers();
-            const grid = document.getElementById('membersGrid');
-            const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
-            
-            // Apply filters
-            let filtered = members.filter(m => {
-                const matchesSearch = !searchTerm || m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm);
+                // Load recent registrations (last 5)
+                const recentQuery = query(
+                    collection(db, 'students'),
+                    orderBy('joining_date', 'desc'),
+                    limit(5)
+                );
+                const recentSnapshot = await getDocs(recentQuery);
+                const recentTable = document.getElementById('recentRegistrations');
                 
-                let matchesFilter = true;
-                if (currentFilter === '7days') {
-                    matchesFilter = isRecentMember(m.doj, 7);
-                } else if (currentFilter === 'month') {
-                    matchesFilter = isThisMonthMember(m.doj);
-                }
-                
-                return matchesSearch && matchesFilter;
-            });
-
-            // Sort by date - most recent first
-            filtered.sort((a, b) => {
-                const dateA = parseDate(a.doj);
-                const dateB = parseDate(b.doj);
-                return dateB - dateA;
-            });
-
-            // Update total count badge
-            document.getElementById('totalStudentsBadge').textContent = `Total: ${filtered.length}`;
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1/-1;">
-                        <div class="empty-state-icon">👥</div>
-                        <div class="empty-state-text">No members found</div>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = filtered.map(member => {
-                const details = calculatePaymentDetails(member);
-                const status = details.isPaid ? 'active' : (details.totalDue > 0 ? 'due' : 'registered');
-                const statusText = details.isPaid ? 'All Paid' : (details.totalDue > 0 ? 'Has Due' : 'Registered');
-                const isNew = isRecentMember(member.doj, 7);
-
-                return `
-                    <div class="member-card ${isNew ? 'new-member' : ''}" onclick="selectMemberForBilling('${member.mobile}')">
-                        <div class="member-card-header">
-                            <div>
-                                <div class="member-name">${member.name}</div>
-                                <div class="member-mobile">📱 ${member.mobile}</div>
-                            </div>
-                            <div class="member-badge ${status}">${statusText}</div>
-                        </div>
-                        <div class="member-info">
-                            <div class="member-info-row">
-                                <span class="member-info-label">Joined:</span>
-                                <span class="member-info-value">${member.doj}</span>
-                            </div>
-                            <div class="member-info-row">
-                                <span class="member-info-label">Shifts:</span>
-                                <span class="member-info-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
-                            </div>
-                            <div class="member-info-row">
-                                <span class="member-info-label">Balance:</span>
-                                <span class="member-info-value" style="color: ${details.unpaidAmount > 0 ? 'var(--danger)' : 'var(--success)'}">₹${details.unpaidAmount}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function selectMemberForBilling(mobile) {
-            switchTab('billing');
-            document.getElementById('billingMemberSelect').value = mobile;
-            loadBillingForMember();
-        }
-
-        // ===== BILLING =====
-        async function populateBillingMemberSelect() {
-            const members = await loadMembers();
-            const select = document.getElementById('billingMemberSelect');
-            select.innerHTML = '<option value="">-- Choose a member --</option>' +
-                members.map(m => `<option value="${m.mobile}">${m.name} (${m.mobile})</option>`).join('');
-        }
-
-        function renderShiftSelection() {
-            const container = document.getElementById('shiftSelection');
-            container.innerHTML = shifts.map((shift, index) => `
-                <div class="shift-option">
-                    <input type="checkbox" id="shift-${index}" value="${shift}">
-                    <label for="shift-${index}">${shift}</label>
-                </div>
-            `).join('');
-        }
-
-        let currentBillingMember = null;
-
-        async function loadBillingForMember() {
-            const mobile = document.getElementById('billingMemberSelect').value;
-            if (!mobile) {
-                document.getElementById('billingContent').style.display = 'none';
-                document.getElementById('billingEmptyState').style.display = 'block';
-                return;
-            }
-
-            const members = await loadMembers();
-            currentBillingMember = members.find(m => m.mobile === mobile);
-            
-            if (!currentBillingMember) return;
-
-            document.getElementById('billingContent').style.display = 'block';
-            document.getElementById('billingEmptyState').style.display = 'none';
-
-            // Set shifts
-            shifts.forEach((shift, index) => {
-                const checkbox = document.getElementById(`shift-${index}`);
-                checkbox.checked = currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.includes(shift);
-            });
-
-            // Set billing until date to today
-            document.getElementById('billingUntilDate').value = formatDateForInput(getTodayDate());
-
-            updatePaymentSummary();
-        }
-
-        async function updatePaymentSummary() {
-            if (!currentBillingMember) return;
-
-            // Get selected shifts
-            const selectedShifts = [];
-            shifts.forEach((shift, index) => {
-                if (document.getElementById(`shift-${index}`).checked) {
-                    selectedShifts.push(shift);
-                }
-            });
-
-            currentBillingMember.selectedShifts = selectedShifts;
-
-            // Save to Firebase immediately when shifts are updated
-            const members = await loadMembers();
-            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-            if (index !== -1) {
-                members[index] = currentBillingMember;
-                await saveMembers(members);
-            }
-
-            // Get billing until date
-            const billingUntilDateInput = document.getElementById('billingUntilDate').value;
-            const billingUntilDate = billingUntilDateInput ? formatDateFromInput(billingUntilDateInput) : getTodayDate();
-
-            const details = calculatePaymentDetails(currentBillingMember, billingUntilDate);
-
-            const summary = document.getElementById('paymentSummary');
-
-            let summaryHTML = `
-                <div class="summary-row">
-                    <span class="summary-label">Joining Date:</span>
-                    <span class="summary-value">${currentBillingMember.doj}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Billing Until:</span>
-                    <span class="summary-value">${billingUntilDate}</span>
-                </div>
-            `;
-            
-            // Show last paid date if exists
-            if (currentBillingMember.lastPaidUntilDate) {
-                summaryHTML += `
-                    <div class="summary-row">
-                        <span class="summary-label">Last Paid Until:</span>
-                        <span class="summary-value" style="color: #10b981;">${currentBillingMember.lastPaidUntilDate}</span>
-                    </div>
-                `;
-            }
-            
-            summaryHTML += `
-                <div class="summary-row">
-                    <span class="summary-label">Shifts Selected:</span>
-                    <span class="summary-value">${selectedShifts.length}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Per Shift/Month:</span>
-                    <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Monthly Total:</span>
-                    <span class="summary-value">₹${details.perMonthCharge}</span>
-                </div>
-            `;
-            
-            // Show unpaid cycles breakdown if exists
-            if (details.unpaidCycles > 0) {
-                summaryHTML += `
-                    <div class="summary-row" style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 12px; margin-top: 8px;">
-                        <span class="summary-label" style="color: #fca5a5;">⚠ Unpaid Cycles:</span>
-                        <span class="summary-value" style="color: #fca5a5;">${details.unpaidCycles}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="summary-label">Current Billing Cycles:</span>
-                        <span class="summary-value">${details.currentBillingCycles - details.unpaidCycles}</span>
-                    </div>
-                `;
-            }
-            
-            summaryHTML += `
-                <div class="summary-row">
-                    <span class="summary-label">Total Billing Cycles:</span>
-                    <span class="summary-value">${details.currentBillingCycles}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total from Joining:</span>
-                    <span class="summary-value">${details.totalCyclesFromJoining} cycles</span>
-                </div>
-                <div class="summary-row total" style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 16px; margin-top: 12px;">
-                    <span class="summary-label">Amount to Pay:</span>
-                    <span class="summary-value">₹${details.unpaidAmount}</span>
-                </div>
-            `;
-
-            summary.innerHTML = summaryHTML;
-
-            // Update members grid to reflect changes
-            await renderMembers();
-        }
-
-        async function saveBilling() {
-            if (!currentBillingMember) return;
-
-            const selectedShifts = [];
-            shifts.forEach((shift, index) => {
-                if (document.getElementById(`shift-${index}`).checked) {
-                    selectedShifts.push(shift);
-                }
-            });
-
-            // Get billing until date
-            const billingUntilDateInput = document.getElementById('billingUntilDate').value;
-            const billingUntilDate = billingUntilDateInput ? formatDateFromInput(billingUntilDateInput) : getTodayDate();
-            
-            currentBillingMember.selectedShifts = selectedShifts;
-            
-            // ✅ CRITICAL: Update payment tracking
-            // Store the last paid cycle end date (this resets the billing cycle)
-            currentBillingMember.lastPaidUntilDate = billingUntilDate;
-
-            // Calculate payment details
-            const details = calculatePaymentDetails(currentBillingMember, billingUntilDate);
-            
-            // When bill is paid, add the current bill amount to total paid
-            const currentTotalPaid = currentBillingMember.totalPaid || 0;
-            const currentBillAmount = details.unpaidAmount; // Amount being paid now
-            currentBillingMember.totalPaid = currentTotalPaid + currentBillAmount;
-
-            const members = await loadMembers();
-            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-            if (index !== -1) {
-                members[index] = currentBillingMember;
-                await saveMembers(members);
-            }
-
-            alert(`✓ Billing saved! Amount paid: ₹${currentBillAmount}\nPaid until: ${billingUntilDate}`);
-            
-            // Reset billing date to today for next billing
-            document.getElementById('billingUntilDate').value = formatDateForInput(getTodayDate());
-            
-            updatePaymentSummary();
-            await renderMembers();
-            await renderHistory();
-        }
-
-        function printBill() {
-            if (!currentBillingMember) return;
-
-            const billingUntilDateInput = document.getElementById('billingUntilDate').value;
-            const billingUntilDate = billingUntilDateInput ? formatDateFromInput(billingUntilDateInput) : getTodayDate();
-            
-            const details = calculatePaymentDetails(currentBillingMember, billingUntilDate);
-            
-            const billHTML = `
-                <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Inter', sans-serif; color: #1e293b;">
-                    <div style="text-align: center; border-bottom: 3px solid #1e293b; padding-bottom: 15px; margin-bottom: 18px;">
-                        <h1 style="margin: 0; font-size: 32px; font-family: 'Playfair Display', serif; color: #1e293b; font-weight: 800;">Purainiya Library</h1>
-                        <h2 style="margin: 8px 0 0 0; font-size: 18px; color: #64748b; font-weight: 700;">Payment Receipt</h2>
-                        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8; font-weight: 600;">Year: ${currentYear} | Date: ${getTodayDate()}</p>
-                    </div>
-                    
-                    <div style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #cbd5e1;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding: 6px; font-weight: 700; color: #1e293b; width: 35%; font-size: 14px;">Name:</td>
-                                <td style="padding: 6px; color: #334155; font-size: 15px; font-weight: 600;">${currentBillingMember.name}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Mobile:</td>
-                                <td style="padding: 6px; color: #334155; font-size: 15px; font-weight: 600;">${currentBillingMember.mobile}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Joining Date:</td>
-                                <td style="padding: 6px; color: #334155; font-size: 15px; font-weight: 600;">${currentBillingMember.doj}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                        <div>
-                            <h3 style="border-bottom: 2px solid #1e293b; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #1e293b; font-weight: 800;">Selected Shifts</h3>
-                            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #e2e8f0;">
-                                ${currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.length > 0 
-                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;">• ${shift}</div>`).join('') 
-                                    : '<div style="padding: 3px 0; font-size: 12px; color: #94a3b8; font-weight: 600;">No shifts selected</div>'}
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 style="border-bottom: 2px solid #1e293b; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #1e293b; font-weight: 800;">Payment Period</h3>
-                            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #e2e8f0;">
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>From:</strong> ${details.startDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>To:</strong> ${billingUntilDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>Billing Cycles:</strong> ${details.currentBillingCycles}</div>
-                                ${details.unpaidCycles > 0 ? `<div style="padding: 3px 0; font-size: 12px; color: #ef4444; font-weight: 700;"><strong>⚠ Unpaid Cycles:</strong> ${details.unpaidCycles}</div>` : ''}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="padding: 15px; border: 2px solid #1e293b; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 10px;">
-                        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #1e293b; text-align: center; font-weight: 800;">Payment Summary</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 600;">Number of Shifts:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 600;">Rate per Shift/Month:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 600;">Monthly Total (${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0} × ₹${PAYMENT_PER_SHIFT_PER_MONTH}):</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">₹${details.perMonthCharge}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; color: #64748b; font-size: 12px; font-weight: 600;">Billing Cycles:</td>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">${details.currentBillingCycles}</td>
-                            </tr>
-                            ${details.unpaidCycles > 0 ? `
-                            <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #ef4444; font-size: 13px; font-weight: 700;">⚠ Unpaid Cycles:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 800; color: #ef4444; font-size: 13px;">${details.unpaidCycles}</td>
-                            </tr>
-                            ` : ''}
-                            <tr>
-                                <td style="padding: 10px 0; font-size: 15px; font-weight: 800; color: #1e293b;">TOTAL AMOUNT:</td>
-                                <td style="padding: 10px 0; text-align: right;">
-                                    <span style="font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 6px 16px; border-radius: 8px; display: inline-block;">₹${details.unpaidAmount}</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div style="margin-top: 18px; text-align: center; padding-top: 15px; border-top: 2px solid #e2e8f0;">
-                        <p style="margin: 4px 0; font-size: 13px; color: #64748b; font-weight: 600;">Thank you for being a valued member!</p>
-                        <p style="margin: 4px 0; font-size: 11px; color: #94a3b8; font-weight: 600;">Purainiya Library Management System</p>
-                    </div>
-                </div>
-            `;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Receipt - ${currentBillingMember.name}</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
-                    <style>
-                        * {
-                            margin: 0;
-                            padding: 0;
-                            box-sizing: border-box;
-                        }
-                        @media print {
-                            body { 
-                                margin: 0; 
-                                padding: 8px;
-                            }
-                            @page { 
-                                size: A4 portrait; 
-                                margin: 8mm;
-                            }
-                            .print-bill-container { 
-                                page-break-inside: avoid !important;
-                                page-break-after: avoid !important;
-                                page-break-before: avoid !important;
-                            }
-                            * {
-                                page-break-inside: avoid !important;
-                            }
-                        }
-                        body { 
-                            background: white;
-                            font-family: 'Inter', sans-serif;
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${billHTML}
-                    <script>
-                        window.onload = function() {
-                            setTimeout(function() {
-                                window.print();
-                            }, 500);
-                        }
-                    <\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }
-
-        // ===== HISTORY =====
-        async function renderHistory() {
-            const members = await loadMembers();
-            const statusFilter = document.getElementById('historyStatusFilter').value;
-            const monthFilter = document.getElementById('historyMonthFilter').value;
-            const searchTerm = document.getElementById('historySearch').value.toLowerCase();
-            
-            let filtered = members.filter(m => {
-                if (!m.name || !m.mobile) return false;
-                
-                const details = calculatePaymentDetails(m);
-                
-                // Search matching
-                const matchesSearch = !searchTerm || 
-                    m.name.toLowerCase().includes(searchTerm) || 
-                    m.mobile.includes(searchTerm);
-                
-                // Status matching
-                const matchesStatus = !statusFilter || 
-                    (statusFilter === 'paid' && details.isPaid) ||
-                    (statusFilter === 'due' && !details.isPaid);
-                
-                // Month filtering
-                let matchesMonth = true;
-                if (monthFilter) {
-                    if (m.lastPaidUntilDate) {
-                        const paymentDate = parseDate(m.lastPaidUntilDate);
-                        const paymentMonthYear = `${paymentDate.getFullYear()}-${String(paymentDate.getMonth() + 1).padStart(2, '0')}`;
-                        matchesMonth = paymentMonthYear === monthFilter;
-                    } else {
-                        matchesMonth = false;
-                    }
-                }
-                
-                return matchesSearch && matchesStatus && matchesMonth;
-            });
-            
-            const list = document.getElementById('historyList');
-            
-            // Calculate totals
-            let totalCollection = 0;
-            let totalDue = 0;
-            let paidMembersCount = 0;
-            
-            filtered.forEach(member => {
-                const details = calculatePaymentDetails(member);
-                totalCollection += details.totalPaid;
-                totalDue += details.unpaidAmount;
-                if (details.isPaid) paidMembersCount++;
-            });
-            
-            // Update total collection display
-            document.getElementById('totalCollectionAmount').textContent = `₹${totalCollection.toLocaleString()}`;
-            document.getElementById('totalMembers').textContent = filtered.length;
-            document.getElementById('totalPaidMembers').textContent = paidMembersCount;
-            document.getElementById('totalDueAmount').textContent = `₹${totalDue.toLocaleString()}`;
-            
-            if (filtered.length === 0) {
-                list.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📋</div>
-                        <div class="empty-state-text">No billing history found</div>
-                    </div>
-                `;
-                return;
-            }
-
-            list.innerHTML = filtered.map(member => {
-                const details = calculatePaymentDetails(member);
-                return `
-                    <div class="history-item" onclick="selectMemberForBilling('${member.mobile}')">
-                        <div class="history-item-header">
-                            <div class="history-item-name">${member.name}</div>
-                            <div class="history-item-amount">₹${details.totalPaid}</div>
-                        </div>
-                        <div class="history-item-details">
-                            <div class="history-detail">
-                                <span class="history-detail-label">Mobile</span>
-                                <span class="history-detail-value">${member.mobile}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label">Joining Date</span>
-                                <span class="history-detail-value">${member.doj}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label">Last Paid Until</span>
-                                <span class="history-detail-value">${member.lastPaidUntilDate || 'N/A'}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label">Shifts</span>
-                                <span class="history-detail-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label">Total Cycles</span>
-                                <span class="history-detail-value">${details.totalCyclesFromJoining} cycles</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label">Total Due</span>
-                                <span class="history-detail-value" style="color: #ef4444;">₹${details.totalDue}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label">Balance</span>
-                                <span class="history-detail-value" style="color: ${details.unpaidAmount > 0 ? '#ef4444' : '#10b981'}; font-weight: 800;">₹${details.unpaidAmount}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // ===== TAB SWITCHING =====
-        async function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-            document.getElementById(`${tabName}Tab`).classList.add('active');
-            
-            if (tabName === 'billing') {
-                await populateBillingMemberSelect();
-            } else if (tabName === 'history') {
-                await renderHistory();
-            }
-        }
-
-        // ===== EVENT LISTENERS =====
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Show loading indicator
-            const loginForm = document.getElementById('loginForm');
-            const setupForm = document.getElementById('firstTimeSetup');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            
-            if (!isLoggedIn()) {
-                showLoginScreen();
-                loginForm.style.display = 'none';
-                setupForm.style.display = 'none';
-                loadingIndicator.style.display = 'block';
-                
-                // Wait for Firebase to initialize with event listener
-                const waitForFirebase = () => {
-                    return new Promise((resolve, reject) => {
-                        if (window.firebaseInitialized === true) {
-                            console.log("✅ Firebase already initialized");
-                            resolve();
-                            return;
-                        }
-                        
-                        if (window.firebaseError) {
-                            console.log("❌ Firebase error detected");
-                            reject(window.firebaseError);
-                            return;
-                        }
-                        
-                        const readyHandler = () => {
-                            console.log("✅ Firebase ready event received");
-                            resolve();
-                        };
-                        
-                        const errorHandler = (event) => {
-                            console.log("❌ Firebase error event received");
-                            reject(event.detail);
-                        };
-                        
-                        window.addEventListener('firebaseReady', readyHandler, { once: true });
-                        window.addEventListener('firebaseError', errorHandler, { once: true });
-                        
-                        setTimeout(() => {
-                            window.removeEventListener('firebaseReady', readyHandler);
-                            window.removeEventListener('firebaseError', errorHandler);
-                            
-                            if (!window.firebaseInitialized) {
-                                reject('Firebase initialization timeout after 30 seconds. Please check your internet connection and refresh the page.');
-                            }
-                        }, 30000);
-                    });
-                };
-                
-                try {
-                    console.log("⏳ Waiting for Firebase...");
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    if (typeof window.firebaseDB === 'undefined') {
-                        console.log("⚠️ Firebase module still loading, waiting longer...");
-                        await waitForFirebase();
-                    } else {
-                        console.log("✅ Firebase module already loaded");
-                    }
-                    
-                    console.log("✅ Firebase connected successfully");
-                    console.log("🔍 Checking if admin exists...");
-                    const adminExists = await checkAdminExists();
-                    console.log("Admin exists:", adminExists);
-                    
-                    loadingIndicator.style.display = 'none';
-                    
-                    if (!adminExists) {
-                        console.log("📝 Showing setup form");
-                        loginForm.style.display = 'none';
-                        setupForm.style.display = 'block';
-                    } else {
-                        console.log("🔐 Showing login form");
-                        loginForm.style.display = 'block';
-                        setupForm.style.display = 'none';
-                    }
-                } catch (error) {
-                    console.error("❌ Firebase connection failed:", error);
-                    
-                    let errorHTML = `
-                        <div style="color: #ef4444; padding: 20px; text-align: center; max-width: 600px; margin: 0 auto;">
-                            <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
-                            <div style="font-weight: 700; margin-bottom: 10px;">Failed to connect to Firebase</div>
-                            <div style="font-size: 13px; color: #64748b; margin-bottom: 15px; font-weight: 600;">${error}</div>
-                            <button onclick="location.reload()" style="background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px;">
-                                🔄 Retry
-                            </button>
-                        </div>
-                    `;
-                    
-                    loadingIndicator.innerHTML = errorHTML;
-                }
-            } else {
-                showAdminPanel();
-            }
-            
-            document.getElementById('setupForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const username = document.getElementById('newUsername').value;
-                const password = document.getElementById('newPassword').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const errorMsg = document.getElementById('setupErrorMessage');
-                
-                if (password !== confirmPassword) {
-                    errorMsg.textContent = 'Passwords do not match!';
-                    return;
-                }
-                
-                if (password.length < 4) {
-                    errorMsg.textContent = 'Password must be at least 4 characters!';
-                    return;
-                }
-                
-                errorMsg.textContent = 'Creating account...';
-                errorMsg.style.color = '#3b82f6';
-                
-                const success = await createAdmin(username, password);
-                
-                if (success) {
-                    errorMsg.textContent = '';
-                    errorMsg.style.color = '#ef4444';
-                    document.getElementById('firstTimeSetup').style.display = 'none';
-                    document.getElementById('loginForm').style.display = 'block';
-                    document.getElementById('errorMessage').textContent = 'Account created! Please login.';
-                    document.getElementById('errorMessage').style.color = '#10b981';
-                    document.getElementById('setupForm').reset();
+                if (recentSnapshot.empty) {
+                    recentTable.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-light);">No recent registrations</td></tr>';
                 } else {
-                    errorMsg.textContent = 'Failed to create account. Please try again.';
-                    errorMsg.style.color = '#ef4444';
+                    recentTable.innerHTML = recentSnapshot.docs.map(doc => {
+                        const data = doc.data();
+                        return `
+                            <tr>
+                                <td>${data.name}</td>
+                                <td>${data.mobile}</td>
+                                <td>${data.shift}</td>
+                                <td>${data.joining_date}</td>
+                                <td><span class="badge badge-success">${data.status}</span></td>
+                            </tr>
+                        `;
+                    }).join('');
                 }
-            });
-            
-            document.getElementById('loginForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                const errorMsg = document.getElementById('errorMessage');
-                const submitBtn = e.target.querySelector('button[type="submit"]');
-                
-                submitBtn.textContent = 'Logging in...';
-                submitBtn.disabled = true;
-                errorMsg.textContent = '';
-                
-                try {
-                    const isValid = await verifyLogin(username, password);
-                    
-                    if (isValid) {
-                        setLoggedIn('true');
-                        showAdminPanel();
-                        document.getElementById('loginForm').reset();
-                    } else {
-                        errorMsg.textContent = 'Invalid username or password!';
-                        errorMsg.style.color = '#ef4444';
-                        submitBtn.textContent = 'Login';
-                        submitBtn.disabled = false;
-                    }
-                } catch (error) {
-                    console.error("Login error:", error);
-                    errorMsg.textContent = 'Connection error. Please check your internet connection.';
-                    errorMsg.style.color = '#ef4444';
-                    submitBtn.textContent = 'Login';
-                    submitBtn.disabled = false;
-                }
-            });
-            
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                setLoggedIn('false');
-                showLoginScreen();
-                document.getElementById('errorMessage').textContent = '';
-            });
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
 
-            document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const mobile = document.getElementById('regMobile').value;
-                const name = document.getElementById('regName').value;
+        // ========================================
+        // STUDENT REGISTRATION
+        // ========================================
+        // Set joining date to today
+        document.getElementById('joiningDate').value = getCurrentDate();
+
+        // Registration form
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('studentName').value;
+            const mobile = document.getElementById('studentMobile').value;
+            const shift = document.getElementById('studentShift').value;
+            const joiningDate = getCurrentDate();
+            const btnText = document.getElementById('registerButtonText');
+            const successMsg = document.getElementById('registerSuccess');
+
+            btnText.innerHTML = '<span class="loading"></span> Registering...';
+
+            try {
+                // Check if mobile already exists
+                const mobileQuery = query(collection(db, 'students'), where('mobile', '==', mobile));
+                const mobileSnapshot = await getDocs(mobileQuery);
                 
-                const members = await loadMembers();
-                
-                if (members.find(m => m.mobile === mobile)) {
-                    alert('Member with this mobile number already exists!');
+                if (!mobileSnapshot.empty) {
+                    alert('Student with this mobile number already exists!');
+                    btnText.textContent = 'Register Student';
                     return;
                 }
-                
-                members.push({
-                    mobile,
+
+                // Add student to Firestore
+                await addDoc(collection(db, 'students'), {
                     name,
-                    doj: getTodayDate(),
-                    selectedShifts: [],
-                    lastPaidUntilDate: null, // Track last paid cycle end
-                    totalPaid: 0
+                    mobile,
+                    shift,
+                    monthly_fee: 500,
+                    joining_date: joiningDate,
+                    last_paid_till_date: joiningDate,
+                    total_paid: 0,
+                    total_due: 0,
+                    status: 'Active',
+                    created_at: Timestamp.now()
                 });
-                
-                await saveMembers(members);
-                
-                document.getElementById('successMessage').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('successMessage').style.display = 'none';
-                }, 3000);
-                
-                document.getElementById('registrationForm').reset();
-                document.getElementById('regDate').value = getTodayDate();
-                await renderMembers();
-                await populateBillingMemberSelect();
-            });
 
-            document.getElementById('memberSearch').addEventListener('input', renderMembers);
-            
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.addEventListener('click', async () => {
-                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    currentFilter = tab.dataset.filter;
-                    await renderMembers();
-                });
-            });
-            
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-            });
+                // Show success message
+                successMsg.classList.add('show');
+                setTimeout(() => successMsg.classList.remove('show'), 3000);
 
-            document.getElementById('billingMemberSelect').addEventListener('change', loadBillingForMember);
-            document.getElementById('billingUntilDate').addEventListener('change', updatePaymentSummary);
-            
-            document.getElementById('shiftSelection').addEventListener('change', async (e) => {
-                if (e.target.type === 'checkbox') {
-                    await updatePaymentSummary();
-                }
-            });
+                // Reset form
+                document.getElementById('registerForm').reset();
+                document.getElementById('joiningDate').value = getCurrentDate();
 
-            document.getElementById('saveBillingBtn').addEventListener('click', saveBilling);
-            document.getElementById('printBillBtn').addEventListener('click', printBill);
-            
-            document.getElementById('historyMonthFilter').addEventListener('change', renderHistory);
-            document.getElementById('historyStatusFilter').addEventListener('change', renderHistory);
-            document.getElementById('historySearch').addEventListener('input', renderHistory);
+                // Reload dashboard
+                loadDashboard();
+
+                btnText.textContent = 'Register Student';
+            } catch (error) {
+                console.error('Error registering student:', error);
+                alert('Failed to register student. Please try again.');
+                btnText.textContent = 'Register Student';
+            }
         });
+
+        // ========================================
+        // BILLING
+        // ========================================
+        // Search student
+        document.getElementById('searchBtn').addEventListener('click', async () => {
+            const mobile = document.getElementById('searchMobile').value.trim();
+            
+            if (!mobile) {
+                alert('Please enter mobile number');
+                return;
+            }
+
+            try {
+                const studentsQuery = query(collection(db, 'students'), where('mobile', '==', mobile));
+                const studentsSnapshot = await getDocs(studentsQuery);
+
+                if (studentsSnapshot.empty) {
+                    alert('Student not found with this mobile number');
+                    document.getElementById('studentInfoCard').classList.add('hidden');
+                    document.getElementById('customPaymentCard').classList.add('hidden');
+                    return;
+                }
+
+                // Get student data
+                const studentDoc = studentsSnapshot.docs[0];
+                currentStudent = { id: studentDoc.id, ...studentDoc.data() };
+
+                // Calculate due months and amount
+                const dueMonths = calculateDueMonths(currentStudent.joining_date, currentStudent.last_paid_till_date);
+                const dueAmount = dueMonths * currentStudent.monthly_fee;
+
+                // Display student info
+                document.getElementById('infoName').textContent = currentStudent.name;
+                document.getElementById('infoMobile').textContent = currentStudent.mobile;
+                document.getElementById('infoShift').textContent = currentStudent.shift;
+                document.getElementById('infoMonthlyFee').textContent = `₹${currentStudent.monthly_fee}`;
+                document.getElementById('infoJoiningDate').textContent = currentStudent.joining_date;
+                document.getElementById('infoLastPaidTill').textContent = currentStudent.last_paid_till_date;
+                document.getElementById('infoDueMonths').textContent = dueMonths;
+                document.getElementById('infoDueAmount').textContent = `₹${dueAmount}`;
+
+                // Show student info card
+                document.getElementById('studentInfoCard').classList.remove('hidden');
+                document.getElementById('customPaymentCard').classList.add('hidden');
+            } catch (error) {
+                console.error('Error searching student:', error);
+                alert('Error searching student. Please try again.');
+            }
+        });
+
+        // Pay Full Due
+        document.getElementById('payFullDueBtn').addEventListener('click', async () => {
+            if (!currentStudent) return;
+
+            const dueMonths = calculateDueMonths(currentStudent.joining_date, currentStudent.last_paid_till_date);
+            const dueAmount = dueMonths * currentStudent.monthly_fee;
+
+            if (dueMonths === 0) {
+                alert('No dues pending!');
+                return;
+            }
+
+            const paymentMode = prompt('Enter payment mode (Cash/UPI/Card/Net Banking):');
+            if (!paymentMode) return;
+
+            await processPayment(dueAmount, dueMonths, paymentMode);
+        });
+
+        // Show Custom Payment Form
+        document.getElementById('payCustomBtn').addEventListener('click', () => {
+            document.getElementById('customPaymentCard').classList.remove('hidden');
+        });
+
+        // Custom Payment Form
+        document.getElementById('customPaymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const amount = parseInt(document.getElementById('customAmount').value);
+            const paymentMode = document.getElementById('paymentMode').value;
+
+            if (!currentStudent) return;
+
+            const dueMonths = calculateDueMonths(currentStudent.joining_date, currentStudent.last_paid_till_date);
+            const monthlyFee = currentStudent.monthly_fee;
+
+            // Calculate how many months this payment covers
+            const monthsPaid = Math.floor(amount / monthlyFee);
+
+            if (monthsPaid === 0) {
+                alert('Amount is less than monthly fee. Please enter at least ₹' + monthlyFee);
+                return;
+            }
+
+            if (monthsPaid > dueMonths) {
+                alert('Amount exceeds total due. Please pay up to ₹' + (dueMonths * monthlyFee));
+                return;
+            }
+
+            await processPayment(amount, monthsPaid, paymentMode);
+        });
+
+        // Process Payment
+        async function processPayment(amount, monthsPaid, paymentMode) {
+            try {
+                const studentRef = doc(db, 'students', currentStudent.id);
+                
+                // Calculate new last_paid_till_date
+                const newLastPaidDate = calculateNewLastPaidDate(
+                    currentStudent.joining_date,
+                    currentStudent.last_paid_till_date,
+                    monthsPaid
+                );
+
+                // Update student record
+                await updateDoc(studentRef, {
+                    last_paid_till_date: newLastPaidDate,
+                    total_paid: (currentStudent.total_paid || 0) + amount
+                });
+
+                // Add to billing history
+                await addDoc(collection(db, 'billing_history'), {
+                    student_id: currentStudent.id,
+                    name: currentStudent.name,
+                    mobile: currentStudent.mobile,
+                    amount_paid: amount,
+                    period_from: currentStudent.last_paid_till_date,
+                    period_to: newLastPaidDate,
+                    payment_date: getCurrentDate(),
+                    payment_mode: paymentMode,
+                    created_at: Timestamp.now()
+                });
+
+                alert('Payment processed successfully!');
+
+                // Update current student data
+                currentStudent.last_paid_till_date = newLastPaidDate;
+                currentStudent.total_paid = (currentStudent.total_paid || 0) + amount;
+
+                // Reset search
+                document.getElementById('searchMobile').value = '';
+                document.getElementById('studentInfoCard').classList.add('hidden');
+                document.getElementById('customPaymentCard').classList.add('hidden');
+                document.getElementById('customPaymentForm').reset();
+
+                // Reload dashboard
+                loadDashboard();
+            } catch (error) {
+                console.error('Error processing payment:', error);
+                alert('Failed to process payment. Please try again.');
+            }
+        }
+
+        // Print Bill
+        document.getElementById('printBillBtn').addEventListener('click', () => {
+            if (!currentStudent) return;
+
+            const dueMonths = calculateDueMonths(currentStudent.joining_date, currentStudent.last_paid_till_date);
+            const dueAmount = dueMonths * currentStudent.monthly_fee;
+
+            // Fill receipt data
+            document.getElementById('receiptName').textContent = currentStudent.name;
+            document.getElementById('receiptMobile').textContent = currentStudent.mobile;
+            document.getElementById('receiptShift').textContent = currentStudent.shift;
+            document.getElementById('receiptAmount').textContent = `₹${dueAmount}`;
+            document.getElementById('receiptPeriod').textContent = `${currentStudent.last_paid_till_date} - Present`;
+            document.getElementById('receiptDate').textContent = getCurrentDate();
+            document.getElementById('receiptMode').textContent = 'Pending';
+
+            // Show modal
+            document.getElementById('printModal').classList.add('active');
+        });
+
+        // Close modal
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('printModal').classList.remove('active');
+        });
+
+        // ========================================
+        // BILLING HISTORY
+        // ========================================
+        // History filter change
+        document.getElementById('historyFilter').addEventListener('change', (e) => {
+            const value = e.target.value;
+            if (value === 'custom') {
+                document.getElementById('dateFrom').classList.remove('hidden');
+                document.getElementById('dateTo').classList.remove('hidden');
+                document.getElementById('applyDateFilter').classList.remove('hidden');
+            } else {
+                document.getElementById('dateFrom').classList.add('hidden');
+                document.getElementById('dateTo').classList.add('hidden');
+                document.getElementById('applyDateFilter').classList.add('hidden');
+                loadBillingHistory(value);
+            }
+        });
+
+        // Apply custom date filter
+        document.getElementById('applyDateFilter').addEventListener('click', () => {
+            loadBillingHistory('custom');
+        });
+
+        // Load Billing History
+        async function loadBillingHistory(filter = 'all') {
+            try {
+                let historyQuery = query(collection(db, 'billing_history'), orderBy('created_at', 'desc'));
+
+                // Apply filters
+                if (filter === 'today') {
+                    const today = getCurrentDate();
+                    historyQuery = query(
+                        collection(db, 'billing_history'),
+                        where('payment_date', '==', today),
+                        orderBy('created_at', 'desc')
+                    );
+                } else if (filter === 'thisMonth') {
+                    const today = new Date();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const year = today.getFullYear();
+                    // Note: This is a simplified filter. For production, use proper date range queries
+                } else if (filter === 'custom') {
+                    const dateFrom = document.getElementById('dateFrom').value;
+                    const dateTo = document.getElementById('dateTo').value;
+                    if (!dateFrom || !dateTo) {
+                        alert('Please select both dates');
+                        return;
+                    }
+                    // Note: Custom date range filtering would need more complex query logic
+                }
+
+                const historySnapshot = await getDocs(historyQuery);
+                const historyTable = document.getElementById('historyTable');
+
+                if (historySnapshot.empty) {
+                    historyTable.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-light);">No billing history found</td></tr>';
+                    return;
+                }
+
+                historyTable.innerHTML = historySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return `
+                        <tr>
+                            <td>${data.name}</td>
+                            <td>${data.mobile}</td>
+                            <td><strong>₹${data.amount_paid}</strong></td>
+                            <td>${data.period_from} to ${data.period_to}</td>
+                            <td>${data.payment_date}</td>
+                            <td><span class="badge badge-success">${data.payment_mode}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading billing history:', error);
+            }
+        }
     </script>
 </body>
 </html>
