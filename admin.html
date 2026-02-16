@@ -730,6 +730,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .billing-header h2 {
@@ -744,6 +746,7 @@
             display: flex;
             gap: 12px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .member-selector label {
@@ -1365,6 +1368,10 @@
                         <select id="billingMemberSelect">
                             <option value="">-- Choose a member --</option>
                         </select>
+                        <label style="margin-left: 20px;">Billing Month:</label>
+                        <select id="billingMonthFilter">
+                            <option value="">-- Select Month --</option>
+                        </select>
                     </div>
                 </div>
 
@@ -1775,6 +1782,7 @@
 
         function populateMonthFilter() {
             const select = document.getElementById('historyMonthFilter');
+            const billingSelect = document.getElementById('billingMonthFilter');
             const months = [
                 'January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'
@@ -1785,6 +1793,7 @@
             const currentYear = new Date().getFullYear();
             
             let options = '<option value="">All Months</option>';
+            let billingOptions = '<option value="">-- Select Month --</option>';
             
             // Generate last 12 months
             for (let i = 0; i < 12; i++) {
@@ -1792,15 +1801,59 @@
                 const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
                 const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
                 options += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
+                billingOptions += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
             }
             
             select.innerHTML = options;
+            billingSelect.innerHTML = billingOptions;
         }
 
         function getPaymentMonthYear(member) {
             if (!member.paymentUntilDate) return null;
             const date = parseDate(member.paymentUntilDate);
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        }
+
+        // Calculate billing for a specific month from joining date
+        function calculateBillingForMonth(member, selectedMonth) {
+            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0 || !selectedMonth) {
+                return {
+                    totalMonths: 0,
+                    perMonthCharge: 0,
+                    totalDue: 0,
+                    totalPaid: 0,
+                    unpaidAmount: 0,
+                    isPaid: true,
+                    startDate: member.doj,
+                    endDate: getTodayDate()
+                };
+            }
+
+            // Parse selected month (format: "YYYY-MM")
+            const [year, month] = selectedMonth.split('-');
+            const joiningDate = parseDate(member.doj);
+            
+            // Calculate the last day of the selected month
+            const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+            const endDate = `${String(lastDayOfMonth).padStart(2, '0')}/${month}/${year}`;
+            
+            // Calculate months from joining date to end of selected month
+            const totalMonths = getMonthsDifference(member.doj, endDate);
+            const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
+            const totalDue = totalMonths * perMonthCharge;
+            const totalPaid = member.totalPaid || 0;
+            const unpaidAmount = Math.max(0, totalDue - totalPaid);
+
+            return {
+                totalMonths,
+                perMonthCharge,
+                totalDue,
+                totalPaid,
+                unpaidAmount,
+                isPaid: unpaidAmount === 0,
+                startDate: member.doj,
+                endDate: endDate
+            };
         }
 
         function calculatePaymentDetails(member) {
@@ -2016,13 +2069,28 @@
                 await saveMembers(members);
             }
 
-            const details = calculatePaymentDetails(currentBillingMember);
+            // Check if billing month is selected
+            const billingMonth = document.getElementById('billingMonthFilter').value;
+            let details;
+            
+            if (billingMonth) {
+                // Calculate billing for specific month from joining date
+                details = calculateBillingForMonth(currentBillingMember, billingMonth);
+            } else {
+                // Calculate normal billing
+                details = calculatePaymentDetails(currentBillingMember);
+            }
+            
             const summary = document.getElementById('paymentSummary');
 
             summary.innerHTML = `
                 <div class="summary-row">
-                    <span class="summary-label">Period:</span>
-                    <span class="summary-value">${details.startDate} to ${details.endDate}</span>
+                    <span class="summary-label">Joining Date:</span>
+                    <span class="summary-value">${details.startDate}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Payment Until:</span>
+                    <span class="summary-value">${details.endDate}</span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Total Months:</span>
@@ -2249,7 +2317,17 @@
                 const matchesStatus = !statusFilter || 
                     (statusFilter === 'paid' && details.isPaid) ||
                     (statusFilter === 'due' && !details.isPaid);
-                const matchesMonth = !monthFilter || getPaymentMonthYear(m) === monthFilter;
+                
+                // Fix month filtering - check if payment until date is in the selected month
+                let matchesMonth = true;
+                if (monthFilter && m.paymentUntilDate) {
+                    const paymentDate = parseDate(m.paymentUntilDate);
+                    const paymentMonthYear = `${paymentDate.getFullYear()}-${String(paymentDate.getMonth() + 1).padStart(2, '0')}`;
+                    matchesMonth = paymentMonthYear === monthFilter;
+                } else if (monthFilter && !m.paymentUntilDate) {
+                    matchesMonth = false;
+                }
+                
                 return matchesSearch && matchesStatus && matchesMonth;
             });
 
@@ -2301,11 +2379,15 @@
                                 <span class="history-detail-value">${member.doj}</span>
                             </div>
                             <div class="history-detail">
+                                <span class="history-detail-label">Payment Until</span>
+                                <span class="history-detail-value">${member.paymentUntilDate || 'N/A'}</span>
+                            </div>
+                            <div class="history-detail">
                                 <span class="history-detail-label">Shifts</span>
                                 <span class="history-detail-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
                             </div>
                             <div class="history-detail">
-                                <span class="history-detail-label">Payment Period</span>
+                                <span class="history-detail-label">Total Months</span>
                                 <span class="history-detail-value">${details.totalMonths} months</span>
                             </div>
                             <div class="history-detail">
@@ -2625,6 +2707,8 @@ service cloud.firestore {
             });
 
             document.getElementById('billingMemberSelect').addEventListener('change', loadBillingForMember);
+            
+            document.getElementById('billingMonthFilter').addEventListener('change', updatePaymentSummary);
             
             document.getElementById('shiftSelection').addEventListener('change', async (e) => {
                 if (e.target.type === 'checkbox') {
