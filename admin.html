@@ -1750,28 +1750,26 @@
             return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
-        // CORRECTED: Calculate complete months from joining date
-        // 16/02/26 to 16/02/26 = 1 month (current month)
-        // 16/02/26 to 17/02/26 = 1 month (within first month)
-        // 16/02/26 to 15/03/26 = 1 month (not yet completed second cycle)
-        // 16/02/26 to 16/03/26 = 1 month (completed 1 cycle)
-        // 16/02/26 to 17/03/26 = 2 months (into second cycle)
-        // 16/02/26 to 16/09/26 = 7 months (7 complete cycles)
-        // 20/02/26 to 20/08/26 = 6 months (6 complete cycles)
+        // CORRECT: Calculate billing cycles from joining date
+        // Join 16/02/26 → Cycles: 16 Feb-15 Mar (Month 1), 16 Mar-15 Apr (Month 2)...
+        // Bill on 16/03/26 = 1 month complete (first cycle done)
+        // Bill on 15/03/26 = 0 months (first cycle not done yet) → minimum 1
+        // Bill on 17/03/26 = 1 month (still in first cycle)
+        // Bill on 16/04/26 = 2 months (two cycles complete)
         function getMonthsDifference(startDate, endDate) {
             const start = parseDate(startDate);
             const end = parseDate(endDate);
             
-            // Calculate months between
+            // Calculate month difference
             let months = (end.getFullYear() - start.getFullYear()) * 12;
             months += end.getMonth() - start.getMonth();
             
-            // If end day < start day, we haven't completed the month cycle yet
+            // If end day < start day, we haven't completed the current cycle yet
             if (end.getDate() < start.getDate()) {
                 months -= 1;
             }
             
-            // Minimum 1 month (current month always counts)
+            // Minimum 1 month (always bill at least current cycle)
             return Math.max(1, months);
         }
 
@@ -2061,27 +2059,63 @@
 
             // Get selected billing month
             const billingMonth = document.getElementById('billingMonthFilter').value;
-            let details;
             let selectedMonthDisplay = '';
+            let billingEndDate = '';
+            let totalMonths = 0;
+            let unpaidMonths = 0;
+            let currentMonthsBilled = 0;
             
             if (billingMonth) {
-                // Calculate billing for specific month from joining date
-                details = calculateBillingForMonth(currentBillingMember, billingMonth);
-                
-                // Format month display (e.g., "February 2026")
+                // Format month display (e.g., "March 2026")
                 const [year, month] = billingMonth.split('-');
                 const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                                'July', 'August', 'September', 'October', 'November', 'December'];
                 selectedMonthDisplay = `${months[parseInt(month) - 1]} ${year}`;
+                
+                // Calculate billing end date (on joining day of selected month)
+                const joiningDate = parseDate(currentBillingMember.doj);
+                const joiningDay = joiningDate.getDate();
+                const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+                const day = Math.min(joiningDay, lastDayOfMonth);
+                billingEndDate = `${String(day).padStart(2, '0')}/${month}/${year}`;
+                
+                // Calculate from joining date to billing end date
+                totalMonths = getMonthsDifference(currentBillingMember.doj, billingEndDate);
+                
+                // Calculate unpaid months (if last paid date exists)
+                if (currentBillingMember.lastPaidUntilDate) {
+                    const monthsSinceLastPaid = getMonthsDifference(currentBillingMember.lastPaidUntilDate, billingEndDate);
+                    unpaidMonths = Math.max(0, monthsSinceLastPaid - 1); // Subtract 1 because we're starting from next cycle
+                    currentMonthsBilled = monthsSinceLastPaid;
+                } else {
+                    // First time billing - all months are current billing
+                    unpaidMonths = 0;
+                    currentMonthsBilled = totalMonths;
+                }
             } else {
-                // Calculate normal billing to today
-                details = calculatePaymentDetails(currentBillingMember);
-                selectedMonthDisplay = 'Current Month';
+                // No month selected - bill up to today
+                selectedMonthDisplay = 'Select Month';
+                billingEndDate = getTodayDate();
+                totalMonths = getMonthsDifference(currentBillingMember.doj, billingEndDate);
+                
+                if (currentBillingMember.lastPaidUntilDate) {
+                    const monthsSinceLastPaid = getMonthsDifference(currentBillingMember.lastPaidUntilDate, billingEndDate);
+                    unpaidMonths = Math.max(0, monthsSinceLastPaid - 1);
+                    currentMonthsBilled = monthsSinceLastPaid;
+                } else {
+                    unpaidMonths = 0;
+                    currentMonthsBilled = totalMonths;
+                }
             }
+
+            const perMonthCharge = selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
+            const totalDue = currentMonthsBilled * perMonthCharge;
+            const totalPaid = currentBillingMember.totalPaid || 0;
+            const unpaidAmount = Math.max(0, totalDue);
 
             const summary = document.getElementById('paymentSummary');
 
-            summary.innerHTML = `
+            let summaryHTML = `
                 <div class="summary-row">
                     <span class="summary-label">Joining Date:</span>
                     <span class="summary-value">${currentBillingMember.doj}</span>
@@ -2090,6 +2124,19 @@
                     <span class="summary-label">Billing Month:</span>
                     <span class="summary-value">${selectedMonthDisplay}</span>
                 </div>
+            `;
+            
+            // Show last paid date if exists
+            if (currentBillingMember.lastPaidUntilDate) {
+                summaryHTML += `
+                    <div class="summary-row">
+                        <span class="summary-label">Last Paid Until:</span>
+                        <span class="summary-value" style="color: #10b981;">${currentBillingMember.lastPaidUntilDate}</span>
+                    </div>
+                `;
+            }
+            
+            summaryHTML += `
                 <div class="summary-row">
                     <span class="summary-label">Shifts Selected:</span>
                     <span class="summary-value">${selectedShifts.length}</span>
@@ -2100,25 +2147,36 @@
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Monthly Total:</span>
-                    <span class="summary-value">₹${details.perMonthCharge}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Months:</span>
-                    <span class="summary-value">${details.totalMonths}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Due:</span>
-                    <span class="summary-value unpaid">₹${details.totalDue}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Already Paid:</span>
-                    <span class="summary-value paid">₹${details.totalPaid}</span>
-                </div>
-                <div class="summary-row total">
-                    <span class="summary-label">Balance to Pay:</span>
-                    <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
+                    <span class="summary-value">₹${perMonthCharge}</span>
                 </div>
             `;
+            
+            // Show unpaid months breakdown if exists
+            if (unpaidMonths > 0) {
+                summaryHTML += `
+                    <div class="summary-row" style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 12px; margin-top: 8px;">
+                        <span class="summary-label" style="color: #fca5a5;">⚠ Unpaid Months:</span>
+                        <span class="summary-value" style="color: #fca5a5;">${unpaidMonths}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Current Billing Months:</span>
+                        <span class="summary-value">${currentMonthsBilled - unpaidMonths}</span>
+                    </div>
+                `;
+            }
+            
+            summaryHTML += `
+                <div class="summary-row">
+                    <span class="summary-label">Total Months:</span>
+                    <span class="summary-value">${currentMonthsBilled}</span>
+                </div>
+                <div class="summary-row total" style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 16px; margin-top: 12px;">
+                    <span class="summary-label">Amount to Pay:</span>
+                    <span class="summary-value">₹${unpaidAmount}</span>
+                </div>
+            `;
+
+            summary.innerHTML = summaryHTML;
 
             // Update members grid to reflect changes
             await renderMembers();
@@ -2139,7 +2197,7 @@
             let paymentDate;
             
             if (billingMonth) {
-                // Calculate payment date from billing month
+                // Calculate payment date from billing month (on joining day)
                 const [year, month] = billingMonth.split('-');
                 const joiningDate = parseDate(currentBillingMember.doj);
                 const joiningDay = joiningDate.getDate();
@@ -2149,10 +2207,15 @@
                 const day = Math.min(joiningDay, lastDayOfMonth);
                 paymentDate = `${String(day).padStart(2, '0')}/${month}/${year}`;
             } else {
+                // Use today's date
                 paymentDate = getTodayDate();
             }
             
             currentBillingMember.selectedShifts = selectedShifts;
+            
+            // CRITICAL: Update payment tracking
+            // Store the last paid cycle end date (this resets the billing cycle)
+            currentBillingMember.lastPaidUntilDate = paymentDate;
             currentBillingMember.paymentUntilDate = paymentDate;
             currentBillingMember.paymentUntilDateManuallySet = true;
 
@@ -2164,7 +2227,11 @@
                 details = calculatePaymentDetails(currentBillingMember);
             }
             
-            currentBillingMember.totalPaid = details.totalDue;
+            // When bill is paid, add the current bill amount to total paid
+            // This accumulates all payments
+            const currentTotalPaid = currentBillingMember.totalPaid || 0;
+            const currentBillAmount = details.unpaidAmount; // Amount being paid now
+            currentBillingMember.totalPaid = currentTotalPaid + currentBillAmount;
 
             const members = await loadMembers();
             const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
@@ -2173,7 +2240,11 @@
                 await saveMembers(members);
             }
 
-            alert('✓ Billing saved and marked as paid!');
+            alert(`✓ Billing saved! Amount paid: ₹${currentBillAmount}`);
+            
+            // Reset billing month filter after payment
+            document.getElementById('billingMonthFilter').value = '';
+            
             updatePaymentSummary();
             await renderMembers();
             await renderHistory();
