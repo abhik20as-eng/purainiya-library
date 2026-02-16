@@ -594,68 +594,32 @@
             transform: translateY(-3px);
         }
 
-        .member-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
-        }
-
         .member-name {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             color: #fbbf24;
-            margin-bottom: 5px;
+            margin-bottom: 12px;
         }
 
         .member-mobile {
             color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .member-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .member-badge.registered {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .member-badge.active {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .member-badge.due {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .member-info {
+            font-size: 15px;
+            margin-bottom: 8px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 8px;
-            padding-top: 15px;
-            border-top: 2px solid var(--border);
         }
 
-        .member-info-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-        }
-
-        .member-info-label {
-            color: var(--text-secondary);
-        }
-
-        .member-info-value {
-            font-weight: 600;
+        .member-joined {
             color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 12px;
+            border-top: 2px solid var(--border);
+            margin-top: 12px;
         }
 
         .empty-state {
@@ -1316,8 +1280,8 @@
                             <h3>💰 Payment Tracker</h3>
                             <div class="payment-tracker">
                                 <div class="payment-date-section">
-                                    <div class="payment-date-label">Payment Until Date</div>
-                                    <input type="date" id="paymentUntilDate">
+                                    <div class="payment-date-label">Bill Generation Date</div>
+                                    <input type="date" id="billGenerationDate">
                                 </div>
 
                                 <div class="payment-summary" id="paymentSummary">
@@ -1395,14 +1359,11 @@
         console.log("🔄 Starting Firebase module initialization...");
         
         try {
-            // Import Firebase SDKs
-            console.log("📦 Importing Firebase SDKs...");
             const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js");
             const { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js");
             
             console.log("✅ Firebase SDKs imported successfully");
 
-            // Firebase configuration
             const firebaseConfig = {
                 apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
                 authDomain: "purainiya-library.firebaseapp.com",
@@ -1412,13 +1373,9 @@
                 appId: "1:885731486344:web:01d234421bd5678831cd3d"
             };
 
-            console.log("🔧 Initializing Firebase app...");
             const app = initializeApp(firebaseConfig);
-            
-            console.log("🔧 Getting Firestore instance...");
             const db = getFirestore(app);
 
-            // Make Firebase available globally
             window.firebaseDB = db;
             window.firebaseDoc = doc;
             window.firebaseSetDoc = setDoc;
@@ -1433,20 +1390,12 @@
             window.firebaseError = null;
 
             console.log("✅ Firebase initialized successfully!");
-            console.log("📊 Database instance:", db);
-            
-            // Dispatch event to notify that Firebase is ready
             window.dispatchEvent(new Event('firebaseReady'));
-            console.log("📢 Firebase ready event dispatched");
         } catch (error) {
             console.error("❌ Firebase initialization error:", error);
-            console.error("Error details:", error.message, error.stack);
             window.firebaseInitialized = false;
             window.firebaseError = error.message;
-            
-            // Dispatch error event
             window.dispatchEvent(new CustomEvent('firebaseError', { detail: error.message }));
-            console.log("📢 Firebase error event dispatched");
         }
     </script>
 
@@ -1454,14 +1403,11 @@
         // ===== FIREBASE HELPER FUNCTIONS =====
         function checkFirebaseReady() {
             if (!window.firebaseInitialized) {
-                console.warn("⚠️ Firebase not initialized yet");
                 throw new Error('Firebase not initialized. Please wait or refresh the page.');
             }
             if (!window.firebaseDB) {
-                console.warn("⚠️ Firebase database not available");
                 throw new Error('Firebase database not available. Please check your connection.');
             }
-            console.log("✅ Firebase ready check passed");
         }
 
         async function saveAdminToFirebase(username, password) {
@@ -1473,10 +1419,9 @@
                     password: btoa(password),
                     createdAt: new Date().toISOString()
                 });
-                console.log("✅ Admin saved to Firebase successfully");
                 return true;
             } catch (error) {
-                console.error("❌ Error saving admin to Firebase:", error);
+                console.error("❌ Error saving admin:", error);
                 return false;
             }
         }
@@ -1484,31 +1429,20 @@
         async function loadAdminFromFirebase() {
             try {
                 checkFirebaseReady();
-                console.log("🔍 Attempting to read from Firestore...");
                 const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
-                console.log("📄 Admin document reference created");
-                
                 const docSnap = await window.firebaseGetDoc(adminDoc);
-                console.log("✅ Firestore read successful");
                 
                 if (docSnap.exists()) {
-                    console.log("✅ Admin document exists in Firestore");
                     return docSnap.data();
                 }
-                console.log("ℹ️ No admin document found in Firestore (this is normal for first-time setup)");
                 return null;
             } catch (error) {
-                console.error("❌ Error loading admin from Firebase:", error);
-                console.error("Error code:", error.code);
-                console.error("Error message:", error.message);
-                
-                // Check for specific Firestore errors
+                console.error("❌ Error loading admin:", error);
                 if (error.code === 'permission-denied') {
                     throw new Error('Firestore security rules are blocking access. Please update your rules.');
                 } else if (error.code === 'unavailable') {
                     throw new Error('Firestore is not available. Please check if Firestore is enabled in Firebase Console.');
                 }
-                
                 return null;
             }
         }
@@ -1523,7 +1457,7 @@
                 });
                 return true;
             } catch (error) {
-                console.error("❌ Error saving member to Firebase:", error);
+                console.error("❌ Error saving member:", error);
                 return false;
             }
         }
@@ -1537,34 +1471,18 @@
                 snapshot.forEach(doc => {
                     members.push(doc.data());
                 });
-                console.log(`✅ Loaded ${members.length} members from Firebase`);
                 return members;
             } catch (error) {
-                console.error("❌ Error loading members from Firebase:", error);
+                console.error("❌ Error loading members:", error);
                 return [];
-            }
-        }
-
-        async function deleteMemberFromFirebase(mobile, year) {
-            try {
-                checkFirebaseReady();
-                const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, mobile);
-                await window.firebaseDeleteDoc(memberDoc);
-                return true;
-            } catch (error) {
-                console.error("❌ Error deleting member from Firebase:", error);
-                return false;
             }
         }
 
         // ===== AUTHENTICATION =====
         async function checkAdminExists() {
             try {
-                console.log("🔍 Checking if admin exists in Firestore...");
                 const firebaseAdmin = await loadAdminFromFirebase();
-                const exists = firebaseAdmin !== null;
-                console.log(`Admin exists: ${exists}`);
-                return exists;
+                return firebaseAdmin !== null;
             } catch (error) {
                 console.error("❌ Error checking admin:", error);
                 throw error;
@@ -1584,20 +1502,11 @@
         async function verifyLogin(username, password) {
             try {
                 const firebaseAdmin = await loadAdminFromFirebase();
-                
-                console.log("Firebase Admin Data:", firebaseAdmin);
-                console.log("Input Username:", username);
-                console.log("Input Password (encoded):", btoa(password));
-                console.log("Stored Password:", firebaseAdmin ? firebaseAdmin.password : 'N/A');
-                
                 if (firebaseAdmin && 
                     firebaseAdmin.username === username && 
                     firebaseAdmin.password === btoa(password)) {
-                    console.log("Login successful!");
                     return true;
                 }
-                
-                console.log("Login failed - credentials don't match");
                 return false;
             } catch (error) {
                 console.error("Error verifying login:", error);
@@ -1636,7 +1545,10 @@
             '2:00 AM - 6:00 AM'
         ];
 
-        let currentFilter = 'all'; // Track current filter
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+
+        let currentFilter = 'all';
 
         function getTodayDate() {
             const today = new Date();
@@ -1683,89 +1595,105 @@
             return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
-        // FIXED: Proper month calculation from exact joining day
-        function getMonthsDifference(startDate, endDate) {
-            const start = parseDate(startDate);
-            const end = parseDate(endDate);
+        // Calculate billing month based on joining date and bill generation date
+        function getBillingMonth(joiningDate, billGenerationDate) {
+            const joinDate = parseDate(joiningDate);
+            const billDate = parseDate(billGenerationDate);
             
-            // Calculate year and month difference
-            let months = (end.getFullYear() - start.getFullYear()) * 12;
-            months += end.getMonth() - start.getMonth();
+            const joinDay = joinDate.getDate();
+            const billDay = billDate.getDate();
+            const billMonth = billDate.getMonth();
+            const billYear = billDate.getFullYear();
             
-            // If we haven't reached the same day in the end month, subtract one month
-            if (end.getDate() < start.getDate()) {
-                months--;
+            // If bill is generated before the joining day in the month, it's for previous month
+            if (billDay < joinDay) {
+                // Previous month
+                const prevMonth = billMonth === 0 ? 11 : billMonth - 1;
+                const prevYear = billMonth === 0 ? billYear - 1 : billYear;
+                return { month: monthNames[prevMonth], year: prevYear, monthIndex: prevMonth };
+            } else {
+                // Current month
+                return { month: monthNames[billMonth], year: billYear, monthIndex: billMonth };
+            }
+        }
+
+        // Get all months from joining date to current billing month
+        function getMonthsList(joiningDate, billGenerationDate) {
+            const joinDate = parseDate(joiningDate);
+            const billingInfo = getBillingMonth(joiningDate, billGenerationDate);
+            
+            const months = [];
+            let currentDate = new Date(joinDate);
+            const endDate = new Date(billingInfo.year, billingInfo.monthIndex, 1);
+            
+            while (currentDate <= endDate) {
+                months.push({
+                    month: monthNames[currentDate.getMonth()],
+                    year: currentDate.getFullYear()
+                });
+                currentDate.setMonth(currentDate.getMonth() + 1);
             }
             
-            // Add 1 to include the current month
-            months += 1;
-            
-            return Math.max(0, months);
+            return months;
         }
 
         function populateMonthFilter() {
             const select = document.getElementById('historyMonthFilter');
-            const months = [
-                'January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'
-            ];
-            
             const currentDate = new Date();
             const currentMonth = currentDate.getMonth();
             const currentYear = new Date().getFullYear();
             
             let options = '<option value="">All Months</option>';
             
-            // Generate last 12 months
             for (let i = 0; i < 12; i++) {
                 const monthIndex = (currentMonth - i + 12) % 12;
                 const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
                 const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
-                options += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
+                options += `<option value="${value}">${monthNames[monthIndex]} ${year}</option>`;
             }
             
             select.innerHTML = options;
         }
 
         function getPaymentMonthYear(member) {
-            if (!member.paymentUntilDate) return null;
-            const date = parseDate(member.paymentUntilDate);
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            if (!member.lastBillDate) return null;
+            const billingInfo = getBillingMonth(member.doj, member.lastBillDate);
+            return `${billingInfo.year}-${String(billingInfo.monthIndex + 1).padStart(2, '0')}`;
         }
 
-        function calculatePaymentDetails(member) {
+        function calculatePaymentDetails(member, billDate) {
             if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0) {
                 return {
-                    totalMonths: 0,
+                    months: [],
                     perMonthCharge: 0,
                     totalDue: 0,
                     totalPaid: 0,
                     unpaidAmount: 0,
-                    isPaid: true
+                    isPaid: true,
+                    currentBillingMonth: null
                 };
             }
 
-            const startDate = member.doj;
-            const endDate = member.paymentUntilDate || getTodayDate();
-            const totalMonths = getMonthsDifference(startDate, endDate);
+            const billGenerationDate = billDate || getTodayDate();
+            const months = getMonthsList(member.doj, billGenerationDate);
+            const currentBillingMonth = getBillingMonth(member.doj, billGenerationDate);
             const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-            const totalDue = totalMonths * perMonthCharge;
+            const totalDue = months.length * perMonthCharge;
             const totalPaid = member.totalPaid || 0;
             const unpaidAmount = Math.max(0, totalDue - totalPaid);
 
             return {
-                totalMonths,
+                months,
                 perMonthCharge,
                 totalDue,
                 totalPaid,
                 unpaidAmount,
                 isPaid: unpaidAmount === 0,
-                startDate,
-                endDate
+                joiningDate: member.doj,
+                currentBillingMonth
             };
         }
 
-        // Check if member was registered within a time period
         function isRecentMember(doj, days) {
             const joinDate = parseDate(doj);
             const today = new Date();
@@ -1798,7 +1726,6 @@
             const grid = document.getElementById('membersGrid');
             const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
             
-            // Apply filters
             let filtered = members.filter(m => {
                 const matchesSearch = !searchTerm || m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm);
                 
@@ -1812,14 +1739,12 @@
                 return matchesSearch && matchesFilter;
             });
 
-            // Sort by date - most recent first
             filtered.sort((a, b) => {
                 const dateA = parseDate(a.doj);
                 const dateB = parseDate(b.doj);
                 return dateB - dateA;
             });
 
-            // Update total count badge
             document.getElementById('totalStudentsBadge').textContent = `Total: ${filtered.length}`;
 
             if (filtered.length === 0) {
@@ -1833,34 +1758,13 @@
             }
 
             grid.innerHTML = filtered.map(member => {
-                const details = calculatePaymentDetails(member);
-                const status = details.isPaid ? 'active' : (details.totalDue > 0 ? 'due' : 'registered');
-                const statusText = details.isPaid ? 'All Paid' : (details.totalDue > 0 ? 'Has Due' : 'Registered');
                 const isNew = isRecentMember(member.doj, 7);
 
                 return `
                     <div class="member-card ${isNew ? 'new-member' : ''}" onclick="selectMemberForBilling('${member.mobile}')">
-                        <div class="member-card-header">
-                            <div>
-                                <div class="member-name">${member.name}</div>
-                                <div class="member-mobile">📱 ${member.mobile}</div>
-                            </div>
-                            <div class="member-badge ${status}">${statusText}</div>
-                        </div>
-                        <div class="member-info">
-                            <div class="member-info-row">
-                                <span class="member-info-label">Joined:</span>
-                                <span class="member-info-value">${member.doj}</span>
-                            </div>
-                            <div class="member-info-row">
-                                <span class="member-info-label">Shifts:</span>
-                                <span class="member-info-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
-                            </div>
-                            <div class="member-info-row">
-                                <span class="member-info-label">Balance:</span>
-                                <span class="member-info-value" style="color: ${details.unpaidAmount > 0 ? 'var(--danger)' : 'var(--success)'}">₹${details.unpaidAmount}</span>
-                            </div>
-                        </div>
+                        <div class="member-name">${member.name}</div>
+                        <div class="member-mobile">📱 ${member.mobile}</div>
+                        <div class="member-joined">📅 Joined: ${member.doj}</div>
                     </div>
                 `;
             }).join('');
@@ -1908,19 +1812,12 @@
             document.getElementById('billingContent').style.display = 'block';
             document.getElementById('billingEmptyState').style.display = 'none';
 
-            // Update payment until date
-            if (!currentBillingMember.paymentUntilDateManuallySet) {
-                currentBillingMember.paymentUntilDate = getTodayDate();
-            }
-
-            // Set shifts
             shifts.forEach((shift, index) => {
                 const checkbox = document.getElementById(`shift-${index}`);
                 checkbox.checked = currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.includes(shift);
             });
 
-            // Set payment date
-            document.getElementById('paymentUntilDate').value = formatDateForInput(currentBillingMember.paymentUntilDate || getTodayDate());
+            document.getElementById('billGenerationDate').value = formatDateForInput(getTodayDate());
 
             updatePaymentSummary();
         }
@@ -1928,7 +1825,6 @@
         async function updatePaymentSummary() {
             if (!currentBillingMember) return;
 
-            // Get selected shifts
             const selectedShifts = [];
             shifts.forEach((shift, index) => {
                 if (document.getElementById(`shift-${index}`).checked) {
@@ -1938,7 +1834,6 @@
 
             currentBillingMember.selectedShifts = selectedShifts;
 
-            // Save to Firebase immediately when shifts are updated
             const members = await loadMembers();
             const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
             if (index !== -1) {
@@ -1946,17 +1841,24 @@
                 await saveMembers(members);
             }
 
-            const details = calculatePaymentDetails(currentBillingMember);
+            const billDate = formatDateFromInput(document.getElementById('billGenerationDate').value);
+            const details = calculatePaymentDetails(currentBillingMember, billDate);
             const summary = document.getElementById('paymentSummary');
+
+            const monthsList = details.months.map(m => `${m.month} ${m.year}`).join(', ');
 
             summary.innerHTML = `
                 <div class="summary-row">
-                    <span class="summary-label">Period:</span>
-                    <span class="summary-value">${details.startDate} to ${details.endDate}</span>
+                    <span class="summary-label">Joining Date:</span>
+                    <span class="summary-value">${details.joiningDate}</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Total Months:</span>
-                    <span class="summary-value">${details.totalMonths}</span>
+                    <span class="summary-label">Current Bill Month:</span>
+                    <span class="summary-value">${details.currentBillingMonth ? `${details.currentBillingMonth.month} ${details.currentBillingMonth.year}` : 'N/A'}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">All Months:</span>
+                    <span class="summary-value" style="font-size: 13px;">${monthsList || 'N/A'}</span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Shifts Selected:</span>
@@ -1969,6 +1871,10 @@
                 <div class="summary-row">
                     <span class="summary-label">Monthly Total:</span>
                     <span class="summary-value">₹${details.perMonthCharge}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Total Months:</span>
+                    <span class="summary-value">${details.months.length}</span>
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Total Due:</span>
@@ -1984,7 +1890,6 @@
                 </div>
             `;
 
-            // Update members grid to reflect changes
             await renderMembers();
         }
 
@@ -1998,13 +1903,12 @@
                 }
             });
 
-            const paymentDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
+            const billDate = formatDateFromInput(document.getElementById('billGenerationDate').value);
             
             currentBillingMember.selectedShifts = selectedShifts;
-            currentBillingMember.paymentUntilDate = paymentDate;
-            currentBillingMember.paymentUntilDateManuallySet = true;
+            currentBillingMember.lastBillDate = billDate;
 
-            const details = calculatePaymentDetails(currentBillingMember);
+            const details = calculatePaymentDetails(currentBillingMember, billDate);
             currentBillingMember.totalPaid = details.totalDue;
 
             const members = await loadMembers();
@@ -2023,14 +1927,15 @@
         function printBill() {
             if (!currentBillingMember) return;
 
-            const details = calculatePaymentDetails(currentBillingMember);
+            const billDate = formatDateFromInput(document.getElementById('billGenerationDate').value);
+            const details = calculatePaymentDetails(currentBillingMember, billDate);
             
             const billHTML = `
                 <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Poppins', sans-serif; color: #1e293b;">
                     <div style="text-align: center; border-bottom: 3px solid #fbbf24; padding-bottom: 15px; margin-bottom: 18px;">
                         <h1 style="margin: 0; font-size: 32px; font-family: 'Playfair Display', serif; color: #fbbf24;">Purainiya Library</h1>
                         <h2 style="margin: 8px 0 0 0; font-size: 18px; color: #64748b; font-weight: 600;">Payment Receipt</h2>
-                        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;">Year: ${currentYear} | Date: ${getTodayDate()}</p>
+                        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;">Year: ${currentYear} | Bill Date: ${billDate}</p>
                     </div>
                     
                     <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #fbbf24;">
@@ -2063,9 +1968,9 @@
                         <div>
                             <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24;">Payment Period</h3>
                             <div style="background: #fffbeb; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a;">
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>From:</strong> ${details.startDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>To:</strong> ${details.endDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569;"><strong>Total Months:</strong> ${details.totalMonths}</div>
+                                <div style="padding: 3px 0; font-size: 13px; color: #475569; font-weight: 600;">
+                                    ${details.currentBillingMonth ? `${details.currentBillingMonth.month} ${details.currentBillingMonth.year}` : 'N/A'}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2082,12 +1987,12 @@
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Monthly Total (${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0} × ₹${PAYMENT_PER_SHIFT_PER_MONTH}):</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Monthly Total:</td>
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${details.perMonthCharge}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; color: #64748b; font-size: 12px;">Total Months:</td>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${details.totalMonths}</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${details.months.length}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Due Amount:</td>
@@ -2174,7 +2079,7 @@
             
             let filtered = members.filter(m => {
                 if (!m.name || !m.mobile) return false;
-                const details = calculatePaymentDetails(m);
+                const details = calculatePaymentDetails(m, m.lastBillDate || getTodayDate());
                 const matchesSearch = !searchTerm || m.name.toLowerCase().includes(searchTerm) || m.mobile.includes(searchTerm);
                 const matchesStatus = !statusFilter || 
                     (statusFilter === 'paid' && details.isPaid) ||
@@ -2185,19 +2090,17 @@
 
             const list = document.getElementById('historyList');
             
-            // Calculate totals
             let totalCollection = 0;
             let totalDue = 0;
             let paidMembersCount = 0;
             
             filtered.forEach(member => {
-                const details = calculatePaymentDetails(member);
+                const details = calculatePaymentDetails(member, member.lastBillDate || getTodayDate());
                 totalCollection += details.totalPaid;
                 totalDue += details.unpaidAmount;
                 if (details.isPaid) paidMembersCount++;
             });
             
-            // Update total collection display
             document.getElementById('totalCollectionAmount').textContent = `₹${totalCollection.toLocaleString()}`;
             document.getElementById('totalMembers').textContent = filtered.length;
             document.getElementById('totalPaidMembers').textContent = paidMembersCount;
@@ -2214,7 +2117,7 @@
             }
 
             list.innerHTML = filtered.map(member => {
-                const details = calculatePaymentDetails(member);
+                const details = calculatePaymentDetails(member, member.lastBillDate || getTodayDate());
                 return `
                     <div class="history-item" onclick="selectMemberForBilling('${member.mobile}')">
                         <div class="history-item-header">
@@ -2235,8 +2138,8 @@
                                 <span class="history-detail-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
                             </div>
                             <div class="history-detail">
-                                <span class="history-detail-label">Payment Period</span>
-                                <span class="history-detail-value">${details.totalMonths} months</span>
+                                <span class="history-detail-label">Total Months</span>
+                                <span class="history-detail-value">${details.months.length}</span>
                             </div>
                             <div class="history-detail">
                                 <span class="history-detail-label">Total Due</span>
@@ -2269,7 +2172,6 @@
 
         // ===== EVENT LISTENERS =====
         document.addEventListener('DOMContentLoaded', async () => {
-            // Show loading indicator
             const loginForm = document.getElementById('loginForm');
             const setupForm = document.getElementById('firstTimeSetup');
             const loadingIndicator = document.getElementById('loadingIndicator');
@@ -2280,148 +2182,55 @@
                 setupForm.style.display = 'none';
                 loadingIndicator.style.display = 'block';
                 
-                // Wait for Firebase to initialize with event listener
                 const waitForFirebase = () => {
                     return new Promise((resolve, reject) => {
-                        // Check if already initialized
                         if (window.firebaseInitialized === true) {
-                            console.log("✅ Firebase already initialized");
                             resolve();
                             return;
                         }
                         
                         if (window.firebaseError) {
-                            console.log("❌ Firebase error detected");
                             reject(window.firebaseError);
                             return;
                         }
                         
-                        // Listen for ready event
-                        const readyHandler = () => {
-                            console.log("✅ Firebase ready event received");
-                            resolve();
-                        };
-                        
-                        const errorHandler = (event) => {
-                            console.log("❌ Firebase error event received");
-                            reject(event.detail);
-                        };
+                        const readyHandler = () => resolve();
+                        const errorHandler = (event) => reject(event.detail);
                         
                         window.addEventListener('firebaseReady', readyHandler, { once: true });
                         window.addEventListener('firebaseError', errorHandler, { once: true });
                         
-                        // Increased timeout to 30 seconds
                         setTimeout(() => {
                             window.removeEventListener('firebaseReady', readyHandler);
                             window.removeEventListener('firebaseError', errorHandler);
                             
                             if (!window.firebaseInitialized) {
-                                reject('Firebase initialization timeout after 30 seconds. Please check your internet connection and refresh the page.');
+                                reject('Firebase initialization timeout. Please refresh the page.');
                             }
                         }, 30000);
                     });
                 };
                 
                 try {
-                    console.log("⏳ Waiting for Firebase...");
-                    
-                    // Add additional check - wait a bit for module to load
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     
-                    // Check if Firebase variables are available
                     if (typeof window.firebaseDB === 'undefined') {
-                        console.log("⚠️ Firebase module still loading, waiting longer...");
                         await waitForFirebase();
-                    } else {
-                        console.log("✅ Firebase module already loaded");
                     }
                     
-                    console.log("✅ Firebase connected successfully");
-                    
-                    // Check if admin exists in Firebase
-                    console.log("🔍 Checking if admin exists...");
                     const adminExists = await checkAdminExists();
-                    console.log("Admin exists:", adminExists);
-                    
                     loadingIndicator.style.display = 'none';
                     
                     if (!adminExists) {
-                        console.log("📝 Showing setup form");
                         loginForm.style.display = 'none';
                         setupForm.style.display = 'block';
                     } else {
-                        console.log("🔐 Showing login form");
                         loginForm.style.display = 'block';
                         setupForm.style.display = 'none';
                     }
                 } catch (error) {
                     console.error("❌ Firebase connection failed:", error);
-                    
-                    let errorHTML = `
-                        <div style="color: #ef4444; padding: 20px; text-align: center; max-width: 600px; margin: 0 auto;">
-                            <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
-                            <div style="font-weight: 600; margin-bottom: 10px;">Failed to connect to Firebase</div>
-                            <div style="font-size: 13px; color: #64748b; margin-bottom: 15px;">${error}</div>
-                    `;
-                    
-                    // Check if it's a Firestore-specific error
-                    if (error.message && error.message.includes('security rules')) {
-                        errorHTML += `
-                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
-                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Fix Firestore Security Rules:</div>
-                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
-                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
-                                    <li>Select project: <strong>purainiya-library</strong></li>
-                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
-                                    <li>Click <strong>"Rules"</strong> tab at top</li>
-                                    <li>Replace rules with this code:</li>
-                                </ol>
-                                <pre style="background: #fff; padding: 10px; border-radius: 6px; font-size: 11px; overflow-x: auto; text-align: left; margin-top: 10px;">rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
-    }
-  }
-}</pre>
-                                <div style="color: #92400e; font-size: 12px; margin-top: 10px;">6. Click <strong>"Publish"</strong> button</div>
-                            </div>
-                        `;
-                    } else if (error.message && error.message.includes('Firestore is not available')) {
-                        errorHTML += `
-                            <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
-                                <div style="font-weight: 600; color: #92400e; margin-bottom: 10px;">🔧 Enable Firestore Database:</div>
-                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left;">
-                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #fbbf24; text-decoration: underline;">Firebase Console</a></li>
-                                    <li>Select project: <strong>purainiya-library</strong></li>
-                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
-                                    <li>Click <strong>"Create Database"</strong> button</li>
-                                    <li>Choose <strong>"Start in production mode"</strong></li>
-                                    <li>Select your preferred region</li>
-                                    <li>Click <strong>"Enable"</strong></li>
-                                    <li>Then update security rules (see above)</li>
-                                </ol>
-                            </div>
-                        `;
-                    } else {
-                        errorHTML += `
-                            <div style="font-size: 12px; color: #64748b; margin: 15px 0; text-align: left; line-height: 1.6;">
-                                <strong>Common issues:</strong><br>
-                                • Check your internet connection<br>
-                                • Make sure Firestore is enabled: <a href="https://console.firebase.google.com/project/purainiya-library/firestore" target="_blank" style="color: #fbbf24;">Check Now</a><br>
-                                • Verify security rules allow access<br>
-                            </div>
-                        `;
-                    }
-                    
-                    errorHTML += `
-                            <button onclick="location.reload()" style="background: #fbbf24; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px;">
-                                🔄 Retry After Fix
-                            </button>
-                        </div>
-                    `;
-                    
-                    loadingIndicator.innerHTML = errorHTML;
+                    loadingIndicator.innerHTML = `<div style="color: #ef4444; text-align: center;">${error}</div>`;
                 }
             } else {
                 showAdminPanel();
@@ -2470,7 +2279,6 @@ service cloud.firestore {
                 const errorMsg = document.getElementById('errorMessage');
                 const submitBtn = e.target.querySelector('button[type="submit"]');
                 
-                // Show loading state
                 submitBtn.textContent = 'Logging in...';
                 submitBtn.disabled = true;
                 errorMsg.textContent = '';
@@ -2520,8 +2328,7 @@ service cloud.firestore {
                     name,
                     doj: getTodayDate(),
                     selectedShifts: [],
-                    paymentUntilDate: getTodayDate(),
-                    paymentUntilDateManuallySet: false,
+                    lastBillDate: null,
                     totalPaid: 0
                 });
                 
@@ -2540,7 +2347,6 @@ service cloud.firestore {
 
             document.getElementById('memberSearch').addEventListener('input', renderMembers);
             
-            // Filter tabs event listeners
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.addEventListener('click', async () => {
                     document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
@@ -2561,19 +2367,9 @@ service cloud.firestore {
                     await updatePaymentSummary();
                 }
             });
-            document.getElementById('paymentUntilDate').addEventListener('change', async () => {
+            
+            document.getElementById('billGenerationDate').addEventListener('change', async () => {
                 if (currentBillingMember) {
-                    currentBillingMember.paymentUntilDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
-                    currentBillingMember.paymentUntilDateManuallySet = true;
-                    
-                    // Save immediately when date changes
-                    const members = await loadMembers();
-                    const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-                    if (index !== -1) {
-                        members[index] = currentBillingMember;
-                        await saveMembers(members);
-                    }
-                    
                     await updatePaymentSummary();
                 }
             });
