@@ -788,11 +788,66 @@
             border: 2px solid var(--accent);
         }
 
+        .summary-section {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #fbbf24;
+        }
+
+        .summary-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .month-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .month-badge {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .month-badge.paid {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        .month-badge.unpaid {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
         .summary-row {
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
             font-size: 15px;
+        }
+
+        .summary-row.highlight {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 8px 0;
         }
 
         .summary-row.total {
@@ -806,6 +861,9 @@
 
         .summary-label {
             color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .summary-value {
@@ -1845,47 +1903,96 @@
             const details = calculatePaymentDetails(currentBillingMember, billDate);
             const summary = document.getElementById('paymentSummary');
 
-            const monthsList = details.months.map(m => `${m.month} ${m.year}`).join(', ');
+            // Separate paid and unpaid months
+            const paidMonths = currentBillingMember.paidMonths || [];
+            const allMonthsSet = new Set(details.months.map(m => `${m.month} ${m.year}`));
+            const unpaidMonths = details.months.filter(m => !paidMonths.includes(`${m.month} ${m.year}`));
+            const paidMonthsList = details.months.filter(m => paidMonths.includes(`${m.month} ${m.year}`));
+
+            let monthsHTML = '';
+            
+            if (details.currentBillingMonth) {
+                monthsHTML += `
+                    <div class="summary-section">
+                        <div class="summary-section-title">
+                            📅 Current Bill Month
+                        </div>
+                        <div class="month-badges">
+                            <div class="month-badge unpaid">
+                                ⏳ ${details.currentBillingMonth.month} ${details.currentBillingMonth.year}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (unpaidMonths.length > 0) {
+                monthsHTML += `
+                    <div class="summary-section">
+                        <div class="summary-section-title">
+                            ⚠️ Unpaid Months (${unpaidMonths.length})
+                        </div>
+                        <div class="month-badges">
+                            ${unpaidMonths.map(m => `
+                                <div class="month-badge unpaid">
+                                    ❌ ${m.month} ${m.year}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (paidMonthsList.length > 0) {
+                monthsHTML += `
+                    <div class="summary-section">
+                        <div class="summary-section-title">
+                            ✅ Paid Months (${paidMonthsList.length})
+                        </div>
+                        <div class="month-badges">
+                            ${paidMonthsList.map(m => `
+                                <div class="month-badge paid">
+                                    ✓ ${m.month} ${m.year}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
 
             summary.innerHTML = `
-                <div class="summary-row">
-                    <span class="summary-label">Joining Date:</span>
+                ${monthsHTML}
+                
+                <div class="summary-row highlight">
+                    <span class="summary-label">📅 Joining Date</span>
                     <span class="summary-value">${details.joiningDate}</span>
                 </div>
-                <div class="summary-row">
-                    <span class="summary-label">Current Bill Month:</span>
-                    <span class="summary-value">${details.currentBillingMonth ? `${details.currentBillingMonth.month} ${details.currentBillingMonth.year}` : 'N/A'}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">All Months:</span>
-                    <span class="summary-value" style="font-size: 13px;">${monthsList || 'N/A'}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label">Shifts Selected:</span>
+                <div class="summary-row highlight">
+                    <span class="summary-label">⏰ Shifts Selected</span>
                     <span class="summary-value">${selectedShifts.length}</span>
                 </div>
-                <div class="summary-row">
-                    <span class="summary-label">Per Shift/Month:</span>
+                <div class="summary-row highlight">
+                    <span class="summary-label">💰 Per Shift/Month</span>
                     <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
                 </div>
-                <div class="summary-row">
-                    <span class="summary-label">Monthly Total:</span>
+                <div class="summary-row highlight">
+                    <span class="summary-label">📊 Monthly Total</span>
                     <span class="summary-value">₹${details.perMonthCharge}</span>
                 </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Months:</span>
+                <div class="summary-row highlight">
+                    <span class="summary-label">📆 Total Months</span>
                     <span class="summary-value">${details.months.length}</span>
                 </div>
-                <div class="summary-row">
-                    <span class="summary-label">Total Due:</span>
+                <div class="summary-row highlight">
+                    <span class="summary-label">💵 Total Due</span>
                     <span class="summary-value unpaid">₹${details.totalDue}</span>
                 </div>
-                <div class="summary-row">
-                    <span class="summary-label">Paid:</span>
+                <div class="summary-row highlight">
+                    <span class="summary-label">✅ Paid</span>
                     <span class="summary-value paid">₹${details.totalPaid}</span>
                 </div>
                 <div class="summary-row total">
-                    <span class="summary-label">Balance:</span>
+                    <span class="summary-label">⚖️ Balance</span>
                     <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
                 </div>
             `;
@@ -1910,6 +2017,9 @@
 
             const details = calculatePaymentDetails(currentBillingMember, billDate);
             currentBillingMember.totalPaid = details.totalDue;
+            
+            // Mark all months as paid
+            currentBillingMember.paidMonths = details.months.map(m => `${m.month} ${m.year}`);
 
             const members = await loadMembers();
             const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
@@ -1930,6 +2040,10 @@
             const billDate = formatDateFromInput(document.getElementById('billGenerationDate').value);
             const details = calculatePaymentDetails(currentBillingMember, billDate);
             
+            // Get unpaid months
+            const paidMonths = currentBillingMember.paidMonths || [];
+            const unpaidMonths = details.months.filter(m => !paidMonths.includes(`${m.month} ${m.year}`));
+            
             const billHTML = `
                 <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Poppins', sans-serif; color: #1e293b;">
                     <div style="text-align: center; border-bottom: 3px solid #fbbf24; padding-bottom: 15px; margin-bottom: 18px;">
@@ -1941,15 +2055,15 @@
                     <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #fbbf24;">
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
-                                <td style="padding: 6px; font-weight: 700; color: #1e293b; width: 35%; font-size: 14px;">Name:</td>
+                                <td style="padding: 6px; font-weight: 700; color: #1e293b; width: 35%; font-size: 14px;">👤 Name:</td>
                                 <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.name}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Mobile:</td>
+                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">📱 Mobile:</td>
                                 <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.mobile}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">Joining Date:</td>
+                                <td style="padding: 6px; font-weight: 700; color: #1e293b; font-size: 14px;">📅 Joining Date:</td>
                                 <td style="padding: 6px; color: #334155; font-size: 15px;">${currentBillingMember.doj}</td>
                             </tr>
                         </table>
@@ -1957,53 +2071,73 @@
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                         <div>
-                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24;">Selected Shifts</h3>
+                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24; display: flex; align-items: center; gap: 6px;">⏰ Selected Shifts</h3>
                             <div style="background: #fffbeb; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a;">
                                 ${currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.length > 0 
-                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 3px 0; font-size: 12px; color: #475569;">• ${shift}</div>`).join('') 
+                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 3px 0; font-size: 12px; color: #475569;">✓ ${shift}</div>`).join('') 
                                     : '<div style="padding: 3px 0; font-size: 12px; color: #94a3b8;">No shifts selected</div>'}
                             </div>
                         </div>
                         
                         <div>
-                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24;">Payment Period</h3>
-                            <div style="background: #fffbeb; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a;">
-                                <div style="padding: 3px 0; font-size: 13px; color: #475569; font-weight: 600;">
-                                    ${details.currentBillingMonth ? `${details.currentBillingMonth.month} ${details.currentBillingMonth.year}` : 'N/A'}
+                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #fbbf24; display: flex; align-items: center; gap: 6px;">📅 Current Bill Month</h3>
+                            <div style="background: #fffbeb; padding: 16px; border-radius: 8px; min-height: 100px; border: 2px solid #fde68a; display: flex; align-items: center; justify-content: center;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 20px; font-weight: 700; color: #f59e0b; margin-bottom: 4px;">
+                                        ${details.currentBillingMonth ? `${details.currentBillingMonth.month}` : 'N/A'}
+                                    </div>
+                                    <div style="font-size: 16px; font-weight: 600; color: #64748b;">
+                                        ${details.currentBillingMonth ? `${details.currentBillingMonth.year}` : ''}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
+                    ${unpaidMonths.length > 0 ? `
+                    <div style="background: #fee2e2; border: 2px solid #ef4444; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                        <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #991b1b; display: flex; align-items: center; gap: 6px;">
+                            ⚠️ Unpaid Months (${unpaidMonths.length})
+                        </h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            ${unpaidMonths.map(m => `
+                                <span style="background: white; color: #991b1b; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #ef4444;">
+                                    ❌ ${m.month} ${m.year}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
                     <div style="padding: 15px; border: 2px solid #fbbf24; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 10px;">
-                        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #fbbf24; text-align: center;">Payment Summary</h3>
+                        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #fbbf24; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px;">💰 Payment Summary</h3>
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Number of Shifts:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">⏰ Number of Shifts:</td>
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Rate per Shift/Month:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">💵 Rate per Shift/Month:</td>
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">Monthly Total:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 12px;">📊 Monthly Total:</td>
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">₹${details.perMonthCharge}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; color: #64748b; font-size: 12px;">Total Months:</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; color: #64748b; font-size: 12px;">📆 Total Months:</td>
                                 <td style="padding: 6px 0; border-bottom: 2px solid #fbbf24; text-align: right; font-weight: 600; color: #1e293b; font-size: 12px;">${details.months.length}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Due Amount:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">💸 Total Due Amount:</td>
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #ef4444; font-size: 14px;">₹${details.totalDue}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Paid:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">✅ Total Paid:</td>
                                 <td style="padding: 6px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #10b981; font-size: 14px;">₹${details.totalPaid}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px 0; font-size: 15px; font-weight: 700; color: #fbbf24;">REMAINING BALANCE:</td>
+                                <td style="padding: 10px 0; font-size: 15px; font-weight: 700; color: #fbbf24;">⚖️ REMAINING BALANCE:</td>
                                 <td style="padding: 10px 0; text-align: right;">
                                     <span style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 6px 16px; border-radius: 8px; display: inline-block;">₹${details.unpaidAmount}</span>
                                 </td>
@@ -2012,7 +2146,7 @@
                     </div>
                     
                     <div style="margin-top: 18px; text-align: center; padding-top: 15px; border-top: 2px solid #e2e8f0;">
-                        <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Thank you for being a valued member!</p>
+                        <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Thank you for being a valued member! 🙏</p>
                         <p style="margin: 4px 0; font-size: 11px; color: #94a3b8;">Purainiya Library Management System</p>
                     </div>
                 </div>
