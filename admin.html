@@ -1368,10 +1368,8 @@
                         <select id="billingMemberSelect">
                             <option value="">-- Choose a member --</option>
                         </select>
-                        <label style="margin-left: 20px;">Billing Month:</label>
-                        <select id="billingMonthFilter">
-                            <option value="">-- Select Month --</option>
-                        </select>
+                        <label style="margin-left: 20px;">Billing Until:</label>
+                        <input type="date" id="billingUntilDate" style="padding: 12px 16px; border: 2px solid var(--border); border-radius: 10px; background: var(--bg-main); color: var(--text-primary); font-size: 14px; font-weight: 600;">
                     </div>
                 </div>
 
@@ -1750,32 +1748,32 @@
             return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
-        // CORRECT: Calculate billing cycles from joining date
+        // ✅ FIXED: Calculate complete billing cycles from joining date
+        // Billing cycles are based on JOINING DATE, not payment date
         // Join 16/02/26 → Cycles: 16 Feb-15 Mar (Month 1), 16 Mar-15 Apr (Month 2)...
         // Bill on 16/03/26 = 1 month complete (first cycle done)
-        // Bill on 15/03/26 = 0 months (first cycle not done yet) → minimum 1
-        // Bill on 17/03/26 = 1 month (still in first cycle)
-        // Bill on 16/04/26 = 2 months (two cycles complete)
-        function getMonthsDifference(startDate, endDate) {
-            const start = parseDate(startDate);
-            const end = parseDate(endDate);
+        // Bill on 15/03/26 = 0 months (first cycle not done yet)
+        // Bill on 17/03/26 = 1 month complete (still in first cycle)
+        // Bill on 16/04/26 = 2 months complete (two cycles done)
+        function getCompleteCyclesFromJoining(joiningDate, billingUntilDate) {
+            const start = parseDate(joiningDate);
+            const end = parseDate(billingUntilDate);
             
             // Calculate month difference
             let months = (end.getFullYear() - start.getFullYear()) * 12;
             months += end.getMonth() - start.getMonth();
             
-            // If end day < start day, we haven't completed the current cycle yet
-            if (end.getDate() < start.getDate()) {
-                months -= 1;
+            // Check if we've reached the joining day in the end month
+            // If end day >= start day, we've completed that cycle
+            if (end.getDate() >= start.getDate()) {
+                months += 1; // Completed the current cycle
             }
             
-            // Minimum 1 month (always bill at least current cycle)
-            return Math.max(1, months);
+            return Math.max(0, months);
         }
 
         function populateMonthFilter() {
             const select = document.getElementById('historyMonthFilter');
-            const billingSelect = document.getElementById('billingMonthFilter');
             const months = [
                 'January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'
@@ -1786,7 +1784,6 @@
             const currentYear = new Date().getFullYear();
             
             let options = '<option value="">All Months</option>';
-            let billingOptions = '<option value="">-- Select Month --</option>';
             
             // Generate last 12 months
             for (let i = 0; i < 12; i++) {
@@ -1794,90 +1791,76 @@
                 const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
                 const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
                 options += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
-                billingOptions += `<option value="${value}">${months[monthIndex]} ${year}</option>`;
             }
             
             select.innerHTML = options;
-            billingSelect.innerHTML = billingOptions;
         }
 
         function getPaymentMonthYear(member) {
-            if (!member.paymentUntilDate) return null;
-            const date = parseDate(member.paymentUntilDate);
+            if (!member.lastPaidUntilDate) return null;
+            const date = parseDate(member.lastPaidUntilDate);
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
         }
 
-        // Calculate billing for a specific month from joining date
-        function calculateBillingForMonth(member, selectedMonth) {
-            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0 || !selectedMonth) {
+        // ✅ FIXED: Calculate billing with proper unpaid month tracking
+        function calculatePaymentDetails(member, billingUntilDate = null) {
+            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0) {
                 return {
-                    totalMonths: 0,
+                    totalCyclesFromJoining: 0,
+                    unpaidCycles: 0,
+                    currentBillingCycles: 0,
                     perMonthCharge: 0,
                     totalDue: 0,
                     totalPaid: 0,
                     unpaidAmount: 0,
                     isPaid: true,
                     startDate: member.doj,
-                    endDate: getTodayDate()
+                    endDate: getTodayDate(),
+                    lastPaidUntilDate: member.lastPaidUntilDate || null
                 };
             }
 
-            // Parse selected month (format: "YYYY-MM")
-            const [year, month] = selectedMonth.split('-');
-            const joiningDate = parseDate(member.doj);
+            // Use provided billing date or today
+            const endDate = billingUntilDate || getTodayDate();
             
-            // Calculate the last day of the selected month
-            const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
-            const endDate = `${String(lastDayOfMonth).padStart(2, '0')}/${month}/${year}`;
+            // Calculate total completed cycles from joining to billing date
+            const totalCyclesFromJoining = getCompleteCyclesFromJoining(member.doj, endDate);
             
-            // Calculate months from joining date to end of selected month
-            const totalMonths = getMonthsDifference(member.doj, endDate);
+            // Calculate unpaid cycles
+            let unpaidCycles = 0;
+            let currentBillingCycles = 0;
+            
+            if (member.lastPaidUntilDate) {
+                // Calculate cycles from last paid date to current billing date
+                const cyclesSinceLastPaid = getCompleteCyclesFromJoining(member.lastPaidUntilDate, endDate);
+                
+                // If cycles since last paid > 0, then we have unpaid months
+                // The -1 is because lastPaidUntilDate was the END of paid cycle
+                unpaidCycles = Math.max(0, cyclesSinceLastPaid - 1);
+                currentBillingCycles = Math.max(1, cyclesSinceLastPaid);
+            } else {
+                // First time billing - all cycles are current
+                unpaidCycles = 0;
+                currentBillingCycles = totalCyclesFromJoining;
+            }
+
             const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-            const totalDue = totalMonths * perMonthCharge;
+            const totalDue = currentBillingCycles * perMonthCharge;
             const totalPaid = member.totalPaid || 0;
-            const unpaidAmount = Math.max(0, totalDue - totalPaid);
+            const unpaidAmount = Math.max(0, totalDue);
 
             return {
-                totalMonths,
+                totalCyclesFromJoining,
+                unpaidCycles,
+                currentBillingCycles,
                 perMonthCharge,
                 totalDue,
                 totalPaid,
                 unpaidAmount,
                 isPaid: unpaidAmount === 0,
                 startDate: member.doj,
-                endDate: endDate
-            };
-        }
-
-        function calculatePaymentDetails(member) {
-            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0) {
-                return {
-                    totalMonths: 0,
-                    perMonthCharge: 0,
-                    totalDue: 0,
-                    totalPaid: 0,
-                    unpaidAmount: 0,
-                    isPaid: true
-                };
-            }
-
-            const startDate = member.doj;
-            const endDate = member.paymentUntilDate || getTodayDate();
-            const totalMonths = getMonthsDifference(startDate, endDate);
-            const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-            const totalDue = totalMonths * perMonthCharge;
-            const totalPaid = member.totalPaid || 0;
-            const unpaidAmount = Math.max(0, totalDue - totalPaid);
-
-            return {
-                totalMonths,
-                perMonthCharge,
-                totalDue,
-                totalPaid,
-                unpaidAmount,
-                isPaid: unpaidAmount === 0,
-                startDate,
-                endDate
+                endDate: endDate,
+                lastPaidUntilDate: member.lastPaidUntilDate || null
             };
         }
 
@@ -2030,8 +2013,8 @@
                 checkbox.checked = currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.includes(shift);
             });
 
-            // Reset billing month filter
-            document.getElementById('billingMonthFilter').value = '';
+            // Set billing until date to today
+            document.getElementById('billingUntilDate').value = formatDateForInput(getTodayDate());
 
             updatePaymentSummary();
         }
@@ -2057,61 +2040,11 @@
                 await saveMembers(members);
             }
 
-            // Get selected billing month
-            const billingMonth = document.getElementById('billingMonthFilter').value;
-            let selectedMonthDisplay = '';
-            let billingEndDate = '';
-            let totalMonths = 0;
-            let unpaidMonths = 0;
-            let currentMonthsBilled = 0;
-            
-            if (billingMonth) {
-                // Format month display (e.g., "March 2026")
-                const [year, month] = billingMonth.split('-');
-                const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                               'July', 'August', 'September', 'October', 'November', 'December'];
-                selectedMonthDisplay = `${months[parseInt(month) - 1]} ${year}`;
-                
-                // Calculate billing end date (on joining day of selected month)
-                const joiningDate = parseDate(currentBillingMember.doj);
-                const joiningDay = joiningDate.getDate();
-                const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
-                const day = Math.min(joiningDay, lastDayOfMonth);
-                billingEndDate = `${String(day).padStart(2, '0')}/${month}/${year}`;
-                
-                // Calculate from joining date to billing end date
-                totalMonths = getMonthsDifference(currentBillingMember.doj, billingEndDate);
-                
-                // Calculate unpaid months (if last paid date exists)
-                if (currentBillingMember.lastPaidUntilDate) {
-                    const monthsSinceLastPaid = getMonthsDifference(currentBillingMember.lastPaidUntilDate, billingEndDate);
-                    unpaidMonths = Math.max(0, monthsSinceLastPaid - 1); // Subtract 1 because we're starting from next cycle
-                    currentMonthsBilled = monthsSinceLastPaid;
-                } else {
-                    // First time billing - all months are current billing
-                    unpaidMonths = 0;
-                    currentMonthsBilled = totalMonths;
-                }
-            } else {
-                // No month selected - bill up to today
-                selectedMonthDisplay = 'Select Month';
-                billingEndDate = getTodayDate();
-                totalMonths = getMonthsDifference(currentBillingMember.doj, billingEndDate);
-                
-                if (currentBillingMember.lastPaidUntilDate) {
-                    const monthsSinceLastPaid = getMonthsDifference(currentBillingMember.lastPaidUntilDate, billingEndDate);
-                    unpaidMonths = Math.max(0, monthsSinceLastPaid - 1);
-                    currentMonthsBilled = monthsSinceLastPaid;
-                } else {
-                    unpaidMonths = 0;
-                    currentMonthsBilled = totalMonths;
-                }
-            }
+            // Get billing until date
+            const billingUntilDateInput = document.getElementById('billingUntilDate').value;
+            const billingUntilDate = billingUntilDateInput ? formatDateFromInput(billingUntilDateInput) : getTodayDate();
 
-            const perMonthCharge = selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-            const totalDue = currentMonthsBilled * perMonthCharge;
-            const totalPaid = currentBillingMember.totalPaid || 0;
-            const unpaidAmount = Math.max(0, totalDue);
+            const details = calculatePaymentDetails(currentBillingMember, billingUntilDate);
 
             const summary = document.getElementById('paymentSummary');
 
@@ -2121,8 +2054,8 @@
                     <span class="summary-value">${currentBillingMember.doj}</span>
                 </div>
                 <div class="summary-row">
-                    <span class="summary-label">Billing Month:</span>
-                    <span class="summary-value">${selectedMonthDisplay}</span>
+                    <span class="summary-label">Billing Until:</span>
+                    <span class="summary-value">${billingUntilDate}</span>
                 </div>
             `;
             
@@ -2147,32 +2080,36 @@
                 </div>
                 <div class="summary-row">
                     <span class="summary-label">Monthly Total:</span>
-                    <span class="summary-value">₹${perMonthCharge}</span>
+                    <span class="summary-value">₹${details.perMonthCharge}</span>
                 </div>
             `;
             
-            // Show unpaid months breakdown if exists
-            if (unpaidMonths > 0) {
+            // Show unpaid cycles breakdown if exists
+            if (details.unpaidCycles > 0) {
                 summaryHTML += `
                     <div class="summary-row" style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 12px; margin-top: 8px;">
-                        <span class="summary-label" style="color: #fca5a5;">⚠ Unpaid Months:</span>
-                        <span class="summary-value" style="color: #fca5a5;">${unpaidMonths}</span>
+                        <span class="summary-label" style="color: #fca5a5;">⚠ Unpaid Cycles:</span>
+                        <span class="summary-value" style="color: #fca5a5;">${details.unpaidCycles}</span>
                     </div>
                     <div class="summary-row">
-                        <span class="summary-label">Current Billing Months:</span>
-                        <span class="summary-value">${currentMonthsBilled - unpaidMonths}</span>
+                        <span class="summary-label">Current Billing Cycles:</span>
+                        <span class="summary-value">${details.currentBillingCycles - details.unpaidCycles}</span>
                     </div>
                 `;
             }
             
             summaryHTML += `
                 <div class="summary-row">
-                    <span class="summary-label">Total Months:</span>
-                    <span class="summary-value">${currentMonthsBilled}</span>
+                    <span class="summary-label">Total Billing Cycles:</span>
+                    <span class="summary-value">${details.currentBillingCycles}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Total from Joining:</span>
+                    <span class="summary-value">${details.totalCyclesFromJoining} cycles</span>
                 </div>
                 <div class="summary-row total" style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 16px; margin-top: 12px;">
                     <span class="summary-label">Amount to Pay:</span>
-                    <span class="summary-value">₹${unpaidAmount}</span>
+                    <span class="summary-value">₹${details.unpaidAmount}</span>
                 </div>
             `;
 
@@ -2192,43 +2129,20 @@
                 }
             });
 
-            // Get billing month from filter
-            const billingMonth = document.getElementById('billingMonthFilter').value;
-            let paymentDate;
-            
-            if (billingMonth) {
-                // Calculate payment date from billing month (on joining day)
-                const [year, month] = billingMonth.split('-');
-                const joiningDate = parseDate(currentBillingMember.doj);
-                const joiningDay = joiningDate.getDate();
-                
-                // Set payment date to joining day of selected month
-                const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
-                const day = Math.min(joiningDay, lastDayOfMonth);
-                paymentDate = `${String(day).padStart(2, '0')}/${month}/${year}`;
-            } else {
-                // Use today's date
-                paymentDate = getTodayDate();
-            }
+            // Get billing until date
+            const billingUntilDateInput = document.getElementById('billingUntilDate').value;
+            const billingUntilDate = billingUntilDateInput ? formatDateFromInput(billingUntilDateInput) : getTodayDate();
             
             currentBillingMember.selectedShifts = selectedShifts;
             
-            // CRITICAL: Update payment tracking
+            // ✅ CRITICAL: Update payment tracking
             // Store the last paid cycle end date (this resets the billing cycle)
-            currentBillingMember.lastPaidUntilDate = paymentDate;
-            currentBillingMember.paymentUntilDate = paymentDate;
-            currentBillingMember.paymentUntilDateManuallySet = true;
+            currentBillingMember.lastPaidUntilDate = billingUntilDate;
 
-            // Calculate based on the billing month if selected
-            let details;
-            if (billingMonth) {
-                details = calculateBillingForMonth(currentBillingMember, billingMonth);
-            } else {
-                details = calculatePaymentDetails(currentBillingMember);
-            }
+            // Calculate payment details
+            const details = calculatePaymentDetails(currentBillingMember, billingUntilDate);
             
             // When bill is paid, add the current bill amount to total paid
-            // This accumulates all payments
             const currentTotalPaid = currentBillingMember.totalPaid || 0;
             const currentBillAmount = details.unpaidAmount; // Amount being paid now
             currentBillingMember.totalPaid = currentTotalPaid + currentBillAmount;
@@ -2240,10 +2154,10 @@
                 await saveMembers(members);
             }
 
-            alert(`✓ Billing saved! Amount paid: ₹${currentBillAmount}`);
+            alert(`✓ Billing saved! Amount paid: ₹${currentBillAmount}\nPaid until: ${billingUntilDate}`);
             
-            // Reset billing month filter after payment
-            document.getElementById('billingMonthFilter').value = '';
+            // Reset billing date to today for next billing
+            document.getElementById('billingUntilDate').value = formatDateForInput(getTodayDate());
             
             updatePaymentSummary();
             await renderMembers();
@@ -2253,7 +2167,10 @@
         function printBill() {
             if (!currentBillingMember) return;
 
-            const details = calculatePaymentDetails(currentBillingMember);
+            const billingUntilDateInput = document.getElementById('billingUntilDate').value;
+            const billingUntilDate = billingUntilDateInput ? formatDateFromInput(billingUntilDateInput) : getTodayDate();
+            
+            const details = calculatePaymentDetails(currentBillingMember, billingUntilDate);
             
             const billHTML = `
                 <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Inter', sans-serif; color: #1e293b;">
@@ -2294,8 +2211,9 @@
                             <h3 style="border-bottom: 2px solid #1e293b; padding-bottom: 8px; margin: 0 0 10px 0; font-size: 15px; color: #1e293b; font-weight: 800;">Payment Period</h3>
                             <div style="background: #f8fafc; padding: 12px; border-radius: 8px; min-height: 100px; border: 2px solid #e2e8f0;">
                                 <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>From:</strong> ${details.startDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>To:</strong> ${details.endDate}</div>
-                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>Total Months:</strong> ${details.totalMonths}</div>
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>To:</strong> ${billingUntilDate}</div>
+                                <div style="padding: 3px 0; font-size: 12px; color: #475569; font-weight: 600;"><strong>Billing Cycles:</strong> ${details.currentBillingCycles}</div>
+                                ${details.unpaidCycles > 0 ? `<div style="padding: 3px 0; font-size: 12px; color: #ef4444; font-weight: 700;"><strong>⚠ Unpaid Cycles:</strong> ${details.unpaidCycles}</div>` : ''}
                             </div>
                         </div>
                     </div>
@@ -2316,19 +2234,17 @@
                                 <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">₹${details.perMonthCharge}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; color: #64748b; font-size: 12px; font-weight: 600;">Total Months:</td>
-                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">${details.totalMonths}</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; color: #64748b; font-size: 12px; font-weight: 600;">Billing Cycles:</td>
+                                <td style="padding: 6px 0; border-bottom: 2px solid #1e293b; text-align: right; font-weight: 700; color: #1e293b; font-size: 12px;">${details.currentBillingCycles}</td>
                             </tr>
+                            ${details.unpaidCycles > 0 ? `
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 13px; font-weight: 700;">Total Due Amount:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 800; color: #ef4444; font-size: 14px;">₹${details.totalDue}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #ef4444; font-size: 13px; font-weight: 700;">⚠ Unpaid Cycles:</td>
+                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 800; color: #ef4444; font-size: 13px;">${details.unpaidCycles}</td>
                             </tr>
+                            ` : ''}
                             <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; color: #64748b; font-size: 13px; font-weight: 700;">Total Paid:</td>
-                                <td style="padding: 6px 0; border-bottom: 1px solid #cbd5e1; text-align: right; font-weight: 800; color: #10b981; font-size: 14px;">₹${details.totalPaid}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 0; font-size: 15px; font-weight: 800; color: #1e293b;">REMAINING BALANCE:</td>
+                                <td style="padding: 10px 0; font-size: 15px; font-weight: 800; color: #1e293b;">TOTAL AMOUNT:</td>
                                 <td style="padding: 10px 0; text-align: right;">
                                     <span style="font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 6px 16px; border-radius: 8px; display: inline-block;">₹${details.unpaidAmount}</span>
                                 </td>
@@ -2402,17 +2318,8 @@
             const monthFilter = document.getElementById('historyMonthFilter').value;
             const searchTerm = document.getElementById('historySearch').value.toLowerCase();
             
-            console.log('=== History Filter Debug ===');
-            console.log('Total members:', members.length);
-            console.log('Month filter:', monthFilter);
-            console.log('Status filter:', statusFilter);
-            console.log('Search term:', searchTerm);
-            
             let filtered = members.filter(m => {
-                if (!m.name || !m.mobile) {
-                    console.log('Filtered out (no name/mobile):', m);
-                    return false;
-                }
+                if (!m.name || !m.mobile) return false;
                 
                 const details = calculatePaymentDetails(m);
                 
@@ -2426,30 +2333,20 @@
                     (statusFilter === 'paid' && details.isPaid) ||
                     (statusFilter === 'due' && !details.isPaid);
                 
-                // Month filtering - FIXED
+                // Month filtering
                 let matchesMonth = true;
                 if (monthFilter) {
-                    if (m.paymentUntilDate) {
-                        const paymentDate = parseDate(m.paymentUntilDate);
+                    if (m.lastPaidUntilDate) {
+                        const paymentDate = parseDate(m.lastPaidUntilDate);
                         const paymentMonthYear = `${paymentDate.getFullYear()}-${String(paymentDate.getMonth() + 1).padStart(2, '0')}`;
                         matchesMonth = paymentMonthYear === monthFilter;
-                        console.log(`Checking ${m.name}: payment date ${m.paymentUntilDate} -> ${paymentMonthYear} === ${monthFilter}? ${matchesMonth}`);
                     } else {
-                        // If no payment date, don't match any month filter
                         matchesMonth = false;
-                        console.log(`Checking ${m.name}: no payment date, filtered out`);
                     }
                 }
                 
-                const result = matchesSearch && matchesStatus && matchesMonth;
-                if (!result) {
-                    console.log(`Filtered out ${m.name}:`, { matchesSearch, matchesStatus, matchesMonth });
-                }
-                
-                return result;
+                return matchesSearch && matchesStatus && matchesMonth;
             });
-
-            console.log('Filtered members:', filtered.length);
             
             const list = document.getElementById('historyList');
             
@@ -2499,16 +2396,16 @@
                                 <span class="history-detail-value">${member.doj}</span>
                             </div>
                             <div class="history-detail">
-                                <span class="history-detail-label">Payment Until</span>
-                                <span class="history-detail-value">${member.paymentUntilDate || 'N/A'}</span>
+                                <span class="history-detail-label">Last Paid Until</span>
+                                <span class="history-detail-value">${member.lastPaidUntilDate || 'N/A'}</span>
                             </div>
                             <div class="history-detail">
                                 <span class="history-detail-label">Shifts</span>
                                 <span class="history-detail-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
                             </div>
                             <div class="history-detail">
-                                <span class="history-detail-label">Total Months</span>
-                                <span class="history-detail-value">${details.totalMonths} months</span>
+                                <span class="history-detail-label">Total Cycles</span>
+                                <span class="history-detail-value">${details.totalCyclesFromJoining} cycles</span>
                             </div>
                             <div class="history-detail">
                                 <span class="history-detail-label">Total Due</span>
@@ -2555,7 +2452,6 @@
                 // Wait for Firebase to initialize with event listener
                 const waitForFirebase = () => {
                     return new Promise((resolve, reject) => {
-                        // Check if already initialized
                         if (window.firebaseInitialized === true) {
                             console.log("✅ Firebase already initialized");
                             resolve();
@@ -2568,7 +2464,6 @@
                             return;
                         }
                         
-                        // Listen for ready event
                         const readyHandler = () => {
                             console.log("✅ Firebase ready event received");
                             resolve();
@@ -2582,7 +2477,6 @@
                         window.addEventListener('firebaseReady', readyHandler, { once: true });
                         window.addEventListener('firebaseError', errorHandler, { once: true });
                         
-                        // Increased timeout to 30 seconds
                         setTimeout(() => {
                             window.removeEventListener('firebaseReady', readyHandler);
                             window.removeEventListener('firebaseError', errorHandler);
@@ -2596,11 +2490,8 @@
                 
                 try {
                     console.log("⏳ Waiting for Firebase...");
-                    
-                    // Add additional check - wait a bit for module to load
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     
-                    // Check if Firebase variables are available
                     if (typeof window.firebaseDB === 'undefined') {
                         console.log("⚠️ Firebase module still loading, waiting longer...");
                         await waitForFirebase();
@@ -2609,8 +2500,6 @@
                     }
                     
                     console.log("✅ Firebase connected successfully");
-                    
-                    // Check if admin exists in Firebase
                     console.log("🔍 Checking if admin exists...");
                     const adminExists = await checkAdminExists();
                     console.log("Admin exists:", adminExists);
@@ -2634,61 +2523,8 @@
                             <div style="font-size: 48px; margin-bottom: 10px;">⚠️</div>
                             <div style="font-weight: 700; margin-bottom: 10px;">Failed to connect to Firebase</div>
                             <div style="font-size: 13px; color: #64748b; margin-bottom: 15px; font-weight: 600;">${error}</div>
-                    `;
-                    
-                    // Check if it's a Firestore-specific error
-                    if (error.message && error.message.includes('security rules')) {
-                        errorHTML += `
-                            <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
-                                <div style="font-weight: 700; color: #92400e; margin-bottom: 10px;">🔧 Fix Firestore Security Rules:</div>
-                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left; font-weight: 600;">
-                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #f59e0b; text-decoration: underline;">Firebase Console</a></li>
-                                    <li>Select project: <strong>purainiya-library</strong></li>
-                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
-                                    <li>Click <strong>"Rules"</strong> tab at top</li>
-                                    <li>Replace rules with this code:</li>
-                                </ol>
-                                <pre style="background: #fff; padding: 10px; border-radius: 6px; font-size: 11px; overflow-x: auto; text-align: left; margin-top: 10px; font-weight: 600;">rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
-    }
-  }
-}</pre>
-                                <div style="color: #92400e; font-size: 12px; margin-top: 10px; font-weight: 700;">6. Click <strong>"Publish"</strong> button</div>
-                            </div>
-                        `;
-                    } else if (error.message && error.message.includes('Firestore is not available')) {
-                        errorHTML += `
-                            <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
-                                <div style="font-weight: 700; color: #92400e; margin-bottom: 10px;">🔧 Enable Firestore Database:</div>
-                                <ol style="color: #92400e; font-size: 13px; margin-left: 20px; text-align: left; font-weight: 600;">
-                                    <li>Go to <a href="https://console.firebase.google.com" target="_blank" style="color: #f59e0b; text-decoration: underline;">Firebase Console</a></li>
-                                    <li>Select project: <strong>purainiya-library</strong></li>
-                                    <li>Click <strong>"Firestore Database"</strong> in left sidebar</li>
-                                    <li>Click <strong>"Create Database"</strong> button</li>
-                                    <li>Choose <strong>"Start in production mode"</strong></li>
-                                    <li>Select your preferred region</li>
-                                    <li>Click <strong>"Enable"</strong></li>
-                                    <li>Then update security rules (see above)</li>
-                                </ol>
-                            </div>
-                        `;
-                    } else {
-                        errorHTML += `
-                            <div style="font-size: 12px; color: #64748b; margin: 15px 0; text-align: left; line-height: 1.6; font-weight: 600;">
-                                <strong>Common issues:</strong><br>
-                                • Check your internet connection<br>
-                                • Make sure Firestore is enabled: <a href="https://console.firebase.google.com/project/purainiya-library/firestore" target="_blank" style="color: #3b82f6;">Check Now</a><br>
-                                • Verify security rules allow access<br>
-                            </div>
-                        `;
-                    }
-                    
-                    errorHTML += `
                             <button onclick="location.reload()" style="background: #1e293b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px;">
-                                🔄 Retry After Fix
+                                🔄 Retry
                             </button>
                         </div>
                     `;
@@ -2742,7 +2578,6 @@ service cloud.firestore {
                 const errorMsg = document.getElementById('errorMessage');
                 const submitBtn = e.target.querySelector('button[type="submit"]');
                 
-                // Show loading state
                 submitBtn.textContent = 'Logging in...';
                 submitBtn.disabled = true;
                 errorMsg.textContent = '';
@@ -2792,8 +2627,7 @@ service cloud.firestore {
                     name,
                     doj: getTodayDate(),
                     selectedShifts: [],
-                    paymentUntilDate: getTodayDate(),
-                    paymentUntilDateManuallySet: false,
+                    lastPaidUntilDate: null, // Track last paid cycle end
                     totalPaid: 0
                 });
                 
@@ -2812,7 +2646,6 @@ service cloud.firestore {
 
             document.getElementById('memberSearch').addEventListener('input', renderMembers);
             
-            // Filter tabs event listeners
             document.querySelectorAll('.filter-tab').forEach(tab => {
                 tab.addEventListener('click', async () => {
                     document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
@@ -2827,8 +2660,7 @@ service cloud.firestore {
             });
 
             document.getElementById('billingMemberSelect').addEventListener('change', loadBillingForMember);
-            
-            document.getElementById('billingMonthFilter').addEventListener('change', updatePaymentSummary);
+            document.getElementById('billingUntilDate').addEventListener('change', updatePaymentSummary);
             
             document.getElementById('shiftSelection').addEventListener('change', async (e) => {
                 if (e.target.type === 'checkbox') {
