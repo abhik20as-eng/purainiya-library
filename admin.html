@@ -1385,13 +1385,8 @@
                         </div>
 
                         <div class="billing-card">
-                            <h3>💰 Payment Tracker</h3>
+                            <h3>💰 Payment Summary</h3>
                             <div class="payment-tracker">
-                                <div class="payment-date-section">
-                                    <div class="payment-date-label">Payment Until Date</div>
-                                    <input type="date" id="paymentUntilDate">
-                                </div>
-
                                 <div class="payment-summary" id="paymentSummary">
                                     <!-- Summary will be generated here -->
                                 </div>
@@ -2031,19 +2026,14 @@
             document.getElementById('billingContent').style.display = 'block';
             document.getElementById('billingEmptyState').style.display = 'none';
 
-            // Update payment until date
-            if (!currentBillingMember.paymentUntilDateManuallySet) {
-                currentBillingMember.paymentUntilDate = getTodayDate();
-            }
-
             // Set shifts
             shifts.forEach((shift, index) => {
                 const checkbox = document.getElementById(`shift-${index}`);
                 checkbox.checked = currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.includes(shift);
             });
 
-            // Set payment date
-            document.getElementById('paymentUntilDate').value = formatDateForInput(currentBillingMember.paymentUntilDate || getTodayDate());
+            // Reset billing month filter
+            document.getElementById('billingMonthFilter').value = '';
 
             updatePaymentSummary();
         }
@@ -2136,13 +2126,36 @@
                 }
             });
 
-            const paymentDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
+            // Get billing month from filter
+            const billingMonth = document.getElementById('billingMonthFilter').value;
+            let paymentDate;
+            
+            if (billingMonth) {
+                // Calculate payment date from billing month
+                const [year, month] = billingMonth.split('-');
+                const joiningDate = parseDate(currentBillingMember.doj);
+                const joiningDay = joiningDate.getDate();
+                
+                // Set payment date to joining day of selected month
+                const lastDayOfMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+                const day = Math.min(joiningDay, lastDayOfMonth);
+                paymentDate = `${String(day).padStart(2, '0')}/${month}/${year}`;
+            } else {
+                paymentDate = getTodayDate();
+            }
             
             currentBillingMember.selectedShifts = selectedShifts;
             currentBillingMember.paymentUntilDate = paymentDate;
             currentBillingMember.paymentUntilDateManuallySet = true;
 
-            const details = calculatePaymentDetails(currentBillingMember);
+            // Calculate based on the billing month if selected
+            let details;
+            if (billingMonth) {
+                details = calculateBillingForMonth(currentBillingMember, billingMonth);
+            } else {
+                details = calculatePaymentDetails(currentBillingMember);
+            }
+            
             currentBillingMember.totalPaid = details.totalDue;
 
             const members = await loadMembers();
@@ -2712,22 +2725,6 @@ service cloud.firestore {
             
             document.getElementById('shiftSelection').addEventListener('change', async (e) => {
                 if (e.target.type === 'checkbox') {
-                    await updatePaymentSummary();
-                }
-            });
-            document.getElementById('paymentUntilDate').addEventListener('change', async () => {
-                if (currentBillingMember) {
-                    currentBillingMember.paymentUntilDate = formatDateFromInput(document.getElementById('paymentUntilDate').value);
-                    currentBillingMember.paymentUntilDateManuallySet = true;
-                    
-                    // Save immediately when date changes
-                    const members = await loadMembers();
-                    const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-                    if (index !== -1) {
-                        members[index] = currentBillingMember;
-                        await saveMembers(members);
-                    }
-                    
                     await updatePaymentSummary();
                 }
             });
