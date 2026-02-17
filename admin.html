@@ -3,2489 +3,1992 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purainiya Library - Premium Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Purainiya Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1e40af;
-            --primary-dark: #1e3a8a;
-            --primary-light: #3b82f6;
-            --accent: #fbbf24;
-            --accent-dark: #f59e0b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --bg-main: #fef3c7;
-            --bg-card: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
-            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.25);
+            --gold:        #c9993a;
+            --gold-light:  #f0c96b;
+            --gold-dark:   #9a7220;
+            --cream:       #fdf8ef;
+            --cream-dark:  #f5edda;
+            --ink:         #1a1208;
+            --ink-soft:    #4a3f28;
+            --ink-muted:   #8a7a5a;
+            --white:       #ffffff;
+            --success:     #2d7a4f;
+            --success-bg:  #e8f5ee;
+            --danger:      #c0392b;
+            --danger-bg:   #fdecea;
+            --border:      #e8dcc8;
+            --shadow-sm:   0 2px 8px rgba(30,20,5,.08);
+            --shadow-md:   0 6px 24px rgba(30,20,5,.12);
+            --shadow-lg:   0 16px 48px rgba(30,20,5,.16);
+            --radius-sm:   10px;
+            --radius-md:   16px;
+            --radius-lg:   24px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
             min-height: 100vh;
+            font-size: 15px;
         }
 
-        /* Login Screen */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* ─── SCROLLBAR ──────────────────────────── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--cream-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+        /* ─── LOADING SPINNER ───────────────────── */
+        .spinner {
+            display: inline-block;
+            width: 18px; height: 18px;
+            border: 3px solid rgba(201,153,58,.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── LOGIN ─────────────────────────────── */
+        .login-wrap {
             min-height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(201,153,58,.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(201,153,58,.12) 0%, transparent 55%),
+                var(--cream);
+        }
+
+        .login-box {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 56px 52px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
+            animation: fadeUp .6s cubic-bezier(.22,1,.36,1);
+        }
+
+        @keyframes fadeUp {
+            from { opacity:0; transform: translateY(28px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        .login-brand {
+            text-align: center;
+            margin-bottom: 44px;
+        }
+
+        .login-brand .icon-ring {
+            width: 68px; height: 68px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+            box-shadow: 0 8px 24px rgba(201,153,58,.35);
+        }
+
+        .login-brand .icon-ring i { font-size: 28px; color: white; }
+
+        .login-brand h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: .5px;
+        }
+
+        .login-brand p {
+            color: var(--ink-muted);
+            font-size: 13px;
+            margin-top: 5px;
+            letter-spacing: .4px;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 8px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--cream);
+            color: var(--ink);
+            font-size: 15px;
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(201,153,58,.12);
+        }
+
+        .field input:disabled {
+            background: var(--cream-dark);
+            cursor: not-allowed;
+            color: var(--ink-muted);
+        }
+
+        .btn-gold {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            letter-spacing: .4px;
+            box-shadow: 0 4px 16px rgba(201,153,58,.4);
+            transition: transform .2s, box-shadow .2s;
+            margin-top: 8px;
+        }
+
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,153,58,.45); }
+        .btn-gold:active { transform: translateY(0); }
+
+        .form-msg {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 14px;
+            min-height: 20px;
+            color: var(--danger);
+        }
+        .form-msg.ok { color: var(--success); }
+
+        .setup-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 28px 0;
+        }
+
+        .setup-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold-dark);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .setup-sub {
+            text-align: center;
+            color: var(--ink-muted);
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        /* ─── ADMIN PANEL ───────────────────────── */
+        .panel { display: none; }
+
+        .topbar {
+            background: linear-gradient(100deg, var(--ink) 0%, #2d2010 100%);
+            color: white;
+            padding: 0 40px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,.25);
+        }
+
+        .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .topbar-brand .logo-dot {
+            width: 38px; height: 38px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .topbar-brand h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            color: white;
+        }
+
+        .topbar-brand span {
+            font-size: 11px;
+            color: rgba(255,255,255,.5);
+            display: block;
+            letter-spacing: .5px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .year-chip {
+            background: rgba(201,153,58,.2);
+            border: 1px solid rgba(201,153,58,.4);
+            color: var(--gold-light);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.15);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover { background: rgba(255,255,255,.14); }
+
+        .content { max-width: 1320px; margin: 0 auto; padding: 36px 28px; }
+
+        /* ─── TABS ──────────────────────────────── */
+        .tabs {
+            display: flex;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 6px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+            width: fit-content;
+            gap: 4px;
+        }
+
+        .tab {
+            padding: 11px 28px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--ink-muted);
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(201,153,58,.35);
+        }
+
+        .tab:not(.active):hover {
+            background: var(--cream);
+            color: var(--ink);
+        }
+
+        .tab-pane { display: none; animation: fadeIn .35s ease; }
+        .tab-pane.active { display: block; }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+        /* ─── REGISTRATION PAGE ─────────────────── */
+        .reg-hero {
+            background: linear-gradient(120deg, var(--ink) 0%, #2d2010 50%, #1a1208 100%);
+            border-radius: var(--radius-lg);
+            padding: 52px 56px;
+            margin-bottom: 32px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 40px;
+            box-shadow: var(--shadow-lg);
             position: relative;
             overflow: hidden;
         }
 
-        .login-container::before {
+        .reg-hero::before {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
-            animation: rotate 30s linear infinite;
+            top: -40px; right: -40px;
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,153,58,.18) 0%, transparent 70%);
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .reg-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: 30%;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,153,58,.10) 0%, transparent 70%);
         }
 
-        .login-box {
-            background: white;
-            border-radius: 24px;
-            padding: 50px 45px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: var(--shadow-2xl);
+        .reg-hero-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 38px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        .reg-hero-text h2 span { color: var(--gold-light); }
+
+        .reg-hero-text p {
+            color: rgba(255,255,255,.55);
+            font-size: 14px;
+            max-width: 360px;
+            line-height: 1.6;
+        }
+
+        .reg-hero-form {
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: var(--radius-md);
+            padding: 36px 40px;
+            min-width: 380px;
             position: relative;
             z-index: 1;
-            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(12px);
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .reg-hero-form .field label { color: rgba(255,255,255,.6); }
+        .reg-hero-form .field input {
+            background: rgba(255,255,255,.08);
+            border-color: rgba(255,255,255,.15);
+            color: white;
+        }
+        .reg-hero-form .field input::placeholder { color: rgba(255,255,255,.3); }
+        .reg-hero-form .field input:focus {
+            background: rgba(255,255,255,.12);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201,153,58,.2);
+        }
+        .reg-hero-form .field input:disabled {
+            background: rgba(255,255,255,.04);
+            color: rgba(255,255,255,.35);
         }
 
-        .login-logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .login-logo h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
+        .reg-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
             font-weight: 700;
-            color: #f59e0b;
-            margin-bottom: 8px;
-        }
-
-        .login-logo p {
-            color: var(--text-secondary);
-            font-size: 15px;
-        }
-
-        .input-group {
-            margin-bottom: 24px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
             cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .error-message {
-            color: var(--danger);
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-            min-height: 20px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .error-message.success {
-            color: var(--success);
-        }
-
-        .error-message.info {
-            color: #fbbf24;
-        }
-
-        .first-time-setup {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid var(--border);
-        }
-
-        .first-time-setup h3 {
-            font-family: 'Playfair Display', serif;
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 24px;
-            color: #f59e0b;
-        }
-
-        .first-time-setup p {
-            text-align: center;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* Loading Indicator */
-        .loading-indicator {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(251, 191, 36, 0.3);
-            border-radius: 50%;
-            border-top-color: #fbbf24;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Admin Panel */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px;
-            animation: fadeIn 0.6s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .header-section {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            padding: 40px 50px;
-            border-radius: 24px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow-xl);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 38px;
-            font-weight: 900;
-            margin: 0;
-        }
-
-        .header-subtitle {
-            font-size: 16px;
-            opacity: 0.95;
+            letter-spacing: .3px;
+            box-shadow: 0 6px 20px rgba(201,153,58,.45);
+            transition: transform .2s, box-shadow .2s;
             margin-top: 8px;
-        }
-
-        .header-actions {
             display: flex;
-            gap: 15px;
             align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .year-badge {
-            background: rgba(251, 191, 36, 0.3);
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 18px;
+        .reg-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(201,153,58,.5); }
+
+        .reg-success {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid #a8d5bc;
+            border-radius: var(--radius-sm);
+            padding: 13px 18px;
             font-weight: 600;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-        }
-
-        .btn {
-            padding: 12px 28px;
-            border-radius: 12px;
             font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            display: inline-flex;
+            margin-top: 16px;
+            display: none;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .btn-white {
-            background: white;
-            color: #f59e0b;
+        /* ─── MEMBERS LIST ──────────────────────── */
+        .list-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 36px 40px;
             box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
         }
 
-        .btn-white:hover {
-            background: #fffbeb;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Tab Navigation */
-        .tab-navigation {
-            background: var(--bg-card);
-            padding: 12px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow-lg);
-            display: inline-flex;
-            gap: 8px;
-        }
-
-        .tab-btn {
-            padding: 14px 36px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 14px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: white;
-            box-shadow: var(--shadow-md);
-        }
-
-        .tab-btn:not(.active):hover {
-            background: var(--bg-main);
-            color: var(--text-primary);
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Registration Form */
-        .registration-card {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 50px;
-            box-shadow: var(--shadow-xl);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .registration-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .registration-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            color: #fbbf24;
-            margin-bottom: 10px;
-        }
-
-        .registration-header p {
-            color: var(--text-secondary);
-            font-size: 15px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .form-group input {
-            padding: 14px 18px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
-            background: var(--bg-main);
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
-        }
-
-        .form-group input:disabled {
-            background: var(--border);
-            cursor: not-allowed;
-        }
-
-        .register-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
-            margin-top: 10px;
-        }
-
-        .register-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .register-btn:active {
-            transform: translateY(0);
-        }
-
-        .success-message {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 16px 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 20px;
-            font-weight: 600;
-            display: none;
-        }
-
-        /* Members List */
-        .members-section {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-xl);
-        }
-
-        .members-header {
+        .list-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
         }
 
-        .members-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: #fbbf24;
+        .list-top h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--ink);
         }
 
-        .members-header-controls {
+        .list-controls {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
             flex-wrap: wrap;
         }
 
-        .filter-tabs {
+        .pill-filters {
             display: flex;
-            gap: 8px;
-            background: var(--bg-main);
-            padding: 6px;
-            border-radius: 12px;
-            border: 2px solid var(--border);
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px;
+            gap: 3px;
         }
 
-        .filter-tab {
-            padding: 10px 20px;
+        .pill {
+            padding: 7px 16px;
             border: none;
             background: transparent;
-            color: var(--text-secondary);
-            font-size: 14px;
+            border-radius: 6px;
+            font-size: 13px;
             font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--ink-muted);
             cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+            transition: all .2s;
         }
 
-        .filter-tab.active {
-            background: #fbbf24;
-            color: white;
-        }
+        .pill.active { background: var(--gold); color: white; box-shadow: 0 2px 8px rgba(201,153,58,.3); }
+        .pill:not(.active):hover { background: var(--white); color: var(--ink); }
 
-        .filter-tab:not(.active):hover {
-            background: white;
-            color: var(--text-primary);
-        }
-
-        .search-box {
+        .search-wrap {
             position: relative;
-            width: 300px;
         }
 
-        .search-box input {
-            width: 100%;
-            padding: 14px 18px 14px 50px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
-            background: var(--bg-main);
-            transition: all 0.3s ease;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
-        }
-
-        .search-box::before {
-            content: '🔍';
+        .search-wrap i {
             position: absolute;
-            left: 18px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            color: var(--ink-muted);
+            font-size: 14px;
         }
 
-        .total-students-badge {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        .search-wrap input {
+            padding: 10px 14px 10px 38px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--ink);
+            width: 240px;
+            transition: all .2s;
+        }
+
+        .search-wrap input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(201,153,58,.1);
+        }
+
+        .count-badge {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
             color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 700;
-            font-size: 16px;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 3px 10px rgba(201,153,58,.3);
+            display: flex;
+            align-items: center;
+            gap: 7px;
             white-space: nowrap;
         }
 
         .members-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-        }
-
-        .member-card {
-            background: var(--bg-main);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 25px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .member-card.new-member::before {
-            content: '✨ NEW';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--success);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .member-card:hover {
-            border-color: #fbbf24;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-3px);
-        }
-
-        .member-name {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fbbf24;
-            margin-bottom: 12px;
-        }
-
-        .member-mobile {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .member-joined {
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding-top: 12px;
-            border-top: 2px solid var(--border);
-            margin-top: 12px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state-icon {
-            font-size: 72px;
-            margin-bottom: 20px;
-            opacity: 0.4;
-        }
-
-        .empty-state-text {
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-        /* Billing Section */
-        .billing-section {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-xl);
-        }
-
-        .billing-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .billing-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: #fbbf24;
-        }
-
-        .member-selector {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .member-selector select {
-            padding: 14px 18px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            min-width: 300px;
-            transition: all 0.3s ease;
-        }
-
-        .member-selector select:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background: white;
-        }
-
-        .billing-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .billing-card {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: var(--shadow-md);
-            border: 2px solid var(--accent);
-        }
-
-        .billing-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #f59e0b;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .shift-selection {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .shift-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .shift-option:hover {
-            border-color: #fbbf24;
-            background: var(--bg-main);
-            transform: translateX(5px);
-        }
-
-        .shift-option input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-            accent-color: #fbbf24;
-        }
-
-        .shift-option label {
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--text-primary);
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .payment-tracker {
-            display: flex;
-            flex-direction: column;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
-        .payment-date-section {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            border: 2px solid var(--accent);
-        }
-
-        .payment-date-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #f59e0b;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .member-tile {
+            background: var(--cream);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px 26px;
+            cursor: pointer;
+            transition: all .25s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 18px;
         }
 
-        .payment-date-section input[type="date"] {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 15px;
-            background: var(--bg-main);
-            transition: all 0.3s ease;
-            font-weight: 600;
+        .member-tile:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+            background: var(--white);
         }
 
-        .payment-date-section input[type="date"]:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background: white;
-        }
-
-        .payment-summary {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            border: 2px solid var(--accent);
-        }
-
-        .summary-section {
-            margin-bottom: 20px;
-        }
-
-        .summary-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .summary-section-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #f59e0b;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .avatar {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(201,153,58,.3);
         }
 
-        .months-list {
+        .member-tile-info { flex: 1; min-width: 0; }
+
+        .member-tile-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .member-tile-meta {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
+            flex-direction: column;
+            gap: 3px;
+            margin-top: 6px;
         }
 
-        .month-badge {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
+        .meta-row {
+            font-size: 12.5px;
+            color: var(--ink-muted);
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .month-badge.paid {
-            background: #d1fae5;
-            color: #065f46;
-            border: 2px solid #10b981;
+        .meta-row i { color: var(--gold); font-size: 11px; width: 12px; }
+
+        .empty-state {
+            text-align: center;
+            padding: 72px 20px;
+            color: var(--ink-muted);
+            grid-column: 1 / -1;
         }
 
-        .month-badge.unpaid {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 2px solid #ef4444;
+        .empty-state i { font-size: 52px; opacity: .25; margin-bottom: 16px; display: block; }
+        .empty-state p { font-size: 16px; font-weight: 500; }
+
+        /* ─── BILLING ───────────────────────────── */
+        .billing-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 36px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+
+        .billing-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .billing-top h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .member-pick {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .member-pick label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+
+        .member-pick select {
+            padding: 11px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--cream);
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            min-width: 280px;
+            transition: border-color .2s;
+        }
+
+        .member-pick select:focus { outline: none; border-color: var(--gold); }
+
+        .billing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .b-panel {
+            background: var(--cream);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 28px;
+        }
+
+        .b-panel-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: var(--gold-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .shift-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .shift-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .shift-row:hover { border-color: var(--gold); background: #fffdf6; }
+
+        .shift-row input[type="checkbox"] {
+            width: 18px; height: 18px;
+            accent-color: var(--gold-dark);
+            cursor: pointer;
+        }
+
+        .shift-row label {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--ink);
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* payment date */
+        .date-row {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            margin-bottom: 18px;
+        }
+
+        .date-row .date-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            color: var(--gold-dark);
+            margin-bottom: 8px;
+        }
+
+        .date-row input[type="date"] {
+            width: 100%;
+            padding: 10px 13px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            transition: border-color .2s;
+        }
+
+        .date-row input[type="date"]:focus { outline: none; border-color: var(--gold); }
+        .date-row input[type="date"]:disabled {
+            background: var(--cream-dark);
+            cursor: not-allowed;
+            color: var(--ink-muted);
+        }
+
+        /* summary */
+        .summary-box {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px 22px;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            font-size: 15px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
         }
 
-        .summary-row.total {
-            border-top: 3px solid var(--accent);
-            margin-top: 15px;
-            padding-top: 18px;
+        .summary-row:last-child { border-bottom: none; }
+        .summary-row .lbl { color: var(--ink-muted); font-weight: 500; display: flex; align-items: center; gap: 7px; }
+        .summary-row .lbl i { color: var(--gold); font-size: 12px; }
+        .summary-row .val { font-weight: 700; color: var(--ink); }
+        .summary-row .val.red { color: var(--danger); }
+        .summary-row .val.green { color: var(--success); }
+        .summary-row.big { padding-top: 14px; margin-top: 8px; border-top: 2px solid var(--gold); }
+        .summary-row.big .lbl { font-size: 15px; color: var(--ink); font-weight: 700; }
+        .summary-row.big .val { font-size: 20px; }
+
+        /* months display */
+        .months-section { margin-top: 16px; }
+
+        .months-section-title {
+            font-size: 11px;
             font-weight: 700;
-            font-size: 18px;
-            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
         }
 
-        .summary-label {
-            color: var(--text-secondary);
-            font-weight: 500;
+        .months-section-title.paid-title { color: var(--success); }
+        .months-section-title.unpaid-title { color: var(--danger); }
+
+        .months-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+
+        .chip {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .summary-value {
-            font-weight: 700;
-            color: var(--text-primary);
-        }
+        .chip.paid { background: var(--success-bg); color: var(--success); border: 1px solid #a8d5bc; }
+        .chip.unpaid { background: var(--danger-bg); color: var(--danger); border: 1px solid #f4b0aa; }
 
-        .summary-value.unpaid {
-            color: var(--danger);
-        }
-
-        .summary-value.paid {
-            color: var(--success);
-        }
-
+        /* billing action buttons */
         .billing-actions {
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 16px;
+            margin-top: 4px;
         }
 
-        .action-btn {
-            padding: 18px;
+        .act-btn {
+            padding: 15px;
             border: none;
-            border-radius: 14px;
-            font-size: 17px;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
             font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: var(--shadow-md);
+            transition: all .25s;
         }
 
-        .action-btn.save {
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+        .act-btn.save {
+            background: linear-gradient(135deg, #38a169, #2d7a4f);
             color: white;
+            box-shadow: 0 4px 14px rgba(45,122,79,.3);
         }
 
-        .action-btn.save:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
-        }
+        .act-btn.save:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(45,122,79,.4); }
 
-        .action-btn.print {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        .act-btn.print-btn {
+            background: linear-gradient(135deg, #2b6cb0, #1e40af);
             color: white;
+            box-shadow: 0 4px 14px rgba(30,64,175,.3);
         }
 
-        .action-btn.print:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
+        .act-btn.print-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,64,175,.4); }
+
+        .billing-empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--ink-muted);
         }
 
-        /* History Section */
-        .history-section {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: var(--shadow-xl);
+        .billing-empty i { font-size: 48px; opacity: .2; margin-bottom: 16px; display: block; }
+        .billing-empty p { font-size: 16px; font-weight: 500; }
+
+        /* ─── HISTORY ───────────────────────────── */
+        .history-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 36px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
         }
 
-        .history-header {
+        .history-top {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        .history-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: #fbbf24;
+        .history-top h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--ink);
         }
 
         .history-filters {
             display: flex;
-            gap: 15px;
-            align-items: center;
+            gap: 12px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
-        .filter-select {
-            padding: 14px 18px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: var(--bg-main);
-            color: var(--text-primary);
-            font-size: 14px;
+        .filter-sel {
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
             font-weight: 600;
+            color: var(--ink);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: border-color .2s;
         }
 
-        .filter-select:focus {
-            outline: none;
-            border-color: #fbbf24;
-            background: white;
-        }
+        .filter-sel:focus { outline: none; border-color: var(--gold); }
 
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        .history-list { display: flex; flex-direction: column; gap: 16px; }
 
-        .history-item {
-            background: var(--bg-main);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s ease;
+        .hist-item {
+            background: var(--cream);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
             cursor: pointer;
+            transition: all .22s;
         }
 
-        .history-item:hover {
-            border-color: #fbbf24;
-            box-shadow: var(--shadow-lg);
+        .hist-item:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-md);
             transform: translateY(-2px);
+            background: var(--white);
         }
 
-        .history-item-header {
+        .hist-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
-        .history-item-name {
-            font-size: 22px;
+        .hist-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
             font-weight: 700;
-            color: #fbbf24;
-        }
-
-        .history-item-amount {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .history-item-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .history-detail {
+            color: var(--ink);
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
-        .history-detail-label {
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-            font-size: 13px;
-        }
-
-        .history-detail-value {
-            font-weight: 600;
-            color: var(--text-primary);
+        .hist-name .dot {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 15px;
-        }
-
-        /* Total Collection Box */
-        .total-collection-box {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 30px;
-            box-shadow: var(--shadow-xl);
-            text-align: center;
+            font-weight: 700;
             color: white;
-            animation: slideUp 0.5s ease;
+            flex-shrink: 0;
         }
 
-        .total-collection-label {
-            font-size: 16px;
-            font-weight: 600;
-            opacity: 0.95;
-            margin-bottom: 12px;
+        .hist-paid { font-size: 22px; font-weight: 700; color: var(--gold-dark); }
+
+        .hist-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+        }
+
+        .hm { display: flex; flex-direction: column; gap: 3px; }
+        .hm-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--ink-muted); }
+        .hm-value { font-size: 14px; font-weight: 700; color: var(--ink); }
+
+        /* totals */
+        .totals-bar {
+            background: linear-gradient(120deg, var(--ink) 0%, #2d2010 100%);
+            border-radius: var(--radius-md);
+            padding: 32px 40px;
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 32px;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .totals-main { text-align: center; }
+
+        .totals-main .label {
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: rgba(255,255,255,.45);
+            margin-bottom: 8px;
         }
 
-        .total-collection-amount {
-            font-size: 48px;
-            font-weight: 900;
-            font-family: 'Playfair Display', serif;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .total-collection-details {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid rgba(255,255,255,0.3);
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .collection-stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .collection-stat-value {
-            font-size: 28px;
+        .totals-main .amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 44px;
             font-weight: 700;
-            margin-bottom: 5px;
+            color: var(--gold-light);
         }
 
-        .collection-stat-label {
-            font-size: 13px;
-            opacity: 0.9;
+        .totals-divider { width: 1px; background: rgba(255,255,255,.1); height: 60px; }
+
+        .totals-stats {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+        }
+
+        .tstat { text-align: center; }
+
+        .tstat .tv {
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .tstat .tl {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255,255,255,.4);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: .5px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            .header-section {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-                padding: 30px;
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .billing-content {
-                grid-template-columns: 1fr;
-            }
-
-            .billing-actions {
-                grid-template-columns: 1fr;
-            }
-
-            .members-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tab-navigation {
-                width: 100%;
-            }
-
-            .tab-btn {
-                flex: 1;
-                padding: 12px 16px;
-            }
-
-            .members-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .members-header-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .filter-tabs {
-                width: 100%;
-            }
-
-            .filter-tab {
-                flex: 1;
-                padding: 10px 12px;
-                font-size: 13px;
-            }
+        /* ─── RESPONSIVE ────────────────────────── */
+        @media (max-width: 900px) {
+            .reg-hero { grid-template-columns: 1fr; }
+            .reg-hero-form { min-width: unset; }
+            .billing-grid { grid-template-columns: 1fr; }
+            .billing-actions { grid-template-columns: 1fr; }
+            .totals-bar { grid-template-columns: 1fr; }
+            .totals-divider { display: none; }
         }
 
-        /* Print Styles */
+        @media (max-width: 640px) {
+            .topbar { padding: 0 20px; }
+            .content { padding: 20px 16px; }
+            .reg-hero { padding: 32px 28px; }
+            .tabs { width: 100%; }
+            .tab { flex: 1; padding: 10px 14px; font-size: 13px; }
+            .members-grid { grid-template-columns: 1fr; }
+            .billing-top { flex-direction: column; align-items: flex-start; }
+            .member-pick select { min-width: 240px; }
+        }
+
+        /* ─── PRINT ─────────────────────────────── */
         @media print {
-            body { 
-                margin: 0; 
-                padding: 0;
-                background: white;
-            }
-            
-            @page { 
-                size: A4; 
-                margin: 10mm;
-            }
-            
-            .print-bill-container {
-                page-break-inside: avoid;
-                page-break-after: avoid;
-            }
+            body { background: white; }
+            @page { size: A4; margin: 12mm; }
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-box">
-            <div class="login-logo">
-                <h2>Purainiya Library</h2>
-                <p>Premium Management System</p>
-                <p style="font-size: 12px; margin-top: 8px; color: #fbbf24;"><i class="fas fa-fire"></i> Powered by Firebase</p>
+
+<!-- ╔═══════════════ LOGIN ════════════════╗ -->
+<div class="login-wrap" id="loginWrap">
+    <div class="login-box">
+        <div class="login-brand">
+            <div class="icon-ring"><i class="fas fa-book-open"></i></div>
+            <h1>Purainiya Library</h1>
+            <p>Premium Management System</p>
+        </div>
+
+        <div id="loadingArea" style="display:none; text-align:center; padding:20px 0; color:var(--ink-muted); font-size:14px;">
+            <span class="spinner"></span> Connecting to server…
+        </div>
+
+        <form id="loginForm" style="display:none;">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Enter username" required>
             </div>
-            
-            <form id="loginForm">
-                <div class="input-group">
-                    <label><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="username" placeholder="Enter username" required>
-                </div>
-                
-                <div class="input-group">
-                    <label><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="password" placeholder="Enter password" required>
-                </div>
-                
-                <button type="submit" class="login-btn">Login</button>
-                <p class="error-message" id="errorMessage"></p>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn-gold"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <p class="form-msg" id="loginMsg"></p>
+        </form>
+
+        <div id="setupArea" style="display:none;">
+            <hr class="setup-divider">
+            <p class="setup-title">First Time Setup</p>
+            <p class="setup-sub">Create your admin account</p>
+            <form id="setupForm">
+                <div class="field"><label>Username</label><input type="text" id="newUser" placeholder="Choose username" required></div>
+                <div class="field"><label>Password</label><input type="password" id="newPass" placeholder="Choose password" required></div>
+                <div class="field"><label>Confirm Password</label><input type="password" id="confPass" placeholder="Re-enter password" required></div>
+                <button type="submit" class="btn-gold"><i class="fas fa-user-shield"></i> Create Account</button>
+                <p class="form-msg" id="setupMsg"></p>
             </form>
-            
-            <div class="loading-indicator" id="loadingIndicator" style="display: none;">
-                <div class="loading-spinner"></div>
-                Checking credentials...
+        </div>
+    </div>
+</div>
+
+<!-- ╔═══════════════ PANEL ════════════════╗ -->
+<div class="panel" id="adminPanel">
+
+    <div class="topbar">
+        <div class="topbar-brand">
+            <div class="logo-dot"><i class="fas fa-book-open" style="color:white;font-size:16px;"></i></div>
+            <div>
+                <h1>Purainiya Library</h1>
+                <span>Premium Management System</span>
             </div>
-            
-            <div class="first-time-setup" id="firstTimeSetup" style="display: none;">
-                <h3>First Time Setup</h3>
-                <p>Create your admin credentials</p>
-                
-                <form id="setupForm">
-                    <div class="input-group">
-                        <label>Create Username</label>
-                        <input type="text" id="newUsername" placeholder="Choose username" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Create Password</label>
-                        <input type="password" id="newPassword" placeholder="Choose password" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Confirm Password</label>
-                        <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
-                    </div>
-                    
-                    <button type="submit" class="login-btn">Create Admin Account</button>
-                    <p class="error-message" id="setupErrorMessage"></p>
-                </form>
-            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="year-chip"><i class="fas fa-calendar-alt"></i> <span id="yearBadge">2025</span></div>
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="container" id="adminPanel" style="display: none;">
-        <div class="header-section">
-            <div>
-                <h1>Purainiya Library</h1>
-                <p class="header-subtitle"><i class="fas fa-crown"></i> Premium Member Management System</p>
-            </div>
-            <div class="header-actions">
-                <div class="year-badge"><i class="fas fa-calendar-alt"></i> <span id="yearDisplay">2025</span></div>
-                <button class="btn btn-white" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </div>
+    <div class="content">
+
+        <!-- tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="reg"><i class="fas fa-user-plus"></i> Registration</button>
+            <button class="tab" data-tab="billing"><i class="fas fa-file-invoice-dollar"></i> Billing</button>
+            <button class="tab" data-tab="history"><i class="fas fa-chart-bar"></i> History</button>
         </div>
 
-        <!-- Tab Navigation -->
-        <div class="tab-navigation">
-            <button class="tab-btn active" data-tab="register"><i class="fas fa-user-plus"></i> Registration</button>
-            <button class="tab-btn" data-tab="billing"><i class="fas fa-file-invoice-dollar"></i> Billing</button>
-            <button class="tab-btn" data-tab="history"><i class="fas fa-chart-line"></i> History</button>
-        </div>
+        <!-- ─── REGISTRATION PANE ─── -->
+        <div class="tab-pane active" id="regPane">
 
-        <!-- Registration Tab -->
-        <div class="tab-content active" id="registerTab">
-            <div class="registration-card">
-                <div class="registration-header">
-                    <h2><i class="fas fa-user-plus"></i> New Member Registration</h2>
-                    <p>Register a new member to the library system</p>
+            <!-- Hero Form -->
+            <div class="reg-hero">
+                <div class="reg-hero-text">
+                    <h2>Register a <span>New Member</span></h2>
+                    <p>Add a new student to the Purainiya Library system. All registrations are saved securely to the cloud.</p>
                 </div>
-
-                <form id="registrationForm">
-                    <div class="form-grid">
-                        <div class="form-group">
+                <div class="reg-hero-form">
+                    <form id="regForm">
+                        <div class="field">
                             <label><i class="fas fa-phone"></i> Mobile Number *</label>
-                            <input type="tel" id="regMobile" placeholder="Enter mobile number" required>
+                            <input type="tel" id="regMobile" placeholder="Enter 10-digit number" required>
                         </div>
-
-                        <div class="form-group">
+                        <div class="field">
                             <label><i class="fas fa-user"></i> Full Name *</label>
                             <input type="text" id="regName" placeholder="Enter full name" required>
                         </div>
-
-                        <div class="form-group full-width">
+                        <div class="field">
                             <label><i class="fas fa-calendar-check"></i> Date of Joining</label>
                             <input type="text" id="regDate" disabled>
                         </div>
+                        <button type="submit" class="reg-submit">
+                            <i class="fas fa-plus-circle"></i> Register Member
+                        </button>
+                    </form>
+                    <div class="reg-success" id="regSuccess">
+                        <i class="fas fa-check-circle"></i> Member registered successfully!
                     </div>
-
-                    <button type="submit" class="register-btn"><i class="fas fa-check-circle"></i> Register Member</button>
-                </form>
-
-                <div class="success-message" id="successMessage">
-                    <i class="fas fa-check-circle"></i> Member registered successfully!
                 </div>
             </div>
 
             <!-- Members List -->
-            <div class="members-section" style="margin-top: 40px;">
-                <div class="members-header">
-                    <h2><i class="fas fa-users"></i> Registered Members</h2>
-                    <div class="members-header-controls">
-                        <div class="filter-tabs">
-                            <button class="filter-tab active" data-filter="all">All</button>
-                            <button class="filter-tab" data-filter="7days">Last 7 Days</button>
-                            <button class="filter-tab" data-filter="month">This Month</button>
+            <div class="list-card">
+                <div class="list-top">
+                    <h3><i class="fas fa-users" style="color:var(--gold);margin-right:8px;"></i>Registered Members</h3>
+                    <div class="list-controls">
+                        <div class="pill-filters">
+                            <button class="pill active" data-f="all">All</button>
+                            <button class="pill" data-f="7days">Last 7 Days</button>
+                            <button class="pill" data-f="month">This Month</button>
                         </div>
-                        <div class="search-box">
-                            <input type="tel" id="memberSearch" placeholder="Search by mobile number...">
+                        <div class="search-wrap">
+                            <i class="fas fa-search"></i>
+                            <input type="tel" id="memberSearch" placeholder="Search mobile…">
                         </div>
-                        <div class="total-students-badge" id="totalStudentsBadge">
+                        <div class="count-badge" id="countBadge">
                             <i class="fas fa-graduation-cap"></i> Total: 0
                         </div>
                     </div>
                 </div>
-                <div class="members-grid" id="membersGrid">
-                    <!-- Members will be added here -->
-                </div>
+                <div class="members-grid" id="membersGrid"></div>
             </div>
         </div>
 
-        <!-- Billing Tab -->
-        <div class="tab-content" id="billingTab">
-            <div class="billing-section">
-                <div class="billing-header">
-                    <h2><i class="fas fa-file-invoice-dollar"></i> Member Billing</h2>
-                    <div class="member-selector">
-                        <label style="font-weight: 600;"><i class="fas fa-user-circle"></i> Select Member:</label>
-                        <select id="billingMemberSelect">
-                            <option value="">-- Choose a member --</option>
-                        </select>
+        <!-- ─── BILLING PANE ─── -->
+        <div class="tab-pane" id="billingPane">
+            <div class="billing-card">
+                <div class="billing-top">
+                    <h3><i class="fas fa-file-invoice-dollar" style="color:var(--gold);margin-right:8px;"></i>Member Billing</h3>
+                    <div class="member-pick">
+                        <label><i class="fas fa-user-circle"></i> Member:</label>
+                        <select id="memberSel"><option value="">— Select member —</option></select>
                     </div>
                 </div>
 
-                <div id="billingContent" style="display: none;">
-                    <div class="billing-content">
-                        <div class="billing-card">
-                            <h3><i class="fas fa-clock"></i> Select Shifts</h3>
-                            <div class="shift-selection" id="shiftSelection">
-                                <!-- Shifts will be added here -->
+                <div id="billingBody" style="display:none;">
+                    <div class="billing-grid">
+
+                        <!-- Shifts -->
+                        <div class="b-panel">
+                            <div class="b-panel-title"><i class="fas fa-clock"></i> Select Shifts</div>
+                            <div class="shift-list" id="shiftList"></div>
+                        </div>
+
+                        <!-- Payment -->
+                        <div class="b-panel">
+                            <div class="b-panel-title"><i class="fas fa-wallet"></i> Payment Details</div>
+
+                            <div class="date-row">
+                                <div class="date-label"><i class="fas fa-calendar-day"></i> Bill Date (Auto)</div>
+                                <input type="date" id="billDateDisplay" disabled>
+                            </div>
+
+                            <div class="date-row">
+                                <div class="date-label"><i class="fas fa-calendar-check"></i> Payment Until Date</div>
+                                <input type="date" id="payUntilDate">
+                            </div>
+
+                            <div class="summary-box" id="summaryBox">
+                                <p style="color:var(--ink-muted);font-size:13px;text-align:center;padding:20px 0;">Select shifts to see summary</p>
                             </div>
                         </div>
 
-                        <div class="billing-card">
-                            <h3><i class="fas fa-money-check-alt"></i> Payment Details</h3>
-                            <div class="payment-tracker">
-                                <div class="payment-date-section">
-                                    <div class="payment-date-label"><i class="fas fa-calendar-day"></i> Bill Generation Date</div>
-                                    <input type="date" id="billGenerationDate">
-                                </div>
-
-                                <div class="payment-summary" id="paymentSummary">
-                                    <!-- Summary will be generated here -->
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- Actions -->
                         <div class="billing-actions">
-                            <button class="action-btn save" id="saveBillingBtn">
+                            <button class="act-btn save" id="saveBtn">
                                 <i class="fas fa-check-double"></i> Save & Mark Paid
                             </button>
-                            <button class="action-btn print" id="printBillBtn">
+                            <button class="act-btn print-btn" id="printBtn">
                                 <i class="fas fa-print"></i> Print Bill
                             </button>
                         </div>
+
                     </div>
                 </div>
 
-                <div id="billingEmptyState" class="empty-state">
-                    <div class="empty-state-icon"><i class="fas fa-clipboard-list"></i></div>
-                    <div class="empty-state-text">Select a member to manage billing</div>
+                <div class="billing-empty" id="billingEmpty">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Select a member to manage billing</p>
                 </div>
             </div>
         </div>
 
-        <!-- History Tab -->
-        <div class="tab-content" id="historyTab">
-            <div class="history-section">
-                <div class="history-header">
-                    <h2><i class="fas fa-chart-line"></i> Billing History</h2>
+        <!-- ─── HISTORY PANE ─── -->
+        <div class="tab-pane" id="historyPane">
+            <div class="history-card">
+                <div class="history-top">
+                    <h3><i class="fas fa-chart-bar" style="color:var(--gold);margin-right:8px;"></i>Billing History</h3>
                     <div class="history-filters">
-                        <select class="filter-select" id="historyMonthFilter">
-                            <option value="">All Months</option>
-                        </select>
-                        <select class="filter-select" id="historyStatusFilter">
+                        <select class="filter-sel" id="hMonthFilter"><option value="">All Months</option></select>
+                        <select class="filter-sel" id="hStatusFilter">
                             <option value="">All Status</option>
                             <option value="paid">Fully Paid</option>
                             <option value="due">Has Due</option>
                         </select>
-                        <div class="search-box" style="width: 300px;">
-                            <input type="text" id="historySearch" placeholder="Search member...">
+                        <div class="search-wrap">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="hSearch" placeholder="Search member…" style="width:200px;">
                         </div>
                     </div>
                 </div>
-                <div class="history-list" id="historyList">
-                    <!-- History items will be added here -->
-                </div>
-                
-                <!-- Total Collection Box -->
-                <div class="total-collection-box" id="totalCollectionBox">
-                    <div class="total-collection-label"><i class="fas fa-wallet"></i> Total Collection</div>
-                    <div class="total-collection-amount" id="totalCollectionAmount">₹0</div>
-                    <div class="total-collection-details">
-                        <div class="collection-stat">
-                            <div class="collection-stat-value" id="totalMembers">0</div>
-                            <div class="collection-stat-label"><i class="fas fa-users"></i> Members</div>
-                        </div>
-                        <div class="collection-stat">
-                            <div class="collection-stat-value" id="totalPaidMembers">0</div>
-                            <div class="collection-stat-label"><i class="fas fa-check-circle"></i> Fully Paid</div>
-                        </div>
-                        <div class="collection-stat">
-                            <div class="collection-stat-value" id="totalDueAmount">₹0</div>
-                            <div class="collection-stat-label"><i class="fas fa-exclamation-circle"></i> Total Due</div>
-                        </div>
+
+                <div class="history-list" id="historyList"></div>
+
+                <div class="totals-bar" id="totalsBar">
+                    <div class="totals-stats">
+                        <div class="tstat"><div class="tv" id="tMembers">0</div><div class="tl">Members</div></div>
+                        <div class="tstat"><div class="tv" id="tPaid">0</div><div class="tl">Fully Paid</div></div>
+                    </div>
+                    <div class="totals-divider"></div>
+                    <div class="totals-main">
+                        <div class="label"><i class="fas fa-wallet"></i> Total Collected</div>
+                        <div class="amount" id="tAmount">₹0</div>
+                    </div>
+                    <div class="totals-divider"></div>
+                    <div class="totals-stats">
+                        <div class="tstat"><div class="tv" id="tDue">₹0</div><div class="tl">Total Due</div></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        console.log("🔄 Starting Firebase module initialization...");
-        
-        try {
-            const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js");
-            const { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js");
-            
-            console.log("✅ Firebase SDKs imported successfully");
-
-            const firebaseConfig = {
-                apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
-                authDomain: "purainiya-library.firebaseapp.com",
-                projectId: "purainiya-library",
-                storageBucket: "purainiya-library.firebasestorage.app",
-                messagingSenderId: "885731486344",
-                appId: "1:885731486344:web:01d234421bd5678831cd3d"
-            };
-
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-
-            window.firebaseDB = db;
-            window.firebaseDoc = doc;
-            window.firebaseSetDoc = setDoc;
-            window.firebaseGetDoc = getDoc;
-            window.firebaseGetDocs = getDocs;
-            window.firebaseCollection = collection;
-            window.firebaseQuery = query;
-            window.firebaseWhere = where;
-            window.firebaseUpdateDoc = updateDoc;
-            window.firebaseDeleteDoc = deleteDoc;
-            window.firebaseInitialized = true;
-            window.firebaseError = null;
-
-            console.log("✅ Firebase initialized successfully!");
-            window.dispatchEvent(new Event('firebaseReady'));
-        } catch (error) {
-            console.error("❌ Firebase initialization error:", error);
-            window.firebaseInitialized = false;
-            window.firebaseError = error.message;
-            window.dispatchEvent(new CustomEvent('firebaseError', { detail: error.message }));
-        }
-    </script>
-
-    <script>
-        // ===== FIREBASE HELPER FUNCTIONS =====
-        function checkFirebaseReady() {
-            if (!window.firebaseInitialized) {
-                throw new Error('Firebase not initialized. Please wait or refresh the page.');
-            }
-            if (!window.firebaseDB) {
-                throw new Error('Firebase database not available. Please check your connection.');
-            }
-        }
-
-        async function saveAdminToFirebase(username, password) {
-            try {
-                checkFirebaseReady();
-                const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
-                await window.firebaseSetDoc(adminDoc, {
-                    username: username,
-                    password: btoa(password),
-                    createdAt: new Date().toISOString()
-                });
-                return true;
-            } catch (error) {
-                console.error("❌ Error saving admin:", error);
-                return false;
-            }
-        }
-
-        async function loadAdminFromFirebase() {
-            try {
-                checkFirebaseReady();
-                const adminDoc = window.firebaseDoc(window.firebaseDB, 'admin', 'credentials');
-                const docSnap = await window.firebaseGetDoc(adminDoc);
-                
-                if (docSnap.exists()) {
-                    return docSnap.data();
-                }
-                return null;
-            } catch (error) {
-                console.error("❌ Error loading admin:", error);
-                if (error.code === 'permission-denied') {
-                    throw new Error('Firestore security rules are blocking access. Please update your rules.');
-                } else if (error.code === 'unavailable') {
-                    throw new Error('Firestore is not available. Please check if Firestore is enabled in Firebase Console.');
-                }
-                return null;
-            }
-        }
-
-        async function saveMemberToFirebase(member, year) {
-            try {
-                checkFirebaseReady();
-                const memberDoc = window.firebaseDoc(window.firebaseDB, `members_${year}`, member.mobile);
-                await window.firebaseSetDoc(memberDoc, {
-                    ...member,
-                    updatedAt: new Date().toISOString()
-                });
-                return true;
-            } catch (error) {
-                console.error("❌ Error saving member:", error);
-                return false;
-            }
-        }
-
-        async function loadMembersFromFirebase(year) {
-            try {
-                checkFirebaseReady();
-                const membersCol = window.firebaseCollection(window.firebaseDB, `members_${year}`);
-                const snapshot = await window.firebaseGetDocs(membersCol);
-                const members = [];
-                snapshot.forEach(doc => {
-                    members.push(doc.data());
-                });
-                return members;
-            } catch (error) {
-                console.error("❌ Error loading members:", error);
-                return [];
-            }
-        }
-
-        // ===== AUTHENTICATION =====
-        async function checkAdminExists() {
-            try {
-                const firebaseAdmin = await loadAdminFromFirebase();
-                return firebaseAdmin !== null;
-            } catch (error) {
-                console.error("❌ Error checking admin:", error);
-                throw error;
-            }
-        }
-
-        async function createAdmin(username, password) {
-            try {
-                await saveAdminToFirebase(username, password);
-                return true;
-            } catch (error) {
-                console.error("Error creating admin:", error);
-                return false;
-            }
-        }
-
-        async function verifyLogin(username, password) {
-            try {
-                const firebaseAdmin = await loadAdminFromFirebase();
-                if (firebaseAdmin && 
-                    firebaseAdmin.username === username && 
-                    firebaseAdmin.password === btoa(password)) {
-                    return true;
-                }
-                return false;
-            } catch (error) {
-                console.error("Error verifying login:", error);
-                return false;
-            }
-        }
-
-        function isLoggedIn() {
-            return sessionStorage.getItem('isLoggedIn') === 'true';
-        }
-
-        function setLoggedIn(status) {
-            sessionStorage.setItem('isLoggedIn', status);
-        }
-
-        function showLoginScreen() {
-            document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('adminPanel').style.display = 'none';
-        }
-
-        function showAdminPanel() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            initializeApp();
-        }
-
-        // ===== DATA MANAGEMENT =====
-        const currentYear = new Date().getFullYear();
-        const PAYMENT_PER_SHIFT_PER_MONTH = 500;
-        const shifts = [
-            '6:00 AM - 10:00 AM',
-            '10:00 AM - 2:00 PM',
-            '2:00 PM - 6:00 PM',
-            '6:00 PM - 10:00 PM',
-            '10:00 PM - 2:00 AM',
-            '2:00 AM - 6:00 AM'
-        ];
-
-        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                           'July', 'August', 'September', 'October', 'November', 'December'];
-
-        let currentFilter = 'all';
-
-        function getTodayDate() {
-            const today = new Date();
-            const day = String(today.getDate()).padStart(2, '0');
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const year = today.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
-
-        function formatDateForInput(dateString) {
-            const parts = dateString.split('/');
-            return `${parts[2]}-${parts[1]}-${parts[0]}`;
-        }
-
-        function formatDateFromInput(dateString) {
-            const parts = dateString.split('-');
-            return `${parts[2]}/${parts[1]}/${parts[0]}`;
-        }
-
-        async function loadMembers() {
-            try {
-                const firebaseMembers = await loadMembersFromFirebase(currentYear);
-                return firebaseMembers;
-            } catch (error) {
-                console.error("Error loading members:", error);
-                return [];
-            }
-        }
-
-        async function saveMembers(members) {
-            try {
-                for (const member of members) {
-                    await saveMemberToFirebase(member, currentYear);
-                }
-                return true;
-            } catch (error) {
-                console.error("Error saving members:", error);
-                return false;
-            }
-        }
-
-        function parseDate(dateStr) {
-            const parts = dateStr.split('/');
-            return new Date(parts[2], parts[1] - 1, parts[0]);
-        }
-
-        // Calculate billing month based on joining date and bill generation date
-        function getBillingMonth(joiningDate, billGenerationDate) {
-            const joinDate = parseDate(joiningDate);
-            const billDate = parseDate(billGenerationDate);
-            
-            const joinDay = joinDate.getDate();
-            const billDay = billDate.getDate();
-            const billMonth = billDate.getMonth();
-            const billYear = billDate.getFullYear();
-            
-            // If bill is generated before the joining day in the month, it's for previous month
-            if (billDay < joinDay) {
-                // Previous month
-                const prevMonth = billMonth === 0 ? 11 : billMonth - 1;
-                const prevYear = billMonth === 0 ? billYear - 1 : billYear;
-                return { month: monthNames[prevMonth], year: prevYear, monthIndex: prevMonth };
-            } else {
-                // Current month
-                return { month: monthNames[billMonth], year: billYear, monthIndex: billMonth };
-            }
-        }
-
-        // Get all months from joining date to current billing month
-        function getMonthsList(joiningDate, billGenerationDate) {
-            const joinDate = parseDate(joiningDate);
-            const billingInfo = getBillingMonth(joiningDate, billGenerationDate);
-            
-            const months = [];
-            let currentDate = new Date(joinDate);
-            const endDate = new Date(billingInfo.year, billingInfo.monthIndex, 1);
-            
-            while (currentDate <= endDate) {
-                months.push({
-                    month: monthNames[currentDate.getMonth()],
-                    year: currentDate.getFullYear()
-                });
-                currentDate.setMonth(currentDate.getMonth() + 1);
-            }
-            
-            return months;
-        }
-
-        function populateMonthFilter() {
-            const select = document.getElementById('historyMonthFilter');
-            const currentDate = new Date();
-            const currentMonth = currentDate.getMonth();
-            const currentYear = new Date().getFullYear();
-            
-            let options = '<option value="">All Months</option>';
-            
-            for (let i = 0; i < 12; i++) {
-                const monthIndex = (currentMonth - i + 12) % 12;
-                const year = currentMonth - i < 0 ? currentYear - 1 : currentYear;
-                const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
-                options += `<option value="${value}">${monthNames[monthIndex]} ${year}</option>`;
-            }
-            
-            select.innerHTML = options;
-        }
-
-        function getPaymentMonthYear(member) {
-            if (!member.lastBillDate) return null;
-            const billingInfo = getBillingMonth(member.doj, member.lastBillDate);
-            return `${billingInfo.year}-${String(billingInfo.monthIndex + 1).padStart(2, '0')}`;
-        }
-
-        function calculatePaymentDetails(member, billDate) {
-            if (!member.doj || !member.selectedShifts || member.selectedShifts.length === 0) {
-                return {
-                    allMonths: [],
-                    paidMonths: [],
-                    unpaidMonths: [],
-                    perMonthCharge: 0,
-                    totalDue: 0,
-                    totalPaid: 0,
-                    unpaidAmount: 0,
-                    isPaid: true,
-                    currentBillingMonth: null,
-                    joiningDate: member.doj
-                };
-            }
-
-            const billGenerationDate = billDate || getTodayDate();
-            const allMonths = getMonthsList(member.doj, billGenerationDate);
-            const currentBillingMonth = getBillingMonth(member.doj, billGenerationDate);
-            const perMonthCharge = member.selectedShifts.length * PAYMENT_PER_SHIFT_PER_MONTH;
-            const totalDue = allMonths.length * perMonthCharge;
-            const totalPaid = member.totalPaid || 0;
-            const unpaidAmount = Math.max(0, totalDue - totalPaid);
-
-            // Calculate how many months are paid
-            const paidMonthsCount = Math.floor(totalPaid / perMonthCharge);
-            const paidMonths = allMonths.slice(0, paidMonthsCount);
-            const unpaidMonths = allMonths.slice(paidMonthsCount);
-
-            return {
-                allMonths,
-                paidMonths,
-                unpaidMonths,
-                perMonthCharge,
-                totalDue,
-                totalPaid,
-                unpaidAmount,
-                isPaid: unpaidAmount === 0,
-                joiningDate: member.doj,
-                currentBillingMonth
-            };
-        }
-
-        function isRecentMember(doj, days) {
-            const joinDate = parseDate(doj);
-            const today = new Date();
-            const diffTime = Math.abs(today - joinDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            return diffDays <= days;
-        }
-
-        function isThisMonthMember(doj) {
-            const joinDate = parseDate(doj);
-            const today = new Date();
-            return joinDate.getMonth() === today.getMonth() && 
-                   joinDate.getFullYear() === today.getFullYear();
-        }
-
-        // ===== INITIALIZATION =====
-        async function initializeApp() {
-            document.getElementById('yearDisplay').textContent = currentYear;
-            document.getElementById('regDate').value = getTodayDate();
-            populateMonthFilter();
-            await renderMembers();
-            await populateBillingMemberSelect();
-            renderShiftSelection();
-            await renderHistory();
-        }
-
-        // ===== REGISTRATION =====
-        async function renderMembers() {
-            const members = await loadMembers();
-            const grid = document.getElementById('membersGrid');
-            const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
-            
-            let filtered = members.filter(m => {
-                const matchesSearch = !searchTerm || m.mobile.includes(searchTerm) || m.name.toLowerCase().includes(searchTerm);
-                
-                let matchesFilter = true;
-                if (currentFilter === '7days') {
-                    matchesFilter = isRecentMember(m.doj, 7);
-                } else if (currentFilter === 'month') {
-                    matchesFilter = isThisMonthMember(m.doj);
-                }
-                
-                return matchesSearch && matchesFilter;
-            });
-
-            filtered.sort((a, b) => {
-                const dateA = parseDate(a.doj);
-                const dateB = parseDate(b.doj);
-                return dateB - dateA;
-            });
-
-            document.getElementById('totalStudentsBadge').innerHTML = `<i class="fas fa-graduation-cap"></i> Total: ${filtered.length}`;
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1/-1;">
-                        <div class="empty-state-icon"><i class="fas fa-users"></i></div>
-                        <div class="empty-state-text">No members found</div>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = filtered.map(member => {
-                const isNew = isRecentMember(member.doj, 7);
-
-                return `
-                    <div class="member-card ${isNew ? 'new-member' : ''}" onclick="selectMemberForBilling('${member.mobile}')">
-                        <div class="member-name"><i class="fas fa-user-circle"></i> ${member.name}</div>
-                        <div class="member-mobile"><i class="fas fa-phone"></i> ${member.mobile}</div>
-                        <div class="member-joined"><i class="fas fa-calendar-check"></i> Joined: ${member.doj}</div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function selectMemberForBilling(mobile) {
-            switchTab('billing');
-            document.getElementById('billingMemberSelect').value = mobile;
-            loadBillingForMember();
-        }
-
-        // ===== BILLING =====
-        async function populateBillingMemberSelect() {
-            const members = await loadMembers();
-            const select = document.getElementById('billingMemberSelect');
-            select.innerHTML = '<option value="">-- Choose a member --</option>' +
-                members.map(m => `<option value="${m.mobile}">${m.name} (${m.mobile})</option>`).join('');
-        }
-
-        function renderShiftSelection() {
-            const container = document.getElementById('shiftSelection');
-            container.innerHTML = shifts.map((shift, index) => `
-                <div class="shift-option">
-                    <input type="checkbox" id="shift-${index}" value="${shift}">
-                    <label for="shift-${index}"><i class="fas fa-clock"></i> ${shift}</label>
-                </div>
-            `).join('');
-        }
-
-        let currentBillingMember = null;
-
-        async function loadBillingForMember() {
-            const mobile = document.getElementById('billingMemberSelect').value;
-            if (!mobile) {
-                document.getElementById('billingContent').style.display = 'none';
-                document.getElementById('billingEmptyState').style.display = 'block';
-                return;
-            }
-
-            const members = await loadMembers();
-            currentBillingMember = members.find(m => m.mobile === mobile);
-            
-            if (!currentBillingMember) return;
-
-            document.getElementById('billingContent').style.display = 'block';
-            document.getElementById('billingEmptyState').style.display = 'none';
-
-            shifts.forEach((shift, index) => {
-                const checkbox = document.getElementById(`shift-${index}`);
-                checkbox.checked = currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.includes(shift);
-            });
-
-            document.getElementById('billGenerationDate').value = formatDateForInput(getTodayDate());
-
-            updatePaymentSummary();
-        }
-
-        async function updatePaymentSummary() {
-            if (!currentBillingMember) return;
-
-            const selectedShifts = [];
-            shifts.forEach((shift, index) => {
-                if (document.getElementById(`shift-${index}`).checked) {
-                    selectedShifts.push(shift);
-                }
-            });
-
-            currentBillingMember.selectedShifts = selectedShifts;
-
-            const members = await loadMembers();
-            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-            if (index !== -1) {
-                members[index] = currentBillingMember;
-                await saveMembers(members);
-            }
-
-            const billDate = formatDateFromInput(document.getElementById('billGenerationDate').value);
-            const details = calculatePaymentDetails(currentBillingMember, billDate);
-            const summary = document.getElementById('paymentSummary');
-
-            let summaryHTML = `
-                <div class="summary-row">
-                    <span class="summary-label"><i class="fas fa-calendar-plus"></i> Joining Date:</span>
-                    <span class="summary-value">${details.joiningDate}</span>
-                </div>
-            `;
-
-            // Billed Months
-            if (details.paidMonths.length > 0) {
-                summaryHTML += `
-                    <div class="summary-section">
-                        <div class="summary-section-title"><i class="fas fa-check-circle"></i> Billed Months (Paid)</div>
-                        <div class="months-list">
-                            ${details.paidMonths.map(m => `<div class="month-badge paid"><i class="fas fa-check"></i> ${m.month} ${m.year}</div>`).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Unpaid Months
-            if (details.unpaidMonths.length > 0) {
-                summaryHTML += `
-                    <div class="summary-section">
-                        <div class="summary-section-title"><i class="fas fa-exclamation-circle"></i> Unpaid Months</div>
-                        <div class="months-list">
-                            ${details.unpaidMonths.map(m => `<div class="month-badge unpaid"><i class="fas fa-times"></i> ${m.month} ${m.year}</div>`).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            summaryHTML += `
-                <div class="summary-row">
-                    <span class="summary-label"><i class="fas fa-users"></i> Shifts Selected:</span>
-                    <span class="summary-value">${selectedShifts.length}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label"><i class="fas fa-tag"></i> Per Shift/Month:</span>
-                    <span class="summary-value">₹${PAYMENT_PER_SHIFT_PER_MONTH}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label"><i class="fas fa-calculator"></i> Monthly Total:</span>
-                    <span class="summary-value">₹${details.perMonthCharge}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label"><i class="fas fa-calendar-alt"></i> Total Months:</span>
-                    <span class="summary-value">${details.allMonths.length}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label"><i class="fas fa-file-invoice-dollar"></i> Total Due:</span>
-                    <span class="summary-value unpaid">₹${details.totalDue}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="summary-label"><i class="fas fa-money-bill-wave"></i> Paid:</span>
-                    <span class="summary-value paid">₹${details.totalPaid}</span>
-                </div>
-                <div class="summary-row total">
-                    <span class="summary-label"><i class="fas fa-balance-scale"></i> Balance:</span>
-                    <span class="summary-value ${details.unpaidAmount > 0 ? 'unpaid' : 'paid'}">₹${details.unpaidAmount}</span>
-                </div>
-            `;
-
-            summary.innerHTML = summaryHTML;
-            await renderMembers();
-        }
-
-        async function saveBilling() {
-            if (!currentBillingMember) return;
-
-            const selectedShifts = [];
-            shifts.forEach((shift, index) => {
-                if (document.getElementById(`shift-${index}`).checked) {
-                    selectedShifts.push(shift);
-                }
-            });
-
-            const billDate = formatDateFromInput(document.getElementById('billGenerationDate').value);
-            
-            currentBillingMember.selectedShifts = selectedShifts;
-            currentBillingMember.lastBillDate = billDate;
-
-            const details = calculatePaymentDetails(currentBillingMember, billDate);
-            currentBillingMember.totalPaid = details.totalDue;
-
-            const members = await loadMembers();
-            const index = members.findIndex(m => m.mobile === currentBillingMember.mobile);
-            if (index !== -1) {
-                members[index] = currentBillingMember;
-                await saveMembers(members);
-            }
-
-            alert('✓ Billing saved and marked as paid!');
-            updatePaymentSummary();
-            await renderMembers();
-            await renderHistory();
-        }
-
-        function printBill() {
-            if (!currentBillingMember) return;
-
-            const billDate = formatDateFromInput(document.getElementById('billGenerationDate').value);
-            const details = calculatePaymentDetails(currentBillingMember, billDate);
-            
-            const billHTML = `
-                <div class="print-bill-container" style="max-width: 750px; margin: 0 auto; padding: 20px; font-family: 'Poppins', sans-serif; color: #1e293b;">
-                    <div style="text-align: center; border-bottom: 3px solid #fbbf24; padding-bottom: 15px; margin-bottom: 18px;">
-                        <h1 style="margin: 0; font-size: 32px; font-family: 'Playfair Display', serif; color: #fbbf24; font-weight: 900;">Purainiya Library</h1>
-                        <h2 style="margin: 8px 0 0 0; font-size: 18px; color: #64748b; font-weight: 600;">Payment Receipt</h2>
-                        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;">Year: ${currentYear} | Bill Date: ${billDate}</p>
-                    </div>
-                    
-                    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #fbbf24;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding: 8px; font-weight: 700; color: #1e293b; width: 35%; font-size: 14px;">Name:</td>
-                                <td style="padding: 8px; color: #334155; font-size: 15px;">${currentBillingMember.name}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; font-weight: 700; color: #1e293b; font-size: 14px;">Mobile:</td>
-                                <td style="padding: 8px; color: #334155; font-size: 15px;">${currentBillingMember.mobile}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; font-weight: 700; color: #1e293b; font-size: 14px;">Joining Date:</td>
-                                <td style="padding: 8px; color: #334155; font-size: 15px;">${currentBillingMember.doj}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                        <div>
-                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 10px; margin: 0 0 12px 0; font-size: 16px; color: #f59e0b; font-weight: 700;">Selected Shifts</h3>
-                            <div style="background: #fffbeb; padding: 15px; border-radius: 10px; min-height: 120px; border: 2px solid #fde68a;">
-                                ${currentBillingMember.selectedShifts && currentBillingMember.selectedShifts.length > 0 
-                                    ? currentBillingMember.selectedShifts.map(shift => `<div style="padding: 4px 0; font-size: 13px; color: #475569; font-weight: 500;">• ${shift}</div>`).join('') 
-                                    : '<div style="padding: 4px 0; font-size: 13px; color: #94a3b8;">No shifts selected</div>'}
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 style="border-bottom: 2px solid #fbbf24; padding-bottom: 10px; margin: 0 0 12px 0; font-size: 16px; color: #f59e0b; font-weight: 700;">Current Bill Month</h3>
-                            <div style="background: #fffbeb; padding: 15px; border-radius: 10px; min-height: 120px; border: 2px solid #fde68a; display: flex; align-items: center; justify-content: center;">
-                                <div style="text-align: center;">
-                                    <div style="font-size: 24px; font-weight: 700; color: #f59e0b; margin-bottom: 5px;">
-                                        ${details.currentBillingMonth ? `${details.currentBillingMonth.month}` : 'N/A'}
-                                    </div>
-                                    <div style="font-size: 18px; font-weight: 600; color: #64748b;">
-                                        ${details.currentBillingMonth ? `${details.currentBillingMonth.year}` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    ${details.unpaidMonths.length > 0 ? `
-                    <div style="background: #fee2e2; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ef4444;">
-                        <h3 style="margin: 0 0 12px 0; font-size: 15px; color: #991b1b; font-weight: 700;">⚠️ Unpaid Months</h3>
-                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                            ${details.unpaidMonths.map(m => `<span style="background: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #991b1b; border: 2px solid #ef4444;">${m.month} ${m.year}</span>`).join('')}
-                        </div>
-                    </div>
-                    ` : ''}
-                    
-                    <div style="padding: 20px; border: 3px solid #fbbf24; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px;">
-                        <h3 style="margin: 0 0 15px 0; font-size: 18px; color: #f59e0b; text-align: center; font-weight: 700;">Payment Summary</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Shifts:</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #1e293b; font-size: 13px;">${currentBillingMember.selectedShifts ? currentBillingMember.selectedShifts.length : 0}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Rate/Shift/Month:</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #1e293b; font-size: 13px;">₹${PAYMENT_PER_SHIFT_PER_MONTH}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Monthly Total:</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #1e293b; font-size: 13px;">₹${details.perMonthCharge}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px 0; border-bottom: 2px solid #fbbf24; color: #64748b; font-size: 13px; font-weight: 600;">Total Months:</td>
-                                <td style="padding: 8px 0; border-bottom: 2px solid #fbbf24; text-align: right; font-weight: 700; color: #1e293b; font-size: 13px;">${details.allMonths.length}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 14px; font-weight: 700;">Total Due:</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #ef4444; font-size: 15px;">₹${details.totalDue}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; color: #64748b; font-size: 14px; font-weight: 700;">Total Paid:</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid #fbbf24; text-align: right; font-weight: 700; color: #10b981; font-size: 15px;">₹${details.totalPaid}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px 0; font-size: 16px; font-weight: 700; color: #f59e0b;">BALANCE:</td>
-                                <td style="padding: 12px 0; text-align: right;">
-                                    <span style="font-size: 22px; font-weight: 900; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 8px 20px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">₹${details.unpaidAmount}</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div style="margin-top: 25px; text-align: center; padding-top: 20px; border-top: 2px solid #e2e8f0;">
-                        <p style="margin: 4px 0; font-size: 14px; color: #64748b; font-weight: 600;">Thank you for being a valued member!</p>
-                        <p style="margin: 4px 0; font-size: 12px; color: #94a3b8;">Purainiya Library - Premium Management System</p>
-                    </div>
-                </div>
-            `;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Receipt - ${currentBillingMember.name}</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-                    <style>
-                        * {
-                            margin: 0;
-                            padding: 0;
-                            box-sizing: border-box;
-                        }
-                        @media print {
-                            body { 
-                                margin: 0; 
-                                padding: 8px;
-                            }
-                            @page { 
-                                size: A4 portrait; 
-                                margin: 8mm;
-                            }
-                            .print-bill-container { 
-                                page-break-inside: avoid !important;
-                                page-break-after: avoid !important;
-                                page-break-before: avoid !important;
-                            }
-                            * {
-                                page-break-inside: avoid !important;
-                            }
-                        }
-                        body { 
-                            background: white;
-                            font-family: 'Poppins', sans-serif;
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${billHTML}
-                    <script>
-                        window.onload = function() {
-                            setTimeout(function() {
-                                window.print();
-                            }, 500);
-                        }
-                    <\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }
-
-        // ===== HISTORY =====
-        async function renderHistory() {
-            const members = await loadMembers();
-            const statusFilter = document.getElementById('historyStatusFilter').value;
-            const monthFilter = document.getElementById('historyMonthFilter').value;
-            const searchTerm = document.getElementById('historySearch').value.toLowerCase();
-            
-            let filtered = members.filter(m => {
-                if (!m.name || !m.mobile) return false;
-                const details = calculatePaymentDetails(m, m.lastBillDate || getTodayDate());
-                const matchesSearch = !searchTerm || m.name.toLowerCase().includes(searchTerm) || m.mobile.includes(searchTerm);
-                const matchesStatus = !statusFilter || 
-                    (statusFilter === 'paid' && details.isPaid) ||
-                    (statusFilter === 'due' && !details.isPaid);
-                const matchesMonth = !monthFilter || getPaymentMonthYear(m) === monthFilter;
-                return matchesSearch && matchesStatus && matchesMonth;
-            });
-
-            const list = document.getElementById('historyList');
-            
-            let totalCollection = 0;
-            let totalDue = 0;
-            let paidMembersCount = 0;
-            
-            filtered.forEach(member => {
-                const details = calculatePaymentDetails(member, member.lastBillDate || getTodayDate());
-                totalCollection += details.totalPaid;
-                totalDue += details.unpaidAmount;
-                if (details.isPaid) paidMembersCount++;
-            });
-            
-            document.getElementById('totalCollectionAmount').textContent = `₹${totalCollection.toLocaleString()}`;
-            document.getElementById('totalMembers').textContent = filtered.length;
-            document.getElementById('totalPaidMembers').textContent = paidMembersCount;
-            document.getElementById('totalDueAmount').textContent = `₹${totalDue.toLocaleString()}`;
-            
-            if (filtered.length === 0) {
-                list.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="empty-state-text">No billing history found</div>
-                    </div>
-                `;
-                return;
-            }
-
-            list.innerHTML = filtered.map(member => {
-                const details = calculatePaymentDetails(member, member.lastBillDate || getTodayDate());
-                return `
-                    <div class="history-item" onclick="selectMemberForBilling('${member.mobile}')">
-                        <div class="history-item-header">
-                            <div class="history-item-name"><i class="fas fa-user-circle"></i> ${member.name}</div>
-                            <div class="history-item-amount"><i class="fas fa-rupee-sign"></i> ₹${details.totalPaid}</div>
-                        </div>
-                        <div class="history-item-details">
-                            <div class="history-detail">
-                                <span class="history-detail-label"><i class="fas fa-phone"></i> Mobile</span>
-                                <span class="history-detail-value">${member.mobile}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label"><i class="fas fa-calendar-check"></i> Joining Date</span>
-                                <span class="history-detail-value">${member.doj}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label"><i class="fas fa-clock"></i> Shifts</span>
-                                <span class="history-detail-value">${member.selectedShifts ? member.selectedShifts.length : 0}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label"><i class="fas fa-calendar-alt"></i> Total Months</span>
-                                <span class="history-detail-value">${details.allMonths.length}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label"><i class="fas fa-file-invoice-dollar"></i> Total Due</span>
-                                <span class="history-detail-value" style="color: #ef4444;">₹${details.totalDue}</span>
-                            </div>
-                            <div class="history-detail">
-                                <span class="history-detail-label"><i class="fas fa-balance-scale"></i> Balance</span>
-                                <span class="history-detail-value" style="color: ${details.unpaidAmount > 0 ? '#ef4444' : '#10b981'}; font-weight: 700;">₹${details.unpaidAmount}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // ===== TAB SWITCHING =====
-        async function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-            document.getElementById(`${tabName}Tab`).classList.add('active');
-            
-            if (tabName === 'billing') {
-                await populateBillingMemberSelect();
-            } else if (tabName === 'history') {
-                await renderHistory();
-            }
-        }
-
-        // ===== EVENT LISTENERS =====
-        document.addEventListener('DOMContentLoaded', async () => {
-            const loginForm = document.getElementById('loginForm');
-            const setupForm = document.getElementById('firstTimeSetup');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            
-            if (!isLoggedIn()) {
-                showLoginScreen();
-                loginForm.style.display = 'none';
-                setupForm.style.display = 'none';
-                loadingIndicator.style.display = 'block';
-                
-                const waitForFirebase = () => {
-                    return new Promise((resolve, reject) => {
-                        if (window.firebaseInitialized === true) {
-                            resolve();
-                            return;
-                        }
-                        
-                        if (window.firebaseError) {
-                            reject(window.firebaseError);
-                            return;
-                        }
-                        
-                        const readyHandler = () => resolve();
-                        const errorHandler = (event) => reject(event.detail);
-                        
-                        window.addEventListener('firebaseReady', readyHandler, { once: true });
-                        window.addEventListener('firebaseError', errorHandler, { once: true });
-                        
-                        setTimeout(() => {
-                            window.removeEventListener('firebaseReady', readyHandler);
-                            window.removeEventListener('firebaseError', errorHandler);
-                            
-                            if (!window.firebaseInitialized) {
-                                reject('Firebase initialization timeout. Please refresh the page.');
-                            }
-                        }, 30000);
-                    });
-                };
-                
-                try {
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    if (typeof window.firebaseDB === 'undefined') {
-                        await waitForFirebase();
-                    }
-                    
-                    const adminExists = await checkAdminExists();
-                    loadingIndicator.style.display = 'none';
-                    
-                    if (!adminExists) {
-                        loginForm.style.display = 'none';
-                        setupForm.style.display = 'block';
-                    } else {
-                        loginForm.style.display = 'block';
-                        setupForm.style.display = 'none';
-                    }
-                } catch (error) {
-                    console.error("❌ Firebase connection failed:", error);
-                    loadingIndicator.innerHTML = `<div style="color: #ef4444; text-align: center;"><i class="fas fa-exclamation-triangle"></i> ${error}</div>`;
-                }
-            } else {
-                showAdminPanel();
-            }
-            
-            document.getElementById('setupForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const username = document.getElementById('newUsername').value;
-                const password = document.getElementById('newPassword').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const errorMsg = document.getElementById('setupErrorMessage');
-                
-                if (password !== confirmPassword) {
-                    errorMsg.textContent = 'Passwords do not match!';
-                    return;
-                }
-                
-                if (password.length < 4) {
-                    errorMsg.textContent = 'Password must be at least 4 characters!';
-                    return;
-                }
-                
-                errorMsg.textContent = 'Creating account...';
-                errorMsg.style.color = '#fbbf24';
-                
-                const success = await createAdmin(username, password);
-                
-                if (success) {
-                    errorMsg.textContent = '';
-                    errorMsg.style.color = '#ef4444';
-                    document.getElementById('firstTimeSetup').style.display = 'none';
-                    document.getElementById('loginForm').style.display = 'block';
-                    document.getElementById('errorMessage').textContent = 'Account created! Please login.';
-                    document.getElementById('errorMessage').style.color = '#10b981';
-                    document.getElementById('setupForm').reset();
-                } else {
-                    errorMsg.textContent = 'Failed to create account. Please try again.';
-                    errorMsg.style.color = '#ef4444';
-                }
-            });
-            
-            document.getElementById('loginForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                const errorMsg = document.getElementById('errorMessage');
-                const submitBtn = e.target.querySelector('button[type="submit"]');
-                
-                submitBtn.textContent = 'Logging in...';
-                submitBtn.disabled = true;
-                errorMsg.textContent = '';
-                
-                try {
-                    const isValid = await verifyLogin(username, password);
-                    
-                    if (isValid) {
-                        setLoggedIn('true');
-                        showAdminPanel();
-                        document.getElementById('loginForm').reset();
-                    } else {
-                        errorMsg.textContent = 'Invalid username or password!';
-                        errorMsg.style.color = '#ef4444';
-                        submitBtn.textContent = 'Login';
-                        submitBtn.disabled = false;
-                    }
-                } catch (error) {
-                    console.error("Login error:", error);
-                    errorMsg.textContent = 'Connection error. Please check your internet connection.';
-                    errorMsg.style.color = '#ef4444';
-                    submitBtn.textContent = 'Login';
-                    submitBtn.disabled = false;
-                }
-            });
-            
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                setLoggedIn('false');
-                showLoginScreen();
-                document.getElementById('errorMessage').textContent = '';
-            });
-
-            document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const mobile = document.getElementById('regMobile').value;
-                const name = document.getElementById('regName').value;
-                
-                const members = await loadMembers();
-                
-                if (members.find(m => m.mobile === mobile)) {
-                    alert('Member with this mobile number already exists!');
-                    return;
-                }
-                
-                members.push({
-                    mobile,
-                    name,
-                    doj: getTodayDate(),
-                    selectedShifts: [],
-                    lastBillDate: null,
-                    totalPaid: 0
-                });
-                
-                await saveMembers(members);
-                
-                document.getElementById('successMessage').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('successMessage').style.display = 'none';
-                }, 3000);
-                
-                document.getElementById('registrationForm').reset();
-                document.getElementById('regDate').value = getTodayDate();
-                await renderMembers();
-                await populateBillingMemberSelect();
-            });
-
-            document.getElementById('memberSearch').addEventListener('input', renderMembers);
-            
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.addEventListener('click', async () => {
-                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    currentFilter = tab.dataset.filter;
-                    await renderMembers();
-                });
-            });
-            
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-            });
-
-            document.getElementById('billingMemberSelect').addEventListener('change', loadBillingForMember);
-            
-            document.getElementById('shiftSelection').addEventListener('change', async (e) => {
-                if (e.target.type === 'checkbox') {
-                    await updatePaymentSummary();
-                }
-            });
-            
-            document.getElementById('billGenerationDate').addEventListener('change', async () => {
-                if (currentBillingMember) {
-                    await updatePaymentSummary();
-                }
-            });
-
-            document.getElementById('saveBillingBtn').addEventListener('click', saveBilling);
-            document.getElementById('printBillBtn').addEventListener('click', printBill);
-            
-            document.getElementById('historyMonthFilter').addEventListener('change', renderHistory);
-            document.getElementById('historyStatusFilter').addEventListener('change', renderHistory);
-            document.getElementById('historySearch').addEventListener('input', renderHistory);
+    </div><!-- /content -->
+</div><!-- /panel -->
+
+<!-- Firebase -->
+<script type="module">
+    try {
+        const { initializeApp }   = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js");
+        const { getFirestore, collection, doc, setDoc, getDoc, getDocs } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js");
+
+        const app = initializeApp({
+            apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
+            authDomain: "purainiya-library.firebaseapp.com",
+            projectId: "purainiya-library",
+            storageBucket: "purainiya-library.firebasestorage.app",
+            messagingSenderId: "885731486344",
+            appId: "1:885731486344:web:01d234421bd5678831cd3d"
         });
-    </script>
+
+        const db = getFirestore(app);
+        window._fb = { db, collection, doc, setDoc, getDoc, getDocs };
+        window.dispatchEvent(new Event('fbReady'));
+    } catch(e) {
+        window._fbErr = e.message;
+        window.dispatchEvent(new Event('fbReady'));
+    }
+</script>
+
+<script>
+/* ══════════════════════════════════════════
+   CONSTANTS & HELPERS
+══════════════════════════════════════════ */
+const CY = new Date().getFullYear();
+const RATE = 500;
+const SHIFTS = [
+    '6:00 AM – 10:00 AM','10:00 AM – 2:00 PM',
+    '2:00 PM – 6:00 PM','6:00 PM – 10:00 PM',
+    '10:00 PM – 2:00 AM','2:00 AM – 6:00 AM'
+];
+const MN = ['January','February','March','April','May','June',
+            'July','August','September','October','November','December'];
+
+let activeFilter = 'all';
+let curMember   = null;
+
+/* date helpers */
+function today() {
+    const d = new Date();
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+
+function toISO(dd_mm_yyyy) {                    // dd/mm/yyyy → yyyy-mm-dd
+    const [d,m,y] = dd_mm_yyyy.split('/');
+    return `${y}-${m}-${d}`;
+}
+
+function fromISO(yyyy_mm_dd) {                  // yyyy-mm-dd → dd/mm/yyyy
+    const [y,m,d] = yyyy_mm_dd.split('-');
+    return `${d}/${m}/${y}`;
+}
+
+function parseD(dd_mm_yyyy) {
+    const [d,m,y] = dd_mm_yyyy.split('/');
+    return new Date(+y, +m-1, +d);
+}
+
+/*
+  KEY BILLING LOGIC
+  billingMonth(joinDate, payUntilDate):
+    - payUntilDate is the "paid until" date the admin enters
+    - The billed month of a payUntilDate follows joining-day anchor:
+        if payUntilDate.day >= join.day  → bill month = payUntilDate.month
+        if payUntilDate.day <  join.day  → bill month = previous month
+*/
+function billingMonth(doj, payUntil) {
+    const join    = parseD(doj);
+    const until   = parseD(payUntil);
+    const joinDay = join.getDate();
+    const uDay    = until.getDate();
+    let   uMon    = until.getMonth();
+    let   uYr     = until.getFullYear();
+
+    if (uDay < joinDay) {           // hasn't reached anniversary yet → previous month
+        uMon--;
+        if (uMon < 0) { uMon = 11; uYr--; }
+    }
+    return { month: MN[uMon], year: uYr, idx: uMon };
+}
+
+/* build sorted list of all months from joining through bill month */
+function allMonths(doj, payUntil) {
+    const join   = parseD(doj);
+    const bm     = billingMonth(doj, payUntil);
+    const end    = new Date(bm.year, bm.idx, 1);
+    const list   = [];
+    const cursor = new Date(join.getFullYear(), join.getMonth(), 1);
+    while (cursor <= end) {
+        list.push({ month: MN[cursor.getMonth()], year: cursor.getFullYear() });
+        cursor.setMonth(cursor.getMonth() + 1);
+    }
+    return list;
+}
+
+function calcDetails(member, payUntil) {
+    if (!member.doj || !member.selectedShifts || !member.selectedShifts.length || !payUntil) {
+        return { months:[], paidMonths:[], unpaidMonths:[], perMonth:0,
+                 totalDue:0, totalPaid:0, balance:0, isPaid:true, billMonth:null };
+    }
+    const months    = allMonths(member.doj, payUntil);
+    const bm        = billingMonth(member.doj, payUntil);
+    const perMonth  = member.selectedShifts.length * RATE;
+    const totalDue  = months.length * perMonth;
+    const totalPaid = member.totalPaid || 0;
+    const balance   = Math.max(0, totalDue - totalPaid);
+    const paidCnt   = Math.floor(totalPaid / (perMonth || 1));
+    const paidMonths   = months.slice(0, paidCnt);
+    const unpaidMonths = months.slice(paidCnt);
+    return { months, paidMonths, unpaidMonths, perMonth, totalDue, totalPaid,
+             balance, isPaid: balance === 0, billMonth: bm };
+}
+
+/* month key for filter matching */
+function memberMonthKey(member) {
+    if (!member.lastPayUntil) return null;
+    const bm = billingMonth(member.doj, member.lastPayUntil);
+    return `${bm.year}-${String(bm.idx+1).padStart(2,'0')}`;
+}
+
+/* ══════════════════════════════════════════
+   FIREBASE WRAPPERS
+══════════════════════════════════════════ */
+function fb() { return window._fb; }
+
+async function saveAdmin(u, p) {
+    const { db, doc, setDoc } = fb();
+    await setDoc(doc(db,'admin','credentials'), { username:u, password:btoa(p), createdAt:new Date().toISOString() });
+}
+
+async function loadAdmin() {
+    const { db, doc, getDoc } = fb();
+    const snap = await getDoc(doc(db,'admin','credentials'));
+    return snap.exists() ? snap.data() : null;
+}
+
+async function saveMember(m) {
+    const { db, doc, setDoc } = fb();
+    await setDoc(doc(db,`members_${CY}`, m.mobile), { ...m, updatedAt: new Date().toISOString() });
+}
+
+async function loadMembers() {
+    const { db, collection, getDocs } = fb();
+    const snap = await getDocs(collection(db, `members_${CY}`));
+    const arr = [];
+    snap.forEach(d => arr.push(d.data()));
+    return arr;
+}
+
+/* ══════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════ */
+function loggedIn() { return sessionStorage.getItem('li') === '1'; }
+function setLogin(v) { sessionStorage.setItem('li', v ? '1' : '0'); }
+
+function showLogin() {
+    document.getElementById('loginWrap').style.display = 'flex';
+    document.getElementById('adminPanel').style.display = 'none';
+}
+
+function showPanel() {
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    bootPanel();
+}
+
+/* ══════════════════════════════════════════
+   BOOT
+══════════════════════════════════════════ */
+async function bootPanel() {
+    document.getElementById('yearBadge').textContent = CY;
+    document.getElementById('regDate').value = today();
+    populateHMonthFilter();
+    buildShiftList();
+    setTodayOnBillDate();
+    setDefaultPayUntil();
+    await renderMembers();
+    await populateMemberSel();
+    await renderHistory();
+}
+
+function setTodayOnBillDate() {
+    document.getElementById('billDateDisplay').value = toISO(today());
+}
+
+function setDefaultPayUntil() {
+    document.getElementById('payUntilDate').value = toISO(today());
+}
+
+function populateHMonthFilter() {
+    const sel = document.getElementById('hMonthFilter');
+    const now = new Date();
+    let html  = '<option value="">All Months</option>';
+    for (let i = 0; i < 12; i++) {
+        let m = now.getMonth() - i;
+        let y = now.getFullYear();
+        if (m < 0) { m += 12; y--; }
+        const val = `${y}-${String(m+1).padStart(2,'0')}`;
+        html += `<option value="${val}">${MN[m]} ${y}</option>`;
+    }
+    sel.innerHTML = html;
+}
+
+function buildShiftList() {
+    document.getElementById('shiftList').innerHTML = SHIFTS.map((s,i) => `
+        <div class="shift-row">
+            <input type="checkbox" id="sh${i}" value="${s}">
+            <label for="sh${i}"><i class="fas fa-moon" style="color:var(--gold);font-size:11px;"></i> ${s}</label>
+        </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   MEMBERS RENDER
+══════════════════════════════════════════ */
+async function renderMembers() {
+    const all    = await loadMembers();
+    const search = document.getElementById('memberSearch').value.trim().toLowerCase();
+    const now    = new Date();
+
+    let filtered = all.filter(m => {
+        const matchSearch = !search || m.mobile.includes(search) || m.name.toLowerCase().includes(search);
+        if (!matchSearch) return false;
+        if (activeFilter === '7days') {
+            const diff = (now - parseD(m.doj)) / 86400000;
+            return diff <= 7;
+        }
+        if (activeFilter === 'month') {
+            const d = parseD(m.doj);
+            return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        }
+        return true;
+    });
+
+    filtered.sort((a,b) => parseD(b.doj) - parseD(a.doj));
+
+    document.getElementById('countBadge').innerHTML = `<i class="fas fa-graduation-cap"></i> Total: ${filtered.length}`;
+
+    const grid = document.getElementById('membersGrid');
+    if (!filtered.length) {
+        grid.innerHTML = `<div class="empty-state"><i class="fas fa-users"></i><p>No members found</p></div>`;
+        return;
+    }
+
+    grid.innerHTML = filtered.map(m => {
+        const initial = m.name.trim()[0].toUpperCase();
+        return `
+        <div class="member-tile" onclick="openBilling('${m.mobile}')">
+            <div class="avatar">${initial}</div>
+            <div class="member-tile-info">
+                <div class="member-tile-name">${m.name}</div>
+                <div class="member-tile-meta">
+                    <div class="meta-row"><i class="fas fa-phone"></i>${m.mobile}</div>
+                    <div class="meta-row"><i class="fas fa-calendar-check"></i>Joined: ${m.doj}</div>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right" style="color:var(--gold);font-size:12px;"></i>
+        </div>`;
+    }).join('');
+}
+
+function openBilling(mobile) {
+    switchTab('billing');
+    document.getElementById('memberSel').value = mobile;
+    loadMemberBilling();
+}
+
+/* ══════════════════════════════════════════
+   BILLING
+══════════════════════════════════════════ */
+async function populateMemberSel() {
+    const all = await loadMembers();
+    const sel = document.getElementById('memberSel');
+    sel.innerHTML = '<option value="">— Select member —</option>' +
+        all.map(m => `<option value="${m.mobile}">${m.name} (${m.mobile})</option>`).join('');
+}
+
+async function loadMemberBilling() {
+    const mobile = document.getElementById('memberSel').value;
+    if (!mobile) {
+        document.getElementById('billingBody').style.display = 'none';
+        document.getElementById('billingEmpty').style.display = 'block';
+        curMember = null;
+        return;
+    }
+
+    const all = await loadMembers();
+    curMember  = all.find(m => m.mobile === mobile);
+    if (!curMember) return;
+
+    document.getElementById('billingBody').style.display = 'block';
+    document.getElementById('billingEmpty').style.display = 'none';
+
+    /* restore saved pay-until date if exists */
+    if (curMember.lastPayUntil) {
+        document.getElementById('payUntilDate').value = toISO(curMember.lastPayUntil);
+    } else {
+        document.getElementById('payUntilDate').value = toISO(today());
+    }
+
+    /* restore shifts */
+    SHIFTS.forEach((s,i) => {
+        document.getElementById(`sh${i}`).checked =
+            (curMember.selectedShifts || []).includes(s);
+    });
+
+    updateSummary();
+}
+
+async function updateSummary() {
+    if (!curMember) return;
+
+    /* collect shifts */
+    const sel = SHIFTS.filter((_,i) => document.getElementById(`sh${i}`).checked);
+    curMember.selectedShifts = sel;
+
+    /* save shift change to Firebase silently */
+    await saveMember(curMember);
+
+    const payUntil = fromISO(document.getElementById('payUntilDate').value);
+    const d        = calcDetails(curMember, payUntil);
+    const box      = document.getElementById('summaryBox');
+
+    if (!sel.length) {
+        box.innerHTML = `<p style="color:var(--ink-muted);font-size:13px;text-align:center;padding:20px 0;">Select at least one shift</p>`;
+        return;
+    }
+
+    let html = `
+        <div class="summary-row">
+            <span class="lbl"><i class="fas fa-calendar-plus"></i> Joining Date</span>
+            <span class="val">${curMember.doj}</span>
+        </div>`;
+
+    /* paid months */
+    if (d.paidMonths.length) {
+        html += `<div class="months-section">
+            <div class="months-section-title paid-title"><i class="fas fa-check-circle"></i> Paid Months</div>
+            <div class="months-chips">${d.paidMonths.map(m=>`<span class="chip paid"><i class="fas fa-check"></i>${m.month} ${m.year}</span>`).join('')}</div>
+        </div>`;
+    }
+
+    /* unpaid months */
+    if (d.unpaidMonths.length) {
+        html += `<div class="months-section">
+            <div class="months-section-title unpaid-title"><i class="fas fa-exclamation-circle"></i> Unpaid Months</div>
+            <div class="months-chips">${d.unpaidMonths.map(m=>`<span class="chip unpaid"><i class="fas fa-times"></i>${m.month} ${m.year}</span>`).join('')}</div>
+        </div>`;
+    }
+
+    html += `
+        <div class="summary-row"><span class="lbl"><i class="fas fa-layer-group"></i> Shifts</span><span class="val">${sel.length}</span></div>
+        <div class="summary-row"><span class="lbl"><i class="fas fa-tag"></i> Rate / Shift / Month</span><span class="val">₹${RATE}</span></div>
+        <div class="summary-row"><span class="lbl"><i class="fas fa-calculator"></i> Monthly Total</span><span class="val">₹${d.perMonth}</span></div>
+        <div class="summary-row"><span class="lbl"><i class="fas fa-calendar-alt"></i> Total Months</span><span class="val">${d.months.length}</span></div>
+        <div class="summary-row"><span class="lbl"><i class="fas fa-file-invoice-dollar"></i> Total Due</span><span class="val red">₹${d.totalDue}</span></div>
+        <div class="summary-row"><span class="lbl"><i class="fas fa-money-bill-wave"></i> Total Paid</span><span class="val green">₹${d.totalPaid}</span></div>
+        <div class="summary-row big">
+            <span class="lbl"><i class="fas fa-balance-scale"></i> Balance</span>
+            <span class="val ${d.balance > 0 ? 'red' : 'green'}">₹${d.balance}</span>
+        </div>`;
+
+    box.innerHTML = html;
+}
+
+async function saveBilling() {
+    if (!curMember) return;
+    const payUntil = fromISO(document.getElementById('payUntilDate').value);
+    const sel      = SHIFTS.filter((_,i) => document.getElementById(`sh${i}`).checked);
+
+    curMember.selectedShifts = sel;
+    curMember.lastPayUntil   = payUntil;
+
+    const d = calcDetails(curMember, payUntil);
+    curMember.totalPaid = d.totalDue;
+
+    await saveMember(curMember);
+
+    alert('✓ Billing saved and marked as paid!');
+    await updateSummary();
+    await renderMembers();
+    await renderHistory();
+}
+
+function printBill() {
+    if (!curMember) return;
+    const payUntil  = fromISO(document.getElementById('payUntilDate').value);
+    const billDate  = today();
+    const d         = calcDetails(curMember, payUntil);
+
+    /* current billing month = the month corresponding to payUntilDate anchor */
+    const bm = d.billMonth;
+
+    const unpaidSection = d.unpaidMonths.length ? `
+        <div style="background:#fdecea;border:2px solid #f4b0aa;border-radius:10px;padding:14px 18px;margin-bottom:18px;">
+            <div style="font-size:13px;font-weight:700;color:#c0392b;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+                <span>⚠️</span> Unpaid Months
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                ${d.unpaidMonths.map(m=>`<span style="background:white;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;color:#c0392b;border:1.5px solid #f4b0aa;">${m.month} ${m.year}</span>`).join('')}
+            </div>
+        </div>` : '';
+
+    const html = `
+    <div style="max-width:680px;margin:0 auto;padding:24px;font-family:'Poppins',sans-serif;color:#1a1208;">
+
+        <!-- header -->
+        <div style="text-align:center;border-bottom:3px solid #c9993a;padding-bottom:18px;margin-bottom:22px;">
+            <div style="font-size:30px;font-family:'Cormorant Garamond',serif;font-weight:700;color:#c9993a;">Purainiya Library</div>
+            <div style="font-size:15px;color:#8a7a5a;margin-top:4px;font-weight:600;">Payment Receipt</div>
+            <div style="font-size:12px;color:#b0a080;margin-top:6px;">Bill Date: ${billDate} &nbsp;|&nbsp; Year: ${CY}</div>
+        </div>
+
+        <!-- member info -->
+        <div style="background:linear-gradient(135deg,#fdf8ef,#f0c96b33);border:2px solid #c9993a;border-radius:12px;padding:18px 22px;margin-bottom:18px;">
+            <table style="width:100%;border-collapse:collapse;">
+                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;width:38%;">Name</td><td style="padding:6px 0;font-size:14px;font-weight:600;color:#1a1208;">${curMember.name}</td></tr>
+                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;">Mobile</td><td style="padding:6px 0;font-size:14px;font-weight:600;color:#1a1208;">${curMember.mobile}</td></tr>
+                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;">Joining Date</td><td style="padding:6px 0;font-size:14px;font-weight:600;color:#1a1208;">${curMember.doj}</td></tr>
+            </table>
+        </div>
+
+        <!-- two col -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+            <div>
+                <div style="font-size:13px;font-weight:700;color:#c9993a;border-bottom:2px solid #c9993a;padding-bottom:8px;margin-bottom:12px;">Selected Shifts</div>
+                <div style="background:#fdf8ef;border:1.5px solid #e8dcc8;border-radius:10px;padding:14px;min-height:110px;">
+                    ${(curMember.selectedShifts||[]).length
+                        ? curMember.selectedShifts.map(s=>`<div style="font-size:12px;color:#4a3f28;font-weight:500;padding:3px 0;">• ${s}</div>`).join('')
+                        : '<div style="font-size:12px;color:#b0a080;">No shifts selected</div>'}
+                </div>
+            </div>
+            <div>
+                <div style="font-size:13px;font-weight:700;color:#c9993a;border-bottom:2px solid #c9993a;padding-bottom:8px;margin-bottom:12px;">Current Bill Month</div>
+                <div style="background:#fdf8ef;border:1.5px solid #e8dcc8;border-radius:10px;padding:14px;min-height:110px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
+                    <div style="font-size:28px;font-weight:700;color:#c9993a;font-family:'Cormorant Garamond',serif;">${bm ? bm.month : '—'}</div>
+                    <div style="font-size:18px;font-weight:600;color:#8a7a5a;">${bm ? bm.year : ''}</div>
+                </div>
+            </div>
+        </div>
+
+        ${unpaidSection}
+
+        <!-- summary table -->
+        <div style="border:2px solid #c9993a;border-radius:12px;padding:20px 24px;background:linear-gradient(135deg,#fdf8ef,#f0c96b1a);">
+            <div style="font-size:15px;font-weight:700;color:#c9993a;text-align:center;margin-bottom:14px;">Payment Summary</div>
+            <table style="width:100%;border-collapse:collapse;">
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Shifts</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1px solid #e8dcc8;">${(curMember.selectedShifts||[]).length}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Rate / Shift / Month</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1px solid #e8dcc8;">₹${RATE}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Monthly Total</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1px solid #e8dcc8;">₹${d.perMonth}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1.5px solid #c9993a;font-size:13px;color:#8a7a5a;font-weight:600;">Total Months</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1.5px solid #c9993a;">${d.months.length}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:14px;color:#8a7a5a;font-weight:700;">Total Due</td><td style="text-align:right;font-weight:700;font-size:14px;padding:7px 0;border-bottom:1px solid #e8dcc8;color:#c0392b;">₹${d.totalDue}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:14px;color:#8a7a5a;font-weight:700;">Total Paid</td><td style="text-align:right;font-weight:700;font-size:14px;padding:7px 0;border-bottom:1px solid #e8dcc8;color:#2d7a4f;">₹${d.totalPaid}</td></tr>
+                <tr>
+                    <td style="padding:12px 0;font-size:16px;font-weight:700;color:#c9993a;">Balance Due</td>
+                    <td style="text-align:right;padding:12px 0;">
+                        <span style="font-size:20px;font-weight:700;background:linear-gradient(135deg,#f0c96b,#9a7220);color:white;padding:7px 18px;border-radius:8px;display:inline-block;">₹${d.balance}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="margin-top:22px;text-align:center;border-top:1px solid #e8dcc8;padding-top:16px;">
+            <p style="font-size:13px;color:#8a7a5a;font-weight:600;">Thank you for being a valued member of Purainiya Library</p>
+            <p style="font-size:11px;color:#b0a080;margin-top:4px;">Premium Management System</p>
+        </div>
+    </div>`;
+
+    const w = window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head>
+        <title>Receipt – ${curMember.name}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+        <style>*{box-sizing:border-box;margin:0;padding:0;}body{background:white;font-family:'Poppins',sans-serif;}
+        @media print{@page{size:A4;margin:10mm;}.no-print{display:none}}</style>
+    </head><body>${html}
+    <script>window.onload=()=>setTimeout(()=>window.print(),600);<\/script>
+    </body></html>`);
+    w.document.close();
+}
+
+/* ══════════════════════════════════════════
+   HISTORY
+══════════════════════════════════════════ */
+async function renderHistory() {
+    const all        = await loadMembers();
+    const monthF     = document.getElementById('hMonthFilter').value;
+    const statusF    = document.getElementById('hStatusFilter').value;
+    const searchF    = document.getElementById('hSearch').value.trim().toLowerCase();
+
+    const filtered = all.filter(m => {
+        if (!m.name || !m.mobile) return false;
+        const payUntil = m.lastPayUntil || today();
+        const d        = calcDetails(m, payUntil);
+        const mk       = memberMonthKey(m);
+
+        const matchSearch = !searchF || m.name.toLowerCase().includes(searchF) || m.mobile.includes(searchF);
+        const matchStatus = !statusF ||
+            (statusF === 'paid' && d.isPaid) ||
+            (statusF === 'due'  && !d.isPaid);
+        /* Fix: match month key from lastPayUntil anchor */
+        const matchMonth  = !monthF || mk === monthF;
+
+        return matchSearch && matchStatus && matchMonth;
+    });
+
+    let totCollect = 0, totDue = 0, paidCnt = 0;
+    filtered.forEach(m => {
+        const d = calcDetails(m, m.lastPayUntil || today());
+        totCollect += d.totalPaid;
+        totDue     += d.balance;
+        if (d.isPaid) paidCnt++;
+    });
+
+    document.getElementById('tAmount').textContent  = `₹${totCollect.toLocaleString()}`;
+    document.getElementById('tMembers').textContent  = filtered.length;
+    document.getElementById('tPaid').textContent     = paidCnt;
+    document.getElementById('tDue').textContent      = `₹${totDue.toLocaleString()}`;
+
+    const list = document.getElementById('historyList');
+    if (!filtered.length) {
+        list.innerHTML = `<div class="empty-state"><i class="fas fa-chart-bar"></i><p>No records found</p></div>`;
+        return;
+    }
+
+    list.innerHTML = filtered.map(m => {
+        const d   = calcDetails(m, m.lastPayUntil || today());
+        const ini = m.name.trim()[0].toUpperCase();
+        return `
+        <div class="hist-item" onclick="openBilling('${m.mobile}')">
+            <div class="hist-top">
+                <div class="hist-name">
+                    <div class="dot">${ini}</div>
+                    ${m.name}
+                </div>
+                <div class="hist-paid">₹${d.totalPaid}</div>
+            </div>
+            <div class="hist-meta">
+                <div class="hm"><div class="hm-label">Mobile</div><div class="hm-value">${m.mobile}</div></div>
+                <div class="hm"><div class="hm-label">Joining Date</div><div class="hm-value">${m.doj}</div></div>
+                <div class="hm"><div class="hm-label">Shifts</div><div class="hm-value">${(m.selectedShifts||[]).length}</div></div>
+                <div class="hm"><div class="hm-label">Total Months</div><div class="hm-value">${d.months.length}</div></div>
+                <div class="hm"><div class="hm-label">Total Due</div><div class="hm-value" style="color:var(--danger);">₹${d.totalDue}</div></div>
+                <div class="hm"><div class="hm-label">Balance</div><div class="hm-value" style="color:${d.balance>0?'var(--danger)':'var(--success)'};">₹${d.balance}</div></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+/* ══════════════════════════════════════════
+   TAB SWITCH
+══════════════════════════════════════════ */
+function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === name+'Pane'));
+    if (name === 'billing') populateMemberSel();
+    if (name === 'history') renderHistory();
+}
+
+/* ══════════════════════════════════════════
+   DOM READY
+══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* wait for Firebase */
+    window.addEventListener('fbReady', async () => {
+        if (window._fbErr) {
+            document.getElementById('loadingArea').innerHTML =
+                `<span style="color:var(--danger)"><i class="fas fa-exclamation-triangle"></i> Firebase error: ${window._fbErr}</span>`;
+            return;
+        }
+
+        if (loggedIn()) { showPanel(); return; }
+
+        document.getElementById('loadingArea').style.display = 'block';
+
+        try {
+            const admin = await loadAdmin();
+            document.getElementById('loadingArea').style.display = 'none';
+            if (admin) {
+                document.getElementById('loginForm').style.display = 'block';
+            } else {
+                document.getElementById('setupArea').style.display = 'block';
+            }
+        } catch(e) {
+            document.getElementById('loadingArea').innerHTML =
+                `<span style="color:var(--danger)"><i class="fas fa-exclamation-triangle"></i> ${e.message}</span>`;
+        }
+    });
+
+    /* setup form */
+    document.getElementById('setupForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const u = document.getElementById('newUser').value;
+        const p = document.getElementById('newPass').value;
+        const c = document.getElementById('confPass').value;
+        const msg = document.getElementById('setupMsg');
+        if (p !== c) { msg.textContent = 'Passwords do not match!'; return; }
+        if (p.length < 4) { msg.textContent = 'Password too short!'; return; }
+        msg.textContent = 'Creating…'; msg.className = 'form-msg ok';
+        await saveAdmin(u, p);
+        document.getElementById('setupArea').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('loginMsg').textContent = 'Account created! Please login.';
+        document.getElementById('loginMsg').className = 'form-msg ok';
+    });
+
+    /* login form */
+    document.getElementById('loginForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        const msg = document.getElementById('loginMsg');
+        const btn = e.target.querySelector('button');
+        btn.textContent = 'Logging in…'; btn.disabled = true;
+        try {
+            const admin = await loadAdmin();
+            if (admin && admin.username === u && admin.password === btoa(p)) {
+                setLogin(true); showPanel();
+            } else {
+                msg.textContent = 'Invalid credentials!';
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; btn.disabled = false;
+            }
+        } catch(err) {
+            msg.textContent = 'Connection error.';
+            btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; btn.disabled = false;
+        }
+    });
+
+    /* logout */
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        setLogin(false); showLogin();
+    });
+
+    /* reg form */
+    document.getElementById('regForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const mobile = document.getElementById('regMobile').value.trim();
+        const name   = document.getElementById('regName').value.trim();
+        const all    = await loadMembers();
+        if (all.find(m => m.mobile === mobile)) { alert('Mobile already registered!'); return; }
+        await saveMember({ mobile, name, doj: today(), selectedShifts:[], lastPayUntil:null, totalPaid:0 });
+        const s = document.getElementById('regSuccess');
+        s.style.display = 'flex';
+        setTimeout(() => s.style.display = 'none', 3000);
+        e.target.reset();
+        document.getElementById('regDate').value = today();
+        await renderMembers();
+        await populateMemberSel();
+    });
+
+    /* member search + filter pills */
+    document.getElementById('memberSearch').addEventListener('input', renderMembers);
+    document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', async () => {
+        document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+        activeFilter = p.dataset.f;
+        await renderMembers();
+    }));
+
+    /* tab buttons */
+    document.querySelectorAll('.tab').forEach(t =>
+        t.addEventListener('click', () => switchTab(t.dataset.tab)));
+
+    /* member select in billing */
+    document.getElementById('memberSel').addEventListener('change', loadMemberBilling);
+
+    /* shift checkboxes */
+    document.getElementById('shiftList').addEventListener('change', e => {
+        if (e.target.type === 'checkbox') updateSummary();
+    });
+
+    /* pay until date */
+    document.getElementById('payUntilDate').addEventListener('change', updateSummary);
+
+    /* save + print */
+    document.getElementById('saveBtn').addEventListener('click', saveBilling);
+    document.getElementById('printBtn').addEventListener('click', printBill);
+
+    /* history filters */
+    document.getElementById('hMonthFilter').addEventListener('change', renderHistory);
+    document.getElementById('hStatusFilter').addEventListener('change', renderHistory);
+    document.getElementById('hSearch').addEventListener('input', renderHistory);
+});
+</script>
 </body>
 </html>
