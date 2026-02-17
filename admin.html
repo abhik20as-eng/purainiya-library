@@ -29,1157 +29,307 @@
             --radius-md:   16px;
             --radius-lg:   24px;
         }
-
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--cream);
-            color: var(--ink);
-            min-height: 100vh;
-            font-size: 15px;
-        }
-
-        /* ─── SCROLLBAR ──────────────────────────── */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--cream-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
-
-        /* ─── LOADING SPINNER ───────────────────── */
-        .spinner {
-            display: inline-block;
-            width: 18px; height: 18px;
-            border: 3px solid rgba(201,153,58,.3);
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            animation: spin .8s linear infinite;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ─── LOGIN ─────────────────────────────── */
-        .login-wrap {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            background:
-                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(201,153,58,.18) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(201,153,58,.12) 0%, transparent 55%),
-                var(--cream);
-        }
-
-        .login-box {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 56px 52px;
-            width: 100%;
-            max-width: 440px;
-            box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
-            animation: fadeUp .6s cubic-bezier(.22,1,.36,1);
-        }
-
-        @keyframes fadeUp {
-            from { opacity:0; transform: translateY(28px); }
-            to   { opacity:1; transform: translateY(0); }
-        }
-
-        .login-brand {
-            text-align: center;
-            margin-bottom: 44px;
-        }
-
-        .login-brand .icon-ring {
-            width: 68px; height: 68px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 18px;
-            box-shadow: 0 8px 24px rgba(201,153,58,.35);
-        }
-
-        .login-brand .icon-ring i { font-size: 28px; color: white; }
-
-        .login-brand h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 30px;
-            font-weight: 700;
-            color: var(--ink);
-            letter-spacing: .5px;
-        }
-
-        .login-brand p {
-            color: var(--ink-muted);
-            font-size: 13px;
-            margin-top: 5px;
-            letter-spacing: .4px;
-        }
-
-        .field {
-            margin-bottom: 20px;
-        }
-
-        .field label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--ink-soft);
-            text-transform: uppercase;
-            letter-spacing: .8px;
-            margin-bottom: 8px;
-        }
-
-        .field input {
-            width: 100%;
-            padding: 13px 16px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--cream);
-            color: var(--ink);
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            transition: border-color .2s, box-shadow .2s, background .2s;
-        }
-
-        .field input:focus {
-            outline: none;
-            border-color: var(--gold);
-            background: var(--white);
-            box-shadow: 0 0 0 4px rgba(201,153,58,.12);
-        }
-
-        .field input:disabled {
-            background: var(--cream-dark);
-            cursor: not-allowed;
-            color: var(--ink-muted);
-        }
-
-        .btn-gold {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            letter-spacing: .4px;
-            box-shadow: 0 4px 16px rgba(201,153,58,.4);
-            transition: transform .2s, box-shadow .2s;
-            margin-top: 8px;
-        }
-
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,153,58,.45); }
-        .btn-gold:active { transform: translateY(0); }
-
-        .form-msg {
-            text-align: center;
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 14px;
-            min-height: 20px;
-            color: var(--danger);
-        }
-        .form-msg.ok { color: var(--success); }
-
-        .setup-divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 28px 0;
-        }
-
-        .setup-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--gold-dark);
-            text-align: center;
-            margin-bottom: 6px;
-        }
-
-        .setup-sub {
-            text-align: center;
-            color: var(--ink-muted);
-            font-size: 13px;
-            margin-bottom: 22px;
-        }
-
-        /* ─── ADMIN PANEL ───────────────────────── */
-        .panel { display: none; }
-
-        .topbar {
-            background: linear-gradient(100deg, var(--ink) 0%, #2d2010 100%);
-            color: white;
-            padding: 0 40px;
-            height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 20px rgba(0,0,0,.25);
-        }
-
-        .topbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .topbar-brand .logo-dot {
-            width: 38px; height: 38px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .topbar-brand h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: .5px;
-            color: white;
-        }
-
-        .topbar-brand span {
-            font-size: 11px;
-            color: rgba(255,255,255,.5);
-            display: block;
-            letter-spacing: .5px;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .year-chip {
-            background: rgba(201,153,58,.2);
-            border: 1px solid rgba(201,153,58,.4);
-            color: var(--gold-light);
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .logout-btn {
-            background: rgba(255,255,255,.08);
-            border: 1px solid rgba(255,255,255,.15);
-            color: white;
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            transition: background .2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logout-btn:hover { background: rgba(255,255,255,.14); }
-
-        .content { max-width: 1320px; margin: 0 auto; padding: 36px 28px; }
-
-        /* ─── TABS ──────────────────────────────── */
-        .tabs {
-            display: flex;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 6px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-sm);
-            width: fit-content;
-            gap: 4px;
-        }
-
-        .tab {
-            padding: 11px 28px;
-            border: none;
-            background: transparent;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            color: var(--ink-muted);
-            cursor: pointer;
-            transition: all .2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-            color: white;
-            box-shadow: 0 4px 12px rgba(201,153,58,.35);
-        }
-
-        .tab:not(.active):hover {
-            background: var(--cream);
-            color: var(--ink);
-        }
-
-        .tab-pane { display: none; animation: fadeIn .35s ease; }
-        .tab-pane.active { display: block; }
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-        /* ─── REGISTRATION PAGE ─────────────────── */
-        .reg-hero {
-            background: linear-gradient(120deg, var(--ink) 0%, #2d2010 50%, #1a1208 100%);
-            border-radius: var(--radius-lg);
-            padding: 52px 56px;
-            margin-bottom: 32px;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
-            gap: 40px;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .reg-hero::before {
-            content: '';
-            position: absolute;
-            top: -40px; right: -40px;
-            width: 260px; height: 260px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(201,153,58,.18) 0%, transparent 70%);
-        }
-
-        .reg-hero::after {
-            content: '';
-            position: absolute;
-            bottom: -60px; left: 30%;
-            width: 200px; height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(201,153,58,.10) 0%, transparent 70%);
-        }
-
-        .reg-hero-text h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 38px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 10px;
-            line-height: 1.1;
-        }
-
-        .reg-hero-text h2 span { color: var(--gold-light); }
-
-        .reg-hero-text p {
-            color: rgba(255,255,255,.55);
-            font-size: 14px;
-            max-width: 360px;
-            line-height: 1.6;
-        }
-
-        .reg-hero-form {
-            background: rgba(255,255,255,.06);
-            border: 1px solid rgba(255,255,255,.1);
-            border-radius: var(--radius-md);
-            padding: 36px 40px;
-            min-width: 380px;
-            position: relative;
-            z-index: 1;
-            backdrop-filter: blur(12px);
-        }
-
-        .reg-hero-form .field label { color: rgba(255,255,255,.6); }
-        .reg-hero-form .field input {
-            background: rgba(255,255,255,.08);
-            border-color: rgba(255,255,255,.15);
-            color: white;
-        }
-        .reg-hero-form .field input::placeholder { color: rgba(255,255,255,.3); }
-        .reg-hero-form .field input:focus {
-            background: rgba(255,255,255,.12);
-            border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(201,153,58,.2);
-        }
-        .reg-hero-form .field input:disabled {
-            background: rgba(255,255,255,.04);
-            color: rgba(255,255,255,.35);
-        }
-
-        .reg-submit {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-weight: 700;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            letter-spacing: .3px;
-            box-shadow: 0 6px 20px rgba(201,153,58,.45);
-            transition: transform .2s, box-shadow .2s;
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .reg-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(201,153,58,.5); }
-
-        .reg-success {
-            background: var(--success-bg);
-            color: var(--success);
-            border: 1px solid #a8d5bc;
-            border-radius: var(--radius-sm);
-            padding: 13px 18px;
-            font-weight: 600;
-            font-size: 14px;
-            margin-top: 16px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* ─── MEMBERS LIST ──────────────────────── */
-        .list-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 36px 40px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-        }
-
-        .list-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .list-top h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--ink);
-        }
-
-        .list-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .pill-filters {
-            display: flex;
-            background: var(--cream);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 4px;
-            gap: 3px;
-        }
-
-        .pill {
-            padding: 7px 16px;
-            border: none;
-            background: transparent;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            color: var(--ink-muted);
-            cursor: pointer;
-            transition: all .2s;
-        }
-
-        .pill.active { background: var(--gold); color: white; box-shadow: 0 2px 8px rgba(201,153,58,.3); }
-        .pill:not(.active):hover { background: var(--white); color: var(--ink); }
-
-        .search-wrap {
-            position: relative;
-        }
-
-        .search-wrap i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--ink-muted);
-            font-size: 14px;
-        }
-
-        .search-wrap input {
-            padding: 10px 14px 10px 38px;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            background: var(--cream);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            color: var(--ink);
-            width: 240px;
-            transition: all .2s;
-        }
-
-        .search-wrap input:focus {
-            outline: none;
-            border-color: var(--gold);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(201,153,58,.1);
-        }
-
-        .count-badge {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            color: white;
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 3px 10px rgba(201,153,58,.3);
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            white-space: nowrap;
-        }
-
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .member-tile {
-            background: var(--cream);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 24px 26px;
-            cursor: pointer;
-            transition: all .25s;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .member-tile:hover {
-            border-color: var(--gold);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-3px);
-            background: var(--white);
-        }
-
-        .avatar {
-            width: 52px; height: 52px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: white;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(201,153,58,.3);
-        }
-
-        .member-tile-info { flex: 1; min-width: 0; }
-
-        .member-tile-name {
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--ink);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .member-tile-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            margin-top: 6px;
-        }
-
-        .meta-row {
-            font-size: 12.5px;
-            color: var(--ink-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .meta-row i { color: var(--gold); font-size: 11px; width: 12px; }
-
-        .empty-state {
-            text-align: center;
-            padding: 72px 20px;
-            color: var(--ink-muted);
-            grid-column: 1 / -1;
-        }
-
-        .empty-state i { font-size: 52px; opacity: .25; margin-bottom: 16px; display: block; }
-        .empty-state p { font-size: 16px; font-weight: 500; }
-
-        /* ─── BILLING ───────────────────────────── */
-        .billing-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 36px 40px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-        }
-
-        .billing-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .billing-top h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--ink);
-        }
-
-        .member-pick {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .member-pick label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--ink-soft);
-        }
-
-        .member-pick select {
-            padding: 11px 16px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--cream);
-            color: var(--ink);
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            min-width: 280px;
-            transition: border-color .2s;
-        }
-
-        .member-pick select:focus { outline: none; border-color: var(--gold); }
-
-        .billing-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        .b-panel {
-            background: var(--cream);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 28px;
-        }
-
-        .b-panel-title {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .8px;
-            color: var(--gold-dark);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-
-        .shift-list { display: flex; flex-direction: column; gap: 10px; }
-
-        .shift-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 14px;
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all .2s;
-        }
-
-        .shift-row:hover { border-color: var(--gold); background: #fffdf6; }
-
-        .shift-row input[type="checkbox"] {
-            width: 18px; height: 18px;
-            accent-color: var(--gold-dark);
-            cursor: pointer;
-        }
-
-        .shift-row label {
-            font-size: 13.5px;
-            font-weight: 500;
-            color: var(--ink);
-            cursor: pointer;
-            flex: 1;
-        }
-
-        /* payment date */
-        .date-row {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 16px 18px;
-            margin-bottom: 18px;
-        }
-
-        .date-row .date-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .7px;
-            color: var(--gold-dark);
-            margin-bottom: 8px;
-        }
-
-        .date-row input[type="date"] {
-            width: 100%;
-            padding: 10px 13px;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            background: var(--cream);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--ink);
-            transition: border-color .2s;
-        }
-
-        .date-row input[type="date"]:focus { outline: none; border-color: var(--gold); }
-        .date-row input[type="date"]:disabled {
-            background: var(--cream-dark);
-            cursor: not-allowed;
-            color: var(--ink-muted);
-        }
-
-        /* summary */
-        .summary-box {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 20px 22px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-
-        .summary-row:last-child { border-bottom: none; }
-        .summary-row .lbl { color: var(--ink-muted); font-weight: 500; display: flex; align-items: center; gap: 7px; }
-        .summary-row .lbl i { color: var(--gold); font-size: 12px; }
-        .summary-row .val { font-weight: 700; color: var(--ink); }
-        .summary-row .val.red { color: var(--danger); }
-        .summary-row .val.green { color: var(--success); }
-        .summary-row.big { padding-top: 14px; margin-top: 8px; border-top: 2px solid var(--gold); }
-        .summary-row.big .lbl { font-size: 15px; color: var(--ink); font-weight: 700; }
-        .summary-row.big .val { font-size: 20px; }
-
-        /* months display */
-        .months-section { margin-top: 16px; }
-
-        .months-section-title {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .7px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .months-section-title.paid-title { color: var(--success); }
-        .months-section-title.unpaid-title { color: var(--danger); }
-
-        .months-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
-
-        .chip {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .chip.paid { background: var(--success-bg); color: var(--success); border: 1px solid #a8d5bc; }
-        .chip.unpaid { background: var(--danger-bg); color: var(--danger); border: 1px solid #f4b0aa; }
-
-        /* billing action buttons */
-        .billing-actions {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 4px;
-        }
-
-        .act-btn {
-            padding: 15px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-weight: 700;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all .25s;
-        }
-
-        .act-btn.save {
-            background: linear-gradient(135deg, #38a169, #2d7a4f);
-            color: white;
-            box-shadow: 0 4px 14px rgba(45,122,79,.3);
-        }
-
-        .act-btn.save:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(45,122,79,.4); }
-
-        .act-btn.print-btn {
-            background: linear-gradient(135deg, #2b6cb0, #1e40af);
-            color: white;
-            box-shadow: 0 4px 14px rgba(30,64,175,.3);
-        }
-
-        .act-btn.print-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,64,175,.4); }
-
-        .billing-empty {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--ink-muted);
-        }
-
-        .billing-empty i { font-size: 48px; opacity: .2; margin-bottom: 16px; display: block; }
-        .billing-empty p { font-size: 16px; font-weight: 500; }
-
-        /* ─── HISTORY ───────────────────────────── */
-        .history-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 36px 40px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-        }
-
-        .history-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .history-top h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--ink);
-        }
-
-        .history-filters {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filter-sel {
-            padding: 10px 14px;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            background: var(--cream);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--ink);
-            cursor: pointer;
-            transition: border-color .2s;
-        }
-
-        .filter-sel:focus { outline: none; border-color: var(--gold); }
-
-        .history-list { display: flex; flex-direction: column; gap: 16px; }
-
-        .hist-item {
-            background: var(--cream);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 24px 28px;
-            cursor: pointer;
-            transition: all .22s;
-        }
-
-        .hist-item:hover {
-            border-color: var(--gold);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-            background: var(--white);
-        }
-
-        .hist-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .hist-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--ink);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hist-name .dot {
-            width: 36px; height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            font-weight: 700;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .hist-paid { font-size: 22px; font-weight: 700; color: var(--gold-dark); }
-
-        .hist-meta {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 14px;
-        }
-
-        .hm { display: flex; flex-direction: column; gap: 3px; }
-        .hm-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--ink-muted); }
-        .hm-value { font-size: 14px; font-weight: 700; color: var(--ink); }
-
-        /* totals */
-        .totals-bar {
-            background: linear-gradient(120deg, var(--ink) 0%, #2d2010 100%);
-            border-radius: var(--radius-md);
-            padding: 32px 40px;
-            margin-top: 28px;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 32px;
-            align-items: center;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .totals-main { text-align: center; }
-
-        .totals-main .label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,.45);
-            margin-bottom: 8px;
-        }
-
-        .totals-main .amount {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 44px;
-            font-weight: 700;
-            color: var(--gold-light);
-        }
-
-        .totals-divider { width: 1px; background: rgba(255,255,255,.1); height: 60px; }
-
-        .totals-stats {
-            display: flex;
-            gap: 32px;
-            justify-content: center;
-        }
-
-        .tstat { text-align: center; }
-
-        .tstat .tv {
-            font-size: 26px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 4px;
-        }
-
-        .tstat .tl {
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255,255,255,.4);
-            text-transform: uppercase;
-            letter-spacing: .5px;
-        }
-
-        /* ─── RESPONSIVE ────────────────────────── */
-        @media (max-width: 900px) {
-            .reg-hero { grid-template-columns: 1fr; }
-            .reg-hero-form { min-width: unset; }
-            .billing-grid { grid-template-columns: 1fr; }
-            .billing-actions { grid-template-columns: 1fr; }
-            .totals-bar { grid-template-columns: 1fr; }
-            .totals-divider { display: none; }
-        }
-
-        @media (max-width: 640px) {
-            .topbar { padding: 0 20px; }
-            .content { padding: 20px 16px; }
-            .reg-hero { padding: 32px 28px; }
-            .tabs { width: 100%; }
-            .tab { flex: 1; padding: 10px 14px; font-size: 13px; }
-            .members-grid { grid-template-columns: 1fr; }
-            .billing-top { flex-direction: column; align-items: flex-start; }
-            .member-pick select { min-width: 240px; }
-        }
-
-        /* ─── PRINT ─────────────────────────────── */
-        @media print {
-            body { background: white; }
-            @page { size: A4; margin: 12mm; }
-        }
+        body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--ink); min-height:100vh; font-size:15px; }
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:var(--cream-dark); }
+        ::-webkit-scrollbar-thumb { background:var(--gold); border-radius:3px; }
+
+        /* ── SPINNER ── */
+        .spinner { display:inline-block; width:18px; height:18px; border:3px solid rgba(201,153,58,.3); border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite; vertical-align:middle; margin-right:8px; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+
+        /* ── SETUP SCREEN ── */
+        .setup-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+            background: radial-gradient(ellipse 80% 60% at 20% 0%,rgba(201,153,58,.18) 0%,transparent 60%),
+                        radial-gradient(ellipse 60% 50% at 80% 100%,rgba(201,153,58,.12) 0%,transparent 55%),
+                        var(--cream);
+        }
+        .setup-box { background:var(--white); border-radius:var(--radius-lg); padding:52px 48px; width:100%; max-width:460px;
+            box-shadow:var(--shadow-lg),0 0 0 1px var(--border); animation:fadeUp .6s cubic-bezier(.22,1,.36,1); }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+        .brand-center { text-align:center; margin-bottom:40px; }
+        .brand-ring { width:68px; height:68px; background:linear-gradient(135deg,var(--gold-light),var(--gold)); border-radius:50%;
+            display:flex; align-items:center; justify-content:center; margin:0 auto 16px; box-shadow:0 8px 24px rgba(201,153,58,.35); }
+        .brand-ring i { font-size:28px; color:white; }
+        .brand-center h1 { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; color:var(--ink); }
+        .brand-center p  { color:var(--ink-muted); font-size:13px; margin-top:5px; }
+
+        .field { margin-bottom:18px; }
+        .field label { display:block; font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.8px; margin-bottom:7px; }
+        .field input { width:100%; padding:13px 16px; border:2px solid var(--border); border-radius:var(--radius-sm);
+            background:var(--cream); color:var(--ink); font-size:15px; font-family:'DM Sans',sans-serif;
+            transition:border-color .2s,box-shadow .2s,background .2s; }
+        .field input:focus { outline:none; border-color:var(--gold); background:var(--white); box-shadow:0 0 0 4px rgba(201,153,58,.12); }
+
+        .btn-primary { width:100%; padding:14px; background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));
+            color:white; border:none; border-radius:var(--radius-sm); font-size:15px; font-weight:700; font-family:'DM Sans',sans-serif;
+            cursor:pointer; letter-spacing:.3px; box-shadow:0 4px 16px rgba(201,153,58,.4); transition:transform .2s,box-shadow .2s; margin-top:6px;
+            display:flex; align-items:center; justify-content:center; gap:9px; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,153,58,.45); }
+        .btn-primary:active { transform:translateY(0); }
+        .btn-primary:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+
+        .msg { font-size:13px; font-weight:600; text-align:center; margin-top:14px; min-height:20px; color:var(--danger); }
+        .msg.ok { color:var(--success); }
+
+        .step-label { text-align:center; font-size:12px; color:var(--ink-muted); margin-bottom:22px;
+            background:var(--cream-dark); border-radius:8px; padding:10px 14px; border:1px solid var(--border); }
+
+        /* ── LOGIN ── (reuses setup-wrap styles) */
+        .login-card { background:var(--white); border-radius:var(--radius-lg); padding:52px 48px; width:100%; max-width:440px;
+            box-shadow:var(--shadow-lg),0 0 0 1px var(--border); animation:fadeUp .6s cubic-bezier(.22,1,.36,1); }
+
+        /* ── PANEL ── */
+        .panel { display:none; }
+
+        .topbar { background:linear-gradient(100deg,var(--ink) 0%,#2d2010 100%); color:white; padding:0 40px; height:72px;
+            display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100;
+            box-shadow:0 2px 20px rgba(0,0,0,.25); }
+        .topbar-brand { display:flex; align-items:center; gap:14px; }
+        .logo-dot { width:38px; height:38px; background:linear-gradient(135deg,var(--gold-light),var(--gold)); border-radius:10px;
+            display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+        .topbar-brand h1 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:white; }
+        .topbar-brand span { font-size:11px; color:rgba(255,255,255,.5); display:block; }
+        .topbar-right { display:flex; align-items:center; gap:16px; }
+        .year-chip { background:rgba(201,153,58,.2); border:1px solid rgba(201,153,58,.4); color:var(--gold-light); padding:6px 14px; border-radius:6px; font-size:13px; font-weight:600; }
+        .user-chip { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.8); padding:6px 14px; border-radius:6px; font-size:13px; font-weight:600; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .logout-btn { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:white; padding:8px 18px;
+            border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif;
+            transition:background .2s; display:flex; align-items:center; gap:8px; }
+        .logout-btn:hover { background:rgba(255,255,255,.14); }
+
+        .content { max-width:1320px; margin:0 auto; padding:36px 28px; }
+
+        /* ── TABS ── */
+        .tabs { display:flex; background:var(--white); border:1px solid var(--border); border-radius:var(--radius-md); padding:6px; margin-bottom:32px; box-shadow:var(--shadow-sm); width:fit-content; gap:4px; }
+        .tab { padding:11px 28px; border:none; background:transparent; border-radius:var(--radius-sm); font-size:14px; font-weight:600; font-family:'DM Sans',sans-serif; color:var(--ink-muted); cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:8px; }
+        .tab.active { background:linear-gradient(135deg,var(--gold-light),var(--gold-dark)); color:white; box-shadow:0 4px 12px rgba(201,153,58,.35); }
+        .tab:not(.active):hover { background:var(--cream); color:var(--ink); }
+        .tab-pane { display:none; animation:fadeIn .35s ease; }
+        .tab-pane.active { display:block; }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+        /* ── REG HERO ── */
+        .reg-hero { background:linear-gradient(120deg,var(--ink) 0%,#2d2010 50%,#1a1208 100%); border-radius:var(--radius-lg); padding:52px 56px; margin-bottom:32px; display:grid; grid-template-columns:1fr auto; align-items:center; gap:40px; box-shadow:var(--shadow-lg); position:relative; overflow:hidden; }
+        .reg-hero::before { content:''; position:absolute; top:-40px; right:-40px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,rgba(201,153,58,.18) 0%,transparent 70%); }
+        .reg-hero::after  { content:''; position:absolute; bottom:-60px; left:30%; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(201,153,58,.10) 0%,transparent 70%); }
+        .reg-hero-text h2 { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:700; color:white; margin-bottom:10px; line-height:1.1; }
+        .reg-hero-text h2 span { color:var(--gold-light); }
+        .reg-hero-text p { color:rgba(255,255,255,.5); font-size:14px; max-width:360px; line-height:1.6; }
+        .reg-hero-form { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:var(--radius-md); padding:36px 40px; min-width:380px; position:relative; z-index:1; backdrop-filter:blur(12px); }
+        .reg-hero-form .field label { color:rgba(255,255,255,.55); }
+        .reg-hero-form .field input { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.15); color:white; }
+        .reg-hero-form .field input::placeholder { color:rgba(255,255,255,.3); }
+        .reg-hero-form .field input:focus { background:rgba(255,255,255,.12); border-color:var(--gold); box-shadow:0 0 0 4px rgba(201,153,58,.2); }
+        .reg-hero-form .field input:disabled { background:rgba(255,255,255,.04); color:rgba(255,255,255,.35); }
+
+        .reg-success { background:var(--success-bg); color:var(--success); border:1px solid #a8d5bc; border-radius:var(--radius-sm); padding:13px 18px; font-weight:600; font-size:14px; margin-top:16px; display:none; align-items:center; gap:10px; }
+
+        /* ── LIST ── */
+        .list-card { background:var(--white); border-radius:var(--radius-lg); padding:36px 40px; box-shadow:var(--shadow-sm); border:1px solid var(--border); }
+        .list-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:16px; }
+        .list-top h3 { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--ink); }
+        .list-controls { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+        .pill-filters { display:flex; background:var(--cream); border:1px solid var(--border); border-radius:8px; padding:4px; gap:3px; }
+        .pill { padding:7px 16px; border:none; background:transparent; border-radius:6px; font-size:13px; font-weight:600; font-family:'DM Sans',sans-serif; color:var(--ink-muted); cursor:pointer; transition:all .2s; }
+        .pill.active { background:var(--gold); color:white; box-shadow:0 2px 8px rgba(201,153,58,.3); }
+        .pill:not(.active):hover { background:var(--white); color:var(--ink); }
+        .search-wrap { position:relative; }
+        .search-wrap i { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--ink-muted); font-size:14px; }
+        .search-wrap input { padding:10px 14px 10px 38px; border:1.5px solid var(--border); border-radius:8px; background:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--ink); width:240px; transition:all .2s; }
+        .search-wrap input:focus { outline:none; border-color:var(--gold); background:white; box-shadow:0 0 0 3px rgba(201,153,58,.1); }
+        .count-badge { background:linear-gradient(135deg,var(--gold-light),var(--gold)); color:white; padding:8px 18px; border-radius:8px; font-size:14px; font-weight:700; box-shadow:0 3px 10px rgba(201,153,58,.3); display:flex; align-items:center; gap:7px; white-space:nowrap; }
+        .members-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+        .member-tile { background:var(--cream); border:1.5px solid var(--border); border-radius:var(--radius-md); padding:22px 24px; cursor:pointer; transition:all .25s; display:flex; align-items:center; gap:18px; }
+        .member-tile:hover { border-color:var(--gold); box-shadow:var(--shadow-md); transform:translateY(-3px); background:var(--white); }
+        .avatar { width:50px; height:50px; border-radius:13px; background:linear-gradient(135deg,var(--gold-light),var(--gold-dark)); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:700; color:white; flex-shrink:0; box-shadow:0 4px 12px rgba(201,153,58,.3); }
+        .member-tile-info { flex:1; min-width:0; }
+        .member-tile-name { font-weight:700; font-size:16px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .member-tile-meta { display:flex; flex-direction:column; gap:3px; margin-top:6px; }
+        .meta-row { font-size:12.5px; color:var(--ink-muted); display:flex; align-items:center; gap:6px; }
+        .meta-row i { color:var(--gold); font-size:11px; width:12px; }
+        .empty-state { text-align:center; padding:72px 20px; color:var(--ink-muted); grid-column:1/-1; }
+        .empty-state i { font-size:52px; opacity:.25; margin-bottom:16px; display:block; }
+        .empty-state p { font-size:16px; font-weight:500; }
+
+        /* ── BILLING ── */
+        .billing-card { background:var(--white); border-radius:var(--radius-lg); padding:36px 40px; box-shadow:var(--shadow-sm); border:1px solid var(--border); }
+        .billing-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:30px; flex-wrap:wrap; gap:16px; }
+        .billing-top h3 { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--ink); }
+        .member-pick { display:flex; align-items:center; gap:12px; }
+        .member-pick label { font-size:13px; font-weight:600; color:var(--ink-soft); }
+        .member-pick select { padding:11px 16px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:var(--cream); color:var(--ink); font-size:14px; font-weight:600; font-family:'DM Sans',sans-serif; cursor:pointer; min-width:280px; transition:border-color .2s; }
+        .member-pick select:focus { outline:none; border-color:var(--gold); }
+        .billing-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+        .b-panel { background:var(--cream); border:1.5px solid var(--border); border-radius:var(--radius-md); padding:28px; }
+        .b-panel-title { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--gold-dark); margin-bottom:20px; display:flex; align-items:center; gap:9px; }
+        .shift-list { display:flex; flex-direction:column; gap:10px; }
+        .shift-row { display:flex; align-items:center; gap:12px; padding:11px 14px; background:var(--white); border:1.5px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; transition:all .2s; }
+        .shift-row:hover { border-color:var(--gold); background:#fffdf6; }
+        .shift-row input[type="checkbox"] { width:18px; height:18px; accent-color:var(--gold-dark); cursor:pointer; }
+        .shift-row label { font-size:13.5px; font-weight:500; color:var(--ink); cursor:pointer; flex:1; }
+        .date-row { background:var(--white); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; margin-bottom:18px; }
+        .date-row .date-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.7px; color:var(--gold-dark); margin-bottom:8px; }
+        .date-row input[type="date"] { width:100%; padding:10px 13px; border:1.5px solid var(--border); border-radius:8px; background:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; color:var(--ink); transition:border-color .2s; }
+        .date-row input[type="date"]:focus { outline:none; border-color:var(--gold); }
+        .date-row input[type="date"]:disabled { background:var(--cream-dark); cursor:not-allowed; color:var(--ink-muted); }
+        .summary-box { background:var(--white); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:20px 22px; }
+        .summary-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); font-size:14px; }
+        .summary-row:last-child { border-bottom:none; }
+        .summary-row .lbl { color:var(--ink-muted); font-weight:500; display:flex; align-items:center; gap:7px; }
+        .summary-row .lbl i { color:var(--gold); font-size:12px; }
+        .summary-row .val { font-weight:700; color:var(--ink); }
+        .summary-row .val.red { color:var(--danger); }
+        .summary-row .val.green { color:var(--success); }
+        .summary-row.big { padding-top:14px; margin-top:8px; border-top:2px solid var(--gold); }
+        .summary-row.big .lbl { font-size:15px; color:var(--ink); font-weight:700; }
+        .summary-row.big .val { font-size:20px; }
+        .months-section { margin-top:16px; }
+        .months-section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.7px; margin-bottom:10px; display:flex; align-items:center; gap:7px; }
+        .months-section-title.paid-title { color:var(--success); }
+        .months-section-title.unpaid-title { color:var(--danger); }
+        .months-chips { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px; }
+        .chip { padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; display:flex; align-items:center; gap:5px; }
+        .chip.paid { background:var(--success-bg); color:var(--success); border:1px solid #a8d5bc; }
+        .chip.unpaid { background:var(--danger-bg); color:var(--danger); border:1px solid #f4b0aa; }
+        .billing-actions { grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:4px; }
+        .act-btn { padding:15px; border:none; border-radius:var(--radius-sm); font-size:15px; font-weight:700; font-family:'DM Sans',sans-serif; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all .25s; }
+        .act-btn.save { background:linear-gradient(135deg,#38a169,#2d7a4f); color:white; box-shadow:0 4px 14px rgba(45,122,79,.3); }
+        .act-btn.save:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(45,122,79,.4); }
+        .act-btn.print-btn { background:linear-gradient(135deg,#2b6cb0,#1e40af); color:white; box-shadow:0 4px 14px rgba(30,64,175,.3); }
+        .act-btn.print-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(30,64,175,.4); }
+        .billing-empty { text-align:center; padding:80px 20px; color:var(--ink-muted); }
+        .billing-empty i { font-size:48px; opacity:.2; margin-bottom:16px; display:block; }
+
+        /* ── HISTORY ── */
+        .history-card { background:var(--white); border-radius:var(--radius-lg); padding:36px 40px; box-shadow:var(--shadow-sm); border:1px solid var(--border); }
+        .history-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:16px; }
+        .history-top h3 { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--ink); }
+        .history-filters { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+        .filter-sel { padding:10px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--cream); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; color:var(--ink); cursor:pointer; transition:border-color .2s; }
+        .filter-sel:focus { outline:none; border-color:var(--gold); }
+        .history-list { display:flex; flex-direction:column; gap:16px; }
+        .hist-item { background:var(--cream); border:1.5px solid var(--border); border-radius:var(--radius-md); padding:24px 28px; cursor:pointer; transition:all .22s; }
+        .hist-item:hover { border-color:var(--gold); box-shadow:var(--shadow-md); transform:translateY(-2px); background:var(--white); }
+        .hist-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+        .hist-name { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:700; color:var(--ink); display:flex; align-items:center; gap:10px; }
+        .hist-name .dot { width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--gold-light),var(--gold-dark)); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:white; flex-shrink:0; }
+        .hist-paid { font-size:22px; font-weight:700; color:var(--gold-dark); }
+        .hist-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
+        .hm { display:flex; flex-direction:column; gap:3px; }
+        .hm-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--ink-muted); }
+        .hm-value { font-size:14px; font-weight:700; color:var(--ink); }
+        .totals-bar { background:linear-gradient(120deg,var(--ink) 0%,#2d2010 100%); border-radius:var(--radius-md); padding:32px 40px; margin-top:28px; display:grid; grid-template-columns:1fr auto 1fr; gap:32px; align-items:center; box-shadow:var(--shadow-lg); }
+        .totals-main { text-align:center; }
+        .totals-main .label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.45); margin-bottom:8px; }
+        .totals-main .amount { font-family:'Cormorant Garamond',serif; font-size:44px; font-weight:700; color:var(--gold-light); }
+        .totals-divider { width:1px; background:rgba(255,255,255,.1); height:60px; }
+        .totals-stats { display:flex; gap:32px; justify-content:center; }
+        .tstat { text-align:center; }
+        .tstat .tv { font-size:26px; font-weight:700; color:white; margin-bottom:4px; }
+        .tstat .tl { font-size:11px; font-weight:600; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.5px; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width:900px) { .reg-hero{grid-template-columns:1fr;} .reg-hero-form{min-width:unset;} .billing-grid{grid-template-columns:1fr;} .billing-actions{grid-template-columns:1fr;} .totals-bar{grid-template-columns:1fr;} .totals-divider{display:none;} }
+        @media (max-width:640px) { .topbar{padding:0 20px;} .content{padding:20px 16px;} .reg-hero{padding:32px 28px;} .tabs{width:100%;} .tab{flex:1;padding:10px 14px;font-size:13px;} .members-grid{grid-template-columns:1fr;} }
+        @media print { body{background:white;} @page{size:A4;margin:12mm;} }
     </style>
 </head>
 <body>
 
-<!-- ╔═══════════════ LOGIN ════════════════╗ -->
-<div class="login-wrap" id="loginWrap">
-    <div class="login-box">
-        <div class="login-brand">
-            <div class="icon-ring"><i class="fas fa-book-open"></i></div>
+<!-- ════════════ SCREENS (shown by JS) ════════════ -->
+
+<!-- 1. LOADING -->
+<div class="setup-wrap" id="loadingScreen">
+    <div style="text-align:center;color:var(--ink-muted);">
+        <span class="spinner"></span> Connecting to Firebase…
+    </div>
+</div>
+
+<!-- 2. FIRST-TIME SETUP (create admin account) -->
+<div class="setup-wrap" id="setupScreen" style="display:none;">
+    <div class="setup-box">
+        <div class="brand-center">
+            <div class="brand-ring"><i class="fas fa-book-open"></i></div>
+            <h1>Purainiya Library</h1>
+            <p>First Time Setup</p>
+        </div>
+        <div class="step-label">
+            <i class="fas fa-shield-alt" style="color:var(--gold);margin-right:6px;"></i>
+            Create your <strong>secure admin account</strong>. This uses Firebase Authentication — your password is never stored in the database.
+        </div>
+        <form id="setupForm">
+            <div class="field"><label>Email Address</label><input type="email" id="setupEmail" placeholder="admin@yourmail.com" required></div>
+            <div class="field"><label>Password (min 6 chars)</label><input type="password" id="setupPass" placeholder="Create a strong password" required></div>
+            <div class="field"><label>Confirm Password</label><input type="password" id="setupConfirm" placeholder="Re-enter password" required></div>
+            <button type="submit" class="btn-primary" id="setupBtn"><i class="fas fa-user-shield"></i> Create Secure Account</button>
+            <p class="msg" id="setupMsg"></p>
+        </form>
+    </div>
+</div>
+
+<!-- 3. LOGIN -->
+<div class="setup-wrap" id="loginScreen" style="display:none;">
+    <div class="login-card">
+        <div class="brand-center">
+            <div class="brand-ring"><i class="fas fa-book-open"></i></div>
             <h1>Purainiya Library</h1>
             <p>Premium Management System</p>
         </div>
-
-        <div id="loadingArea" style="display:none; text-align:center; padding:20px 0; color:var(--ink-muted); font-size:14px;">
-            <span class="spinner"></span> Connecting to server…
-        </div>
-
-        <form id="loginForm" style="display:none;">
-            <div class="field">
-                <label>Username</label>
-                <input type="text" id="username" placeholder="Enter username" required>
-            </div>
-            <div class="field">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="Enter password" required>
-            </div>
-            <button type="submit" class="btn-gold"><i class="fas fa-sign-in-alt"></i> Login</button>
-            <p class="form-msg" id="loginMsg"></p>
+        <form id="loginForm">
+            <div class="field"><label>Email Address</label><input type="email" id="loginEmail" placeholder="Enter your email" required></div>
+            <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="Enter password" required></div>
+            <button type="submit" class="btn-primary" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login Securely</button>
+            <p class="msg" id="loginMsg"></p>
         </form>
-
-        <div id="setupArea" style="display:none;">
-            <hr class="setup-divider">
-            <p class="setup-title">First Time Setup</p>
-            <p class="setup-sub">Create your admin account</p>
-            <form id="setupForm">
-                <div class="field"><label>Username</label><input type="text" id="newUser" placeholder="Choose username" required></div>
-                <div class="field"><label>Password</label><input type="password" id="newPass" placeholder="Choose password" required></div>
-                <div class="field"><label>Confirm Password</label><input type="password" id="confPass" placeholder="Re-enter password" required></div>
-                <button type="submit" class="btn-gold"><i class="fas fa-user-shield"></i> Create Account</button>
-                <p class="form-msg" id="setupMsg"></p>
-            </form>
+        <div style="text-align:center;margin-top:20px;">
+            <button id="forgotBtn" style="background:none;border:none;color:var(--gold-dark);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">
+                <i class="fas fa-key"></i> Forgot Password? Send Reset Email
+            </button>
+            <p class="msg" id="resetMsg" style="margin-top:8px;"></p>
         </div>
     </div>
 </div>
 
-<!-- ╔═══════════════ PANEL ════════════════╗ -->
+<!-- 4. ADMIN PANEL -->
 <div class="panel" id="adminPanel">
-
     <div class="topbar">
         <div class="topbar-brand">
             <div class="logo-dot"><i class="fas fa-book-open" style="color:white;font-size:16px;"></i></div>
-            <div>
-                <h1>Purainiya Library</h1>
-                <span>Premium Management System</span>
-            </div>
+            <div><h1>Purainiya Library</h1><span>Premium Management System</span></div>
         </div>
         <div class="topbar-right">
             <div class="year-chip"><i class="fas fa-calendar-alt"></i> <span id="yearBadge">2025</span></div>
+            <div class="user-chip" id="userChip"><i class="fas fa-user-circle"></i> admin</div>
             <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
     </div>
-
     <div class="content">
-
-        <!-- tabs -->
         <div class="tabs">
             <button class="tab active" data-tab="reg"><i class="fas fa-user-plus"></i> Registration</button>
             <button class="tab" data-tab="billing"><i class="fas fa-file-invoice-dollar"></i> Billing</button>
             <button class="tab" data-tab="history"><i class="fas fa-chart-bar"></i> History</button>
         </div>
 
-        <!-- ─── REGISTRATION PANE ─── -->
+        <!-- REGISTRATION -->
         <div class="tab-pane active" id="regPane">
-
-            <!-- Hero Form -->
             <div class="reg-hero">
                 <div class="reg-hero-text">
                     <h2>Register a <span>New Member</span></h2>
-                    <p>Add a new student to the Purainiya Library system. All registrations are saved securely to the cloud.</p>
+                    <p>Add a new student to the Purainiya Library system. All data is securely stored and protected.</p>
                 </div>
                 <div class="reg-hero-form">
                     <form id="regForm">
-                        <div class="field">
-                            <label><i class="fas fa-phone"></i> Mobile Number *</label>
-                            <input type="tel" id="regMobile" placeholder="Enter 10-digit number" required>
-                        </div>
-                        <div class="field">
-                            <label><i class="fas fa-user"></i> Full Name *</label>
-                            <input type="text" id="regName" placeholder="Enter full name" required>
-                        </div>
-                        <div class="field">
-                            <label><i class="fas fa-calendar-check"></i> Date of Joining</label>
-                            <input type="text" id="regDate" disabled>
-                        </div>
-                        <button type="submit" class="reg-submit">
-                            <i class="fas fa-plus-circle"></i> Register Member
-                        </button>
+                        <div class="field"><label><i class="fas fa-phone"></i> Mobile Number *</label><input type="tel" id="regMobile" placeholder="Enter 10-digit number" required></div>
+                        <div class="field"><label><i class="fas fa-user"></i> Full Name *</label><input type="text" id="regName" placeholder="Enter full name" required></div>
+                        <div class="field"><label><i class="fas fa-calendar-check"></i> Date of Joining</label><input type="text" id="regDate" disabled></div>
+                        <button type="submit" class="btn-primary"><i class="fas fa-plus-circle"></i> Register Member</button>
                     </form>
-                    <div class="reg-success" id="regSuccess">
-                        <i class="fas fa-check-circle"></i> Member registered successfully!
-                    </div>
+                    <div class="reg-success" id="regSuccess"><i class="fas fa-check-circle"></i> Member registered successfully!</div>
                 </div>
             </div>
-
-            <!-- Members List -->
             <div class="list-card">
                 <div class="list-top">
                     <h3><i class="fas fa-users" style="color:var(--gold);margin-right:8px;"></i>Registered Members</h3>
@@ -1189,20 +339,15 @@
                             <button class="pill" data-f="7days">Last 7 Days</button>
                             <button class="pill" data-f="month">This Month</button>
                         </div>
-                        <div class="search-wrap">
-                            <i class="fas fa-search"></i>
-                            <input type="tel" id="memberSearch" placeholder="Search mobile…">
-                        </div>
-                        <div class="count-badge" id="countBadge">
-                            <i class="fas fa-graduation-cap"></i> Total: 0
-                        </div>
+                        <div class="search-wrap"><i class="fas fa-search"></i><input type="tel" id="memberSearch" placeholder="Search mobile…"></div>
+                        <div class="count-badge" id="countBadge"><i class="fas fa-graduation-cap"></i> Total: 0</div>
                     </div>
                 </div>
                 <div class="members-grid" id="membersGrid"></div>
             </div>
         </div>
 
-        <!-- ─── BILLING PANE ─── -->
+        <!-- BILLING -->
         <div class="tab-pane" id="billingPane">
             <div class="billing-card">
                 <div class="billing-top">
@@ -1212,56 +357,37 @@
                         <select id="memberSel"><option value="">— Select member —</option></select>
                     </div>
                 </div>
-
                 <div id="billingBody" style="display:none;">
                     <div class="billing-grid">
-
-                        <!-- Shifts -->
                         <div class="b-panel">
                             <div class="b-panel-title"><i class="fas fa-clock"></i> Select Shifts</div>
                             <div class="shift-list" id="shiftList"></div>
                         </div>
-
-                        <!-- Payment -->
                         <div class="b-panel">
                             <div class="b-panel-title"><i class="fas fa-wallet"></i> Payment Details</div>
-
                             <div class="date-row">
                                 <div class="date-label"><i class="fas fa-calendar-day"></i> Bill Date (Auto)</div>
                                 <input type="date" id="billDateDisplay" disabled>
                             </div>
-
                             <div class="date-row">
                                 <div class="date-label"><i class="fas fa-calendar-check"></i> Payment Until Date</div>
                                 <input type="date" id="payUntilDate">
                             </div>
-
                             <div class="summary-box" id="summaryBox">
                                 <p style="color:var(--ink-muted);font-size:13px;text-align:center;padding:20px 0;">Select shifts to see summary</p>
                             </div>
                         </div>
-
-                        <!-- Actions -->
                         <div class="billing-actions">
-                            <button class="act-btn save" id="saveBtn">
-                                <i class="fas fa-check-double"></i> Save & Mark Paid
-                            </button>
-                            <button class="act-btn print-btn" id="printBtn">
-                                <i class="fas fa-print"></i> Print Bill
-                            </button>
+                            <button class="act-btn save" id="saveBtn"><i class="fas fa-check-double"></i> Save & Mark Paid</button>
+                            <button class="act-btn print-btn" id="printBtn"><i class="fas fa-print"></i> Print Bill</button>
                         </div>
-
                     </div>
                 </div>
-
-                <div class="billing-empty" id="billingEmpty">
-                    <i class="fas fa-clipboard-list"></i>
-                    <p>Select a member to manage billing</p>
-                </div>
+                <div class="billing-empty" id="billingEmpty"><i class="fas fa-clipboard-list"></i><p>Select a member to manage billing</p></div>
             </div>
         </div>
 
-        <!-- ─── HISTORY PANE ─── -->
+        <!-- HISTORY -->
         <div class="tab-pane" id="historyPane">
             <div class="history-card">
                 <div class="history-top">
@@ -1273,16 +399,11 @@
                             <option value="paid">Fully Paid</option>
                             <option value="due">Has Due</option>
                         </select>
-                        <div class="search-wrap">
-                            <i class="fas fa-search"></i>
-                            <input type="text" id="hSearch" placeholder="Search member…" style="width:200px;">
-                        </div>
+                        <div class="search-wrap"><i class="fas fa-search"></i><input type="text" id="hSearch" placeholder="Search member…" style="width:200px;"></div>
                     </div>
                 </div>
-
                 <div class="history-list" id="historyList"></div>
-
-                <div class="totals-bar" id="totalsBar">
+                <div class="totals-bar">
                     <div class="totals-stats">
                         <div class="tstat"><div class="tv" id="tMembers">0</div><div class="tl">Members</div></div>
                         <div class="tstat"><div class="tv" id="tPaid">0</div><div class="tl">Fully Paid</div></div>
@@ -1299,262 +420,193 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-    </div><!-- /content -->
-</div><!-- /panel -->
-
-<!-- Firebase -->
+<!-- ════════════ FIREBASE ════════════ -->
 <script type="module">
-    try {
-        const { initializeApp }   = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js");
-        const { getFirestore, collection, doc, setDoc, getDoc, getDocs } = await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js");
+    import { initializeApp }                                from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword,
+             signInWithEmailAndPassword, signOut,
+             onAuthStateChanged, sendPasswordResetEmail }   from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+    import { getFirestore, collection, doc,
+             setDoc, getDoc, getDocs, deleteDoc }            from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-        const app = initializeApp({
-            apiKey: "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
-            authDomain: "purainiya-library.firebaseapp.com",
-            projectId: "purainiya-library",
-            storageBucket: "purainiya-library.firebasestorage.app",
-            messagingSenderId: "885731486344",
-            appId: "1:885731486344:web:01d234421bd5678831cd3d"
-        });
+    const app = initializeApp({
+        apiKey:            "AIzaSyAr8Zw8wmVETcwotsVGo7r7ZtcYFvGl-pg",
+        authDomain:        "purainiya-library.firebaseapp.com",
+        projectId:         "purainiya-library",
+        storageBucket:     "purainiya-library.firebasestorage.app",
+        messagingSenderId: "885731486344",
+        appId:             "1:885731486344:web:01d234421bd5678831cd3d"
+    });
 
-        const db = getFirestore(app);
-        window._fb = { db, collection, doc, setDoc, getDoc, getDocs };
-        window.dispatchEvent(new Event('fbReady'));
-    } catch(e) {
-        window._fbErr = e.message;
-        window.dispatchEvent(new Event('fbReady'));
-    }
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    /* expose to main script */
+    window._auth = auth;
+    window._db   = db;
+    window._fbFns = {
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged,
+        sendPasswordResetEmail,
+        collection, doc, setDoc, getDoc, getDocs, deleteDoc
+    };
+
+    /* watch auth state — drives all screen logic */
+    onAuthStateChanged(auth, user => {
+        window._currentUser = user || null;
+        window.dispatchEvent(new CustomEvent('authChange', { detail: user }));
+    });
 </script>
 
 <script>
-/* ══════════════════════════════════════════
-   CONSTANTS & HELPERS
-══════════════════════════════════════════ */
-const CY = new Date().getFullYear();
-const RATE = 500;
-const SHIFTS = [
-    '6:00 AM – 10:00 AM','10:00 AM – 2:00 PM',
-    '2:00 PM – 6:00 PM','6:00 PM – 10:00 PM',
-    '10:00 PM – 2:00 AM','2:00 AM – 6:00 AM'
-];
-const MN = ['January','February','March','April','May','June',
-            'July','August','September','October','November','December'];
+/* ══════════════════════════════════════════════
+   CONSTANTS & DATE HELPERS
+══════════════════════════════════════════════ */
+const CY    = new Date().getFullYear();
+const RATE  = 500;
+const SHIFTS = ['6:00 AM – 10:00 AM','10:00 AM – 2:00 PM','2:00 PM – 6:00 PM',
+                '6:00 PM – 10:00 PM','10:00 PM – 2:00 AM','2:00 AM – 6:00 AM'];
+const MN    = ['January','February','March','April','May','June',
+               'July','August','September','October','November','December'];
 
 let activeFilter = 'all';
-let curMember   = null;
+let curMember    = null;
+let authReady    = false;
 
-/* date helpers */
 function today() {
     const d = new Date();
-    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
 }
+function pad(n) { return String(n).padStart(2,'0'); }
+function toISO(s) { const [d,m,y]=s.split('/'); return `${y}-${m}-${d}`; }
+function fromISO(s) { const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; }
+function parseD(s) { const [d,m,y]=s.split('/'); return new Date(+y,+m-1,+d); }
 
-function toISO(dd_mm_yyyy) {                    // dd/mm/yyyy → yyyy-mm-dd
-    const [d,m,y] = dd_mm_yyyy.split('/');
-    return `${y}-${m}-${d}`;
-}
-
-function fromISO(yyyy_mm_dd) {                  // yyyy-mm-dd → dd/mm/yyyy
-    const [y,m,d] = yyyy_mm_dd.split('-');
-    return `${d}/${m}/${y}`;
-}
-
-function parseD(dd_mm_yyyy) {
-    const [d,m,y] = dd_mm_yyyy.split('/');
-    return new Date(+y, +m-1, +d);
-}
-
-/*
-  KEY BILLING LOGIC
-  billingMonth(joinDate, payUntilDate):
-    - payUntilDate is the "paid until" date the admin enters
-    - The billed month of a payUntilDate follows joining-day anchor:
-        if payUntilDate.day >= join.day  → bill month = payUntilDate.month
-        if payUntilDate.day <  join.day  → bill month = previous month
-*/
+/* billing month anchor */
 function billingMonth(doj, payUntil) {
-    const join    = parseD(doj);
-    const until   = parseD(payUntil);
-    const joinDay = join.getDate();
-    const uDay    = until.getDate();
-    let   uMon    = until.getMonth();
-    let   uYr     = until.getFullYear();
-
-    if (uDay < joinDay) {           // hasn't reached anniversary yet → previous month
-        uMon--;
-        if (uMon < 0) { uMon = 11; uYr--; }
-    }
-    return { month: MN[uMon], year: uYr, idx: uMon };
+    const joinDay = parseD(doj).getDate();
+    const u = parseD(payUntil);
+    let mon = u.getMonth(), yr = u.getFullYear();
+    if (u.getDate() < joinDay) { mon--; if (mon<0){mon=11;yr--;} }
+    return { month:MN[mon], year:yr, idx:mon };
 }
 
-/* build sorted list of all months from joining through bill month */
 function allMonths(doj, payUntil) {
-    const join   = parseD(doj);
-    const bm     = billingMonth(doj, payUntil);
-    const end    = new Date(bm.year, bm.idx, 1);
-    const list   = [];
-    const cursor = new Date(join.getFullYear(), join.getMonth(), 1);
-    while (cursor <= end) {
-        list.push({ month: MN[cursor.getMonth()], year: cursor.getFullYear() });
-        cursor.setMonth(cursor.getMonth() + 1);
-    }
-    return list;
+    const bm  = billingMonth(doj, payUntil);
+    const end = new Date(bm.year, bm.idx, 1);
+    const cur = new Date(parseD(doj).getFullYear(), parseD(doj).getMonth(), 1);
+    const out = [];
+    while (cur <= end) { out.push({month:MN[cur.getMonth()],year:cur.getFullYear()}); cur.setMonth(cur.getMonth()+1); }
+    return out;
 }
 
 function calcDetails(member, payUntil) {
-    if (!member.doj || !member.selectedShifts || !member.selectedShifts.length || !payUntil) {
-        return { months:[], paidMonths:[], unpaidMonths:[], perMonth:0,
-                 totalDue:0, totalPaid:0, balance:0, isPaid:true, billMonth:null };
-    }
-    const months    = allMonths(member.doj, payUntil);
-    const bm        = billingMonth(member.doj, payUntil);
-    const perMonth  = member.selectedShifts.length * RATE;
-    const totalDue  = months.length * perMonth;
+    if (!member.doj||!member.selectedShifts||!member.selectedShifts.length||!payUntil)
+        return { months:[],paidMonths:[],unpaidMonths:[],perMonth:0,totalDue:0,totalPaid:0,balance:0,isPaid:true,billMonth:null };
+    const months   = allMonths(member.doj, payUntil);
+    const bm       = billingMonth(member.doj, payUntil);
+    const perMonth = member.selectedShifts.length * RATE;
+    const totalDue = months.length * perMonth;
     const totalPaid = member.totalPaid || 0;
-    const balance   = Math.max(0, totalDue - totalPaid);
-    const paidCnt   = Math.floor(totalPaid / (perMonth || 1));
-    const paidMonths   = months.slice(0, paidCnt);
-    const unpaidMonths = months.slice(paidCnt);
-    return { months, paidMonths, unpaidMonths, perMonth, totalDue, totalPaid,
-             balance, isPaid: balance === 0, billMonth: bm };
+    const balance  = Math.max(0, totalDue - totalPaid);
+    const paidCnt  = Math.floor(totalPaid / (perMonth||1));
+    return { months, paidMonths:months.slice(0,paidCnt), unpaidMonths:months.slice(paidCnt), perMonth, totalDue, totalPaid, balance, isPaid:balance===0, billMonth:bm };
 }
 
-/* month key for filter matching */
-function memberMonthKey(member) {
-    if (!member.lastPayUntil) return null;
-    const bm = billingMonth(member.doj, member.lastPayUntil);
-    return `${bm.year}-${String(bm.idx+1).padStart(2,'0')}`;
+function memberMonthKey(m) {
+    if (!m.lastPayUntil) return null;
+    const bm = billingMonth(m.doj, m.lastPayUntil);
+    return `${bm.year}-${pad(bm.idx+1)}`;
 }
 
-/* ══════════════════════════════════════════
-   FIREBASE WRAPPERS
-══════════════════════════════════════════ */
-function fb() { return window._fb; }
-
-async function saveAdmin(u, p) {
-    const { db, doc, setDoc } = fb();
-    await setDoc(doc(db,'admin','credentials'), { username:u, password:btoa(p), createdAt:new Date().toISOString() });
-}
-
-async function loadAdmin() {
-    const { db, doc, getDoc } = fb();
-    const snap = await getDoc(doc(db,'admin','credentials'));
-    return snap.exists() ? snap.data() : null;
-}
+/* ══════════════════════════════════════════════
+   FIRESTORE HELPERS (require auth)
+══════════════════════════════════════════════ */
+function fns() { return window._fbFns; }
+function db()  { return window._db;   }
 
 async function saveMember(m) {
-    const { db, doc, setDoc } = fb();
-    await setDoc(doc(db,`members_${CY}`, m.mobile), { ...m, updatedAt: new Date().toISOString() });
+    const { doc, setDoc } = fns();
+    await setDoc(doc(db(),`members_${CY}`, m.mobile), {...m, updatedAt:new Date().toISOString()});
 }
 
 async function loadMembers() {
-    const { db, collection, getDocs } = fb();
-    const snap = await getDocs(collection(db, `members_${CY}`));
-    const arr = [];
-    snap.forEach(d => arr.push(d.data()));
-    return arr;
+    const { collection, getDocs } = fns();
+    const snap = await getDocs(collection(db(),`members_${CY}`));
+    const arr = []; snap.forEach(d=>arr.push(d.data())); return arr;
 }
 
-/* ══════════════════════════════════════════
-   AUTH
-══════════════════════════════════════════ */
-function loggedIn() { return sessionStorage.getItem('li') === '1'; }
-function setLogin(v) { sessionStorage.setItem('li', v ? '1' : '0'); }
-
-function showLogin() {
-    document.getElementById('loginWrap').style.display = 'flex';
-    document.getElementById('adminPanel').style.display = 'none';
+/* ══════════════════════════════════════════════
+   SCREEN MANAGER
+══════════════════════════════════════════════ */
+function showOnly(id) {
+    ['loadingScreen','setupScreen','loginScreen','adminPanel'].forEach(s=>{
+        const el = document.getElementById(s);
+        if (el) el.style.display = s===id ? (s==='adminPanel'?'block':'flex') : 'none';
+    });
 }
 
-function showPanel() {
-    document.getElementById('loginWrap').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    bootPanel();
-}
-
-/* ══════════════════════════════════════════
-   BOOT
-══════════════════════════════════════════ */
-async function bootPanel() {
+/* ══════════════════════════════════════════════
+   PANEL BOOT
+══════════════════════════════════════════════ */
+async function bootPanel(user) {
     document.getElementById('yearBadge').textContent = CY;
+    document.getElementById('userChip').innerHTML = `<i class="fas fa-user-circle"></i> ${user.email}`;
     document.getElementById('regDate').value = today();
     populateHMonthFilter();
     buildShiftList();
-    setTodayOnBillDate();
-    setDefaultPayUntil();
+    document.getElementById('billDateDisplay').value = toISO(today());
+    document.getElementById('payUntilDate').value    = toISO(today());
     await renderMembers();
     await populateMemberSel();
     await renderHistory();
 }
 
-function setTodayOnBillDate() {
-    document.getElementById('billDateDisplay').value = toISO(today());
-}
-
-function setDefaultPayUntil() {
-    document.getElementById('payUntilDate').value = toISO(today());
-}
-
 function populateHMonthFilter() {
     const sel = document.getElementById('hMonthFilter');
-    const now = new Date();
-    let html  = '<option value="">All Months</option>';
-    for (let i = 0; i < 12; i++) {
-        let m = now.getMonth() - i;
-        let y = now.getFullYear();
-        if (m < 0) { m += 12; y--; }
-        const val = `${y}-${String(m+1).padStart(2,'0')}`;
-        html += `<option value="${val}">${MN[m]} ${y}</option>`;
+    const now = new Date(); let html = '<option value="">All Months</option>';
+    for (let i=0;i<12;i++) {
+        let m=now.getMonth()-i, y=now.getFullYear();
+        if(m<0){m+=12;y--;} const val=`${y}-${pad(m+1)}`;
+        html+=`<option value="${val}">${MN[m]} ${y}</option>`;
     }
     sel.innerHTML = html;
 }
 
 function buildShiftList() {
-    document.getElementById('shiftList').innerHTML = SHIFTS.map((s,i) => `
+    document.getElementById('shiftList').innerHTML = SHIFTS.map((s,i)=>`
         <div class="shift-row">
             <input type="checkbox" id="sh${i}" value="${s}">
-            <label for="sh${i}"><i class="fas fa-moon" style="color:var(--gold);font-size:11px;"></i> ${s}</label>
+            <label for="sh${i}"><i class="fas fa-clock" style="color:var(--gold);font-size:11px;"></i> ${s}</label>
         </div>`).join('');
 }
 
-/* ══════════════════════════════════════════
-   MEMBERS RENDER
-══════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   MEMBERS
+══════════════════════════════════════════════ */
 async function renderMembers() {
-    const all    = await loadMembers();
+    const all = await loadMembers();
     const search = document.getElementById('memberSearch').value.trim().toLowerCase();
-    const now    = new Date();
-
-    let filtered = all.filter(m => {
-        const matchSearch = !search || m.mobile.includes(search) || m.name.toLowerCase().includes(search);
-        if (!matchSearch) return false;
-        if (activeFilter === '7days') {
-            const diff = (now - parseD(m.doj)) / 86400000;
-            return diff <= 7;
-        }
-        if (activeFilter === 'month') {
-            const d = parseD(m.doj);
-            return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-        }
+    const now = new Date();
+    let filtered = all.filter(m=>{
+        const ms = !search||m.mobile.includes(search)||m.name.toLowerCase().includes(search);
+        if(!ms) return false;
+        if(activeFilter==='7days') return (now-parseD(m.doj))/86400000<=7;
+        if(activeFilter==='month') { const d=parseD(m.doj); return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear(); }
         return true;
     });
-
-    filtered.sort((a,b) => parseD(b.doj) - parseD(a.doj));
-
-    document.getElementById('countBadge').innerHTML = `<i class="fas fa-graduation-cap"></i> Total: ${filtered.length}`;
-
+    filtered.sort((a,b)=>parseD(b.doj)-parseD(a.doj));
+    document.getElementById('countBadge').innerHTML=`<i class="fas fa-graduation-cap"></i> Total: ${filtered.length}`;
     const grid = document.getElementById('membersGrid');
-    if (!filtered.length) {
-        grid.innerHTML = `<div class="empty-state"><i class="fas fa-users"></i><p>No members found</p></div>`;
-        return;
-    }
-
-    grid.innerHTML = filtered.map(m => {
-        const initial = m.name.trim()[0].toUpperCase();
-        return `
+    if(!filtered.length){ grid.innerHTML=`<div class="empty-state"><i class="fas fa-users"></i><p>No members found</p></div>`; return; }
+    grid.innerHTML = filtered.map(m=>`
         <div class="member-tile" onclick="openBilling('${m.mobile}')">
-            <div class="avatar">${initial}</div>
+            <div class="avatar">${m.name.trim()[0].toUpperCase()}</div>
             <div class="member-tile-info">
                 <div class="member-tile-name">${m.name}</div>
                 <div class="member-tile-meta">
@@ -1563,8 +615,7 @@ async function renderMembers() {
                 </div>
             </div>
             <i class="fas fa-chevron-right" style="color:var(--gold);font-size:12px;"></i>
-        </div>`;
-    }).join('');
+        </div>`).join('');
 }
 
 function openBilling(mobile) {
@@ -1573,275 +624,159 @@ function openBilling(mobile) {
     loadMemberBilling();
 }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════
    BILLING
-══════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 async function populateMemberSel() {
     const all = await loadMembers();
     const sel = document.getElementById('memberSel');
-    sel.innerHTML = '<option value="">— Select member —</option>' +
-        all.map(m => `<option value="${m.mobile}">${m.name} (${m.mobile})</option>`).join('');
+    sel.innerHTML = '<option value="">— Select member —</option>'+
+        all.map(m=>`<option value="${m.mobile}">${m.name} (${m.mobile})</option>`).join('');
 }
 
 async function loadMemberBilling() {
     const mobile = document.getElementById('memberSel').value;
-    if (!mobile) {
-        document.getElementById('billingBody').style.display = 'none';
-        document.getElementById('billingEmpty').style.display = 'block';
-        curMember = null;
-        return;
-    }
-
+    if(!mobile){ document.getElementById('billingBody').style.display='none'; document.getElementById('billingEmpty').style.display='block'; curMember=null; return; }
     const all = await loadMembers();
-    curMember  = all.find(m => m.mobile === mobile);
-    if (!curMember) return;
-
-    document.getElementById('billingBody').style.display = 'block';
-    document.getElementById('billingEmpty').style.display = 'none';
-
-    /* restore saved pay-until date if exists */
-    if (curMember.lastPayUntil) {
-        document.getElementById('payUntilDate').value = toISO(curMember.lastPayUntil);
-    } else {
-        document.getElementById('payUntilDate').value = toISO(today());
-    }
-
-    /* restore shifts */
-    SHIFTS.forEach((s,i) => {
-        document.getElementById(`sh${i}`).checked =
-            (curMember.selectedShifts || []).includes(s);
-    });
-
+    curMember = all.find(m=>m.mobile===mobile);
+    if(!curMember) return;
+    document.getElementById('billingBody').style.display='block';
+    document.getElementById('billingEmpty').style.display='none';
+    document.getElementById('payUntilDate').value = curMember.lastPayUntil ? toISO(curMember.lastPayUntil) : toISO(today());
+    SHIFTS.forEach((_,i)=>{ document.getElementById(`sh${i}`).checked=(curMember.selectedShifts||[]).includes(SHIFTS[i]); });
     updateSummary();
 }
 
 async function updateSummary() {
-    if (!curMember) return;
-
-    /* collect shifts */
-    const sel = SHIFTS.filter((_,i) => document.getElementById(`sh${i}`).checked);
+    if(!curMember) return;
+    const sel = SHIFTS.filter((_,i)=>document.getElementById(`sh${i}`).checked);
     curMember.selectedShifts = sel;
-
-    /* save shift change to Firebase silently */
     await saveMember(curMember);
-
     const payUntil = fromISO(document.getElementById('payUntilDate').value);
-    const d        = calcDetails(curMember, payUntil);
-    const box      = document.getElementById('summaryBox');
-
-    if (!sel.length) {
-        box.innerHTML = `<p style="color:var(--ink-muted);font-size:13px;text-align:center;padding:20px 0;">Select at least one shift</p>`;
-        return;
-    }
-
-    let html = `
-        <div class="summary-row">
-            <span class="lbl"><i class="fas fa-calendar-plus"></i> Joining Date</span>
-            <span class="val">${curMember.doj}</span>
-        </div>`;
-
-    /* paid months */
-    if (d.paidMonths.length) {
-        html += `<div class="months-section">
-            <div class="months-section-title paid-title"><i class="fas fa-check-circle"></i> Paid Months</div>
-            <div class="months-chips">${d.paidMonths.map(m=>`<span class="chip paid"><i class="fas fa-check"></i>${m.month} ${m.year}</span>`).join('')}</div>
-        </div>`;
-    }
-
-    /* unpaid months */
-    if (d.unpaidMonths.length) {
-        html += `<div class="months-section">
-            <div class="months-section-title unpaid-title"><i class="fas fa-exclamation-circle"></i> Unpaid Months</div>
-            <div class="months-chips">${d.unpaidMonths.map(m=>`<span class="chip unpaid"><i class="fas fa-times"></i>${m.month} ${m.year}</span>`).join('')}</div>
-        </div>`;
-    }
-
-    html += `
+    const d = calcDetails(curMember, payUntil);
+    const box = document.getElementById('summaryBox');
+    if(!sel.length){ box.innerHTML=`<p style="color:var(--ink-muted);font-size:13px;text-align:center;padding:20px 0;">Select at least one shift</p>`; return; }
+    let html=`<div class="summary-row"><span class="lbl"><i class="fas fa-calendar-plus"></i> Joining Date</span><span class="val">${curMember.doj}</span></div>`;
+    if(d.paidMonths.length) html+=`<div class="months-section"><div class="months-section-title paid-title"><i class="fas fa-check-circle"></i> Paid Months</div><div class="months-chips">${d.paidMonths.map(m=>`<span class="chip paid"><i class="fas fa-check"></i>${m.month} ${m.year}</span>`).join('')}</div></div>`;
+    if(d.unpaidMonths.length) html+=`<div class="months-section"><div class="months-section-title unpaid-title"><i class="fas fa-exclamation-circle"></i> Unpaid Months</div><div class="months-chips">${d.unpaidMonths.map(m=>`<span class="chip unpaid"><i class="fas fa-times"></i>${m.month} ${m.year}</span>`).join('')}</div></div>`;
+    html+=`
         <div class="summary-row"><span class="lbl"><i class="fas fa-layer-group"></i> Shifts</span><span class="val">${sel.length}</span></div>
-        <div class="summary-row"><span class="lbl"><i class="fas fa-tag"></i> Rate / Shift / Month</span><span class="val">₹${RATE}</span></div>
+        <div class="summary-row"><span class="lbl"><i class="fas fa-tag"></i> Rate/Shift/Month</span><span class="val">₹${RATE}</span></div>
         <div class="summary-row"><span class="lbl"><i class="fas fa-calculator"></i> Monthly Total</span><span class="val">₹${d.perMonth}</span></div>
         <div class="summary-row"><span class="lbl"><i class="fas fa-calendar-alt"></i> Total Months</span><span class="val">${d.months.length}</span></div>
         <div class="summary-row"><span class="lbl"><i class="fas fa-file-invoice-dollar"></i> Total Due</span><span class="val red">₹${d.totalDue}</span></div>
         <div class="summary-row"><span class="lbl"><i class="fas fa-money-bill-wave"></i> Total Paid</span><span class="val green">₹${d.totalPaid}</span></div>
-        <div class="summary-row big">
-            <span class="lbl"><i class="fas fa-balance-scale"></i> Balance</span>
-            <span class="val ${d.balance > 0 ? 'red' : 'green'}">₹${d.balance}</span>
-        </div>`;
-
+        <div class="summary-row big"><span class="lbl"><i class="fas fa-balance-scale"></i> Balance</span><span class="val ${d.balance>0?'red':'green'}">₹${d.balance}</span></div>`;
     box.innerHTML = html;
 }
 
 async function saveBilling() {
-    if (!curMember) return;
+    if(!curMember) return;
     const payUntil = fromISO(document.getElementById('payUntilDate').value);
-    const sel      = SHIFTS.filter((_,i) => document.getElementById(`sh${i}`).checked);
-
+    const sel = SHIFTS.filter((_,i)=>document.getElementById(`sh${i}`).checked);
     curMember.selectedShifts = sel;
     curMember.lastPayUntil   = payUntil;
-
     const d = calcDetails(curMember, payUntil);
     curMember.totalPaid = d.totalDue;
-
     await saveMember(curMember);
-
     alert('✓ Billing saved and marked as paid!');
-    await updateSummary();
-    await renderMembers();
-    await renderHistory();
+    await updateSummary(); await renderMembers(); await renderHistory();
 }
 
 function printBill() {
-    if (!curMember) return;
-    const payUntil  = fromISO(document.getElementById('payUntilDate').value);
-    const billDate  = today();
-    const d         = calcDetails(curMember, payUntil);
-
-    /* current billing month = the month corresponding to payUntilDate anchor */
+    if(!curMember) return;
+    const payUntil = fromISO(document.getElementById('payUntilDate').value);
+    const billDate = today();
+    const d  = calcDetails(curMember, payUntil);
     const bm = d.billMonth;
-
-    const unpaidSection = d.unpaidMonths.length ? `
+    const unpaidSec = d.unpaidMonths.length ? `
         <div style="background:#fdecea;border:2px solid #f4b0aa;border-radius:10px;padding:14px 18px;margin-bottom:18px;">
-            <div style="font-size:13px;font-weight:700;color:#c0392b;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
-                <span>⚠️</span> Unpaid Months
-            </div>
-            <div style="display:flex;flex-wrap:wrap;gap:7px;">
-                ${d.unpaidMonths.map(m=>`<span style="background:white;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;color:#c0392b;border:1.5px solid #f4b0aa;">${m.month} ${m.year}</span>`).join('')}
-            </div>
+            <div style="font-size:13px;font-weight:700;color:#c0392b;margin-bottom:10px;">⚠️ Unpaid Months</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;">${d.unpaidMonths.map(m=>`<span style="background:white;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;color:#c0392b;border:1.5px solid #f4b0aa;">${m.month} ${m.year}</span>`).join('')}</div>
         </div>` : '';
-
-    const html = `
-    <div style="max-width:680px;margin:0 auto;padding:24px;font-family:'Poppins',sans-serif;color:#1a1208;">
-
-        <!-- header -->
+    const html=`<div style="max-width:680px;margin:0 auto;padding:24px;font-family:'Poppins',sans-serif;color:#1a1208;">
         <div style="text-align:center;border-bottom:3px solid #c9993a;padding-bottom:18px;margin-bottom:22px;">
             <div style="font-size:30px;font-family:'Cormorant Garamond',serif;font-weight:700;color:#c9993a;">Purainiya Library</div>
             <div style="font-size:15px;color:#8a7a5a;margin-top:4px;font-weight:600;">Payment Receipt</div>
-            <div style="font-size:12px;color:#b0a080;margin-top:6px;">Bill Date: ${billDate} &nbsp;|&nbsp; Year: ${CY}</div>
+            <div style="font-size:12px;color:#b0a080;margin-top:6px;">Bill Date: ${billDate} | Year: ${CY}</div>
         </div>
-
-        <!-- member info -->
         <div style="background:linear-gradient(135deg,#fdf8ef,#f0c96b33);border:2px solid #c9993a;border-radius:12px;padding:18px 22px;margin-bottom:18px;">
             <table style="width:100%;border-collapse:collapse;">
-                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;width:38%;">Name</td><td style="padding:6px 0;font-size:14px;font-weight:600;color:#1a1208;">${curMember.name}</td></tr>
-                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;">Mobile</td><td style="padding:6px 0;font-size:14px;font-weight:600;color:#1a1208;">${curMember.mobile}</td></tr>
-                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;">Joining Date</td><td style="padding:6px 0;font-size:14px;font-weight:600;color:#1a1208;">${curMember.doj}</td></tr>
+                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;width:38%;">Name</td><td style="font-size:14px;font-weight:600;">${curMember.name}</td></tr>
+                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;">Mobile</td><td style="font-size:14px;font-weight:600;">${curMember.mobile}</td></tr>
+                <tr><td style="padding:6px 0;font-size:13px;font-weight:700;color:#4a3f28;">Joining Date</td><td style="font-size:14px;font-weight:600;">${curMember.doj}</td></tr>
             </table>
         </div>
-
-        <!-- two col -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
             <div>
                 <div style="font-size:13px;font-weight:700;color:#c9993a;border-bottom:2px solid #c9993a;padding-bottom:8px;margin-bottom:12px;">Selected Shifts</div>
                 <div style="background:#fdf8ef;border:1.5px solid #e8dcc8;border-radius:10px;padding:14px;min-height:110px;">
-                    ${(curMember.selectedShifts||[]).length
-                        ? curMember.selectedShifts.map(s=>`<div style="font-size:12px;color:#4a3f28;font-weight:500;padding:3px 0;">• ${s}</div>`).join('')
-                        : '<div style="font-size:12px;color:#b0a080;">No shifts selected</div>'}
+                    ${(curMember.selectedShifts||[]).map(s=>`<div style="font-size:12px;color:#4a3f28;font-weight:500;padding:3px 0;">• ${s}</div>`).join('')||'<div style="font-size:12px;color:#b0a080;">None</div>'}
                 </div>
             </div>
             <div>
                 <div style="font-size:13px;font-weight:700;color:#c9993a;border-bottom:2px solid #c9993a;padding-bottom:8px;margin-bottom:12px;">Current Bill Month</div>
                 <div style="background:#fdf8ef;border:1.5px solid #e8dcc8;border-radius:10px;padding:14px;min-height:110px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-                    <div style="font-size:28px;font-weight:700;color:#c9993a;font-family:'Cormorant Garamond',serif;">${bm ? bm.month : '—'}</div>
-                    <div style="font-size:18px;font-weight:600;color:#8a7a5a;">${bm ? bm.year : ''}</div>
+                    <div style="font-size:28px;font-weight:700;color:#c9993a;font-family:'Cormorant Garamond',serif;">${bm?bm.month:'—'}</div>
+                    <div style="font-size:18px;font-weight:600;color:#8a7a5a;">${bm?bm.year:''}</div>
                 </div>
             </div>
         </div>
-
-        ${unpaidSection}
-
-        <!-- summary table -->
+        ${unpaidSec}
         <div style="border:2px solid #c9993a;border-radius:12px;padding:20px 24px;background:linear-gradient(135deg,#fdf8ef,#f0c96b1a);">
             <div style="font-size:15px;font-weight:700;color:#c9993a;text-align:center;margin-bottom:14px;">Payment Summary</div>
             <table style="width:100%;border-collapse:collapse;">
-                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Shifts</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1px solid #e8dcc8;">${(curMember.selectedShifts||[]).length}</td></tr>
-                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Rate / Shift / Month</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1px solid #e8dcc8;">₹${RATE}</td></tr>
-                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Monthly Total</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1px solid #e8dcc8;">₹${d.perMonth}</td></tr>
-                <tr><td style="padding:7px 0;border-bottom:1.5px solid #c9993a;font-size:13px;color:#8a7a5a;font-weight:600;">Total Months</td><td style="text-align:right;font-weight:700;font-size:13px;padding:7px 0;border-bottom:1.5px solid #c9993a;">${d.months.length}</td></tr>
-                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:14px;color:#8a7a5a;font-weight:700;">Total Due</td><td style="text-align:right;font-weight:700;font-size:14px;padding:7px 0;border-bottom:1px solid #e8dcc8;color:#c0392b;">₹${d.totalDue}</td></tr>
-                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:14px;color:#8a7a5a;font-weight:700;">Total Paid</td><td style="text-align:right;font-weight:700;font-size:14px;padding:7px 0;border-bottom:1px solid #e8dcc8;color:#2d7a4f;">₹${d.totalPaid}</td></tr>
-                <tr>
-                    <td style="padding:12px 0;font-size:16px;font-weight:700;color:#c9993a;">Balance Due</td>
-                    <td style="text-align:right;padding:12px 0;">
-                        <span style="font-size:20px;font-weight:700;background:linear-gradient(135deg,#f0c96b,#9a7220);color:white;padding:7px 18px;border-radius:8px;display:inline-block;">₹${d.balance}</span>
-                    </td>
-                </tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Shifts</td><td style="text-align:right;font-weight:700;font-size:13px;">${(curMember.selectedShifts||[]).length}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Rate/Shift/Month</td><td style="text-align:right;font-weight:700;font-size:13px;">₹${RATE}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:13px;color:#8a7a5a;font-weight:600;">Monthly Total</td><td style="text-align:right;font-weight:700;font-size:13px;">₹${d.perMonth}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1.5px solid #c9993a;font-size:13px;color:#8a7a5a;font-weight:600;">Total Months</td><td style="text-align:right;font-weight:700;font-size:13px;">${d.months.length}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:14px;color:#8a7a5a;font-weight:700;">Total Due</td><td style="text-align:right;font-weight:700;font-size:14px;color:#c0392b;">₹${d.totalDue}</td></tr>
+                <tr><td style="padding:7px 0;border-bottom:1px solid #e8dcc8;font-size:14px;color:#8a7a5a;font-weight:700;">Total Paid</td><td style="text-align:right;font-weight:700;font-size:14px;color:#2d7a4f;">₹${d.totalPaid}</td></tr>
+                <tr><td style="padding:12px 0;font-size:16px;font-weight:700;color:#c9993a;">Balance Due</td><td style="text-align:right;padding:12px 0;"><span style="font-size:20px;font-weight:700;background:linear-gradient(135deg,#f0c96b,#9a7220);color:white;padding:7px 18px;border-radius:8px;display:inline-block;">₹${d.balance}</span></td></tr>
             </table>
         </div>
-
         <div style="margin-top:22px;text-align:center;border-top:1px solid #e8dcc8;padding-top:16px;">
             <p style="font-size:13px;color:#8a7a5a;font-weight:600;">Thank you for being a valued member of Purainiya Library</p>
-            <p style="font-size:11px;color:#b0a080;margin-top:4px;">Premium Management System</p>
         </div>
     </div>`;
-
-    const w = window.open('','_blank');
-    w.document.write(`<!DOCTYPE html><html><head>
-        <title>Receipt – ${curMember.name}</title>
+    const w=window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>Receipt</title>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
-        <style>*{box-sizing:border-box;margin:0;padding:0;}body{background:white;font-family:'Poppins',sans-serif;}
-        @media print{@page{size:A4;margin:10mm;}.no-print{display:none}}</style>
-    </head><body>${html}
-    <script>window.onload=()=>setTimeout(()=>window.print(),600);<\/script>
-    </body></html>`);
+        <style>*{box-sizing:border-box;margin:0;padding:0;}body{background:white;}@media print{@page{size:A4;margin:10mm;}}</style>
+    </head><body>${html}<script>window.onload=()=>setTimeout(()=>window.print(),600);<\/script></body></html>`);
     w.document.close();
 }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════
    HISTORY
-══════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 async function renderHistory() {
-    const all        = await loadMembers();
-    const monthF     = document.getElementById('hMonthFilter').value;
-    const statusF    = document.getElementById('hStatusFilter').value;
-    const searchF    = document.getElementById('hSearch').value.trim().toLowerCase();
-
-    const filtered = all.filter(m => {
-        if (!m.name || !m.mobile) return false;
-        const payUntil = m.lastPayUntil || today();
-        const d        = calcDetails(m, payUntil);
-        const mk       = memberMonthKey(m);
-
-        const matchSearch = !searchF || m.name.toLowerCase().includes(searchF) || m.mobile.includes(searchF);
-        const matchStatus = !statusF ||
-            (statusF === 'paid' && d.isPaid) ||
-            (statusF === 'due'  && !d.isPaid);
-        /* Fix: match month key from lastPayUntil anchor */
-        const matchMonth  = !monthF || mk === monthF;
-
-        return matchSearch && matchStatus && matchMonth;
+    const all    = await loadMembers();
+    const monthF  = document.getElementById('hMonthFilter').value;
+    const statusF = document.getElementById('hStatusFilter').value;
+    const searchF = document.getElementById('hSearch').value.trim().toLowerCase();
+    const filtered = all.filter(m=>{
+        if(!m.name||!m.mobile) return false;
+        const payUntil = m.lastPayUntil||today();
+        const d  = calcDetails(m, payUntil);
+        const mk = memberMonthKey(m);
+        const ms = !searchF||m.name.toLowerCase().includes(searchF)||m.mobile.includes(searchF);
+        const ss = !statusF||(statusF==='paid'&&d.isPaid)||(statusF==='due'&&!d.isPaid);
+        const ms2= !monthF||mk===monthF;
+        return ms&&ss&&ms2;
     });
-
-    let totCollect = 0, totDue = 0, paidCnt = 0;
-    filtered.forEach(m => {
-        const d = calcDetails(m, m.lastPayUntil || today());
-        totCollect += d.totalPaid;
-        totDue     += d.balance;
-        if (d.isPaid) paidCnt++;
-    });
-
-    document.getElementById('tAmount').textContent  = `₹${totCollect.toLocaleString()}`;
-    document.getElementById('tMembers').textContent  = filtered.length;
-    document.getElementById('tPaid').textContent     = paidCnt;
-    document.getElementById('tDue').textContent      = `₹${totDue.toLocaleString()}`;
-
-    const list = document.getElementById('historyList');
-    if (!filtered.length) {
-        list.innerHTML = `<div class="empty-state"><i class="fas fa-chart-bar"></i><p>No records found</p></div>`;
-        return;
-    }
-
-    list.innerHTML = filtered.map(m => {
-        const d   = calcDetails(m, m.lastPayUntil || today());
-        const ini = m.name.trim()[0].toUpperCase();
-        return `
-        <div class="hist-item" onclick="openBilling('${m.mobile}')">
-            <div class="hist-top">
-                <div class="hist-name">
-                    <div class="dot">${ini}</div>
-                    ${m.name}
-                </div>
-                <div class="hist-paid">₹${d.totalPaid}</div>
-            </div>
+    let tot=0,due=0,paid=0;
+    filtered.forEach(m=>{ const d=calcDetails(m,m.lastPayUntil||today()); tot+=d.totalPaid; due+=d.balance; if(d.isPaid)paid++; });
+    document.getElementById('tAmount').textContent=`₹${tot.toLocaleString()}`;
+    document.getElementById('tMembers').textContent=filtered.length;
+    document.getElementById('tPaid').textContent=paid;
+    document.getElementById('tDue').textContent=`₹${due.toLocaleString()}`;
+    const list=document.getElementById('historyList');
+    if(!filtered.length){list.innerHTML=`<div class="empty-state"><i class="fas fa-chart-bar"></i><p>No records found</p></div>`;return;}
+    list.innerHTML=filtered.map(m=>{
+        const d=calcDetails(m,m.lastPayUntil||today());
+        return `<div class="hist-item" onclick="openBilling('${m.mobile}')">
+            <div class="hist-top"><div class="hist-name"><div class="dot">${m.name.trim()[0].toUpperCase()}</div>${m.name}</div><div class="hist-paid">₹${d.totalPaid}</div></div>
             <div class="hist-meta">
                 <div class="hm"><div class="hm-label">Mobile</div><div class="hm-value">${m.mobile}</div></div>
                 <div class="hm"><div class="hm-label">Joining Date</div><div class="hm-value">${m.doj}</div></div>
@@ -1854,141 +789,167 @@ async function renderHistory() {
     }).join('');
 }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════
    TAB SWITCH
-══════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 function switchTab(name) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-    document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === name+'Pane'));
-    if (name === 'billing') populateMemberSel();
-    if (name === 'history') renderHistory();
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.toggle('active',p.id===name+'Pane'));
+    if(name==='billing') populateMemberSel();
+    if(name==='history') renderHistory();
 }
 
-/* ══════════════════════════════════════════
-   DOM READY
-══════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   EVENT LISTENERS — wait for auth module
+══════════════════════════════════════════════ */
+window.addEventListener('authChange', async e => {
+    const user = e.detail;
+
+    if(!authReady) {
+        authReady = true;
+
+        /* decide initial screen */
+        if(user) {
+            showOnly('adminPanel');
+            await bootPanel(user);
+        } else {
+            /* check if any user already exists in Auth
+               — we do this by trying to check Firestore for a marker */
+            try {
+                const { doc, getDoc } = window._fbFns;
+                const snap = await getDoc(doc(window._db,'_meta','adminSetup'));
+                if(snap.exists()) {
+                    showOnly('loginScreen');
+                } else {
+                    showOnly('setupScreen');
+                }
+            } catch(err) {
+                showOnly('loginScreen'); /* safe fallback */
+            }
+        }
+        return;
+    }
+
+    /* subsequent auth changes */
+    if(user) {
+        showOnly('adminPanel');
+        await bootPanel(user);
+    } else {
+        showOnly('loginScreen');
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* wait for Firebase */
-    window.addEventListener('fbReady', async () => {
-        if (window._fbErr) {
-            document.getElementById('loadingArea').innerHTML =
-                `<span style="color:var(--danger)"><i class="fas fa-exclamation-triangle"></i> Firebase error: ${window._fbErr}</span>`;
-            return;
-        }
-
-        if (loggedIn()) { showPanel(); return; }
-
-        document.getElementById('loadingArea').style.display = 'block';
-
-        try {
-            const admin = await loadAdmin();
-            document.getElementById('loadingArea').style.display = 'none';
-            if (admin) {
-                document.getElementById('loginForm').style.display = 'block';
-            } else {
-                document.getElementById('setupArea').style.display = 'block';
-            }
-        } catch(e) {
-            document.getElementById('loadingArea').innerHTML =
-                `<span style="color:var(--danger)"><i class="fas fa-exclamation-triangle"></i> ${e.message}</span>`;
-        }
-    });
-
-    /* setup form */
+    /* ── Setup form ── */
     document.getElementById('setupForm').addEventListener('submit', async e => {
         e.preventDefault();
-        const u = document.getElementById('newUser').value;
-        const p = document.getElementById('newPass').value;
-        const c = document.getElementById('confPass').value;
-        const msg = document.getElementById('setupMsg');
-        if (p !== c) { msg.textContent = 'Passwords do not match!'; return; }
-        if (p.length < 4) { msg.textContent = 'Password too short!'; return; }
-        msg.textContent = 'Creating…'; msg.className = 'form-msg ok';
-        await saveAdmin(u, p);
-        document.getElementById('setupArea').style.display = 'none';
-        document.getElementById('loginForm').style.display = 'block';
-        document.getElementById('loginMsg').textContent = 'Account created! Please login.';
-        document.getElementById('loginMsg').className = 'form-msg ok';
-    });
-
-    /* login form */
-    document.getElementById('loginForm').addEventListener('submit', async e => {
-        e.preventDefault();
-        const u = document.getElementById('username').value;
-        const p = document.getElementById('password').value;
-        const msg = document.getElementById('loginMsg');
-        const btn = e.target.querySelector('button');
-        btn.textContent = 'Logging in…'; btn.disabled = true;
+        const email  = document.getElementById('setupEmail').value.trim();
+        const pass   = document.getElementById('setupPass').value;
+        const conf   = document.getElementById('setupConfirm').value;
+        const msg    = document.getElementById('setupMsg');
+        const btn    = document.getElementById('setupBtn');
+        if(pass!==conf){ msg.textContent='Passwords do not match!'; return; }
+        if(pass.length<6){ msg.textContent='Password must be at least 6 characters!'; return; }
+        btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Creating…';
         try {
-            const admin = await loadAdmin();
-            if (admin && admin.username === u && admin.password === btoa(p)) {
-                setLogin(true); showPanel();
-            } else {
-                msg.textContent = 'Invalid credentials!';
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; btn.disabled = false;
-            }
+            const { createUserWithEmailAndPassword, doc, setDoc } = window._fbFns;
+            await createUserWithEmailAndPassword(window._auth, email, pass);
+            /* write setup marker so next visitor sees login screen */
+            await setDoc(doc(window._db,'_meta','adminSetup'), { createdAt: new Date().toISOString() });
         } catch(err) {
-            msg.textContent = 'Connection error.';
-            btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login'; btn.disabled = false;
+            msg.textContent = friendlyErr(err.code);
+            btn.disabled=false; btn.innerHTML='<i class="fas fa-user-shield"></i> Create Secure Account';
         }
     });
 
-    /* logout */
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        setLogin(false); showLogin();
+    /* ── Login form ── */
+    document.getElementById('loginForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const pass  = document.getElementById('loginPass').value;
+        const msg   = document.getElementById('loginMsg');
+        const btn   = document.getElementById('loginBtn');
+        btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Logging in…';
+        try {
+            const { signInWithEmailAndPassword } = window._fbFns;
+            await signInWithEmailAndPassword(window._auth, email, pass);
+        } catch(err) {
+            msg.textContent = friendlyErr(err.code);
+            btn.disabled=false; btn.innerHTML='<i class="fas fa-sign-in-alt"></i> Login Securely';
+        }
     });
 
-    /* reg form */
+    /* ── Forgot password ── */
+    document.getElementById('forgotBtn').addEventListener('click', async () => {
+        const email = document.getElementById('loginEmail').value.trim();
+        const msg   = document.getElementById('resetMsg');
+        if(!email){ msg.textContent='Enter your email first.'; return; }
+        try {
+            await window._fbFns.sendPasswordResetEmail(window._auth, email);
+            msg.textContent='✓ Reset email sent! Check your inbox.';
+            msg.className='msg ok';
+        } catch(err) {
+            msg.textContent = friendlyErr(err.code);
+        }
+    });
+
+    /* ── Logout ── */
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+        await window._fbFns.signOut(window._auth);
+    });
+
+    /* ── Registration ── */
     document.getElementById('regForm').addEventListener('submit', async e => {
         e.preventDefault();
         const mobile = document.getElementById('regMobile').value.trim();
         const name   = document.getElementById('regName').value.trim();
         const all    = await loadMembers();
-        if (all.find(m => m.mobile === mobile)) { alert('Mobile already registered!'); return; }
-        await saveMember({ mobile, name, doj: today(), selectedShifts:[], lastPayUntil:null, totalPaid:0 });
+        if(all.find(m=>m.mobile===mobile)){ alert('Mobile already registered!'); return; }
+        await saveMember({ mobile, name, doj:today(), selectedShifts:[], lastPayUntil:null, totalPaid:0 });
         const s = document.getElementById('regSuccess');
-        s.style.display = 'flex';
-        setTimeout(() => s.style.display = 'none', 3000);
-        e.target.reset();
-        document.getElementById('regDate').value = today();
-        await renderMembers();
-        await populateMemberSel();
+        s.style.display='flex'; setTimeout(()=>s.style.display='none',3000);
+        e.target.reset(); document.getElementById('regDate').value=today();
+        await renderMembers(); await populateMemberSel();
     });
 
-    /* member search + filter pills */
+    /* ── Search & filter pills ── */
     document.getElementById('memberSearch').addEventListener('input', renderMembers);
-    document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', async () => {
-        document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
-        p.classList.add('active');
-        activeFilter = p.dataset.f;
-        await renderMembers();
+    document.querySelectorAll('.pill').forEach(p=>p.addEventListener('click', async ()=>{
+        document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+        p.classList.add('active'); activeFilter=p.dataset.f; await renderMembers();
     }));
 
-    /* tab buttons */
-    document.querySelectorAll('.tab').forEach(t =>
-        t.addEventListener('click', () => switchTab(t.dataset.tab)));
+    /* ── Tabs ── */
+    document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
 
-    /* member select in billing */
+    /* ── Billing ── */
     document.getElementById('memberSel').addEventListener('change', loadMemberBilling);
-
-    /* shift checkboxes */
-    document.getElementById('shiftList').addEventListener('change', e => {
-        if (e.target.type === 'checkbox') updateSummary();
-    });
-
-    /* pay until date */
+    document.getElementById('shiftList').addEventListener('change', e=>{ if(e.target.type==='checkbox') updateSummary(); });
     document.getElementById('payUntilDate').addEventListener('change', updateSummary);
-
-    /* save + print */
     document.getElementById('saveBtn').addEventListener('click', saveBilling);
     document.getElementById('printBtn').addEventListener('click', printBill);
 
-    /* history filters */
+    /* ── History filters ── */
     document.getElementById('hMonthFilter').addEventListener('change', renderHistory);
     document.getElementById('hStatusFilter').addEventListener('change', renderHistory);
     document.getElementById('hSearch').addEventListener('input', renderHistory);
 });
+
+/* ── friendly error messages ── */
+function friendlyErr(code) {
+    const map = {
+        'auth/email-already-in-use':   'This email is already registered.',
+        'auth/invalid-email':          'Invalid email address.',
+        'auth/weak-password':          'Password is too weak (min 6 chars).',
+        'auth/user-not-found':         'No account found with this email.',
+        'auth/wrong-password':         'Incorrect password.',
+        'auth/invalid-credential':     'Invalid email or password.',
+        'auth/too-many-requests':      'Too many attempts. Please try again later.',
+        'auth/network-request-failed': 'Network error. Check your connection.',
+    };
+    return map[code] || `Error: ${code}`;
+}
 </script>
 </body>
 </html>
