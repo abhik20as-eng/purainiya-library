@@ -156,6 +156,21 @@
             font-style: italic;
         }
 
+        /* ===== KILL ALL HERO & NAVBAR ANIMATIONS ===== */
+        .hero, .hero *, .hero-title, .hero-title.hero-custom,
+        .hero-badge, .hero-content, .hero-bg, .hero-place,
+        .hero-peace, .hero-title-highlight, .navbar, .navbar *,
+        .logo, .logo * {
+            animation: none !important;
+            animation-delay: 0s !important;
+            animation-duration: 0s !important;
+            opacity: 1 !important;
+        }
+        .hero-place::after {
+            transform: scaleX(1) !important;
+            animation: none !important;
+        }
+
         /* Facilities Grid */
         .facilities-grid {
             display: grid;
