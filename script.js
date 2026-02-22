@@ -89,20 +89,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-
-// Intersection Observer for fade-in animations
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-            observer.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('section').forEach(section => {
-    observer.observe(section);
-});
+// REMOVED: Intersection Observer for fade-in animations on sections
+// (Previously added .fade-in class to sections as they scrolled into view)
 
 // Lazy load images
 const imageObserver = new IntersectionObserver((entries) => {
