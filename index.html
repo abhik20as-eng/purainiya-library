@@ -14,26 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
-
-    <!-- Wait for hero image to load before showing page so no fade -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var heroBg = new Image();
-            heroBg.onload = function() {
-                var el = document.getElementById('heroBg');
-                if (el) el.style.backgroundImage = "url('images/fivek.jpg')";
-                document.body.style.visibility = 'visible';
-            };
-            heroBg.onerror = function() {
-                document.body.style.visibility = 'visible';
-            };
-            heroBg.src = 'images/fivek.jpg';
-        });
-    </script>
-    <style>
-        body { visibility: hidden; }
-        .hero-bg { background-image: none !important; }
-    </style>
     
     <style>
         .hero-place,
@@ -176,21 +156,6 @@
             font-style: italic;
         }
 
-        /* ===== KILL ALL HERO & NAVBAR ANIMATIONS ===== */
-        .hero, .hero *, .hero-title, .hero-title.hero-custom,
-        .hero-badge, .hero-content, .hero-bg, .hero-place,
-        .hero-peace, .hero-title-highlight, .navbar, .navbar *,
-        .logo, .logo * {
-            animation: none !important;
-            animation-delay: 0s !important;
-            animation-duration: 0s !important;
-            opacity: 1 !important;
-        }
-        .hero-place::after {
-            transform: scaleX(1) !important;
-            animation: none !important;
-        }
-
         /* Facilities Grid */
         .facilities-grid {
             display: grid;
@@ -300,7 +265,7 @@
                 <span class="hamburger-line"></span>
             </button>
             <div class="logo">
-                <img src="images/footer.png" alt="Purainiya Library Logo" fetchpriority="high" loading="eager">
+                <img src="images/footer.png" alt="Purainiya Library Logo">
             </div>
             <div class="spacer"></div>
         </div>
