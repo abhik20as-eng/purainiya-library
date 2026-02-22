@@ -29,7 +29,8 @@ body {
     background: #1e293b;
     height: 80px;
     z-index: 100;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+
 }
 
 .nav-container {
