@@ -274,7 +274,18 @@ body {
     max-width: 800px;
 }
 
-/* REMOVED: .hero-content::before radial glow effect */
+.hero-content::before {
+    content: "";
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(251,191,36,0.18), transparent 70%);
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    filter: blur(40px);
+    z-index: -1;
+}
 
 .hero-badge {
     display: inline-block;
@@ -299,7 +310,7 @@ body {
     margin-bottom: 1.5rem;
     font-family: 'Playfair Display', serif;
     letter-spacing: 0.05em;
-    /* REMOVED: animation: heroFadeUp */
+    animation: heroFadeUp 1.4s ease forwards;
 }
 
 .hero-title.hero-custom {
@@ -312,7 +323,16 @@ body {
     line-height: 1.2 !important;
 }
 
-/* REMOVED: @keyframes heroFadeUp */
+@keyframes heroFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 .hero-place {
     font-family: 'Cinzel', serif;
@@ -324,9 +344,26 @@ body {
     display: inline-block;
 }
 
-/* REMOVED: .hero-place::after underline animation */
+.hero-place::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 9px;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    opacity: 0.9;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underlineReveal 1.2s ease forwards;
+    animation-delay: 0.6s;
+}
 
-/* REMOVED: @keyframes underlineReveal */
+@keyframes underlineReveal {
+    to {
+        transform: scaleX(1);
+    }
+}
 
 .hero-title-highlight {
     font-family: 'Alex Brush', cursive;
@@ -347,7 +384,43 @@ body {
     margin-top: -0.23em;
 }
 
-/* REMOVED: .scroll-indicator and @keyframes scrollMove */
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 36px;
+    border: 2px solid rgba(255,255,255,0.6);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+    opacity: 0.8;
+}
+
+.scroll-indicator span {
+    width: 4px;
+    height: 8px;
+    background: #fff;
+    border-radius: 2px;
+    animation: scrollMove 1.5s infinite;
+}
+
+@keyframes scrollMove {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    40% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
 
 /* ===============================
    GALLERY SECTION - 16:9 RATIO
@@ -629,6 +702,13 @@ body {
     .hero {
         height: 70vh;
         min-height: 420px;
+    }
+
+    .hero-content::before {
+        width: 220px;
+        height: 220px;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .scroll-indicator {

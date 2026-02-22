@@ -89,9 +89,29 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// REMOVED: Navbar scroll background effect (.scrolled class toggle)
+// Navbar scroll background
+const navbar = document.querySelector('.navbar');
+window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 50) {
+        navbar?.classList.add('scrolled');
+    } else {
+        navbar?.classList.remove('scrolled');
+    }
+});
 
-// REMOVED: Intersection Observer fade-in animations on sections
+// Intersection Observer for fade-in animations
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('section').forEach(section => {
+    observer.observe(section);
+});
 
 // Lazy load images
 const imageObserver = new IntersectionObserver((entries) => {
