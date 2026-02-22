@@ -27,8 +27,18 @@ body {
     left: 0;
     right: 0;
     background: #1e293b;
+    background-color: #1e293b;
     height: 80px;
     z-index: 100;
+}
+
+/* Prevent logo image from fading in on load */
+.logo img,
+.sidebar-logo img,
+.footer-logo img {
+    opacity: 1 !important;
+    transition: none !important;
+    animation: none !important;
 }
 
 .nav-container {
@@ -248,6 +258,7 @@ body {
 .hero-bg {
     position: absolute;
     inset: 0;
+    background-color: #0f172a;
     background-size: cover;
     background-position: center;
     background-image: url('images/fivek.jpg');
