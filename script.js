@@ -89,15 +89,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar scroll background
-const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 50) {
-        navbar?.classList.add('scrolled');
-    } else {
-        navbar?.classList.remove('scrolled');
-    }
-});
 
 // Intersection Observer for fade-in animations
 const observer = new IntersectionObserver((entries) => {
