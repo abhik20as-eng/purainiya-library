@@ -8,25 +8,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Premium Font Combinations -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Cinzel:wght@400;500;600;700;800;900&family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Elegant Script & Display Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Italiana&family=Sorts+Mill+Goudy:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
-    
-    <!-- Modern Sans-Serif for Body -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700;900&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Devanagari Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* ===== PREMIUM TYPOGRAPHY SYSTEM ===== */
-        
-        /* Hero Section - Luxury Serif */
         .hero-place,
         .hero-peace {
             font-family: 'Cinzel', 'Playfair Display', serif;
@@ -37,7 +26,6 @@
             text-shadow: 3px 5px 12px rgba(0, 0, 0, 0.5);
         }
 
-        /* "Sign of" - Keep Original Dancing Script */
         .hero-title-highlight {
             font-family: 'Dancing Script', cursive !important;
             font-style: normal;
@@ -47,7 +35,6 @@
             text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.6);
         }
 
-        /* Section Titles - Premium Serif */
         .section-title {
             font-family: 'Playfair Display', 'Bodoni Moda', serif !important;
             font-weight: 700;
@@ -55,7 +42,6 @@
             text-transform: uppercase;
         }
 
-        /* Section Subtitles - Elegant Italic */
         .section-subtitle {
             font-family: 'Cormorant Garamond', 'EB Garamond', serif !important;
             font-style: italic;
@@ -63,7 +49,6 @@
             letter-spacing: 0.03em;
         }
 
-        /* Facility Titles - Modern Display */
         .facility-title {
             font-family: 'Cinzel', serif !important;
             font-weight: 600;
@@ -71,7 +56,6 @@
             text-transform: uppercase;
         }
 
-        /* Body Text - Clean Sans-Serif */
         .about-text,
         .director-message p,
         .timing-notes-list,
@@ -82,7 +66,6 @@
             letter-spacing: 0.02em;
         }
 
-        /* Stats & Numbers - Bold Display */
         .stat-number {
             font-family: 'Bodoni Moda', 'Playfair Display', serif !important;
             font-weight: 900;
@@ -95,7 +78,6 @@
             text-transform: uppercase;
         }
 
-        /* Director Name - Elegant Serif */
         .director-name {
             font-family: 'Playfair Display', serif !important;
             font-weight: 700;
@@ -108,7 +90,6 @@
             font-weight: 500;
         }
 
-        /* Timing Section */
         .timing-day {
             font-family: 'Cinzel', serif !important;
             font-weight: 600;
@@ -133,14 +114,12 @@
             letter-spacing: 0.04em;
         }
 
-        /* Menu Items - Refined Sans */
         .menu-item span {
             font-family: 'Raleway', 'Montserrat', sans-serif !important;
             font-weight: 500;
             letter-spacing: 0.04em;
         }
 
-        /* Footer Headings */
         .footer-title {
             font-family: 'Cinzel', serif !important;
             font-weight: 600;
@@ -148,21 +127,12 @@
             text-transform: uppercase;
         }
 
-        /* Devanagari Text - पुरैनिया */
-        .hero-title-devanagari,
-        h2:contains('पुरैनिया') {
-            font-family: 'Laila', 'Poppins', sans-serif !important;
-            font-weight: 700;
-        }
-
-        /* Premium Badge */
         .hero-badge {
             font-family: 'Montserrat', sans-serif !important;
             font-weight: 700;
             letter-spacing: 0.15em;
         }
 
-        /* Modal Typography */
         .modal-title {
             font-family: 'Playfair Display', serif !important;
             font-weight: 700;
@@ -175,7 +145,6 @@
             line-height: 1.7;
         }
 
-        /* Media Caption Overlay */
         .media-caption h4 {
             font-family: 'Cinzel', serif !important;
             font-weight: 600;
@@ -187,9 +156,7 @@
             font-style: italic;
         }
 
-        /* ===== ORIGINAL STYLES ===== */
-
-        /* Facilities Grid - Desktop: 4 columns 3 rows, Mobile: 3 columns 4 rows */
+        /* Facilities Grid */
         .facilities-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -198,27 +165,16 @@
         }
 
         @media (max-width: 1024px) {
-            .facilities-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
-            }
+            .facilities-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         }
-
         @media (max-width: 768px) {
-            .facilities-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
-            }
+            .facilities-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         }
-
         @media (max-width: 480px) {
-            .facilities-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1rem;
-            }
+            .facilities-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         }
 
-        /* Mute Toggle Button Styling */
+        /* Mute Toggle */
         #muteToggle {
             position: absolute;
             bottom: 15px;
@@ -239,14 +195,12 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
-
         #muteToggle:hover {
             background: rgba(0, 0, 0, 0.5);
             border-color: rgba(255, 255, 255, 0.5);
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
-
         #muteToggle svg {
             width: 16px;
             height: 16px;
@@ -254,48 +208,29 @@
             stroke-width: 2;
             fill: none;
         }
-
-        #muteToggle:active {
-            transform: scale(0.98);
-        }
-
+        #muteToggle:active { transform: scale(0.98); }
         @media (max-width: 768px) {
-            #muteToggle {
-                padding: 6px 10px;
-                font-size: 11px;
-                bottom: 12px;
-                right: 12px;
-            }
-            
-            #muteToggle svg {
-                width: 14px;
-                height: 14px;
-            }
+            #muteToggle { padding: 6px 10px; font-size: 11px; bottom: 12px; right: 12px; }
+            #muteToggle svg { width: 14px; height: 14px; }
         }
 
-        /* Header Logo Styling - BIGGER SIZE */
+        /* Logo sizes */
         .logo img {
             height: 160px;
             width: auto;
             max-width: 310px;
             object-fit: contain;
         }
-
         @media (max-width: 768px) {
-            .logo img {
-                height: 140px;
-                max-width: 290px;
-            }
+            .logo img { height: 140px; max-width: 290px; }
         }
 
-        /* Sidebar Logo Styling - Using footer.png */
         .sidebar-logo {
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1rem 0;
         }
-
         .sidebar-logo img {
             height: 160px;
             width: auto;
@@ -303,21 +238,17 @@
             object-fit: contain;
         }
 
-        /* Footer Logo Styling - Using footer.png */
         .footer-logo {
             display: flex;
             align-items: center;
             gap: 0;
         }
-
         .footer-logo img {
             height: 70px;
             width: auto;
             max-width: 200px;
             object-fit: contain;
         }
-
-        /* Hide old footer icon and text when using image */
         .footer-logo .footer-icon,
         .footer-logo .footer-logo-text {
             display: none;
@@ -333,16 +264,14 @@
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
             </button>
-            
             <div class="logo">
                 <img src="images/footer.png" alt="Purainiya Library Logo">
             </div>
-
             <div class="spacer"></div>
         </div>
     </nav>
 
-    <!-- Hamburger Menu Sidebar -->
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-content">
             <div class="sidebar-header">
@@ -356,81 +285,45 @@
                     </svg>
                 </button>
             </div>
-
             <nav class="sidebar-nav">
                 <a href="#home" class="menu-item" data-section="home">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     <span>Home</span>
                 </a>
                 <a href="#about" class="menu-item" data-section="about">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     <span>About Us</span>
                 </a>
                 <a href="#facilities" class="menu-item" data-section="facilities">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M17 1l4 4-4 4"></path>
-                        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-                        <path d="M7 23l-4-4 4-4"></path>
-                        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 1l4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="M7 23l-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
                     <span>Facilities</span>
                 </a>
                 <a href="gallery.html" class="menu-item" data-page="gallery.html">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                        <polyline points="21 15 16 10 5 21"></polyline>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                     <span>Our Gallery</span>
                 </a>
                 <a href="branches.html" class="menu-item" data-page="branches.html">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                     <span>Our Branches</span>
                 </a>
                 <a href="ourvision.html" class="menu-item" data-page="ourvision.html">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="9"></circle>
-                        <circle cx="12" cy="12" r="4"></circle>
-                        <path d="M12 3v4"></path>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle><path d="M12 3v4"></path></svg>
                     <span>Our Vision</span>
                 </a>
                 <a href="blog.html" class="menu-item" data-page="blog.html">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     <span>Blog</span>
                 </a>
                 <a href="#timing" class="menu-item" data-section="timing">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     <span>Timing</span>
                 </a>
             </nav>
         </div>
     </div>
 
-    <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <!-- Hero Section -->
         <section id="home" class="hero">
@@ -447,34 +340,24 @@
         </section>
 
         <!-- Gallery Section -->
-        <section id="gallery" class="gallery">  
-            <div class="container">  
-                <div class="section-header">  
-                    <h2 class="section-title">Our Gallery</h2>  
-                    <div class="section-divider"></div>  
-                    <p class="section-subtitle">Explore our world-class facilities</p>  
-                </div>  
-      
-                <!-- Media Carousel -->  
-                <div class="media-carousel-container">  
-                    <!-- Left Arrow -->  
-                    <button class="media-carousel-btn media-btn-left" id="mediaPrev" aria-label="Previous">  
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">  
-                            <polyline points="15 18 9 12 15 6"></polyline>  
-                        </svg>  
-                    </button>  
-      
-                    <!-- Carousel Wrapper -->  
-                    <div class="media-carousel-wrapper">  
-                        <div class="media-carousel-track" id="mediaTrack">  
-                              
-                            <!-- Slide 1: YouTube Video -->  
-                            <div class="media-slide active" data-type="video">  
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Gallery</h2>
+                    <div class="section-divider"></div>
+                    <p class="section-subtitle">Explore our world-class facilities</p>
+                </div>
+                <div class="media-carousel-container">
+                    <button class="media-carousel-btn media-btn-left" id="mediaPrev" aria-label="Previous">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <div class="media-carousel-wrapper">
+                        <div class="media-carousel-track" id="mediaTrack">
+                            <div class="media-slide active" data-type="video">
                                 <div style="position: relative; width: 100%; height: 100%; padding-top: 56.25%;">
                                     <div id="galleryVideo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
                                     <button id="muteToggle">
                                         <svg id="muteIcon" viewBox="0 0 24 24">
-                                            <!-- Muted Icon (Speaker with X) -->
                                             <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
                                             <line x1="23" y1="9" x2="17" y2="15"></line>
                                             <line x1="17" y1="9" x2="23" y2="15"></line>
@@ -483,89 +366,33 @@
                                     </button>
                                 </div>
                             </div>
-      
-                            <!-- Slide 2: Image 1 -->  
-                            <div class="media-slide" data-type="image">  
-                                <img src="images/one.jpg"   
-                                     alt="Library study area"   
-                                     loading="lazy"  
-                                     class="media-image">  
-                                <div class="media-overlay">  
-                                    <div class="media-caption">  
-                                        <h4>Modern Study Spaces</h4>  
-                                        <p>Comfortable seating with natural lighting</p>  
-                                    </div>  
-                                </div>  
-                            </div>  
-      
-                            <!-- Slide 3: Image 2 -->  
-                            <div class="media-slide" data-type="image">  
-                                <img src="images/three.jpg"   
-                                     alt="Library reading room"   
-                                     loading="lazy"  
-                                     class="media-image">  
-                                <div class="media-overlay">  
-                                    <div class="media-caption">  
-                                        <h4>Peaceful Reading Rooms</h4>  
-                                        <p>Quiet zones for focused study</p>  
-                                    </div>  
-                                </div>  
-                            </div>  
-      
-                            <!-- Slide 4: Image 3 -->  
-                            <div class="media-slide" data-type="image">  
-                                <img src="images/bookslibrary.jpg"   
-                                     alt="Library book collection"   
-                                     loading="lazy"  
-                                     class="media-image">  
-                                <div class="media-overlay">  
-                                    <div class="media-caption">  
-                                        <h4>Extensive Book Collection</h4>  
-                                        <p>Thousands of books across all subjects</p>  
-                                    </div>  
-                                </div>  
-                            </div>  
-      
-                            <!-- Slide 5: Image 4 -->  
-                            <div class="media-slide" data-type="image">  
-                                <img src="images/threek.jpg"   
-                                     alt="Library workspace"   
-                                     loading="lazy"  
-                                     class="media-image">  
-                                <div class="media-overlay">  
-                                    <div class="media-caption">  
-                                        <h4>Individual Study Pods</h4>  
-                                        <p>Private spaces for concentrated work</p>  
-                                    </div>  
-                                </div>  
-                            </div>  
-      
-                            <!-- Slide 6: Image 5 -->  
-                            <div class="media-slide" data-type="image">  
-                                <img src="images/charginglibrary.jpg"   
-                                     alt="Library amenities"   
-                                     loading="lazy"  
-                                     class="media-image">  
-                                <div class="media-overlay">  
-                                    <div class="media-caption">  
-                                        <h4>Premium Amenities</h4>  
-                                        <p>AC, WiFi, charging stations</p>  
-                                    </div>  
-                                </div>  
-                            </div>  
-      
-                        </div>  
-                    </div>  
-      
-                    <!-- Right Arrow -->  
-                    <button class="media-carousel-btn media-btn-right" id="mediaNext" aria-label="Next">  
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">  
-                            <polyline points="9 18 15 12 9 6"></polyline>  
-                        </svg>  
-                    </button>  
-                </div>  
-      
-            </div>  
+                            <div class="media-slide" data-type="image">
+                                <img src="images/one.jpg" alt="Library study area" loading="lazy" class="media-image">
+                                <div class="media-overlay"><div class="media-caption"><h4>Modern Study Spaces</h4><p>Comfortable seating with natural lighting</p></div></div>
+                            </div>
+                            <div class="media-slide" data-type="image">
+                                <img src="images/three.jpg" alt="Library reading room" loading="lazy" class="media-image">
+                                <div class="media-overlay"><div class="media-caption"><h4>Peaceful Reading Rooms</h4><p>Quiet zones for focused study</p></div></div>
+                            </div>
+                            <div class="media-slide" data-type="image">
+                                <img src="images/bookslibrary.jpg" alt="Library book collection" loading="lazy" class="media-image">
+                                <div class="media-overlay"><div class="media-caption"><h4>Extensive Book Collection</h4><p>Thousands of books across all subjects</p></div></div>
+                            </div>
+                            <div class="media-slide" data-type="image">
+                                <img src="images/threek.jpg" alt="Library workspace" loading="lazy" class="media-image">
+                                <div class="media-overlay"><div class="media-caption"><h4>Individual Study Pods</h4><p>Private spaces for concentrated work</p></div></div>
+                            </div>
+                            <div class="media-slide" data-type="image">
+                                <img src="images/charginglibrary.jpg" alt="Library amenities" loading="lazy" class="media-image">
+                                <div class="media-overlay"><div class="media-caption"><h4>Premium Amenities</h4><p>AC, WiFi, charging stations</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="media-carousel-btn media-btn-right" id="mediaNext" aria-label="Next">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
         </section>
 
         <!-- About Section -->
@@ -576,28 +403,13 @@
                     <div class="section-divider"></div>
                     <p class="section-subtitle">Where tradition meets innovation in the pursuit of knowledge</p>
                 </div>
-
                 <div class="about-content">
-                    <p class="about-text">
-                        Established with a vision to revolutionize the learning experience, पुरैनिया Library stands as a beacon of academic excellence. We believe that the environment plays a crucial role in shaping minds and fostering intellectual growth.
-                    </p>
-                    <p class="about-text">
-                        With premium study pods, collaborative spaces, and world-class facilities, we provide everything you need to achieve your academic goals in comfort and style.
-                    </p>
-                    
+                    <p class="about-text">Established with a vision to revolutionize the learning experience, पुरैनिया Library stands as a beacon of academic excellence. We believe that the environment plays a crucial role in shaping minds and fostering intellectual growth.</p>
+                    <p class="about-text">With premium study pods, collaborative spaces, and world-class facilities, we provide everything you need to achieve your academic goals in comfort and style.</p>
                     <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number">3000+</div>
-                            <div class="stat-label">Sq Ft Space</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">100+</div>
-                            <div class="stat-label">Study Seats</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Access</div>
-                        </div>
+                        <div class="stat-card"><div class="stat-number">3000+</div><div class="stat-label">Sq Ft Space</div></div>
+                        <div class="stat-card"><div class="stat-number">100+</div><div class="stat-label">Study Seats</div></div>
+                        <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Access</div></div>
                     </div>
                 </div>
             </div>
@@ -611,91 +423,19 @@
                     <div class="section-divider"></div>
                     <p class="section-subtitle light">World-class amenities for your success</p>
                 </div>
-
                 <div class="facilities-grid">
-                    <div class="facility-card" data-facility="ac">
-                        <div class="facility-icon">
-                            <img src="images/ac.png" alt="AC">
-                        </div>
-                        <h3 class="facility-title">AC</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="water">
-                        <div class="facility-icon">
-                            <img src="images/water.png" alt="RO Water">
-                        </div>
-                        <h3 class="facility-title">RO Water</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="cctv">
-                        <div class="facility-icon">
-                            <img src="images/cctv.png" alt="CCTV">
-                        </div>
-                        <h3 class="facility-title">CCTV</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="wifi">
-                        <div class="facility-icon">
-                            <img src="images/wifi.png" alt="WiFi">
-                        </div>
-                        <h3 class="facility-title">WiFi</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="silence">
-                        <div class="facility-icon">
-                            <img src="images/noisefree.png" alt="Silence">
-                        </div>
-                        <h3 class="facility-title">Silence</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="cafeteria">
-                        <div class="facility-icon">
-                            <img src="images/cafeteria.png" alt="Cafeteria">
-                        </div>
-                        <h3 class="facility-title">Cafeteria</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="charging">
-                        <div class="facility-icon">
-                            <img src="images/charging.png" alt="Charging">
-                        </div>
-                        <h3 class="facility-title">Charging</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="chair">
-                        <div class="facility-icon">
-                            <img src="images/chair.png" alt="Comfort Chair">
-                        </div>
-                        <h3 class="facility-title">Comfort Chair</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="books">
-                        <div class="facility-icon">
-                            <img src="images/books.png" alt="Book Collection">
-                        </div>
-                        <h3 class="facility-title">Book Collection</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="locker">
-                        <div class="facility-icon">
-                            <img src="images/Locker.png" alt="Locker">
-                        </div>
-                        <h3 class="facility-title">Locker</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="printing">
-                        <div class="facility-icon">
-                            <img src="images/printing.png" alt="Printing">
-                        </div>
-                        <h3 class="facility-title">Printing</h3>
-                    </div>
-
-                    <div class="facility-card" data-facility="discussion">
-                        <div class="facility-icon">
-                            <img src="images/groupdiscussion.png" alt="Discussion Room">
-                        </div>
-                        <h3 class="facility-title">Discussion Room</h3>
-                    </div>
+                    <div class="facility-card" data-facility="ac"><div class="facility-icon"><img src="images/ac.png" alt="AC"></div><h3 class="facility-title">AC</h3></div>
+                    <div class="facility-card" data-facility="water"><div class="facility-icon"><img src="images/water.png" alt="RO Water"></div><h3 class="facility-title">RO Water</h3></div>
+                    <div class="facility-card" data-facility="cctv"><div class="facility-icon"><img src="images/cctv.png" alt="CCTV"></div><h3 class="facility-title">CCTV</h3></div>
+                    <div class="facility-card" data-facility="wifi"><div class="facility-icon"><img src="images/wifi.png" alt="WiFi"></div><h3 class="facility-title">WiFi</h3></div>
+                    <div class="facility-card" data-facility="silence"><div class="facility-icon"><img src="images/noisefree.png" alt="Silence"></div><h3 class="facility-title">Silence</h3></div>
+                    <div class="facility-card" data-facility="cafeteria"><div class="facility-icon"><img src="images/cafeteria.png" alt="Cafeteria"></div><h3 class="facility-title">Cafeteria</h3></div>
+                    <div class="facility-card" data-facility="charging"><div class="facility-icon"><img src="images/charging.png" alt="Charging"></div><h3 class="facility-title">Charging</h3></div>
+                    <div class="facility-card" data-facility="chair"><div class="facility-icon"><img src="images/chair.png" alt="Comfort Chair"></div><h3 class="facility-title">Comfort Chair</h3></div>
+                    <div class="facility-card" data-facility="books"><div class="facility-icon"><img src="images/books.png" alt="Book Collection"></div><h3 class="facility-title">Book Collection</h3></div>
+                    <div class="facility-card" data-facility="locker"><div class="facility-icon"><img src="images/Locker.png" alt="Locker"></div><h3 class="facility-title">Locker</h3></div>
+                    <div class="facility-card" data-facility="printing"><div class="facility-icon"><img src="images/printing.png" alt="Printing"></div><h3 class="facility-title">Printing</h3></div>
+                    <div class="facility-card" data-facility="discussion"><div class="facility-icon"><img src="images/groupdiscussion.png" alt="Discussion Room"></div><h3 class="facility-title">Discussion Room</h3></div>
                 </div>
             </div>
         </section>
@@ -708,35 +448,20 @@
                     <div class="section-divider"></div>
                     <p class="section-subtitle">Plan your visit according to our schedule</p>
                 </div>
-
                 <div class="timing-content">
                     <div class="timing-card">
                         <div class="timing-grid">
-                            <div class="timing-item">
-                                <span class="timing-day">Monday - Friday</span>
-                                <span class="timing-hours">6:00 AM - 11:00 PM</span>
-                            </div>
-                            <div class="timing-item">
-                                <span class="timing-day">Saturday</span>
-                                <span class="timing-hours">6:00 AM - 11:00 PM</span>
-                            </div>
-                            <div class="timing-item">
-                                <span class="timing-day">Sunday</span>
-                                <span class="timing-hours">7:00 AM - 10:00 PM</span>
-                            </div>
+                            <div class="timing-item"><span class="timing-day">Monday - Friday</span><span class="timing-hours">6:00 AM - 11:00 PM</span></div>
+                            <div class="timing-item"><span class="timing-day">Saturday</span><span class="timing-hours">6:00 AM - 11:00 PM</span></div>
+                            <div class="timing-item"><span class="timing-day">Sunday</span><span class="timing-hours">7:00 AM - 10:00 PM</span></div>
                         </div>
-
                         <div class="timing-highlight">
-                            <svg class="timing-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
+                            <svg class="timing-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                             <h3 class="timing-highlight-title">Main Branch</h3>
                             <p class="timing-highlight-hours">24/7 OPEN</p>
                             <p class="timing-highlight-note">For Premium Members</p>
                         </div>
                     </div>
-
                     <div class="timing-notes">
                         <h4 class="timing-notes-title">Special Notes:</h4>
                         <ul class="timing-notes-list">
@@ -750,7 +475,7 @@
             </div>
         </section>
 
-        <!-- Director Desk Section -->
+        <!-- Director Desk -->
         <section id="director" class="director-desk">
             <div class="container">
                 <div class="section-header">
@@ -758,7 +483,6 @@
                     <div class="section-divider"></div>
                     <p class="section-subtitle">A message from our leadership</p>
                 </div>
-
                 <div class="director-content">
                     <div class="director-image">
                         <img src="images/director.jpg" alt="Director Photo" onerror="this.src='https://via.placeholder.com/300x400?text=Director'">
@@ -772,27 +496,16 @@
             </div>
         </section>
 
-        <!-- Google Map Section -->
+        <!-- Map -->
         <section class="map-section">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Our Location</h2>
                     <div class="section-divider"></div>
-                    <p class="section-subtitle">
-                        Near Law College, Sukh Nagar,<br>Purnea, Bihar
-                    </p>
+                    <p class="section-subtitle">Near Law College, Sukh Nagar,<br>Purnea, Bihar</p>
                 </div>
-
                 <div class="map-container">
-                    <iframe
-                        src="https://www.google.com/maps?q=Purainiya+Library+Near+Purnea+Law+College,+Purnea,+Bihar&output=embed"
-                        width="100%"
-                        height="350"
-                        style="border:0;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    <iframe src="https://www.google.com/maps?q=Purainiya+Library+Near+Purnea+Law+College,+Purnea,+Bihar&output=embed" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </section>
@@ -802,12 +515,9 @@
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-col">
-                        <div class="footer-logo">
-                            <img src="images/footer.png" alt="Purainiya Library">
-                        </div>
+                        <div class="footer-logo"><img src="images/footer.png" alt="Purainiya Library"></div>
                         <p class="footer-text">Your gateway to knowledge and excellence</p>
                     </div>
-
                     <div class="footer-col">
                         <h4 class="footer-title">Quick Links</h4>
                         <ul class="footer-links">
@@ -817,20 +527,13 @@
                             <li><a href="#timing">Timing</a></li>
                         </ul>
                     </div>
-
                     <div class="footer-col">
                         <h4 class="footer-title">Contact</h4>
                         <ul class="footer-contact">
                             <li>
                                 <div class="footer-location">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                        <circle cx="12" cy="10" r="3"></circle>
-                                    </svg>
-                                    <span class="footer-location-text">
-                                        Near Law College, Sukh Nagar,<br>
-                                        Purnea, Bihar
-                                    </span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span class="footer-location-text">Near Law College, Sukh Nagar,<br>Purnea, Bihar</span>
                                 </div>
                             </li>
                             <li>📞 +91 8757701740</li>
@@ -838,7 +541,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="footer-bottom">
                     <p>© 2026 Purainiya Library. All rights reserved.</p>
                 </div>
@@ -846,14 +548,11 @@
         </footer>
     </div>
 
-    <!-- Facility Modal -->
+    <!-- Modal -->
     <div class="modal" id="facilityModal">
         <div class="modal-content">
             <button class="modal-close" id="modalClose">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             <div class="modal-image" id="modalImage"></div>
             <div class="modal-body">
