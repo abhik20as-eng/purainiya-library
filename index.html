@@ -13,11 +13,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700;900&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&family=Kalam:wght@300;400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Preload critical images to prevent fade-on-load -->
-    <link rel="preload" as="image" href="images/fivek.jpg">
-    <link rel="preload" as="image" href="images/footer.png">
-
     <link rel="stylesheet" href="style.css">
+
+    <!-- Wait for hero image to load before showing page so no fade -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var heroBg = new Image();
+            heroBg.onload = function() {
+                var el = document.getElementById('heroBg');
+                if (el) el.style.backgroundImage = "url('images/fivek.jpg')";
+                document.body.style.visibility = 'visible';
+            };
+            heroBg.onerror = function() {
+                document.body.style.visibility = 'visible';
+            };
+            heroBg.src = 'images/fivek.jpg';
+        });
+    </script>
+    <style>
+        body { visibility: hidden; }
+        .hero-bg { background-image: none !important; }
+    </style>
     
     <style>
         .hero-place,
@@ -284,7 +300,7 @@
                 <span class="hamburger-line"></span>
             </button>
             <div class="logo">
-                <img src="images/footer.png" alt="Purainiya Library Logo">
+                <img src="images/footer.png" alt="Purainiya Library Logo" fetchpriority="high" loading="eager">
             </div>
             <div class="spacer"></div>
         </div>
